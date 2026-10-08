@@ -352,6 +352,9 @@ main.stage.view-pc .phone.pc{width:1200px}
   <a href="#SCR-24">SCR-24 顧客データの削除</a>
   <a href="#SCR-25">SCR-25 スタッフ退職処理</a>
   <a href="#SCR-26">SCR-26 スクール個別サロン閲覧</a>
+  <h2 style="margin-top:14px">配色（候補）</h2>
+  <div class="palbar viewbar" style="flex-direction:column;align-items:stretch;gap:4px"><button data-palette="bronze" style="text-align:left">A アイボリー×ブロンズ（現行）</button><button data-palette="sage" style="text-align:left">B リネン×セージ</button><button data-palette="rose" style="text-align:left">C ミルク×ローズベージュ</button><button data-palette="mauve" style="text-align:left">D ペール×モーヴ</button><button data-palette="slateblue" style="text-align:left">E ホワイト×スレートブルー</button></div>
+  <p class="note" id="paldesc"></p>
   <h2 style="margin-top:14px">表示幅</h2>
   <div class="viewbar"><button data-view="phone" class="on">スマホ 375</button><button data-view="tablet">タブレット 768</button><button data-view="pc">PC 1024</button></div>
   <p class="note">スマホが主。タブレット・PC では本文が最大幅 640px で中央に寄り、操作サイズは変えない。</p>
@@ -1151,6 +1154,14 @@ main.stage.view-pc .phone.pc{width:1200px}
     window.scrollTo(0,0);
   }
   window.addEventListener('hashchange',show); show();
+
+  // ===== 配色候補の切替（構造は変えず色だけ） =====
+  var PALETTES={"bronze": {"label": "A アイボリー×ブロンズ（現行）", "desc": "格式・落ち着き。古い高級ホテル", "vars": {"--main-100": "#F1EBE1", "--main-300": "#D6C7AE", "--main-500": "#9A7B4F", "--main-700": "#6F5633", "--main-900": "#3F311D", "--background": "#F8F5EF", "--surface": "#FDFBF7", "--text-primary": "#1F1B17", "--text-secondary": "#5C544B", "--text-meta": "#8C8378", "--error": "#8E2F2F"}}, "sage": {"label": "B リネン×セージ", "desc": "明るく清潔。スパ・自然派。重さが抜ける", "vars": {"--main-100": "#EEF2EC", "--main-300": "#C9D4C5", "--main-500": "#7E9A7A", "--main-700": "#56705A", "--main-900": "#2F4536", "--background": "#FAFAF6", "--surface": "#FFFFFC", "--text-primary": "#1E2420", "--text-secondary": "#5B635D", "--text-meta": "#8D948F", "--error": "#A0433F"}}, "rose": {"label": "C ミルク×ローズベージュ", "desc": "温かく親しみやすい。フェイシャル・眉毛向き", "vars": {"--main-100": "#F7ECE8", "--main-300": "#E6CBC2", "--main-500": "#C48B7A", "--main-700": "#9A6454", "--main-900": "#5A3A32", "--background": "#FCF8F5", "--surface": "#FFFDFB", "--text-primary": "#2A2220", "--text-secondary": "#6A5B57", "--text-meta": "#9A8B86", "--error": "#A33B3B"}}, "mauve": {"label": "D ペール×モーヴ", "desc": "上品で現代的。まつエク・ネイル向き。シックさは残る", "vars": {"--main-100": "#F1ECF2", "--main-300": "#D8CBDA", "--main-500": "#8C6B86", "--main-700": "#684C66", "--main-900": "#3E2C3F", "--background": "#FAF8FA", "--surface": "#FFFEFF", "--text-primary": "#221C23", "--text-secondary": "#605661", "--text-meta": "#938A94", "--error": "#9E3B4A"}}, "slateblue": {"label": "E ホワイト×スレートブルー", "desc": "信頼感・清潔。医療寄りに見える危険あり", "vars": {"--main-100": "#ECF0F3", "--main-300": "#C8D2DA", "--main-500": "#6F8597", "--main-700": "#4C6274", "--main-900": "#27394A", "--background": "#F9FAFB", "--surface": "#FFFFFF", "--text-primary": "#1C2229", "--text-secondary": "#59636C", "--text-meta": "#8C959D", "--error": "#A23E3E"}}};
+
+  function applyPalette(k){var p=PALETTES[k]; if(!p) return; var r=document.documentElement; Object.keys(p.vars).forEach(function(v){r.style.setProperty(v,p.vars[v]);}); document.querySelectorAll('.palbar button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-palette')===k);}); var d=document.getElementById('paldesc'); if(d) d.textContent=p.desc; try{localStorage.setItem('palette',k);}catch(e){}}
+  document.querySelectorAll('.palbar button').forEach(function(b){b.addEventListener('click',function(){applyPalette(b.getAttribute('data-palette'));});});
+  var qp=new URLSearchParams(location.search).get('palette'); var saved=null; try{saved=localStorage.getItem('palette');}catch(e){}
+  applyPalette(qp||saved||'bronze');
   var qs=new URLSearchParams(location.search).get('state'); if(qs){setTimeout(function(){var sec=document.querySelector('section.screen.active'); if(!sec)return; var b=sec.querySelector('.statebar button[data-toggle="'+qs+'"]'); if(b) b.click();},0);}
   var qv=new URLSearchParams(location.search).get('v'); if(qv==='tablet'||qv==='pc'){document.querySelector('main.stage').classList.add('view-'+qv);document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-view')===qv);});}
   // 状態切り替え: 「排他」グループと「重ねる」グループ
