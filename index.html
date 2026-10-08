@@ -253,6 +253,10 @@ u[data-href]{text-decoration:none;border-bottom:1px solid var(--main-300);color:
 .funnel .st{flex:1;background:var(--surface);border:var(--border);padding:10px 4px;text-align:center;min-width:0;color:inherit;text-decoration:none}
 a.funnel-st:hover,.funnel a.st:hover{border-color:var(--main-500)}
 .funnel .st b{font-family:var(--font-heading);font-size:22px;font-weight:300;display:block;line-height:1.2}
+.funnel .st.split{padding:0;display:flex;flex-direction:column;background:transparent;border:0;gap:4px}
+.funnel .st.split a{display:block;background:var(--surface);border:var(--border);padding:4px 2px;color:inherit;text-decoration:none}
+.funnel .st.split a b{font-size:17px}
+.funnel .st.split a:hover{border-color:var(--main-500)}
 .funnel .st span{font-size:9px;letter-spacing:.04em;color:var(--text-meta);white-space:nowrap;display:block}
 .funnel .ar{display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:9px;color:var(--main-700);min-width:28px;white-space:nowrap}
 /* ==== 表示幅切替（タブレット / PC）：本文は最大幅 640px で中央に寄る ==== */
@@ -1170,8 +1174,8 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       <div class="chips"><span class="chip on">直近3か月</span><span class="chip">直近6か月</span><span class="chip">今年</span></div>
       <div class="state-view on" data-state="normal"><div class="insight"><div class="eyebrow">今期のひとこと <span class="badge" style="border-color:var(--main-300);color:var(--main-300)">候補</span></div><p>ホットペッパーで獲得した顧客は成約率 35%・再来率 48% と他チャネルの半分近く。一方 Instagram で知った人の 6 割がその後ホットペッパーで予約している。Instagram からの初回を LINE 予約に誘導すると、送付と声かけが届く顧客が増える。</p><div class="meta">根拠: 獲得チャネル別の成約率・再来率、予約経路の移動、送付済み顧客の再来率 81%</div></div>
       <span class="label">顧客フェーズのファネル（直近3か月に 01 見込みになった 61 人）</span>
-      <div class="funnel"><a class="st" href="#SCR-04:list"><b>61</b><span>01 見込み</span></a><div class="ar">→<br>74%</div><a class="st" href="#SCR-04:list"><b>45</b><span>02 体験中</span></a><div class="ar">→<br>42%</div><a class="st" href="#SCR-04:list"><b>19</b><span>04 契約中</span></a><div class="ar">→<br>—</div><a class="st" href="#SCR-04:list"><b>12</b><span>05 定着</span></a></div>
-      <p class="meta"><u data-href="#SCR-04:list">91 体験離脱 11 人</u>（24%）・ <u data-href="#SCR-04:list">03 新規 14 人</u> ・ <u data-href="#SCR-04:list">92 離反リスク 9 人</u>（先月から復帰 3 人）・ <u data-href="#SCR-04:list">93 休眠 23 人</u>。人数を押すとその方々の一覧。フェーズは来店・契約・予約の事実から自動判定</p>
+      <div class="funnel"><a class="st" href="#SCR-04:list"><b>61</b><span>01 見込み</span></a><div class="ar">→<br>74%</div><a class="st" href="#SCR-04:list"><b>45</b><span>02 体験中</span></a><div class="ar">→<br>42%<br><i style="font-style:normal;color:var(--text-meta)">31%</i></div><div class="st split"><a href="#SCR-04:list"><b>19</b><span>04 契約中</span></a><a href="#SCR-04:list"><b>14</b><span>03 新規</span></a></div><div class="ar">→<br>—</div><a class="st" href="#SCR-04:list"><b>12</b><span>05 定着</span></a></div>
+      <p class="meta">体験中のあとは「契約した（04）」か「都度払いで通う（03）」に分かれ、どちらも定着（05）へ。残りは <u data-href="#SCR-04:list">91 体験離脱 11 人</u>（24%）。定着のあとの <u data-href="#SCR-04:list">92 離反リスク 9 人</u>（先月から復帰 3 人）・ <u data-href="#SCR-04:list">93 休眠 23 人</u>。人数を押すとその方々の一覧。フェーズは来店・契約・予約の事実から自動判定</p>
       <div class="kpi">
         <div class="card"><span class="label">周期内再来率</span><b>68%</b><span class="delta">前期 61% → +7</span><div class="spark"><i style="height:50%"></i><i style="height:55%"></i><i style="height:61%"></i><i style="height:68%" class=hi></i></div></div>
         <div class="card"><span class="label">体験からの成約率</span><b>42%</b><span class="delta">02 体験中 → 04 契約中 ・ 60 日以内</span><div class="spark"><i style="height:30%"></i><i style="height:38%"></i><i style="height:35%"></i><i style="height:42%" class=hi></i></div></div>
