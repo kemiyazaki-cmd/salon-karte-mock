@@ -308,6 +308,26 @@ main.stage.view-pc #SCR-06 .pccol.c2{border-left:var(--border);border-right:var(
 main.stage.view-pc #SCR-06 .seg{margin:0}
 main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 
+/* ==== フィードバック（モック専用・製品 UI ではない）: 画面を離れずに一言送る ==== */
+.fb-btn{position:fixed;right:18px;bottom:18px;z-index:50;height:44px;padding:0 16px 0 12px;border-radius:22px;background:#1F1B17;color:#E9E3D8;border:1px solid #9A7B4F;display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;letter-spacing:.08em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.fb-btn .i{width:18px;height:18px}
+.fb-wrap{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(31,27,23,.45)}
+.fb-wrap.on{display:flex}
+.fb{width:100%;max-width:520px;background:#FDFBF7;border-radius:16px 16px 0 0;padding:14px 20px 26px;display:flex;flex-direction:column;gap:12px;color:#1F1B17;font-family:var(--font-body)}
+.fb .grip{width:36px;height:3px;border-radius:2px;background:#D6C7AE;margin:0 auto 2px}
+.fb h2{font-family:var(--font-heading);font-size:19px;font-weight:400}
+.fb .ctx{font-size:11px;color:#8C8378;letter-spacing:.04em;line-height:1.6}
+.fb textarea{width:100%;min-height:96px;border:1px solid #D6C7AE;border-radius:4px;padding:10px 12px;font:inherit;font-size:15px;background:#FFFDF9;resize:vertical}
+.fb .sev{display:flex;gap:8px}
+.fb .sev button{flex:1;height:40px;border:1px solid #D6C7AE;background:transparent;font:inherit;font-size:13px;color:#5C544B;border-radius:4px;cursor:pointer}
+.fb .sev button.on{background:#1F1B17;color:#fff;border-color:#1F1B17}
+.fb .who{height:40px;border:0;border-bottom:1px solid #D6C7AE;font:inherit;font-size:14px;background:transparent;padding:0 2px}
+.fb .acts{display:flex;gap:10px;margin-top:4px}
+.fb .acts button{flex:1;height:48px;border-radius:4px;font:inherit;font-size:14px;letter-spacing:.08em;cursor:pointer;border:1px solid #9A7B4F;background:transparent;color:#3F311D}
+.fb .acts button.go{background:#1F1B17;color:#fff;border-color:#1F1B17;flex:1.6}
+.fb .done{font-size:13px;color:#6F5633;text-align:center;min-height:1.6em}
+@media (max-width:800px){.fb-btn{bottom:14px;right:14px}}
+
 /* ==== 第3版 追加部品 ==== */
 .q{font-family:var(--font-heading);font-size:22px;letter-spacing:.06em;line-height:1.6}
 .bigin{height:60px;font-size:20px;font-family:var(--font-heading);letter-spacing:.06em}
@@ -1351,6 +1371,52 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
   document.querySelectorAll('[data-go]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var sec=a.closest('section');var k=a.getAttribute('data-go');sec.querySelectorAll('.state-view').forEach(function(v){v.classList.toggle('on',v.getAttribute('data-state')===k)});sec.querySelectorAll('.statebar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-toggle')===k)});});});
   document.querySelectorAll('[data-switch]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var sec=a.closest('section');sec.querySelectorAll('.state-view').forEach(function(v){v.classList.toggle('on',v.getAttribute('data-state')==='customer')});sec.querySelectorAll('.statebar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-toggle')==='customer')});});});
   document.querySelectorAll('.viewbar button').forEach(function(b){b.addEventListener('click',function(){var st=document.querySelector('main.stage');st.classList.remove('view-tablet','view-pc');var v=b.getAttribute('data-view');if(v!=='phone'){st.classList.add('view-'+v);}document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x===b)});});});
+})();
+</script>
+
+<!-- ==== フィードバック（モック専用）。送信先は FEEDBACK_ENDPOINT。未設定なら本文をコピーして LINE に貼る ==== -->
+<button class="fb-btn" id="fbOpen" type="button"><svg class="i"><use href="#i-message"/></svg>この画面にひとこと</button>
+<div class="fb-wrap" id="fbWrap"><div class="fb" role="dialog" aria-label="フィードバック">
+  <div class="grip"></div>
+  <h2>この画面にひとこと</h2>
+  <p class="ctx" id="fbCtx"></p>
+  <textarea id="fbText" placeholder="分かりにくい・いらない・こうしたい、なんでも。短くて大丈夫です"></textarea>
+  <div class="sev"><button type="button" data-sev="気になる" class="on">気になる</button><button type="button" data-sev="困る">困る</button><button type="button" data-sev="これは無理">これは無理</button></div>
+  <input class="who" id="fbWho" placeholder="お名前（最初の1回だけ）">
+  <div class="acts"><button type="button" id="fbCancel">閉じる</button><button type="button" class="go" id="fbSend"><svg class="i" style="width:16px;height:16px;margin-right:6px;vertical-align:-3px"><use href="#i-send"/></svg>送る</button></div>
+  <p class="done" id="fbDone"></p>
+  <p class="ctx" id="fbHint" style="text-align:center">送信先が設定されるまでは、LINE の共有画面が開きます</p>
+</div></div>
+<script>
+(function(){
+  var FEEDBACK_ENDPOINT = ''; // Google Apps Script のウェブアプリ URL を入れると、ここから直接スプレッドシートに届く
+  var wrap=document.getElementById('fbWrap'), txt=document.getElementById('fbText'), who=document.getElementById('fbWho'), done=document.getElementById('fbDone'), ctx=document.getElementById('fbCtx');
+  try{who.value=localStorage.getItem('fb_who')||'';}catch(e){}
+  function context(){var sec=document.querySelector('section.screen.active'); var id=sec?sec.id:''; var title=sec?(sec.querySelector('.screen-title b')||{}).textContent||'':''; var states=sec?Array.prototype.map.call(sec.querySelectorAll('.statebar button.on'),function(b){return b.textContent}).join('・'):''; var pal=(document.querySelector('.palbar button.on')||{}).textContent||''; var view=(document.querySelector('.viewbar:not(.palbar) button.on')||{}).textContent||''; return {id:id,title:title,states:states,palette:pal,view:view,url:location.href};}
+  var hint=document.getElementById('fbHint'); if(hint&&FEEDBACK_ENDPOINT) hint.style.display='none';
+  function open(){var c=context(); ctx.textContent=(c.title||c.id)+(c.states?' ／ 状態: '+c.states:'')+(c.palette?' ／ 配色: '+c.palette:'')+(c.view?' ／ 幅: '+c.view:''); done.textContent=''; wrap.classList.add('on'); setTimeout(function(){txt.focus();},50);}
+  function close(){wrap.classList.remove('on');}
+  document.getElementById('fbOpen').addEventListener('click',open);
+  document.getElementById('fbCancel').addEventListener('click',close);
+  wrap.addEventListener('click',function(e){if(e.target===wrap) close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&wrap.classList.contains('on')) close();});
+  var sev='気になる'; document.querySelectorAll('.fb .sev button').forEach(function(b){b.addEventListener('click',function(){sev=b.getAttribute('data-sev'); document.querySelectorAll('.fb .sev button').forEach(function(x){x.classList.toggle('on',x===b)});});});
+  document.getElementById('fbSend').addEventListener('click',function(){
+    var body=txt.value.trim(); if(!body){done.textContent='一言だけ書いてください'; txt.focus(); return;}
+    var c=context(); try{localStorage.setItem('fb_who',who.value);}catch(e){}
+    var rec={at:new Date().toISOString(),who:who.value,severity:sev,text:body,screen:c.id,title:c.title,states:c.states,palette:c.palette,view:c.view,url:c.url,ua:navigator.userAgent};
+    if(FEEDBACK_ENDPOINT){
+      done.textContent='送っています…';
+      fetch(FEEDBACK_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(rec)}).then(function(){done.textContent='届きました。ありがとうございます'; txt.value=''; setTimeout(close,1200);}).catch(function(){done.textContent='送れませんでした。電波を確認してもう一度'; });
+    } else {
+      var line='【'+(c.title||c.id)+'】'+(c.states?'（'+c.states+'）':'')+'\n'+sev+': '+body+'\n'+c.url;
+      // 送信先が無いあいだは LINE の共有画面を開く（本文入り）。開けない環境では本文を枠に残して長押しコピー
+      var lineUrl='https://line.me/R/share?text='+encodeURIComponent(line);
+      var w=window.open(lineUrl,'_blank');
+      if(w){done.textContent='LINE を開きました。送る相手を選んでください'; txt.value=''; setTimeout(close,1500);}
+      else {txt.value=line; txt.select(); done.textContent='LINE を開けませんでした。この本文を長押しでコピーして LINE に貼ってください';}
+    }
+  });
 })();
 </script>
 </body>
