@@ -751,7 +751,10 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 
       <div class="state-view on" data-state="s2">
         <div class="bigvoice"><a class="circle" href="#SCR-09:rec" style="text-decoration:none">話す</a><p>施術の内容・気づいたこと・次回への申し送りを 30 秒ほど</p></div>
-        <div class="row2"><a class="btn sm" href="#SCR-07"><svg class="i"><use href="#i-camera"/></svg>写真を撮る</a><a class="btn sm" href="#SCR-08:shoot"><svg class="i"><use href="#i-scan"/></svg>紙を撮る</a><a class="btn sm" href="#SCR-18" style="border-style:dashed"><svg class="i"><use href="#i-mic"/></svg>録音 <span class="badge scope">S2</span></a></div>
+        <div class="row2"><a class="btn sm" href="#SCR-07:shot"><svg class="i"><use href="#i-camera"/></svg>撮る</a><a class="btn sm" href="#SCR-18" style="border-style:dashed"><svg class="i"><use href="#i-mic"/></svg>録音を取り込む <span class="badge scope">S2</span></a></div>
+        <p class="meta" style="margin-top:-8px">施術の写真でも、紙のカルテやメモでも。撮ったあとに自動で見分けます</p>
+        <div class="state-view" data-state="shot"><div class="card" style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;gap:10px;align-items:center"><div class="thumb" style="width:56px;height:56px;font-size:9px">紙</div><div><b style="font-weight:600">紙のようです</b><p class="meta">文字の書かれた用紙と判定しました。読み取って項目の候補にします</p></div></div><div class="row2"><a class="btn sm" href="#SCR-08:shoot"><svg class="i"><use href="#i-scan"/></svg>紙として読み取る</a><a class="btn sm" href="#SCR-07:s2"><svg class="i"><use href="#i-image"/></svg>施術の写真として保存</a></div><p class="meta">判定が違っていたら右のボタンで。施術の写真は前／後のラベルを付けて記録に残ります</p></div></div>
+
         <div class="or">または直接入力する</div>
         <p class="meta" style="margin-top:-6px">話さなくても大丈夫です。欄をタップしてそのまま書けます。空のままでも保存できます</p>
         <div class="field cand"><label class="label">施術内容 <span class="badge">候補</span></label><input class="input" value="保湿パック＋デコルテマッサージ"></div>
@@ -791,7 +794,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
     <div class="fixed state-view" data-state="s1"><a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-check"/></svg>確認しました。記録へ</a></div>
     <div class="fixed state-view" data-state="s3"><a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-check"/></svg>保存する</a></div>
   </div>
-  <div class="statebar">ステップ: <button data-toggle="s1">1 確認</button><button data-toggle="s2" class="on">2 記録</button><button data-toggle="s3">3 会計・次回</button><button data-toggle="done">完了</button><button data-toggle="view">過去の記録を開く</button>　<button data-toggle="error">候補未確定の確認</button><button data-toggle="consent">同意未取得（ステップ1）</button><button data-toggle="buy">コース購入（ステップ3）</button></div>
+  <div class="statebar">ステップ: <button data-toggle="s1">1 確認</button><button data-toggle="s2" class="on">2 記録</button><button data-toggle="s3">3 会計・次回</button><button data-toggle="done">完了</button><button data-toggle="view">過去の記録を開く</button>　<button data-toggle="shot">撮影直後の判定（ステップ2）</button><button data-toggle="error">候補未確定の確認</button><button data-toggle="consent">同意未取得（ステップ1）</button><button data-toggle="buy">コース購入（ステップ3）</button></div>
 </section>
 
 <!-- ================= SCR-08 ================= -->
@@ -1369,7 +1372,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
   var qs=new URLSearchParams(location.search).get('state'); if(qs){setTimeout(function(){var sec=document.querySelector('section.screen.active'); if(!sec)return; var b=sec.querySelector('.statebar button[data-toggle="'+qs+'"]'); if(b) b.click();},0);}
   var qv=new URLSearchParams(location.search).get('v'); if(qv==='tablet'||qv==='pc'){document.querySelector('main.stage').classList.add('view-'+qv);document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-view')===qv);});}
   // 状態切り替え: 「排他」グループと「重ねる」グループ
-  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','ext'],'SCR-04':['dup'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo'],'SCR-07':['error','consent','buy'],'SCR-08':['limit'],'SCR-10':['add','error'],'SCR-13':['add'],'SCR-14':['error','done'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error'],'SCR-21':['limit','sent'],'SCR-26':[]};
+  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','ext'],'SCR-04':['dup'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo'],'SCR-07':['error','consent','buy','shot'],'SCR-08':['limit'],'SCR-10':['add','error'],'SCR-13':['add'],'SCR-14':['error','done'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error'],'SCR-21':['limit','sent'],'SCR-26':[]};
   document.querySelectorAll('.statebar button').forEach(function(b){
     b.addEventListener('click',function(){
       var sec=b.closest('section'); var st=b.getAttribute('data-toggle');
@@ -1403,7 +1406,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
     names.forEach(function(nm,i){var idx=i+1; h+=(idx<=n?'<b>'+nm+'</b>':'<span>'+nm+'</span>'); if(i<2) h+='<i class="'+(idx<n?'done':'')+'"></i>';});
     if(n===4) h+='<i class="done"></i><b>完了</b>';
     el.innerHTML=h;}
-  var PARENT7={consent:'s1',buy:'s3',error:'s2'};
+  var PARENT7={consent:'s1',buy:'s3',error:'s2',shot:'s2'};
   document.querySelectorAll('#SCR-07 .statebar button').forEach(function(b){b.addEventListener('click',function(){var st=b.getAttribute('data-toggle'); var par=PARENT7[st]; if(par){var pb=document.querySelector('#SCR-07 .statebar button[data-toggle="'+par+'"]'); if(pb&&!pb.classList.contains('on')) pb.click();} renderSteps(st);});});
   renderSteps('s2');
   // SCR-06 のタブ・SCR-12 のメニュー遷移（モック用）
