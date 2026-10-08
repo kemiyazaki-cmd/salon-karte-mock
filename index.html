@@ -1385,7 +1385,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
   <input class="who" id="fbWho" placeholder="お名前（最初の1回だけ）">
   <div class="acts"><button type="button" id="fbCancel">閉じる</button><button type="button" class="go" id="fbSend"><svg class="i" style="width:16px;height:16px;margin-right:6px;vertical-align:-3px"><use href="#i-send"/></svg>送る</button></div>
   <p class="done" id="fbDone"></p>
-  <p class="ctx" id="fbHint" style="text-align:center">送信先が設定されるまでは、LINE の共有画面が開きます</p>
+  <p class="ctx" id="fbHint" style="text-align:center">送信先が設定されるまでは、スマホでは LINE の共有画面が開き、PC では本文がコピーされます</p>
 </div></div>
 <script>
 (function(){
@@ -1411,10 +1411,17 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
     } else {
       var line='【'+(c.title||c.id)+'】'+(c.states?'（'+c.states+'）':'')+'\n'+sev+': '+body+'\n'+c.url;
       // 送信先が無いあいだは LINE の共有画面を開く（本文入り）。開けない環境では本文を枠に残して長押しコピー
-      var lineUrl='https://line.me/R/share?text='+encodeURIComponent(line);
-      var w=window.open(lineUrl,'_blank');
-      if(w){done.textContent='LINE を開きました。送る相手を選んでください'; txt.value=''; setTimeout(close,1500);}
-      else {txt.value=line; txt.select(); done.textContent='LINE を開けませんでした。この本文を長押しでコピーして LINE に貼ってください';}
+      var mobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      var keep=function(msg){txt.value=line; txt.select(); done.textContent=msg;};
+      if(mobile){
+        // スマホ: LINE アプリの共有画面を本文入りで開く（PC で開くと LINE のトップに飛ばされるのでスマホ限定）
+        var w=window.open('https://line.me/R/share?text='+encodeURIComponent(line),'_blank');
+        if(w){done.textContent='LINE を開きました。送る相手を選んでください'; txt.value=''; setTimeout(close,1500);}
+        else keep('LINE を開けませんでした。この本文を長押しでコピーして LINE に貼ってください');
+      } else if(navigator.clipboard&&navigator.clipboard.writeText){
+        // PC: クリップボードにコピーして、LINE（PC 版やスマホ）に貼ってもらう
+        navigator.clipboard.writeText(line).then(function(){done.textContent='コピーしました。LINE に貼って送ってください'; txt.value=''; setTimeout(close,1800);},function(){keep('コピーできませんでした。この本文を選択してコピーしてください');});
+      } else keep('この本文を選択してコピーし、LINE に貼ってください');
     }
   });
 })();
