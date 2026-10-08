@@ -248,10 +248,10 @@ u[data-href]{text-decoration:none;border-bottom:1px solid var(--main-300);color:
 .badge.phase{border-color:var(--main-500);color:var(--main-900);background:var(--main-100)}
 .badge.phase.warn{border-color:var(--error);color:var(--error);background:transparent}
 .funnel{display:flex;align-items:stretch;gap:6px}
-.funnel .st{flex:1;background:var(--surface);border:var(--border);padding:10px 8px;text-align:center}
+.funnel .st{flex:1;background:var(--surface);border:var(--border);padding:10px 4px;text-align:center;min-width:0}
 .funnel .st b{font-family:var(--font-heading);font-size:22px;font-weight:300;display:block;line-height:1.2}
-.funnel .st span{font-size:10px;letter-spacing:.12em;color:var(--text-meta)}
-.funnel .ar{display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:10px;color:var(--main-700);min-width:34px}
+.funnel .st span{font-size:9px;letter-spacing:.04em;color:var(--text-meta);white-space:nowrap;display:block}
+.funnel .ar{display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:9px;color:var(--main-700);min-width:28px;white-space:nowrap}
 /* ==== 表示幅切替（タブレット / PC）：本文は最大幅 640px で中央に寄る ==== */
 main.stage.view-tablet .phone{width:768px}
 main.stage.view-pc .phone{width:1024px}
