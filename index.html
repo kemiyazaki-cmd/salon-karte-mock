@@ -295,6 +295,11 @@ u[data-href] .i,a.lnk .i{width:13px;height:13px}
 a.lnk.danger{color:var(--error);border-color:var(--error)}
 .topbar .right,.greet .right{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--main-300);border-radius:var(--radius);padding:4px 10px;text-decoration:none;border-bottom:1px solid var(--main-300);min-width:0;color:var(--main-700);font-size:var(--size-xs);letter-spacing:.1em;background:var(--surface)}
 .topbar .right .i,.greet .right .i{width:15px;height:15px}
+.dayhead{display:flex;align-items:center;justify-content:space-between}
+.daynav{display:inline-flex;align-items:center;gap:6px;font-size:var(--size-sm)}
+.daynav b{font-weight:var(--w-regular);font-family:var(--font-heading);letter-spacing:.06em;min-width:64px;text-align:center}
+.daynav u{padding:3px 6px}
+.tl .chev{align-self:center}
 /* PC 幅の顧客詳細: 左に本人・中央に履歴・右にメモ（競合比較 §4b） */
 .pccol{display:contents}
 main.stage.view-pc #SCR-06 .body{display:grid;grid-template-columns:300px 1fr 300px;gap:0 28px;max-width:none;align-content:start;padding:24px 28px 96px}
@@ -495,11 +500,12 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
           <p class="meta" style="color:var(--main-300);margin-top:8px">施術の前に「本日の確認」を済ませます。記録は施術のあとで</p>
         </div></div>
         <div class="state-view" data-state="during" data-group="hero"><div class="hero"><div class="eyebrow"><span>施術中</span><span>11:00 に開始 ・ 確認済み</span></div><h2>みさき <span class="hon" style="color:var(--main-300)">様</span></h2><p class="meta" style="color:var(--main-300)">フェイシャル（保湿）・ 本日の確認 ✓</p><div class="line"></div><p class="note">終わったら「話す」か「撮る」で 30 秒。あとで閉店後にまとめても大丈夫です。</p><div class="acts"><a class="btn primary" href="#SCR-07"><svg class="i"><use href="#i-pen"/></svg>記録を残す</a><a class="btn ghost" href="#SCR-09"><svg class="i"><use href="#i-mic"/></svg>話して記録</a></div></div></div>
-        <div class="state-view" data-state="alldone" data-group="hero"><div class="hero light" style="text-align:center;padding:28px 20px"><p class="meta" style="letter-spacing:.2em">今日の記録</p><h2 style="font-size:var(--size-xl)">5 人すべて残りました</h2><p class="sub">お疲れさまでした。明日は 4 人の予定です。</p><div class="acts" style="justify-content:center"><a class="btn ghost" href="#SCR-22" style="border-color:var(--main-300);color:var(--main-900);flex:0 1 220px"><svg class="i"><use href="#i-message"/></svg>声かけを見る <span class="badge scope">S3</span></a></div></div></div>
+        <div class="state-view" data-state="alldone" data-group="hero"><div class="hero light" style="text-align:center;padding:28px 20px"><p class="meta" style="letter-spacing:.2em">今日の記録</p><h2 style="font-size:var(--size-xl)">5 人すべて残りました</h2><p class="sub">お疲れさまでした。<u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日は 4 人の予定</u> を確認して閉店を。</p><div class="acts" style="justify-content:center"><a class="btn ghost" href="#SCR-22" style="border-color:var(--main-300);color:var(--main-900);flex:0 1 220px"><svg class="i"><use href="#i-message"/></svg>声かけを見る <span class="badge scope">S3</span></a></div></div></div>
 
         <div class="progress"><div class="ring" style="width:64px;height:64px"><svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32.0" cy="32.0" r="28" fill="none" stroke="var(--main-100)" stroke-width="3"/><circle cx="32.0" cy="32.0" r="28" fill="none" stroke="var(--main-500)" stroke-width="3" stroke-dasharray="70.4 175.9" stroke-linecap="round"/></svg><div class="num">2/5<small>記録済み</small></div></div><div class="t"><b>今日の記録 2 / 5 人</b><span class="sub">閉店までに全員分が残ると、明日の自分が楽になります</span></div></div>
 
-        <span class="label">今日の流れ</span>
+        <div class="state-view on" data-state="today" data-group="day">
+        <div class="dayhead"><span class="label" style="margin:0">今日の流れ</span><span class="daynav"><u data-href="#SCR-03:today" style="opacity:.35"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/8 水</b><u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
         <div class="timeline">
           <a class="tl done" href="#SCR-06"><span class="time">9:30</span><span class="who"><span class="name">ともこ<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">8回目</b> ・ 痩身 ・ 記録済み</span></span><span class="st ok">済</span></a>
           <a class="tl done" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">あやの<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">3回目</b> ・ フェイシャル ・ 記録済み</span></span><span class="st ok">済</span></a>
@@ -508,6 +514,19 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
           <a class="tl" href="#SCR-06"><span class="time">16:00</span><span class="who"><span class="name">さくら<span class="hon">様</span> <span class="badge phase">01 見込み → 02 体験</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ 問診回答あり ・ 金属アレルギー申告 ・ 本契約の提案を</span></span><span class="st"></span></a>
           <a class="tl" href="#SCR-04" style="color:var(--main-700)"><span class="time">＋</span><span class="who"><span class="name" style="color:var(--main-700)">今日来る人を足す</span><br><span class="meta">予約サイト・DM・電話で受けた予約</span></span></a>
           <div class="state-view" data-state="ext"><a class="tl" href="#SCR-04"><span class="time">14:30</span><span class="who"><span class="name">ハギワラ 様 <span class="badge ghost">候補</span> <span class="badge scope">S3</span></span><br><span class="meta">予約通知メールから ・ まだ顧客に結びついていません</span></span><span class="st">紐づけ</span></a></div>
+        </div>
+        </div>
+        <div class="state-view" data-state="tomorrow" data-group="day">
+        <div class="dayhead"><span class="label" style="margin:0">明日の流れ <span class="meta" style="letter-spacing:0">・ 4 人</span></span><span class="daynav"><u data-href="#SCR-03:today"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/9 木</b><u data-href="#SCR-03:tomorrow" style="opacity:.35"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
+        <p class="meta" style="margin-top:-6px">明日の方の「今回気をつけること」を今のうちに。行を押すとその方のカルテです</p>
+        <div class="timeline">
+          <a class="tl" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">れいな<span class="hon">様</span> <span class="badge phase">04 契約中</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">7回目</b> ・ 脱毛（全身）・ 前回 9/11</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 日焼けあり。出力を一段下げる</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="tl" href="#SCR-06"><span class="time">11:30</span><span class="who"><span class="name">かな<span class="hon">様</span> <span class="badge phase">02 体験中</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">2回目</b> ・ フェイシャル ・ 体験 10/5</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 本契約の提案を。乾燥が主訴</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="tl" href="#SCR-06"><span class="time">14:00</span><span class="who"><span class="name">はるか<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">15回目</b> ・ 痩身 ・ 前回 9/25</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 金属アレルギー。右肩の張り</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="tl" href="#SCR-06"><span class="time">16:30</span><span class="who"><span class="name">こころ<span class="hon">様</span> <span class="badge phase">01 見込み</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ カウンセリング ・ 問診回答あり</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 問診に「敏感肌」。パッチテストの説明を</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="tl" href="#SCR-27" style="color:var(--main-700)"><span class="time">＋</span><span class="who"><span class="name" style="color:var(--main-700)">明日来る人を足す</span><br><span class="meta">予約サイト・DM・電話で受けた予約</span></span></a>
+        </div>
+        <p class="meta" style="text-align:right"><a class="lnk" href="#SCR-04:upcoming"><svg class="i"><use href="#i-calendar"/></svg>このあと 7 日の予定を見る</a></p>
         </div>
 
 
@@ -543,7 +562,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       <a href="#SCR-12" class=""><svg class="i"><use href="#i-settings"/></svg>設定</a>
     </nav>
   </div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">通常</button><button data-toggle="empty">初回（顧客0）</button><button data-toggle="loading">読み込み中</button><button data-toggle="error">エラー</button><button data-toggle="limit">AI 上限</button><button data-toggle="ext">外部の予定 S3</button>　カード: <button data-toggle="before" class="on">施術前</button><button data-toggle="during">施術中</button><button data-toggle="alldone">全員記録済み</button></div>
+  <div class="statebar">状態: <button data-toggle="normal" class="on">通常</button><button data-toggle="empty">初回（顧客0）</button><button data-toggle="loading">読み込み中</button><button data-toggle="error">エラー</button><button data-toggle="limit">AI 上限</button><button data-toggle="ext">外部の予定 S3</button>　カード: <button data-toggle="before" class="on">施術前</button><button data-toggle="during">施術中</button><button data-toggle="alldone">全員記録済み</button>　流れ: <button data-toggle="today" class="on">今日</button><button data-toggle="tomorrow">明日</button></div>
 </section>
 
 <!-- ================= SCR-04 ================= -->
@@ -573,11 +592,27 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
         <a class="row" href="#SCR-06"><div class="mono" >り</div><div class="main"><div class="name">りお<span class="hon">様</span> <span class="badge phase">02 体験中</span></div><div class="meta">いしだ りお ・ 脱毛体験 9/28 ・ 10 日経過</div></div><div class="r"><b>—</b>次回</div></a>
         <a class="row" href="#SCR-06"><div class="mono" >な</div><div class="main"><div class="name">なつみ<span class="hon">様</span> <span class="badge phase warn">02 体験中</span></div><div class="meta">おおた なつみ ・ 痩身体験 8/30 ・ 39 日経過 ・ あと 6 日で 91 体験離脱</div></div><div class="r"><b>—</b>次回</div></a>
       </div></div>
+      <div class="state-view" data-state="upcoming"><div class="noteband"><h3>このあと 7 日の予定 ・ 10/9（木）〜 10/15（水）</h3><p class="sub">次の来店予定が入っている方です。行を押すとカルテ。予約の受付はこれまでどおり予約サイトや LINE で。<a href="#SCR-03:tomorrow">明日の流れに戻る</a></p></div>
+      <p class="meta" style="margin-top:12px">12 人 ・ 日付順</p>
+      <span class="label" style="margin-top:4px">10/9 木 ・ 4 人</span>
+      <div style="border-top:var(--border)">
+        <a class="row" href="#SCR-06"><div class="mono" >れ</div><div class="main"><div class="name">れいな<span class="hon">様</span> <span class="badge phase">04 契約中</span></div><div class="meta">脱毛（全身）・ 7 回目 ・ 日焼けあり</div></div><div class="r"><b>10:00</b>予定</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >か</div><div class="main"><div class="name">かな<span class="hon">様</span> <span class="badge phase">02 体験中</span></div><div class="meta">フェイシャル ・ 2 回目 ・ 本契約の提案を</div></div><div class="r"><b>11:30</b>予定</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >は</div><div class="main"><div class="name">はるか<span class="hon">様</span> <span class="badge err">警告</span></div><div class="meta">痩身 ・ 15 回目 ・ 金属アレルギー</div></div><div class="r"><b>14:00</b>予定</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >こ</div><div class="main"><div class="name">こころ<span class="hon">様</span> <span class="badge phase">01 見込み</span></div><div class="meta">カウンセリング ・ はじめて ・ 問診回答あり</div></div><div class="r"><b>16:30</b>予定</div></a>
+      </div>
+      <span class="label" style="margin-top:12px">10/10 金 ・ 3 人</span>
+      <div style="border-top:var(--border)">
+        <a class="row" href="#SCR-06"><div class="mono" >ゆ</div><div class="main"><div class="name">ゆか<span class="hon">様</span> <span class="badge phase">04 契約中</span></div><div class="meta">脱毛（全身）・ 6 回目</div></div><div class="r"><b>13:30</b>予定</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >み</div><div class="main"><div class="name">みさと<span class="hon">様</span> <span class="badge phase">05 定着</span></div><div class="meta">脱毛 ・ 声かけから予約</div></div><div class="r"><b>15:00</b>予定</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >な</div><div class="main"><div class="name">なつみ<span class="hon">様</span> <span class="badge phase">02 体験中</span></div><div class="meta">痩身 ・ 2 回目 ・ 時刻未定</div></div><div class="r"><b>—</b>予定</div></a>
+      </div>
+      <p class="meta" style="text-align:center;margin-top:8px">10/11 土 2 人 ・ 10/12 日 定休 ・ 10/13 月 1 人 ・ 10/14 火 2 人 ・ 10/15 水 0 人</p></div>
       <div class="state-view" data-state="dup"><div class="noteband"><h3>重複の候補 18 組 <span class="badge scope">S2</span></h3><p class="sub">同じ人が別の入口から入っている可能性があります。<a class="lnk" href="#SCR-17"><svg class="i"><use href="#i-merge"/></svg>確認してまとめる</a></p></div></div>
     </div>
     <div class="fixed" style="bottom:72px;border-top:0;background:transparent"><a class="btn primary block" href="#SCR-05"><svg class="i"><use href="#i-user-plus"/></svg>お客様を追加</a></div>
     <nav class="tabbar"><a href="#SCR-03" class=""><svg class="i"><use href="#i-calendar"/></svg>今日</a><a href="#SCR-04" class="on"><svg class="i"><use href="#i-users"/></svg>お客様</a><a href="#SCR-27" class="action"><span class="plus"><svg class="i"><use href="#i-plus"/></svg></span>記録</a><a href="#SCR-22" class="" style="opacity:.45"><svg class="i"><use href="#i-message"/></svg><span style="white-space:nowrap">声かけ <span class="badge scope" style="margin-left:2px;padding:0 3px">S3</span></span></a><a href="#SCR-12" class=""><svg class="i"><use href="#i-settings"/></svg>設定</a></nav></div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">一致あり</button><button data-toggle="empty">一致なし</button><button data-toggle="list">分析からの一覧 S3</button><button data-toggle="dup">重複候補あり S2</button></div>
+  <div class="statebar">状態: <button data-toggle="normal" class="on">一致あり</button><button data-toggle="empty">一致なし</button><button data-toggle="list">分析からの一覧 S3</button><button data-toggle="upcoming">予定の一覧</button><button data-toggle="dup">重複候補あり S2</button></div>
 </section>
 
 <!-- ================= SCR-05 ================= -->
@@ -1296,7 +1331,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
   });
 
   // SCR-04: 「分析からの一覧」では検索窓を空にする（条件は分析側の人数が決め、検索すると通常に戻る）
-  document.querySelectorAll('#SCR-04 .statebar button').forEach(function(b){b.addEventListener('click',function(){var el=document.getElementById('scr04search'); if(!el) return; var list=b.getAttribute('data-toggle')==='list'; el.style.color=list?'':'var(--text-primary)'; el.style.borderBottomColor=list?'':'var(--main-900)'; el.innerHTML=list?'<svg class="i ico"><use href="#i-search"/></svg><span class="q">お名前・ふりがな・電話番号</span>':'<svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span>';});});
+  document.querySelectorAll('#SCR-04 .statebar button').forEach(function(b){b.addEventListener('click',function(){var el=document.getElementById('scr04search'); if(!el) return; var list=['list','upcoming'].indexOf(b.getAttribute('data-toggle'))>=0; el.style.color=list?'':'var(--text-primary)'; el.style.borderBottomColor=list?'':'var(--main-900)'; el.innerHTML=list?'<svg class="i ico"><use href="#i-search"/></svg><span class="q">お名前・ふりがな・電話番号</span>':'<svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span>';});});
   // SCR-06: PC 幅では「左に本人・中央に履歴・右にメモ」の 3 カラム（.pccol はスマホ幅では display:contents）
   (function(){var body=document.querySelector('#SCR-06 .body'); if(!body) return; var c1=document.createElement('div'),c2=document.createElement('div'),c3=document.createElement('div'); c1.className='pccol c1';c2.className='pccol c2';c3.className='pccol c3';
     Array.prototype.slice.call(body.children).forEach(function(el){var st=el.getAttribute('data-state'); if(el.classList.contains('seg')||(el.classList.contains('state-view')&&['rec','photo','doc','contract','consent','empty'].indexOf(st)>=0)) c2.appendChild(el); else if(el.classList.contains('noteband')||el.classList.contains('ext')) c3.appendChild(el); else c1.appendChild(el);});
