@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>SALONOTE 料金プラン案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600&display=swap">
+<style>
+/* Layout: one reading column on ivory, numbers set in Mincho, colour used only as thin gold rules (SALONOTE tokens, 03-spec §3) */
+:root{
+  --bg:#F8F5EF; --surface:#FDFBF7; --tint:#F1EBE1; --rule:#D6C7AE; --gold:#9A7B4F; --bronze:#6F5633; --ink-strong:#3F311D;
+  --fg:#1F1B17; --fg2:#5C544B; --meta:#8C8378; --err:#8E2F2F; --ok:#4F6B3A;
+  --serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  --sans:"Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17130F; --surface:#1F1A15; --tint:#29221B; --rule:#4A3E30; --gold:#C2A273; --bronze:#D6B98C; --ink-strong:#EFE6D6;
+  --fg:#EFE8DC; --fg2:#C8BEB0; --meta:#9A8F80; --err:#E08A8A; --ok:#A8C48E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17130F; --surface:#1F1A15; --tint:#29221B; --rule:#4A3E30; --gold:#C2A273; --bronze:#D6B98C; --ink-strong:#EFE6D6;
+  --fg:#EFE8DC; --fg2:#C8BEB0; --meta:#9A8F80; --err:#E08A8A; --ok:#A8C48E; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.8;padding-inline:20px;padding-block:40px 72px}
+main{max-width:760px;margin:0 auto;display:grid;gap:48px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:.06em;text-wrap:balance;margin:0;color:var(--fg)}
+h1{font-size:30px;line-height:1.4}
+h2{font-size:21px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+h3{font-size:16px}
+p{margin:0}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--meta)}
+.lead{font-family:var(--serif);font-size:18px;line-height:1.9;color:var(--fg);border-left:2px solid var(--gold);padding-left:16px}
+.note{font-size:13px;color:var(--fg2)}
+.stack{display:grid;gap:14px}
+.callout{background:var(--tint);border-radius:4px;padding:14px 16px;font-size:14px;color:var(--fg)}
+.callout strong{color:var(--err);font-weight:700}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.plan{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:18px 18px 16px;display:grid;gap:6px;align-content:start;min-width:0}
+.plan.main{border-color:var(--gold)}
+.plan .name{font-size:13px;color:var(--fg2);letter-spacing:.06em}
+.plan .price{font-family:var(--serif);font-size:30px;line-height:1.3;font-variant-numeric:tabular-nums;color:var(--fg)}
+.plan .price small{font-family:var(--sans);font-size:13px;color:var(--meta);margin-left:4px}
+.plan ul{margin:6px 0 0;padding-left:1.1em;font-size:13.5px;color:var(--fg2);display:grid;gap:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--rule);border-radius:4px;padding:6px 10px;font-size:13px;background:var(--surface)}
+.chip b{font-weight:700;color:var(--bronze)}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal;min-width:11em}
+thead th{font-weight:500;font-size:12px;color:var(--meta);letter-spacing:.04em}
+td.strong{font-weight:700}
+.pct{display:inline-block;min-width:3.2em;padding:1px 6px;border-radius:4px;background:var(--tint);color:var(--fg)}
+.why{display:grid;gap:14px;counter-reset:w}
+.why li{list-style:none;display:grid;grid-template-columns:28px 1fr;gap:6px}
+.why li::before{counter-increment:w;content:counter(w);font-family:var(--serif);color:var(--gold);font-size:18px;line-height:1.6}
+.why{padding:0;margin:0}
+.chart{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:14px 12px 6px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--fg2);margin:0 4px 6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:18px;height:0;border-top:2px solid var(--bronze)}
+.sw.dash{border-top-style:dashed;border-color:var(--gold)}
+svg text{font-family:var(--sans)}
+.decide{display:grid;gap:10px;padding:0;margin:0;counter-reset:d}
+.decide li{list-style:none;background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:12px 14px 12px 44px;position:relative}
+.decide li::before{counter-increment:d;content:counter(d);position:absolute;left:14px;top:11px;font-family:var(--serif);font-size:18px;color:var(--gold)}
+.decide b{display:block;font-weight:700}
+.decide span{font-size:13.5px;color:var(--fg2)}
+footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding-top:14px;display:grid;gap:4px}
+@media (max-width:480px){h1{font-size:25px}.plan .price{font-size:26px}}
+</style>
+</head>
+<body>
+
+<main>
+  <header class="stack">
+    <p class="eyebrow">SALONOTE ／ 料金の仮案 ／ 2026-10-09 宮崎</p>
+    <h1>SALONOTE 料金プラン案</h1>
+    <p class="lead">安い基本料に、人数の追加と会話録音の従量を足す 3 層です。初期費用は 0 円にします。1 店を増やす原価はとても小さいので基本料は安くでき、原価が大きく振れる会話録音だけを別にしてマイナスを防ぎます。</p>
+    <div class="callout">この案は、<strong>施術中の会話録音の精度が実測で確認できたら</strong>この条件で提供する、という前提付きです。うつ伏せのボディ施術で声がこもる問題は、試作で確かめてから会話録音の扱いを確定します。</div>
+  </header>
+
+  <section class="stack" aria-labelledby="s-plans">
+    <h2 id="s-plans">プランの中身</h2>
+    <div class="plans">
+      <div class="plan main">
+        <span class="name">基本プラン（1 店・1 名）</span>
+        <span class="price">4,980<small>円／月・税別</small></span>
+        <ul>
+          <li>顧客管理・来店記録・写真・同意・回数券</li>
+          <li>音声メモ・紙カルテの読み取り・LINE 文面</li>
+          <li>会話録音 月 15 回まで無料（1 回 90 分まで）</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <span class="name">スクール生プラン</span>
+        <span class="price">2,980<small>円／月・税別</small></span>
+        <ul>
+          <li>中身は基本プランと同じ</li>
+          <li>会話録音 月 10 回まで無料</li>
+          <li>スクールの受講料で価値を回収する前提</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <span class="name">スタッフの追加</span>
+        <span class="price">1,980<small>円／1 名・月</small></span>
+        <ul>
+          <li>3 名の店で月 8,940 円（1 万円以内）</li>
+          <li>人数が増えても原価はほぼ増えない</li>
+        </ul>
+      </div>
+    </div>
+    <div class="chips" aria-label="その他の条件">
+      <span class="chip">会話録音の無料枠を超えたら <b>1 回 150 円</b> か <b>20 回 2,980 円</b></span>
+      <span class="chip">初期費用 <b>0 円</b>（導入の伴走は別メニュー）</span>
+      <span class="chip">無料お試し <b>30 日</b></span>
+      <span class="chip">年払いは <b>2 か月分割引</b></span>
+    </div>
+    <p class="note">AI の費用には、プランの月額の 25% を上限に置きます（基本 1,245 円・スクール生 745 円）。上限に達したら「止める」か「続けて従量で払う」かをサロンが選びます。どちらでもスクール側がマイナスになることはありません。</p>
+  </section>
+
+  <section class="stack" aria-labelledby="s-why">
+    <h2 id="s-why">この形にした理由</h2>
+    <ol class="why">
+      <li><p><b>1 店を増やす原価は月 250〜1,100 円しかありません。</b>費用の大半はサーバーなどの固定費（月 1〜2.5 万円）で、店が増えるほど 1 店あたりの負担が下がります。だから基本料は安くできます。</p></li>
+      <li><p><b>原価が大きく振れるのは会話録音だけです。</b>1 回（90 分）で約 40 円かかり、毎日録る店では月数千円になります。ここだけを無料枠と従量にすれば、安い基本料とマイナスにしないことを両立できます。</p></li>
+      <li><p><b>原価は人数では増えませんが、払える額は人数で増えます。</b>人数で価格を上げるのは、大きい店に応分に払ってもらうためです。機能でプランを分けると、「入力させない」という一番の価値を体験してもらえない店が出るので、機能は全員に同じものを渡します。</p></li>
+    </ol>
+  </section>
+
+  <section class="stack" aria-labelledby="s-unit">
+    <h2 id="s-unit">1 店あたりの収支</h2>
+    <p class="note">50 店で運営している時期の 1 か月（円）。固定費の負担は 1 店 約 490 円、決済手数料は 3.6% で計算。</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>使い方</th><th>売上</th><th>AI</th><th>固定費</th><th>決済</th><th>利益</th><th>利益率</th></tr></thead>
+        <tbody>
+          <tr><td>基本・普段（会話録音なし）</td><td>4,980</td><td>240</td><td>490</td><td>180</td><td class="strong">4,070</td><td><span class="pct">82%</span></td></tr>
+          <tr><td>基本・無料枠の会話録音 15 回を使い切る</td><td>4,980</td><td>810</td><td>490</td><td>180</td><td class="strong">3,500</td><td><span class="pct">70%</span></td></tr>
+          <tr><td>基本・AI の上限まで使う</td><td>4,980</td><td>1,245</td><td>490</td><td>180</td><td class="strong">3,065</td><td><span class="pct">62%</span></td></tr>
+          <tr><td>スクール生・普段</td><td>2,980</td><td>240</td><td>490</td><td>110</td><td class="strong">2,140</td><td><span class="pct">72%</span></td></tr>
+          <tr><td>スクール生・無料枠 10 回を使い切る</td><td>2,980</td><td>620</td><td>490</td><td>110</td><td class="strong">1,760</td><td><span class="pct">59%</span></td></tr>
+          <tr><td>スクール生・AI の上限まで使う</td><td>2,980</td><td>745</td><td>490</td><td>110</td><td class="strong">1,635</td><td><span class="pct">55%</span></td></tr>
+          <tr><td>3 名の店・普段（月 240 来店）</td><td>8,940</td><td>650</td><td>490</td><td>320</td><td class="strong">7,480</td><td><span class="pct">84%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">どの使い方でもマイナスにならず、上限まで使われても利益率 50% 以上が残ります。</p>
+  </section>
+
+  <section class="stack" aria-labelledby="s-scale">
+    <h2 id="s-scale">何店から黒字になるか</h2>
+    <p class="note">全店がスクール生プラン（2,980 円）で、普段の使い方をした場合の、事業全体の 1 か月の利益。固定費は店舗数によって 1.0〜1.7 万円。</p>
+    <div class="callout"><b>時点復旧とは:</b> データベースを、過去 7 日のうちの好きな時刻（秒単位）の状態に戻せる機能です。月 1.5 万円かかります。これが無くても 1 日 1 回のバックアップは取られますが、壊れたときに戻せるのは前回のバックアップの時点までなので、<strong>最大で約 1 日分の記録が消えます</strong>（その日の来店記録・写真の紐づけなど）。</div>
+    <div class="chart">
+      <div class="legend"><span><i class="sw"></i>時点復旧なし</span><span><i class="sw dash"></i>時点復旧あり（月 1.5 万円）</span></div>
+      <svg id="scale" viewBox="0 0 700 300" width="100%" role="img" aria-label="店舗数 1 から 30 店までの月の利益。時点復旧なしは 4 店で黒字、ありは 10 店前後で黒字。"></svg>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>時点復旧</th><th>普段の使い方</th><th>無料枠の会話録音も使い切る</th></tr></thead>
+        <tbody>
+          <tr><td>なし</td><td class="strong">4 店から黒字</td><td class="strong">5 店から黒字</td></tr>
+          <tr><td>あり</td><td class="strong">13 店から黒字</td><td class="strong">15 店から黒字</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">時点復旧は、生徒の店が 15 店を超えたところで入れれば、どの段階でもマイナスになりません。それまでは 1 日 1 回のバックアップ（7 日分）で運用し、「最大 1 日分が消えうる」ことを利用規約に書きます。最初から入れるかどうかも決めてほしいことの一つです。</p>
+  </section>
+
+  <section class="stack" aria-labelledby="s-diff">
+    <h2 id="s-diff">事業計画書との違い</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>項目</th><th style="text-align:left">事業計画書</th><th style="text-align:left">この案</th></tr></thead>
+        <tbody>
+          <tr><td>初期費用</td><td style="text-align:left;white-space:normal">29,800 円（Pro 49,800 円）</td><td style="text-align:left;white-space:normal">0 円。導入の伴走は別メニュー（例: 19,800 円・任意）</td></tr>
+          <tr><td>プランの分け方</td><td style="text-align:left;white-space:normal">機能で分ける（Standard から LINE 連携・問診など）</td><td style="text-align:left;white-space:normal">機能は全員同じ。分けるのは人数と会話録音</td></tr>
+          <tr><td>月額</td><td style="text-align:left;white-space:normal">Solo 9,800 円・Standard 19,800 円</td><td style="text-align:left;white-space:normal">基本 4,980 円 ＋ 1 名 1,980 円（3 名で 8,940 円）</td></tr>
+          <tr><td>AI の上限</td><td style="text-align:left;white-space:normal">音声処理時間に月の上限</td><td style="text-align:left;white-space:normal">金額で上限（月額の 25%）。超えたら止めるか従量かを選ぶ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="stack" aria-labelledby="s-decide">
+    <h2 id="s-decide">決めてほしいこと</h2>
+    <ol class="decide">
+      <li><b>価格の水準</b><span>基本 4,980 円・スクール生 2,980 円・スタッフ追加 1 名 1,980 円でよいか。</span></li>
+      <li><b>会話録音の扱い</b><span>無料枠（基本 15 回・スクール生 10 回）と、超えた分の 1 回 150 円・20 回 2,980 円でよいか。精度を確かめた後に確定します。</span></li>
+      <li><b>AI の上限を超えたとき</b><span>「止める」と「続けて従量で払う」のどちらを既定にするか。</span></li>
+      <li><b>初期費用</b><span>0 円にし、導入の伴走を別メニューにしてよいか。</span></li>
+      <li><b>時点復旧をいつ入れるか</b><span>最初から入れる（黒字化が 4 店 → 13 店に延びる）か、15 店を超えてから入れるか。</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>前提: 2026 年 10 月時点の各サービスの公開価格、為替 1 ドル 150 円。音声認識は東京で処理できるものを想定し、会話録音は 90 分録って無音を除いた 60 分に課金、と置いています。</p>
+    <p>1 件あたりの費用は、開発の最初の試作で実際に測って置き換えます。</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var svg=document.getElementById('scale'); if(!svg) return;
+  var css=getComputedStyle(document.documentElement);
+  function c(n){return css.getPropertyValue(n).trim()||'#888'}
+  var W=700,H=300,L=64,R=16,T=16,B=40,N=30;
+  var contrib=2980-240-107;
+  function fixed(n,p){var f=n<10?10450:(n<50?17350:24446);return f+(p?15000:0)}
+  function profit(n,p){return n*contrib-fixed(n,p)}
+  var ys=[];for(var n=1;n<=N;n++){ys.push(profit(n,false),profit(n,true))}
+  var yMin=-30000,yMax=Math.ceil(Math.max.apply(null,ys)/10000)*10000;
+  function x(n){return L+(n-1)/(N-1)*(W-L-R)}
+  function y(v){return T+(yMax-v)/(yMax-yMin)*(H-T-B)}
+  var ns='http://www.w3.org/2000/svg',g=document.createDocumentFragment();
+  function el(t,a){var e=document.createElementNS(ns,t);for(var k in a)e.setAttribute(k,a[k]);g.appendChild(e);return e}
+  for(var v=yMin;v<=yMax;v+=10000){
+    el('line',{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:v===0?c('--fg2'):c('--rule'),'stroke-width':v===0?1.2:0.8});
+    var t=el('text',{x:L-8,y:y(v)+4,'text-anchor':'end','font-size':11,fill:c('--meta')});t.textContent=(v/10000)+' 万';
+  }
+  [1,5,10,15,20,25,30].forEach(function(n){var t=el('text',{x:x(n),y:H-B+18,'text-anchor':'middle','font-size':11,fill:c('--meta')});t.textContent=n+' 店'});
+  function line(p,col,dash){var d='';for(var n=1;n<=N;n++){d+=(n===1?'M':'L')+x(n).toFixed(1)+' '+y(profit(n,p)).toFixed(1)}
+    var a={d:d,fill:'none',stroke:col,'stroke-width':2.2,'stroke-linejoin':'round'};if(dash)a['stroke-dasharray']='6 4';el('path',a)}
+  line(false,c('--bronze'),false);line(true,c('--gold'),true);
+  [[4,false,'4 店で黒字'],[13,true,'13 店で黒字']].forEach(function(m){
+    var cx=x(m[0]),cy=y(profit(m[0],m[1]));el('circle',{cx:cx,cy:cy,r:4,fill:m[1]?c('--gold'):c('--bronze')});
+    var t=el('text',{x:cx+8,y:cy-8,'font-size':12,fill:c('--fg')});t.textContent=m[2];
+  });
+  var t0=el('text',{x:W-R,y:y(0)-6,'text-anchor':'end','font-size':11,fill:c('--fg2')});t0.textContent='0（ここより上が黒字）';
+  svg.appendChild(g);
+})();
+</script>
+</body>
+</html>
