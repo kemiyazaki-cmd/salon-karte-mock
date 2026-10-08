@@ -445,6 +445,7 @@ main.stage.view-pc .phone.pc{width:1200px}
 
         <span class="label">あとで</span>
         <div class="list">
+          <div class="item" style="flex-direction:column;align-items:stretch;gap:8px"><div class="name">昨日の予定 ・ かなこ<span class="hon">様</span> 15:00 <span class="badge phase">03 新規</span></div><div class="meta">来店記録がありません。どうなりましたか？</div><div class="row2"><a class="btn sm" href="#SCR-07" style="height:36px">来店した</a><a class="btn sm" href="#SCR-27" style="height:36px">日程変更</a><a class="btn sm" href="#SCR-03" style="height:36px;border-color:var(--error);color:var(--error)">キャンセル</a></div></div>
           <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="main"><div class="name">記録がまだ <span class="count">2</span></div><div class="meta">昨日のあやのさん・10/5 のともこさん</div></div><span class="chev">›</span></a>
           <a class="item" href="#SCR-09" style="text-decoration:none;color:inherit"><div class="main"><div class="name">確認待ち <span class="count">1</span></div><div class="meta">音声メモの読み取りができました</div></div><span class="chev">›</span></a>
           <a class="item" href="#SCR-15" style="text-decoration:none;color:inherit"><div class="main"><div class="name">未処理の回答 <span class="count">1</span> <span class="badge scope">S2</span></div><div class="meta">かなこ さま ・ LINE から</div></div><span class="chev">›</span></a>
@@ -551,7 +552,8 @@ main.stage.view-pc .phone.pc{width:1200px}
           <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="thumb" style="width:48px;height:48px;font-size:9px">紙</div><div class="main"><div class="name">8/12 フェイシャル <span class="badge ghost">紙から</span></div><div class="meta">担当 佐藤 ・ 元の紙カルテあり</div></div><span class="chev">›</span></a>
           <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="thumb" style="width:48px;height:48px;font-size:9px">紙</div><div class="main"><div class="name">7/15 フェイシャル <span class="badge ghost">紙から</span></div><div class="meta">担当 佐藤</div></div><span class="chev">›</span></a>
         </div>
-        <div class="row2" style="margin-top:12px"><a class="btn sm" href="#SCR-08">紙カルテを取り込む</a><a class="btn sm" href="#SCR-21">お客様に送る <span class="badge scope">S3</span></a></div>
+        <div class="row2" style="margin-top:12px"><a class="btn sm" href="#SCR-08">紙カルテを取り込む</a><a class="btn sm" href="#SCR-27">次の来店予定を入れる</a></div>
+        <div class="row2" style="margin-top:8px"><a class="btn sm" href="#SCR-21">お客様に送る <span class="badge scope">S3</span></a><a class="btn sm" href="#SCR-10">書類を預ける</a></div>
       </div>
       <div class="state-view" data-state="photo">
         <p class="meta">施術後の写真を時系列で。タップで前後を比べられます</p>
@@ -1014,7 +1016,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <div class="chips"><span class="chip on">今週 4</span><span class="chip">来週 6</span><span class="chip">過ぎている 9</span></div>
       <div style="border-top:var(--border)">
         <a class="row" href="#SCR-06"><div class="mono" >と</div><div class="main"><div class="name">ともこ<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">前回 9/8 フェイシャル ・ 周期 28 日 ・ 次回予約なし<br>根拠: ご本人の平均間隔 29 日</div></div><div class="r"><b>10/6</b>推奨</div></a>
-        <div style="display:flex;gap:8px;padding:0 0 12px 58px;border-bottom:var(--border)"><a class="btn sm" href="#SCR-21" style="height:40px;flex:1">LINE で送る</a><a class="btn sm" href="#SCR-22" style="height:40px;flex:1">声かけ済み</a></div>
+        <div style="display:flex;gap:8px;padding:0 0 12px 58px;border-bottom:var(--border)"><a class="btn sm" href="#SCR-21" style="height:40px;flex:1">LINE で送る</a><a class="btn sm" href="#SCR-22" style="height:40px;flex:1">声かけ済み</a><a class="btn sm" href="#SCR-27" style="height:40px;flex:1;background:var(--main-900);color:var(--background)">予約が入った</a></div>
         <a class="row" href="#SCR-06"><div class="mono" >ゆ</div><div class="main"><div class="name">ゆか<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">前回 8/10 脱毛（全身）・ 周期 60 日 ・ 次回予約なし<br>根拠: メニューの周期</div></div><div class="r"><b>10/9</b>推奨</div></a>
         <a class="row" href="#SCR-06"><div class="mono" >あ</div><div class="main"><div class="name">あやの<span class="hon">様</span> <span class="badge phase">02 体験中 46 日</span></div><div class="meta">8/27 体験（フェイシャル）・ 本契約の提案期限まで 14 日<br>根拠: 体験から 45 日超で声かけ対象</div></div><div class="r"><b>10/12</b>推奨</div></a>
       </div></div>
@@ -1109,7 +1111,7 @@ main.stage.view-pc .phone.pc{width:1200px}
 
 <!-- ================= SCR-27 ================= -->
 <section class="screen" id="SCR-27">
-  <p class="screen-title"><b>SCR-27 誰の記録ですか？（シート）</b> ／ FUNC-04, 03 ・ 下部タブ「＋記録」で開く。二択ではなく検索で分岐を吸収する</p>
+  <p class="screen-title"><b>SCR-27 誰の記録ですか？（シート）</b> ／ FUNC-04, 03, 33 ・ 下部タブ「＋記録」で開く。上部の切替「来店記録／予約」は既定が来店記録。人の一覧は共通</p>
   <div class="phone" style="min-height:860px">
     <div class="body tabbed" style="gap:18px;opacity:.9">
       <div class="greet"><h1 style="font-size:var(--size-lg)">10月8日 <span class="meta" style="font-family:var(--font-body);font-size:var(--size-sm)">水曜日</span></h1></div>
@@ -1120,6 +1122,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <div class="sheet">
         <div class="grip"></div>
         <h2>誰の記録ですか？</h2>
+        <div class="segm" style="align-self:flex-start"><span class="on">来店記録</span><span>予約</span></div>
         <a class="suggest" href="#SCR-07"><div class="mono">み</div><div class="t"><b>みさき<span class="hon">様</span></b><span>11:00 ・ 今日まだ記録がない人はこの方だけ</span></div><span class="go">記録を始める</span></a>
         <div class="search" style="border-bottom-color:var(--main-900)"><span class="ico"></span><span class="q">名前か電話番号で探す</span></div>
         <span class="label">今日来る人</span>
@@ -1134,6 +1137,22 @@ main.stage.view-pc .phone.pc{width:1200px}
           <a class="pick-row" href="#SCR-07"><div class="mono">か</div><div class="main"><div class="name">かなこ<span class="hon">様</span></div><div class="meta">8/30 ・ 6回目</div></div></a>
         </div>
         <a class="newrow" href="#SCR-05"><div class="mono">＋</div><div><b style="font-weight:400">新しいお客様として登録して記録を始める</b><div class="meta">呼び名を入れて、そのまま記録へ</div></div></a>
+      </div></div>
+    <div class="state-view" data-state="booking">
+      <div class="sheet">
+        <div class="grip"></div>
+        <h2>誰の予約ですか？</h2>
+        <div class="segm" style="align-self:flex-start"><span>来店記録</span><span class="on">予約</span></div>
+        <div class="search" style="border-bottom-color:var(--main-900);color:var(--text-primary)"><span class="ico"></span><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">とも</span><span class="meta">×</span></div>
+        <a class="pick-row" href="#SCR-27"><div class="mono">と</div><div class="main"><div class="name">ともこ<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">前回 9/8 ・ 8回目</div></div><span class="meta">選択中</span></a>
+        <div class="hero light" style="padding:14px 16px"><div class="eyebrow"><span>次の来店予定</span></div>
+          <div class="row2" style="margin-top:10px"><div class="field"><label class="label">日付</label><input class="input" value="10/15（水）"></div><div class="field"><label class="label">時刻（任意）</label><input class="input" value="14:00"></div></div>
+          <div class="field"><label class="label">メニュー（任意）</label><input class="input" value="痩身（前回と同じ）"></div>
+          <div class="field"><label class="label">予約経路</label><div class="chips"><span class="chip on">LINE</span><span class="chip">Instagram DM</span><span class="chip">電話</span><span class="chip">ホットペッパー</span></div></div>
+          <p class="meta" style="margin-top:6px">保存すると 10/15 の「今日の流れ」に出て、声かけ一覧から外れます。予約の受付はこれまでどおり LINE 等で</p>
+          <div class="acts"><a class="btn primary" href="#SCR-03" style="background:var(--main-900);color:var(--background)">予定を保存</a></div>
+        </div>
+        <a class="newrow" href="#SCR-05"><div class="mono">＋</div><div><b style="font-weight:400">新しいお客様の予約</b><div class="meta">呼び名と日付だけで登録できます</div></div></a>
       </div></div>
     <div class="state-view" data-state="hit">
       <div class="sheet">
@@ -1156,7 +1175,7 @@ main.stage.view-pc .phone.pc{width:1200px}
         <a class="suggest" href="#SCR-07"><div class="mono">れ</div><div class="t"><b>「れいな」<span class="hon">様</span>を登録して記録を始める</b><span>新しいお客様 ・ 呼び名はあとで直せます</span></div><span class="go">進む</span></a>
       </div></div>
   </div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">開いた直後</button><button data-toggle="hit">「はる」→ 部分一致あり</button><button data-toggle="miss">「れいな」→ 一致なし → 新規</button></div>
+  <div class="statebar">状態: <button data-toggle="normal" class="on">開いた直後</button><button data-toggle="booking">予約（電話で受けた）</button><button data-toggle="hit">「はる」→ 部分一致あり</button><button data-toggle="miss">「れいな」→ 一致なし → 新規</button></div>
 </section>
 
 </main>
