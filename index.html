@@ -245,6 +245,13 @@ u[data-href]{text-decoration:none;border-bottom:1px solid var(--main-300);color:
 .segm{display:inline-flex;border:1px solid var(--main-300);border-radius:var(--radius);overflow:hidden}
 .segm span{padding:8px 18px;font-size:var(--size-sm);letter-spacing:.08em;color:var(--text-secondary);min-height:40px;display:flex;align-items:center;white-space:nowrap}
 .segm span.on{background:var(--main-900);color:var(--background)}
+.badge.phase{border-color:var(--main-500);color:var(--main-900);background:var(--main-100)}
+.badge.phase.warn{border-color:var(--error);color:var(--error);background:transparent}
+.funnel{display:flex;align-items:stretch;gap:6px}
+.funnel .st{flex:1;background:var(--surface);border:var(--border);padding:10px 8px;text-align:center}
+.funnel .st b{font-family:var(--font-heading);font-size:22px;font-weight:300;display:block;line-height:1.2}
+.funnel .st span{font-size:10px;letter-spacing:.12em;color:var(--text-meta)}
+.funnel .ar{display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:10px;color:var(--main-700);min-width:34px}
 /* ==== 表示幅切替（タブレット / PC）：本文は最大幅 640px で中央に寄る ==== */
 main.stage.view-tablet .phone{width:768px}
 main.stage.view-pc .phone{width:1024px}
@@ -411,7 +418,7 @@ main.stage.view-pc .phone.pc{width:1200px}
         <div class="state-view on" data-state="before" data-group="hero"><div class="hero">
           <div class="eyebrow"><span>次のお客様</span><span>11:00 ・ あと 25 分</span></div>
           <h2>みさき<span class="hon">様</span></h2>
-          <p class="meta" style="color:var(--main-300)">12回目のご来店 ・ フェイシャル（保湿）・ 前回 9/10</p>
+          <p class="meta" style="color:var(--main-300)">12回目のご来店 ・ <span class="badge phase" style="background:transparent;color:var(--main-300);border-color:var(--main-500)">04 契約中 ・ 残 6</span> ・ フェイシャル（保湿）・ 前回 9/10</p>
           <div class="line"></div>
           <p class="note">頬の赤みが出やすい。前回より圧を弱めに。乾燥を気にされているのでホームケアの話を。</p>
           <span class="warn">安全上の警告 ・ 妊娠中 ・ 光過敏</span>
@@ -429,7 +436,7 @@ main.stage.view-pc .phone.pc{width:1200px}
           <a class="tl done" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">あやの<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">3回目</b> ・ フェイシャル ・ 記録済み</span></span><span class="st ok">済</span></a>
           <a class="tl now" href="#SCR-06"><span class="time">11:00</span><span class="who"><span class="name">みさき<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">12回目</b> ・ フェイシャル（保湿）・ 前回 9/10</span></span><span class="st">次</span></a>
           <a class="tl" href="#SCR-06"><span class="time">13:30</span><span class="who"><span class="name">ゆか<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">5回目</b> ・ 脱毛（全身）・ 前回 7/20 ・ 2か月半ぶり</span></span><span class="st"></span></a>
-          <a class="tl" href="#SCR-06"><span class="time">16:00</span><span class="who"><span class="name">さくら<span class="hon">様</span> <span class="badge">新規</span> <span class="badge">体験</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ 問診回答あり ・ 金属アレルギー申告</span></span><span class="st"></span></a>
+          <a class="tl" href="#SCR-06"><span class="time">16:00</span><span class="who"><span class="name">さくら<span class="hon">様</span> <span class="badge phase">01 見込み → 02 体験</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ 問診回答あり ・ 金属アレルギー申告 ・ 本契約の提案を</span></span><span class="st"></span></a>
           <a class="tl" href="#SCR-04" style="color:var(--main-700)"><span class="time">＋</span><span class="who"><span class="name" style="color:var(--main-700)">今日来る人を足す</span><br><span class="meta">予約サイト・DM・電話で受けた予約</span></span></a>
           <div class="state-view" data-state="ext"><a class="tl" href="#SCR-04"><span class="time">14:30</span><span class="who"><span class="name">ハギワラ 様 <span class="badge ghost">候補</span> <span class="badge scope">S3</span></span><br><span class="meta">予約通知メールから ・ まだ顧客に結びついていません</span></span><span class="st">紐づけ</span></a></div>
         </div>
@@ -478,15 +485,15 @@ main.stage.view-pc .phone.pc{width:1200px}
       <div class="search" style="border-bottom-color:var(--main-900);color:var(--text-primary)"><span class="ico"></span><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span></div>
       <div class="state-view on" data-state="normal"><p class="meta">2人が一致 ・ 全 48 人</p>
       <div style="border-top:var(--border)">
-        <a class="row" href="#SCR-06"><div class="mono" >み</div><div class="main"><div class="name">みさき<span class="hon">様</span> <span class="badge err">警告</span></div><div class="meta">さとう みさき ・ フェイシャル</div></div><div class="r"><b>10/8</b>次回</div></a>
-        <a class="row" href="#SCR-06"><div class="mono" >み</div><div class="main"><div class="name">みさと<span class="hon">様</span> </div><div class="meta">たかはし みさと ・ 脱毛</div></div><div class="r"><b>8/2</b>最終</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >み</div><div class="main"><div class="name">みさき<span class="hon">様</span> <span class="badge phase">04 契約中</span> <span class="badge err">警告</span></div><div class="meta">さとう みさき ・ フェイシャル</div></div><div class="r"><b>10/8</b>次回</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >み</div><div class="main"><div class="name">みさと<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">たかはし みさと ・ 脱毛 ・ 周期 60 日 ・ 67 日経過</div></div><div class="r"><b>8/2</b>最終</div></a>
       </div>
       <p class="meta" style="margin-bottom:6px">検索を消すと最近来た順に並びます。絞り込みの条件はありません</p>
       <span class="label" style="margin-top:6px">最近来た方</span>
       <div style="border-top:var(--border)">
-        <a class="row" href="#SCR-06"><div class="mono" >と</div><div class="main"><div class="name">ともこ<span class="hon">様</span> </div><div class="meta">痩身 ・ 今日 9:30</div></div><div class="r"><b>9:30</b>今日</div></a>
-        <a class="row" href="#SCR-06"><div class="mono" >あ</div><div class="main"><div class="name">あやの<span class="hon">様</span> </div><div class="meta">フェイシャル ・ 今日 10:00</div></div><div class="r"><b>10:00</b>今日</div></a>
-        <a class="row" href="#SCR-06"><div class="mono" >ゆ</div><div class="main"><div class="name">ゆか<span class="hon">様</span> </div><div class="meta">脱毛（全身）・ 前回 7/20</div></div><div class="r"><b>13:30</b>今日</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >と</div><div class="main"><div class="name">ともこ<span class="hon">様</span> <span class="badge phase">05 定着</span></div><div class="meta">痩身 ・ 今日 9:30</div></div><div class="r"><b>9:30</b>今日</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >あ</div><div class="main"><div class="name">あやの<span class="hon">様</span> <span class="badge phase">03 新規</span></div><div class="meta">フェイシャル ・ 今日 10:00 ・ 3 回目</div></div><div class="r"><b>10:00</b>今日</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >ゆ</div><div class="main"><div class="name">ゆか<span class="hon">様</span> <span class="badge phase">04 契約中</span></div><div class="meta">脱毛（全身）・ 前回 7/20</div></div><div class="r"><b>13:30</b>今日</div></a>
       </div></div>
       <div class="state-view" data-state="empty"><div class="empty"><h3>「みさ」に一致するお客様はいません</h3><p class="sub">新しいお客様として登録できます</p><a class="btn primary" href="#SCR-05">「みさ」で登録する</a></div></div>
       <div class="state-view" data-state="dup"><div class="noteband"><h3>重複の候補 18 組 <span class="badge scope">S2</span></h3><p class="sub">同じ人が別の入口から入っている可能性があります。<a href="#SCR-17">確認してまとめる</a></p></div></div>
@@ -527,9 +534,9 @@ main.stage.view-pc .phone.pc{width:1200px}
   <div class="phone">
     <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-04">お客様</a><i>›</i><b>みさき<span class="hon">様</span></b></p><a class="back" href="#SCR-04">‹</a><h1 style="font-size:var(--size-md);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.14em">お客様</h1></div>
     <div class="body" style="gap:18px">
-      <div class="person"><div class="mono">み</div><div><h1>みさき<span class="hon">様</span></h1><p class="meta">佐藤 美咲（さとう みさき）・ 2025年3月から ・ <u data-href="#SCR-05">編集</u></p><div class="rhythm"><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i class="next"></i></div></div></div>
+      <div class="person"><div class="mono">み</div><div><h1>みさき<span class="hon">様</span> <span class="badge phase">04 契約中</span></h1><p class="meta">佐藤 美咲（さとう みさき）・ 2025年3月から ・ <u data-href="#SCR-05">編集</u></p><div class="rhythm"><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i class="next"></i></div></div></div>
       <div class="stat"><div><b>12</b><span>来店</span></div><div><b>28<small style="font-size:11px">日</small></b><span>周期</span></div><div><b>10/8</b><span>次回予約</span></div></div>
-      <p class="meta" style="margin-top:-8px">獲得チャネル: Instagram DM（2025/3 初回） ・ 最近の予約: ホットペッパー ・ <u data-href="#SCR-05">編集</u></p>
+      <p class="meta" style="margin-top:-8px">フェーズ 04 契約中（残 6 回）は来店・契約・予約から自動判定 ・ 獲得チャネル: Instagram DM ・ 最近の予約: ホットペッパー ・ <u data-href="#SCR-05">編集</u></p>
       <div class="warnband">妊娠中（9/10 申告）・光過敏<div class="meta">安全上の警告 ・ <a href="#SCR-06" style="color:var(--main-700)">禁忌を編集</a></div></div>
       <div class="state-view" data-state="taboo"><div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.14em;color:var(--text-secondary);padding:10px 0 4px">禁忌・安全上の注意（フェイシャル・脱毛）</h3><div class="check"><span class="box on">✓</span>妊娠中・授乳中 <span class="meta">9/10 申告</span></div><div class="check"><span class="box on">✓</span>光過敏</div><div class="check"><span class="box"></span>服用中の薬</div><div class="check"><span class="box"></span>金属アレルギー</div><div class="check"><span class="box"></span>ケロイド体質</div><div class="field" style="padding:8px 0"><input class="input" placeholder="その他（自由記述）"></div><div class="row2" style="padding-bottom:10px"><a class="btn sm" href="#SCR-06">キャンセル</a><a class="btn sm" href="#SCR-06" style="background:var(--main-900);color:var(--background)">保存</a></div></div></div>
       <div class="noteband"><h3>今回気をつけること</h3><p>頬の赤みが出やすい。前回より圧を弱めに。乾燥を気にされているのでホームケアの話を。</p><p class="meta" style="margin-top:4px">9/10 の来店記録から ・ <u data-href="#SCR-06">編集</u></p></div>
@@ -610,7 +617,7 @@ main.stage.view-pc .phone.pc{width:1200px}
         <p class="sub">次につなげる3つ。空でも保存できます</p>
         <div class="field cand"><label class="label">次回への申し送り <span class="badge">候補</span></label><input class="input textarea" value="圧を弱めに。ホームケアの保湿を提案"><span class="hint">保存すると「今回気をつけること」に出ます</span></div>
         <div class="row2"><div class="field"><label class="label">次回予約日</label><input class="input" value="11/5（水）11:00"></div><div class="field"><label class="label">金額（任意）</label><input class="input" value="¥12,000"><div class="chips" style="margin-top:6px"><span class="chip on" style="min-height:30px;padding:2px 10px">施術</span><span class="chip" style="min-height:30px;padding:2px 10px">物販</span><span class="chip" style="min-height:30px;padding:2px 10px">コース購入</span><span class="chip" style="min-height:30px;padding:2px 10px">コース消化</span></div></div></div>
-        <div class="card" style="padding:4px 14px"><div class="check" style="border:0"><span class="box"></span><span>このご来店でコース契約が成立 <span class="badge kari">仮</span></span></div><p class="meta" style="padding-bottom:8px">体験のお客様で契約に進んだときにチェック。成約率に数えます。契約の回数・金額は「契約」（S2）で管理</p></div>
+        <div class="state-view" data-state="buy"><div class="hero light" style="padding:14px 16px"><div class="eyebrow"><span>コース購入 → 契約を登録</span></div><div class="row2" style="margin-top:10px"><div class="field"><label class="label">コース</label><input class="input" value="保湿10回コース"></div><div class="field"><label class="label">回数／期間</label><input class="input" value="10 回"></div></div><div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥98,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/10/08"></div></div><p class="meta" style="margin-top:6px">保存するとお客様のフェーズが「04 契約中」になります。有効期限・契約書の紐づけは「契約」（S2）で</p></div></div>
         <div class="field"><label class="label">予約経路（今回はどこから）</label><div class="chips"><span class="chip">Instagram DM</span><span class="chip on">ホットペッパー</span><span class="chip">LINE</span><span class="chip">紹介</span><span class="chip">飛び込み</span></div><span class="hint">前回と同じ「ホットペッパー」を既定に。この方の獲得チャネルは Instagram DM（初回）</span></div>
       </div>
 
@@ -633,7 +640,7 @@ main.stage.view-pc .phone.pc{width:1200px}
     <div class="fixed state-view" data-state="s1"><a class="btn primary block" href="#SCR-07">確認しました。記録へ</a></div>
     <div class="fixed state-view" data-state="s3"><a class="btn primary block" href="#SCR-07">保存する</a></div>
   </div>
-  <div class="statebar">ステップ: <button data-toggle="s1">1 確認</button><button data-toggle="s2" class="on">2 記録</button><button data-toggle="s3">3 次回</button><button data-toggle="done">完了</button><button data-toggle="view">過去の記録を開く</button>　<button data-toggle="error">候補未確定の確認</button><button data-toggle="consent">同意未取得（ステップ1）</button></div>
+  <div class="statebar">ステップ: <button data-toggle="s1">1 確認</button><button data-toggle="s2" class="on">2 記録</button><button data-toggle="s3">3 次回</button><button data-toggle="done">完了</button><button data-toggle="view">過去の記録を開く</button>　<button data-toggle="error">候補未確定の確認</button><button data-toggle="consent">同意未取得（ステップ1）</button><button data-toggle="buy">コース購入（ステップ3）</button></div>
 </section>
 
 <!-- ================= SCR-08 ================= -->
@@ -777,7 +784,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <div class="card"><h3>担当限定</h3><div style="display:flex;justify-content:space-between;align-items:center"><span class="sub">スタッフは担当顧客のみ閲覧</span><span class="toggle"><i></i></span></div><p class="meta">既定はオフ。店の全員が全顧客を見られます</p></div>
       <div class="card"><h3>お客様への文面に含めない項目</h3><p class="sub">肌の状態の詳細 ・ 既往歴</p></div>
       <a class="btn sm block" href="#SCR-12">写真・書類の原本も含めてすべて持ち出す <span class="badge scope">S2</span></a><p class="meta">CSV と原本ファイルの一式。準備ができたら 7 日有効のリンクが届きます</p></div>
-      <div class="state-view" data-state="salon"><p class="meta"><a href="#SCR-12">‹ 設定</a></p><p class="q">サロン</p><div class="field"><label class="label">サロン名</label><input class="input" value="Salon Lumière"></div><div class="field"><label class="label">施術</label><div class="chips"><span class="chip on">フェイシャル</span><span class="chip">痩身</span><span class="chip on">脱毛</span><span class="chip">眉毛</span></div></div><div class="field"><label class="label">使っているもの</label><div class="chips"><span class="chip on">予約サイト</span><span class="chip on">LINE のフォーム</span><span class="chip on">紙カルテ</span><span class="chip">紙の同意書</span></div></div><div class="field"><label class="label">チャネルリスト（獲得チャネル／予約経路の選択肢）</label><div class="chips"><span class="chip on">Instagram DM</span><span class="chip on">ホットペッパー</span><span class="chip on">LINE</span><span class="chip on">Google</span><span class="chip on">紹介</span><span class="chip on">チラシ</span><span class="chip on">飛び込み</span><span class="chip on">不明</span><span class="chip" style="border-style:dashed">＋ 追加</span></div><span class="hint">名前の変更・非表示ができます。過去の値は残ります</span></div></div>
+      <div class="state-view" data-state="salon"><p class="meta"><a href="#SCR-12">‹ 設定</a></p><p class="q">サロン</p><div class="field"><label class="label">サロン名</label><input class="input" value="Salon Lumière"></div><div class="field"><label class="label">施術</label><div class="chips"><span class="chip on">フェイシャル</span><span class="chip">痩身</span><span class="chip on">脱毛</span><span class="chip">眉毛</span></div></div><div class="field"><label class="label">使っているもの</label><div class="chips"><span class="chip on">予約サイト</span><span class="chip on">LINE のフォーム</span><span class="chip on">紙カルテ</span><span class="chip">紙の同意書</span></div></div><div class="field"><label class="label">チャネルリスト（獲得チャネル／予約経路の選択肢）</label><div class="chips"><span class="chip on">Instagram DM</span><span class="chip on">ホットペッパー</span><span class="chip on">LINE</span><span class="chip on">Google</span><span class="chip on">紹介</span><span class="chip on">チラシ</span><span class="chip on">飛び込み</span><span class="chip on">不明</span><span class="chip" style="border-style:dashed">＋ 追加</span></div><span class="hint">名前の変更・非表示ができます。過去の値は残ります</span></div><div class="field"><label class="label">顧客フェーズの基準（自動判定）</label><div class="kv" style="margin-top:4px"><span>02 体験の提案期限</span><b>60 日</b><span>05 定着とみなす来店回数</span><b>3 回</b><span>92 離反リスク</span><b>周期 × 1.5 を超えたら</b><span>93 休眠</span><b>周期 × 3 を超えたら（上限 180 日）</b></div><span class="hint">フェーズは来店・契約・予約の事実から自動で決まります。手で変えられるのは「99 来店停止」だけです</span></div></div>
     </div>
     <nav class="tabbar"><a href="#SCR-03" class=""><span class="ic"></span>今日</a><a href="#SCR-04" class=""><span class="ic"></span>お客様</a><a href="#SCR-27" class="action"><span class="plus">＋</span>記録</a><a href="#SCR-22" class="" style="opacity:.45"><span class="ic"></span><span style="white-space:nowrap">声かけ <span class="badge scope" style="margin-left:2px;padding:0 3px">S3</span></span></a><a href="#SCR-12" class="on"><span class="ic"></span>設定</a></nav></div>
   <div class="statebar">画面: <button data-toggle="menu" class="on">一覧</button><button data-toggle="items">カルテの項目</button><button data-toggle="staff">スタッフ</button><button data-toggle="menu2">メニュー S2</button><button data-toggle="line">LINE S2</button><button data-toggle="data">データ</button><button data-toggle="salon">サロン</button></div>
@@ -1002,10 +1009,10 @@ main.stage.view-pc .phone.pc{width:1200px}
       <div class="state-view on" data-state="normal"><div class="hero"><div class="eyebrow"><span>今週声をかける人</span><span>10/6 〜 10/12</span></div><h2>4<span style="font-size:var(--size-lg)"> 人</span></h2><p class="meta" style="color:var(--main-300)">メニューの周期から。次回予約のある方は除いています</p><div class="line"></div><p class="meta" style="color:var(--main-300)">先週の声かけ 5 人 → 再来店 3 人</p></div>
       <div class="chips"><span class="chip on">今週 4</span><span class="chip">来週 6</span><span class="chip">過ぎている 9</span></div>
       <div style="border-top:var(--border)">
-        <a class="row" href="#SCR-06"><div class="mono" >と</div><div class="main"><div class="name">ともこ<span class="hon">様</span></div><div class="meta">前回 9/8 フェイシャル ・ 周期 28 日<br>根拠: ご本人の平均間隔 29 日</div></div><div class="r"><b>10/6</b>推奨</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >と</div><div class="main"><div class="name">ともこ<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">前回 9/8 フェイシャル ・ 周期 28 日 ・ 次回予約なし<br>根拠: ご本人の平均間隔 29 日</div></div><div class="r"><b>10/6</b>推奨</div></a>
         <div style="display:flex;gap:8px;padding:0 0 12px 58px;border-bottom:var(--border)"><a class="btn sm" href="#SCR-21" style="height:40px;flex:1">LINE で送る</a><a class="btn sm" href="#SCR-22" style="height:40px;flex:1">声かけ済み</a></div>
-        <a class="row" href="#SCR-06"><div class="mono" >ゆ</div><div class="main"><div class="name">ゆか<span class="hon">様</span></div><div class="meta">前回 8/10 脱毛（全身）・ 周期 60 日<br>根拠: メニューの周期</div></div><div class="r"><b>10/9</b>推奨</div></a>
-        <a class="row" href="#SCR-06"><div class="mono" >あ</div><div class="main"><div class="name">あやの<span class="hon">様</span></div><div class="meta">前回 9/12 フェイシャル ・ <span style="color:var(--error)">周期 既定 30 日</span><br>根拠: メニューに周期が未設定 ・ <u data-href="#SCR-12">設定</u></div></div><div class="r"><b>10/12</b>推奨</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >ゆ</div><div class="main"><div class="name">ゆか<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">前回 8/10 脱毛（全身）・ 周期 60 日 ・ 次回予約なし<br>根拠: メニューの周期</div></div><div class="r"><b>10/9</b>推奨</div></a>
+        <a class="row" href="#SCR-06"><div class="mono" >あ</div><div class="main"><div class="name">あやの<span class="hon">様</span> <span class="badge phase">02 体験中 46 日</span></div><div class="meta">8/27 体験（フェイシャル）・ 本契約の提案期限まで 14 日<br>根拠: 体験から 45 日超で声かけ対象</div></div><div class="r"><b>10/12</b>推奨</div></a>
       </div></div>
       <div class="state-view" data-state="empty"><div class="empty"><h3>今週声をかける方はいません</h3><p class="sub">来週は 6 人います。</p></div></div>
     </div>
@@ -1021,9 +1028,12 @@ main.stage.view-pc .phone.pc{width:1200px}
     <div class="body" style="gap:18px">
       <div class="chips"><span class="chip on">直近3か月</span><span class="chip">直近6か月</span><span class="chip">今年</span></div>
       <div class="state-view on" data-state="normal"><div class="insight"><div class="eyebrow">今期のひとこと <span class="badge" style="border-color:var(--main-300);color:var(--main-300)">候補</span></div><p>ホットペッパーで獲得した顧客は成約率 35%・再来率 48% と他チャネルの半分近く。一方 Instagram で知った人の 6 割がその後ホットペッパーで予約している。Instagram からの初回を LINE 予約に誘導すると、送付と声かけが届く顧客が増える。</p><div class="meta">根拠: 獲得チャネル別の成約率・再来率、予約経路の移動、送付済み顧客の再来率 81%</div></div>
+      <span class="label">顧客フェーズのファネル（直近3か月に 01 見込みになった 61 人）</span>
+      <div class="funnel"><div class="st"><b>61</b><span>01 見込み</span></div><div class="ar">→<br>74%</div><div class="st"><b>45</b><span>02 体験中</span></div><div class="ar">→<br>42%</div><div class="st"><b>19</b><span>04 契約中</span></div><div class="ar">→<br>—</div><div class="st"><b>12</b><span>05 定着</span></div></div>
+      <p class="meta">91 体験離脱 11 人（24%）・ 03 新規 14 人 ・ 92 離反リスク 9 人（先月から復帰 3 人）・ 93 休眠 23 人。フェーズは来店・契約・予約の事実から自動判定</p>
       <div class="kpi">
         <div class="card"><span class="label">周期内再来率</span><b>68%</b><span class="delta">前期 61% → +7</span><div class="spark"><i style="height:50%"></i><i style="height:55%"></i><i style="height:61%"></i><i style="height:68%" class=hi></i></div></div>
-        <div class="card"><span class="label">体験からの成約率</span><b>42%</b><span class="delta">体験 19 人 ・ 60 日以内 ・ 体験→再来 63%</span><div class="spark"><i style="height:30%"></i><i style="height:38%"></i><i style="height:35%"></i><i style="height:42%" class=hi></i></div></div>
+        <div class="card"><span class="label">体験からの成約率</span><b>42%</b><span class="delta">02 体験中 → 04 契約中 ・ 60 日以内</span><div class="spark"><i style="height:30%"></i><i style="height:38%"></i><i style="height:35%"></i><i style="height:42%" class=hi></i></div></div>
         <div class="card"><span class="label">次回予約率</span><b>54%</b><span class="delta">来店 212 件</span><div class="spark"><i style="height:40%"></i><i style="height:46%"></i><i style="height:50%"></i><i style="height:54%" class=hi></i></div></div>
         <div class="card"><span class="label">客単価</span><b>¥11.8k</b><span class="delta">母数 38 件（18%）</span><div class="spark"><i style="height:60%"></i><i style="height:62%"></i><i style="height:58%"></i><i style="height:64%" class=hi></i></div></div>
       </div>
@@ -1170,7 +1180,7 @@ main.stage.view-pc .phone.pc{width:1200px}
   var qs=new URLSearchParams(location.search).get('state'); if(qs){setTimeout(function(){var sec=document.querySelector('section.screen.active'); if(!sec)return; var b=sec.querySelector('.statebar button[data-toggle="'+qs+'"]'); if(b) b.click();},0);}
   var qv=new URLSearchParams(location.search).get('v'); if(qv==='tablet'||qv==='pc'){document.querySelector('main.stage').classList.add('view-'+qv);document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-view')===qv);});}
   // 状態切り替え: 「排他」グループと「重ねる」グループ
-  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','ext'],'SCR-04':['dup'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo'],'SCR-07':['error','consent'],'SCR-08':['limit'],'SCR-10':['add','error'],'SCR-13':['add'],'SCR-14':['error','done'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error'],'SCR-21':['limit','sent'],'SCR-26':[]};
+  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','ext'],'SCR-04':['dup'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo'],'SCR-07':['error','consent','buy'],'SCR-08':['limit'],'SCR-10':['add','error'],'SCR-13':['add'],'SCR-14':['error','done'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error'],'SCR-21':['limit','sent'],'SCR-26':[]};
   document.querySelectorAll('.statebar button').forEach(function(b){
     b.addEventListener('click',function(){
       var sec=b.closest('section'); var st=b.getAttribute('data-toggle');
