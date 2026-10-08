@@ -447,7 +447,7 @@ main.stage.view-pc .phone.pc{width:1200px}
         <span class="label">あとで</span>
         <div class="list">
           <div class="item" style="flex-direction:column;align-items:stretch;gap:8px"><div class="name">昨日の予定 ・ かなこ<span class="hon">様</span> 15:00 <span class="badge phase">03 新規</span></div><div class="meta">来店記録がありません。どうなりましたか？</div><div class="row2"><a class="btn sm" href="#SCR-07" style="height:36px">来店した</a><a class="btn sm" href="#SCR-27" style="height:36px">日程変更</a><a class="btn sm" href="#SCR-03" style="height:36px;border-color:var(--error);color:var(--error)">キャンセル</a></div></div>
-          <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="main"><div class="name">記録がまだ <span class="count">2</span></div><div class="meta">昨日のあやのさん・10/5 のともこさん</div></div><span class="chev">›</span></a>
+          <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="main"><div class="name">記録がまだ <span class="count">2</span></div><div class="meta">昨日 あやの ・ 10/5 ともこ</div></div><span class="chev">›</span></a>
           <a class="item" href="#SCR-09" style="text-decoration:none;color:inherit"><div class="main"><div class="name">確認待ち <span class="count">1</span></div><div class="meta">音声メモの読み取りができました</div></div><span class="chev">›</span></a>
           <a class="item" href="#SCR-15" style="text-decoration:none;color:inherit"><div class="main"><div class="name">未処理の回答 <span class="count">1</span> <span class="badge scope">S2</span></div><div class="meta">かなこ さま ・ LINE から</div></div><span class="chev">›</span></a>
         </div>
@@ -588,7 +588,7 @@ main.stage.view-pc .phone.pc{width:1200px}
   <div class="phone">
     <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>来店記録</b></p><a class="back" href="#SCR-06">‹</a><h1 style="font-size:var(--size-lg)">みさき<span class="hon">様</span> <span class="meta" style="font-family:var(--font-body)">10/8 ・ 施術者 <u data-href="#SCR-07">佐藤</u></span></h1><a class="right" href="#SCR-03">あとで</a></div>
     <div class="body" style="gap:18px">
-      <div class="steps"><b>1 確認</b><i class="done"></i><b>2 記録</b><i></i><span>3 会計・次回</span></div>
+      <div class="steps" id="scr07steps"><b>1 確認</b><i class="done"></i><b>2 記録</b><i></i><span>3 会計・次回</span></div>
 
       <div class="state-view" data-state="s1">
         <p class="sub">施術の前に。チェックするだけです</p>
@@ -871,7 +871,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <p class="meta">取り込むと体調の申告は「安全上の警告」に、LINE の ID はこの方に紐づきます。<a href="#SCR-15">回答を破棄</a></p>
     </div>
     <div class="fixed"><a class="btn primary block" href="#SCR-06">かなこ<span class="hon">様</span>に取り込む</a></div></div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">候補あり</button></div>
+  
 </section>
 
 <!-- ================= SCR-16 ================= -->
@@ -969,7 +969,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <div class="hero light"><div class="eyebrow"><span>契約の候補</span></div><h2 style="font-size:var(--size-lg)">保湿10回コース</h2><p class="meta">¥98,000 ・ 契約日 7/15 ・ 有効期限 2027/1/15 ・ 回数制 10 回</p><div class="acts"><a class="btn primary" href="#SCR-20" style="background:var(--main-900);color:var(--background)">この内容で契約を登録</a></div></div>
     </div>
     <div class="fixed"><a class="btn primary block" href="#SCR-06">反映する</a></div></div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">契約書</button></div>
+  
 </section>
 
 <!-- ================= SCR-20 ================= -->
@@ -1069,7 +1069,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <p class="meta">この操作は取り消せません。同じ電話番号で登録し直しても、過去の記録は戻りません。</p>
     </div>
     <div class="fixed"><a class="btn primary block danger" href="#SCR-04">削除する</a></div></div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">確認</button></div>
+  
 </section>
 
 <!-- ================= SCR-25 ================= -->
@@ -1089,7 +1089,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <p class="meta" style="text-align:center"><a href="#SCR-12">振り直さずに停止</a></p>
     </div>
     <div class="fixed"><a class="btn primary block" href="#SCR-12">停止して引き継ぐ</a></div></div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">通常</button></div>
+  
 </section>
 
 <!-- ================= SCR-26 ================= -->
@@ -1107,7 +1107,7 @@ main.stage.view-pc .phone.pc{width:1200px}
         <div style="display:flex;flex-direction:column;gap:12px"><span class="label">獲得チャネル別</span><table class="grid"><tr><th>チャネル</th><th>顧客</th><th>成約率</th><th>再来率</th></tr><tr><td>Instagram DM</td><td>18</td><td>50%</td><td>74%</td></tr><tr><td>ホットペッパー</td><td>31</td><td>35%</td><td>48%</td></tr><tr><td>LINE</td><td>22</td><td>45%</td><td>72%</td></tr><tr><td>紹介</td><td>9</td><td>67%</td><td>89%</td></tr></table><div class="insight"><div class="eyebrow">コンサルのメモ</div><p>予約サイト経由の再来率が低い。初回の LINE 案内を一緒に設計する。</p></div></div>
       </div>
     </div></div>
-  <div class="statebar">状態: <button data-toggle="normal" class="on">通常</button></div>
+  
 </section>
 
 <!-- ================= SCR-27 ================= -->
@@ -1217,6 +1217,17 @@ main.stage.view-pc .phone.pc{width:1200px}
       sec.querySelectorAll('.statebar button').forEach(function(x){ if((OVERLAY[sec.id]||[]).indexOf(x.getAttribute('data-toggle'))>=0) return; x.classList.toggle('on',x===b);});
     });
   });
+
+  // SCR-07: ステップ表示を状態と連動させる
+  function renderSteps(st){var el=document.getElementById('scr07steps'); if(!el) return;
+    var n={s1:1,s2:2,s3:3,done:4,view:0}[st]; if(n===undefined) return;
+    if(n===0){el.innerHTML='<span>過去の記録</span>'; return;}
+    var names=['1 確認','2 記録','3 会計・次回']; var h='';
+    names.forEach(function(nm,i){var idx=i+1; h+=(idx<=n?'<b>'+nm+'</b>':'<span>'+nm+'</span>'); if(i<2) h+='<i class="'+(idx<n?'done':'')+'"></i>';});
+    if(n===4) h+='<i class="done"></i><b>完了</b>';
+    el.innerHTML=h;}
+  document.querySelectorAll('#SCR-07 .statebar button').forEach(function(b){b.addEventListener('click',function(){renderSteps(b.getAttribute('data-toggle'));});});
+  renderSteps('s2');
   // SCR-06 のタブ・SCR-12 のメニュー遷移（モック用）
   document.querySelectorAll('[data-seg]').forEach(function(t){t.addEventListener('click',function(){var sec=t.closest('section');var k=t.getAttribute('data-seg');sec.querySelectorAll('[data-seg]').forEach(function(x){x.classList.toggle('on',x===t)});sec.querySelectorAll('.state-view').forEach(function(v){var s=v.getAttribute('data-state'); if(['rec','photo','doc','contract','consent','empty'].indexOf(s)>=0) v.classList.toggle('on',s===k);});});});
   document.querySelectorAll('[data-go]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var sec=a.closest('section');var k=a.getAttribute('data-go');sec.querySelectorAll('.state-view').forEach(function(v){v.classList.toggle('on',v.getAttribute('data-state')===k)});sec.querySelectorAll('.statebar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-toggle')===k)});});});
