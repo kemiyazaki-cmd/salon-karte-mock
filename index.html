@@ -139,6 +139,7 @@ table.grid th{color:var(--text-secondary);font-weight:var(--w-medium);font-size:
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .summary .card b{font-size:34px;font-family:var(--font-heading);display:block;font-weight:var(--w-light);letter-spacing:.04em;line-height:1.3}
 .state-view{display:none}.state-view.on{display:block}
+.state-view.on[data-state="login"]{display:flex;flex-direction:column;gap:18px}
 .badge.scope{border-color:var(--text-meta);color:var(--text-meta);font-size:10px;padding:0 5px}
 .btn.danger{border-color:var(--error);color:var(--error)}
 .btn.danger.primary{background:var(--error);border-color:var(--error);color:var(--background)}
@@ -476,8 +477,9 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
   <p class="screen-title"><b>SCR-01 ログイン</b> ／ FUNC-02 ・ パスワード方式 + 端末記憶</p>
   <div class="phone ">
     <div class="body nofix" style="justify-content:center;gap:28px">
-      <div style="text-align:center;padding:12px 0 0"><p class="meta" style="letter-spacing:.4em">SALONOTE</p><h1 style="font-weight:300;letter-spacing:.14em;margin-top:10px">ログイン</h1></div>
-      <div style="display:flex;flex-direction:column;gap:18px">
+      <div style="text-align:center;padding:12px 0 0"><p class="meta" style="letter-spacing:.4em">SALONOTE</p></div>
+      <div class="state-view on" data-state="login" data-group="auth">
+        <h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:6px">ログイン</h1>
         <div class="field"><label class="label">メールアドレス</label><input class="input" value="misaki@salon-lumiere.jp"></div>
         <div class="field"><label class="label">パスワード</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div><div class="state-view" data-state="error"><span class="err">メールアドレスかパスワードが違います。忘れた場合は下のリンクから再設定できます</span></div></div>
         <div style="display:flex;justify-content:space-between;align-items:center"><span class="sub">この端末を記憶する</span><span class="toggle on"><i></i></span></div>
@@ -486,11 +488,11 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       </div>
       <div class="state-view" data-state="reset"><div class="card"><h3>再設定のリンクを送りました</h3><p class="sub">misaki@salon-lumiere.jp に届いたリンクから新しいパスワードを設定してください。</p></div></div>
       <div class="state-view" data-state="newpw"><div class="card" style="display:flex;flex-direction:column;gap:12px"><h3>新しいパスワード</h3><div class="field"><label class="label">新しいパスワード（8文字以上）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><div class="field"><label class="label">もう一度</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-03"><svg class="i"><use href="#i-log-in"/></svg>設定してログイン</a></div></div>
-      <div class="state-view" data-state="invite"><div class="card" style="display:flex;flex-direction:column;gap:12px"><span class="label">招待されています</span><h3 style="font-size:var(--size-lg)">Salon Lumière</h3><p class="sub">オーナーとして ・ 招待した人: 山本（スクール）・ 10/14 まで有効</p><div class="field"><label class="label">お名前</label><input class="input" value="佐藤 美咲"></div><div class="field"><label class="label">パスワード（8文字以上）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-02"><svg class="i"><use href="#i-log-in"/></svg>入る（初期設定へ）</a><p class="meta">スタッフとして招待された場合は、初期設定なしでそのまま「今日」の画面に入ります</p></div></div>
-      <div class="state-view" data-state="expired"><div class="card"><h3 style="color:var(--error)">招待の期限が切れています</h3><p class="sub">山本さん（スクール）に再送を頼んでください。再送されると新しいリンクが届きます。</p></div></div>
+      <div class="state-view" data-state="invite" data-group="auth"><h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card" style="display:flex;flex-direction:column;gap:12px"><h3 style="font-size:var(--size-lg)">Salon Lumière</h3><p class="sub">オーナーとして ・ 招待した人: 山本（スクール）・ 10/14 まで有効</p><div class="field"><label class="label">お名前</label><input class="input" value="佐藤 美咲"></div><div class="field"><label class="label">パスワード（8文字以上）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-02"><svg class="i"><use href="#i-log-in"/></svg>入る（初期設定へ）</a><p class="meta">スタッフとして招待された場合は、初期設定なしでそのまま「今日」の画面に入ります</p></div></div>
+      <div class="state-view" data-state="expired" data-group="auth"><h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card"><h3 style="color:var(--error)">招待の期限が切れています</h3><p class="sub">山本さん（スクール）に再送を頼んでください。再送されると新しいリンクが届きます。</p></div></div>
       <div class="state-view" data-state="locked"><div class="card"><h3 style="color:var(--error)">しばらく時間をおいてください</h3><p class="sub">パスワードの入力を続けて間違えたため、10分間ログインできません。</p></div></div>
     </div></div>
-  <div class="statebar">状態: <button data-toggle="error">パスワード不一致</button><button data-toggle="reset">再設定リンク送信後</button><button data-toggle="newpw">新しいパスワードを設定</button><button data-toggle="locked">連続失敗でロック</button><button data-toggle="invite">招待の受諾</button><button data-toggle="expired">招待の期限切れ</button></div>
+  <div class="statebar">画面: <button data-toggle="login" class="on">ログイン</button><button data-toggle="invite">招待の受諾</button><button data-toggle="expired">招待の期限切れ</button>　重ねる: <button data-toggle="error">パスワード不一致</button><button data-toggle="reset">再設定リンク送信後</button><button data-toggle="newpw">新しいパスワードを設定</button><button data-toggle="locked">連続失敗でロック</button></div>
 </section>
 
 <!-- ================= SCR-02 ================= -->
@@ -1367,7 +1369,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
   var qs=new URLSearchParams(location.search).get('state'); if(qs){setTimeout(function(){var sec=document.querySelector('section.screen.active'); if(!sec)return; var b=sec.querySelector('.statebar button[data-toggle="'+qs+'"]'); if(b) b.click();},0);}
   var qv=new URLSearchParams(location.search).get('v'); if(qv==='tablet'||qv==='pc'){document.querySelector('main.stage').classList.add('view-'+qv);document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-view')===qv);});}
   // 状態切り替え: 「排他」グループと「重ねる」グループ
-  var OVERLAY={'SCR-01':['error','reset','locked','newpw','invite','expired'],'SCR-02':['error'],'SCR-03':['limit','ext'],'SCR-04':['dup'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo'],'SCR-07':['error','consent','buy'],'SCR-08':['limit'],'SCR-10':['add','error'],'SCR-13':['add'],'SCR-14':['error','done'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error'],'SCR-21':['limit','sent'],'SCR-26':[]};
+  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','ext'],'SCR-04':['dup'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo'],'SCR-07':['error','consent','buy'],'SCR-08':['limit'],'SCR-10':['add','error'],'SCR-13':['add'],'SCR-14':['error','done'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error'],'SCR-21':['limit','sent'],'SCR-26':[]};
   document.querySelectorAll('.statebar button').forEach(function(b){
     b.addEventListener('click',function(){
       var sec=b.closest('section'); var st=b.getAttribute('data-toggle');
