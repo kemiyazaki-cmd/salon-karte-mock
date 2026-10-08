@@ -762,6 +762,7 @@ main.stage.view-pc .phone.pc{width:1200px}
       <div class="state-view" data-state="line"><p class="meta"><a href="#SCR-12">‹ 設定</a></p><p class="q">LINE 公式アカウント</p>
       <div class="kpi"><div class="card"><span class="label">今月の送信</span><b>126</b><span class="delta">/ 5,000 通</span></div><div class="card"><span class="label">友だち（未紐づけ）</span><b>3</b><span class="delta">人 ・ 回答待ち</span></div></div>
       <div class="card kv"><span>アカウント</span><b>@salon-lumiere</b><span>問診フォーム</span><b>LINE 内で開く ・ 有効</b><span>施術内容の送付</span><b>LINE で送る ・ 有効</b></div>
+        <div class="card"><h3>問診フォームのリンクと QR</h3><div style="display:flex;gap:14px;align-items:center;margin-top:8px"><div style="width:84px;height:84px;background:repeating-linear-gradient(90deg,var(--main-900) 0 6px,transparent 6px 12px),repeating-linear-gradient(0deg,var(--main-900) 0 6px,transparent 6px 12px);background-blend-mode:multiply;border:1px solid var(--main-300)"></div><div style="flex:1"><p class="sub" style="word-break:break-all">karte.example.jp/f/salon-lumiere</p><div class="row2" style="margin-top:8px"><a class="btn sm" href="#SCR-12" style="height:36px">リンクをコピー</a><a class="btn sm" href="#SCR-12" style="height:36px">QR を保存</a></div></div></div><p class="meta" style="margin-top:8px">LINE のリッチメニューや店頭に置きます。LINE 未接続でもこのリンクは使えます</p></div>
       <a class="btn sm block" href="#SCR-12">接続を解除</a><p class="meta">未接続でもフォームはリンクで、送付はコピーで使えます</p></div>
       <div class="state-view" data-state="data"><p class="meta"><a href="#SCR-12">‹ 設定</a></p><p class="q">データ</p>
       <div class="card"><h3>CSV でダウンロード</h3><p class="sub">Excel やスプレッドシートで開けます</p><div class="row2" style="margin-top:10px"><a class="btn sm" href="#SCR-12">顧客データ（48 人）</a><a class="btn sm" href="#SCR-12">来店データ（212 件）</a></div><p class="meta" style="margin-top:8px">期間: <span class="chip on" style="min-height:28px;padding:2px 10px">すべて</span> <span class="chip" style="min-height:28px;padding:2px 10px">今年</span> <span class="chip" style="min-height:28px;padding:2px 10px">直近3か月</span></p></div>
@@ -816,9 +817,10 @@ main.stage.view-pc .phone.pc{width:1200px}
 
 <!-- ================= SCR-14 ================= -->
 <section class="screen" id="SCR-14">
-  <p class="screen-title"><b>SCR-14 お客様向け問診フォーム</b> ／ FUNC-10, 15, 27 ・ S2 ・ 公開画面。1テーマ1カード、進みが見える</p>
+  <p class="screen-title"><b>SCR-14 お客様向け問診フォーム</b> ／ FUNC-10, 15, 27 ・ S2 ・ <b>お客様のスマホで開く公開 Web ページ（アプリ外・ログイン不要）</b>。LINE のリンクや店頭の QR から。来店時はサロンのタブレットを渡してもよい</p>
   <div class="phone ">
-    <div class="body nofix" style="gap:18px;padding-top:28px">
+    <div style="background:#E9E3D8;padding:8px 14px;font-size:var(--size-xs);color:var(--text-meta);display:flex;align-items:center;gap:8px;border-bottom:1px solid #CFC5B5"><span style="width:10px;height:10px;border:1px solid var(--text-meta);border-radius:50%"></span><span style="flex:1;letter-spacing:.04em">karte.example.jp/f/salon-lumiere</span><span>お客様のブラウザ</span></div>
+    <div class="body nofix" style="gap:18px;padding-top:20px">
       <div style="text-align:center"><p class="meta" style="letter-spacing:.3em">SALON LUMIÈRE</p><h1 style="font-size:var(--size-lg);margin-top:8px">ご来店前にお伺いします</h1><p class="sub">3分ほどで終わります</p></div>
       <div class="dotsteps" style="justify-content:center"><i class="on"></i><i></i><i></i><i></i></div>
       <div class="card" style="display:flex;flex-direction:column;gap:14px"><span class="label">1 / 4 ・ お名前</span><div class="field"><label class="label">お名前</label><input class="input" placeholder="例: 佐藤 美咲"></div><div class="field"><label class="label">ふりがな</label><input class="input"></div><div class="field"><label class="label">お電話番号</label><input class="input"></div></div>
