@@ -153,21 +153,21 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
   <section class="stack" aria-labelledby="s-scale">
     <h2 id="s-scale">何店から黒字になるか</h2>
     <p class="note">全店がスクール生プラン（2,980 円）で、普段の使い方をした場合の、事業全体の 1 か月の利益。固定費は店舗数によって 1.0〜1.7 万円。</p>
-    <div class="callout"><b>時点復旧とは:</b> データベースを、過去 7 日のうちの好きな時刻（秒単位）の状態に戻せる機能です。月 1.5 万円かかります。これが無くても 1 日 1 回のバックアップは取られますが、壊れたときに戻せるのは前回のバックアップの時点までなので、<strong>最大で約 1 日分の記録が消えます</strong>（その日の来店記録・写真の紐づけなど）。</div>
+    <div class="callout"><b>直前まで戻せるバックアップとは:</b> データベースを、過去 7 日のうちの好きな時刻（秒単位）の状態に戻せる機能です。月 1.5 万円かかります。これが無くても 1 日 1 回のバックアップは取られますが、壊れたときに戻せるのは前回のバックアップの時点までなので、<strong>最大で約 1 日分の記録が消えます</strong>（その日の来店記録・写真の紐づけなど）。</div>
     <div class="chart">
-      <div class="legend"><span><i class="sw"></i>時点復旧なし</span><span><i class="sw dash"></i>時点復旧あり（月 1.5 万円）</span></div>
-      <svg id="scale" viewBox="0 0 700 300" width="100%" role="img" aria-label="店舗数 1 から 30 店までの月の利益。時点復旧なしは 4 店で黒字、ありは 10 店前後で黒字。"></svg>
+      <div class="legend"><span><i class="sw"></i>直前まで戻せるバックアップなし</span><span><i class="sw dash"></i>直前まで戻せるバックアップあり（月 1.5 万円）</span></div>
+      <svg id="scale" viewBox="0 0 700 300" width="100%" role="img" aria-label="店舗数 1 から 30 店までの月の利益。直前まで戻せるバックアップなしは 4 店で黒字、ありは 10 店前後で黒字。"></svg>
     </div>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>時点復旧</th><th>普段の使い方</th><th>無料枠の会話録音も使い切る</th></tr></thead>
+        <thead><tr><th>直前まで戻せるバックアップ</th><th>普段の使い方</th><th>無料枠の会話録音も使い切る</th></tr></thead>
         <tbody>
           <tr><td>なし</td><td class="strong">4 店から黒字</td><td class="strong">5 店から黒字</td></tr>
           <tr><td>あり</td><td class="strong">13 店から黒字</td><td class="strong">15 店から黒字</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">時点復旧は、生徒の店が 15 店を超えたところで入れれば、どの段階でもマイナスになりません。それまでは 1 日 1 回のバックアップ（7 日分）で運用し、「最大 1 日分が消えうる」ことを利用規約に書きます。最初から入れるかどうかも決めてほしいことの一つです。</p>
+    <p class="note">直前まで戻せるバックアップは、生徒の店が 15 店を超えたところで入れれば、どの段階でもマイナスになりません。それまでは 1 日 1 回のバックアップ（7 日分）で運用し、「最大 1 日分が消えうる」ことを利用規約に書きます。最初から入れるかどうかも決めてほしいことの一つです。</p>
   </section>
 
   <section class="stack" aria-labelledby="s-diff">
@@ -192,7 +192,7 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
       <li><b>会話録音の扱い</b><span>無料枠（基本 15 回・スクール生 10 回）と、超えた分の 1 回 150 円・20 回 2,980 円でよいか。精度を確かめた後に確定します。</span></li>
       <li><b>AI の上限を超えたとき</b><span>「止める」と「続けて従量で払う」のどちらを既定にするか。</span></li>
       <li><b>初期費用</b><span>0 円にし、導入の伴走を別メニューにしてよいか。</span></li>
-      <li><b>時点復旧をいつ入れるか</b><span>最初から入れる（黒字化が 4 店 → 13 店に延びる）か、15 店を超えてから入れるか。</span></li>
+      <li><b>直前まで戻せるバックアップをいつ入れるか</b><span>最初から入れる（黒字化が 4 店 → 13 店に延びる）か、15 店を超えてから入れるか。</span></li>
     </ol>
   </section>
 
