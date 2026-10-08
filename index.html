@@ -580,11 +580,11 @@ main.stage.view-pc .phone.pc{width:1200px}
 
 <!-- ================= SCR-07 ================= -->
 <section class="screen" id="SCR-07">
-  <p class="screen-title"><b>SCR-07 来店記録（確認 → 記録 → 次回）</b> ／ FUNC-04, 05, 07, 13 ・ 長いフォームではなく3ステップの会話</p>
+  <p class="screen-title"><b>SCR-07 来店記録（確認 → 記録 → 会計・次回）</b> ／ FUNC-04, 05, 07, 13 ・ 長いフォームではなく3ステップの会話</p>
   <div class="phone">
     <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>来店記録</b></p><a class="back" href="#SCR-06">‹</a><h1 style="font-size:var(--size-lg)">みさき<span class="hon">様</span> <span class="meta" style="font-family:var(--font-body)">10/8 ・ 施術者 <u data-href="#SCR-07">佐藤</u></span></h1><a class="right" href="#SCR-03">あとで</a></div>
     <div class="body" style="gap:18px">
-      <div class="steps"><b>1 確認</b><i class="done"></i><b>2 記録</b><i></i><span>3 次回</span></div>
+      <div class="steps"><b>1 確認</b><i class="done"></i><b>2 記録</b><i></i><span>3 会計・次回</span></div>
 
       <div class="state-view" data-state="s1">
         <p class="sub">施術の前に。チェックするだけです</p>
@@ -595,6 +595,7 @@ main.stage.view-pc .phone.pc{width:1200px}
         <div class="card" style="padding:4px 16px">
           <div class="edit"><span class="label">来店種別 <span class="badge kari">仮</span></span><div class="val"><span class="segm"><span class="on">通常</span><span>体験</span></span></div><span class="hint">初回のお客様は「体験」を選べます</span></div>
           <div class="edit"><span class="label">メニュー</span><div class="val"><span>フェイシャル（保湿）</span><span class="chev">›</span></div></div>
+          <div class="edit"><span class="label">予約経路（今回はどこから）</span><div class="val"><div class="chips"><span class="chip">Instagram DM</span><span class="chip on">ホットペッパー</span><span class="chip">LINE</span><span class="chip">紹介</span><span class="chip">飛び込み</span></div></div><span class="hint">前回と同じ「ホットペッパー」を既定に。この方の獲得チャネルは Instagram DM（初回）</span></div>
           <div class="edit"><span class="label">コースの消化 <span class="badge scope">S2</span></span><div class="val"><span>保湿10回コース <span class="meta">残 6 → 5</span></span><span class="box on" style="width:20px;height:20px;border:1px solid var(--main-900);background:var(--main-900);color:var(--background);display:flex;align-items:center;justify-content:center;font-size:10px">✓</span></div></div>
         </div>
         <div class="noteband"><h3>前回の申し送り</h3><p>頬の赤みが出やすい。前回より圧を弱めに。</p></div>
@@ -614,11 +615,13 @@ main.stage.view-pc .phone.pc{width:1200px}
       </div>
 
       <div class="state-view" data-state="s3">
-        <p class="sub">次につなげる3つ。空でも保存できます</p>
+        <p class="sub">お会計と次回のこと。空でも保存できます</p>
+        
+        <div class="row2"><div class="field"><label class="label">金額（任意）</label><input class="input" value="¥12,000"><div class="chips" style="margin-top:6px"><span class="chip on" style="min-height:30px;padding:2px 10px">施術</span><span class="chip" style="min-height:30px;padding:2px 10px">物販</span><span class="chip" style="min-height:30px;padding:2px 10px">コース購入</span><span class="chip" style="min-height:30px;padding:2px 10px">コース消化</span></div></div></div>
+        <div class="field"><label class="label">次回予約日</label><input class="input" value="11/5（水）11:00"><span class="hint">入れておくと声かけの対象から外れ、「今日の流れ」に出ます</span></div>
         <div class="field cand"><label class="label">次回への申し送り <span class="badge">候補</span></label><input class="input textarea" value="圧を弱めに。ホームケアの保湿を提案"><span class="hint">保存すると「今回気をつけること」に出ます</span></div>
-        <div class="row2"><div class="field"><label class="label">次回予約日</label><input class="input" value="11/5（水）11:00"></div><div class="field"><label class="label">金額（任意）</label><input class="input" value="¥12,000"><div class="chips" style="margin-top:6px"><span class="chip on" style="min-height:30px;padding:2px 10px">施術</span><span class="chip" style="min-height:30px;padding:2px 10px">物販</span><span class="chip" style="min-height:30px;padding:2px 10px">コース購入</span><span class="chip" style="min-height:30px;padding:2px 10px">コース消化</span></div></div></div>
-        <div class="state-view" data-state="buy"><div class="hero light" style="padding:14px 16px"><div class="eyebrow"><span>コース購入 → 契約を登録</span></div><div class="row2" style="margin-top:10px"><div class="field"><label class="label">コース</label><input class="input" value="保湿10回コース"></div><div class="field"><label class="label">回数／期間</label><input class="input" value="10 回"></div></div><div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥98,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/10/08"></div></div><p class="meta" style="margin-top:6px">保存するとお客様のフェーズが「04 契約中」になります。有効期限・契約書の紐づけは「契約」（S2）で</p></div></div>
-        <div class="field"><label class="label">予約経路（今回はどこから）</label><div class="chips"><span class="chip">Instagram DM</span><span class="chip on">ホットペッパー</span><span class="chip">LINE</span><span class="chip">紹介</span><span class="chip">飛び込み</span></div><span class="hint">前回と同じ「ホットペッパー」を既定に。この方の獲得チャネルは Instagram DM（初回）</span></div>
+      <div class="state-view" data-state="buy"><div class="hero light" style="padding:14px 16px"><div class="eyebrow"><span>コース購入 → 契約を登録</span></div><div class="row2" style="margin-top:10px"><div class="field"><label class="label">コース</label><input class="input" value="保湿10回コース"></div><div class="field"><label class="label">回数／期間</label><input class="input" value="10 回"></div></div><div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥98,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/10/08"></div></div><p class="meta" style="margin-top:6px">保存するとお客様のフェーズが「04 契約中」になります。有効期限・契約書の紐づけは「契約」（S2）で</p></div></div>
+        
       </div>
 
       <div class="state-view" data-state="view">
@@ -636,11 +639,11 @@ main.stage.view-pc .phone.pc{width:1200px}
         <div class="row2"><a class="btn sm" href="#SCR-21">お客様に送る <span class="badge scope">S3</span></a><a class="btn sm" href="#SCR-03">今日に戻る</a></div>
       </div>
     </div>
-    <div class="fixed state-view on" data-state="s2"><a class="btn primary block" href="#SCR-07">次へ（3 次回）</a></div>
+    <div class="fixed state-view on" data-state="s2"><a class="btn primary block" href="#SCR-07">次へ（3 会計・次回）</a></div>
     <div class="fixed state-view" data-state="s1"><a class="btn primary block" href="#SCR-07">確認しました。記録へ</a></div>
     <div class="fixed state-view" data-state="s3"><a class="btn primary block" href="#SCR-07">保存する</a></div>
   </div>
-  <div class="statebar">ステップ: <button data-toggle="s1">1 確認</button><button data-toggle="s2" class="on">2 記録</button><button data-toggle="s3">3 次回</button><button data-toggle="done">完了</button><button data-toggle="view">過去の記録を開く</button>　<button data-toggle="error">候補未確定の確認</button><button data-toggle="consent">同意未取得（ステップ1）</button><button data-toggle="buy">コース購入（ステップ3）</button></div>
+  <div class="statebar">ステップ: <button data-toggle="s1">1 確認</button><button data-toggle="s2" class="on">2 記録</button><button data-toggle="s3">3 会計・次回</button><button data-toggle="done">完了</button><button data-toggle="view">過去の記録を開く</button>　<button data-toggle="error">候補未確定の確認</button><button data-toggle="consent">同意未取得（ステップ1）</button><button data-toggle="buy">コース購入（ステップ3）</button></div>
 </section>
 
 <!-- ================= SCR-08 ================= -->
