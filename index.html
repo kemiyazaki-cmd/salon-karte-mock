@@ -438,6 +438,13 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 .btn.wait{opacity:.55;cursor:default}
 .okbox{border-left:2px solid var(--main-500);padding:8px 0 8px 16px;color:var(--text-primary)}
 .okbox b{color:var(--main-900);display:block;margin-bottom:2px;font-weight:var(--w-medium)}
+.lw-site{font-size:var(--size-xs);letter-spacing:.08em;color:var(--text-secondary);font-weight:var(--w-medium);border-left:2px solid var(--main-500);padding-left:8px}
+.lw-sites{display:flex;flex-direction:column;border-top:var(--border)}
+.lw-siterow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:var(--border)}
+.lw-siterow .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.lw-siterow .t b{font-size:var(--size-sm);font-weight:var(--w-medium);color:var(--text-primary)}
+.lw-siterow .t span{font-size:var(--size-xs);color:var(--text-meta)}
+.lw-siterow .btn{flex:none}
 .lw-tab>*+*{margin-top:12px}
 .lw-tab>.meta:first-child+.q{margin-top:0}
 .kv .mask{font-variant-numeric:tabular-nums;letter-spacing:.08em}
@@ -1038,7 +1045,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       <div class="state-view lw-tab" data-state="line0"><p class="meta"><a class="lnk" href="#SCR-12" data-go="menu"><svg class="i"><use href="#i-chevron-left"/></svg>設定</a></p><p class="q">LINE 公式アカウント</p>
       <div class="card"><h3>まだつながっていません</h3><p class="sub">LINE 公式アカウントはまだつながっていません。つながなくても、問診はリンクで、お客様への文面はコピーで使えます。</p></div>
       <a class="btn block" href="#SCR-12" data-go="lw1"><svg class="i"><use href="#i-link"/></svg>LINE 公式アカウントをつなぐ</a>
-      <p class="meta">スクールと一緒に進めると 30 分ほどです。LINE の管理画面と行き来するので、パソコンでの操作がおすすめです（スマホでもできます）</p></div>
+      <p class="meta">スクールと一緒に進めると 30 分ほどです。LINE のサイト（公式アカウントの管理画面と開発者向けのサイト）と行き来するので、パソコンでの操作がおすすめです（スマホでもできます）</p></div>
       <div class="state-view lw-tab" data-state="linemid"><p class="meta"><a class="lnk" href="#SCR-12" data-go="menu"><svg class="i"><use href="#i-chevron-left"/></svg>設定</a></p><p class="q">LINE 公式アカウント</p>
       <div class="card"><span class="label">つなぐ途中です（3 / 5）</span><h3>2 つの値を貼る</h3><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i></div><p class="sub">チャネルシークレットまで貼ってあります。貼った値は残っているので、続きから進められます。</p></div>
       <div class="row2"><a class="btn sm" href="#SCR-12" data-go="lw3"><svg class="i"><use href="#i-chevron-right"/></svg>続きから</a><a class="btn sm" href="#SCR-12" data-go="lwreset"><svg class="i"><use href="#i-rotate"/></svg>最初からやり直す</a></div>
@@ -1047,7 +1054,15 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       <div class="errorbox"><b>LINE とのつながりが切れました。もう一度つないでください</b>10/9 14:20 の送信がうまくいかず分かりました。つなぎ直すまで、お客様への文面はコピーで送れます。</div>
       <div class="card kv"><span>アカウント</span><b>@salon-lumiere</b><span>シークレット</span><b class="mask">••••a1b2</b><span>トークン</span><b class="mask">••••7c9d（使えなくなりました）</b><span>施術内容の送付</span><b>コピーに切り替え中</b></div>
       <a class="btn block" href="#SCR-12" data-go="lw3"><svg class="i"><use href="#i-link"/></svg>もう一度つなぐ（段階 3 から）</a>
-      <p class="meta">LINE の管理画面でトークンを発行し直すと、前のトークンは使えなくなります。新しいトークンを段階 3 で貼ってください</p></div>
+      <p class="meta">LINE の開発者向けのサイトの「Messaging API設定」タブでトークンを発行し直すと、前のトークンは使えなくなります。新しいトークンを段階 3 で貼ってください</p></div>
+      <div class="state-view lw-tab" data-state="lineoff"><p class="meta"><a class="lnk" href="#SCR-12" data-go="menu"><svg class="i"><use href="#i-chevron-left"/></svg>設定</a></p><p class="q">LINE 公式アカウント</p>
+      <div class="errorbox"><b>LINE からの受け取りが止まっています</b>10/9 早朝の確認で、LINE 側の「Webhookの利用」がオフになっていると分かりました。お客様が友だち追加しても、こちらに届きません（文面の送信はこれまでどおりできます）。</div>
+      <p class="lw-site">LINE の開発者向けのサイトで</p>
+      <ol class="lw-list"><li>チャネルの <b>「Messaging API設定」</b> タブを開く</li><li><b>「Webhookの利用」</b> をオン</li></ol>
+      <p class="meta">LINE 公式アカウントの管理画面の「設定」→「応答設定」からもオンにできます。受け口の URL が違う・消えたときは、ここに「もう一度自動で設定する」が出ます</p>
+      <a class="btn sm block" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>LINE の開発者向けのサイトを開く</a><a class="btn sm block" href="#SCR-12" data-go="line"><svg class="i"><use href="#i-send"/></svg>確かめる</a>
+      <div class="card kv"><span>アカウント</span><b>@salon-lumiere</b><span>状態</span><b>接続済み（送信はできます）</b><span>施術内容の送付</span><b>LINE で送る ・ 有効</b></div>
+      <p class="meta">ホームの「あとで」にも、オーナーにだけ「LINE からの受け取りが止まっています」と出ます</p></div>
       <div class="state-view" data-state="data"><p class="meta"><a class="lnk" href="#SCR-12"><svg class="i"><use href="#i-chevron-left"/></svg>設定</a></p><p class="q">データ</p>
       <div class="card"><h3>CSV でダウンロード</h3><p class="sub">Excel やスプレッドシートで開けます</p><div class="row2" style="margin-top:10px"><a class="btn sm" href="#SCR-12"><svg class="i"><use href="#i-download"/></svg>顧客データ（48 人）</a><a class="btn sm" href="#SCR-12"><svg class="i"><use href="#i-download"/></svg>来店データ（212 件）</a></div><p class="meta" style="margin-top:8px">期間: <span class="chip on" style="min-height:28px;padding:2px 10px">すべて</span> <span class="chip" style="min-height:28px;padding:2px 10px">今年</span> <span class="chip" style="min-height:28px;padding:2px 10px">直近3か月</span></p></div>
         <div class="card"><h3>スクールの閲覧</h3><p class="sub">スクール（山本）はこのサロンの記録を見られます。閲覧の履歴はここに残ります。</p><p class="meta">10/1 山本 ・ 9/20 山本</p></div>
@@ -1066,69 +1081,101 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>1 / 5</b>準備</span><a class="lnk" href="#SCR-12" data-go="line0"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i></i><i></i><i></i><i></i></div>
       <h2>はじめに確かめること</h2>
       <div><div class="check"><span class="box"></span><span>この LINE 公式アカウントの管理者になっている</span></div><div class="check"><span class="box"></span><span>LINE にログインできる（パソコンなら LINE のメールアドレスとパスワード）</span></div></div>
-      <p class="sub">LINE の管理画面とこの画面を行き来しながら、5 段階で進めます。スクールと一緒に進めると 30 分ほどです。</p>
+      <span class="label">LINE のサイトを 2 つ使います</span>
+      <div class="lw-sites"><div class="lw-siterow"><div class="t"><b>LINE 公式アカウントの管理画面</b><span>LINE Official Account Manager ・ ふだんメッセージを送る画面。段階 2・4 で使います</span></div><a class="btn sm" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>開く</a></div><div class="lw-siterow"><div class="t"><b>LINE の開発者向けのサイト</b><span>LINE Developers コンソール ・ 同じ LINE のアカウントで入れます。段階 3・4 で使います</span></div><a class="btn sm" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>開く</a></div></div>
+      <p class="sub">この画面と 2 つのサイトを行き来しながら、5 段階で進めます。スクールと一緒に進めると 30 分ほどです。</p>
       <p class="meta">まだ公式アカウントが無いときは <a class="lnk" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>LINE の公式ページで作り方を見る</a></p>
       <div class="row2"><a class="btn primary" href="#SCR-12" data-go="lw2"><svg class="i"><use href="#i-chevron-right"/></svg>次へ</a></div>
     </div></div>
     <div class="state-view" data-state="lw2" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
       <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>2 / 5</b>LINE 側で機能をオンにする</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i></i><i></i><i></i></div>
       <h2>LINE 側で機能をオンにする</h2>
-      <ol class="lw-list"><li>LINE 公式アカウントの管理画面を開く</li><li>右上の <b>①「設定」</b> を押す</li><li>左の <b>②「Messaging API」</b> を押す</li><li><b>③「Messaging API を利用する」</b> を押し、出てきた案内に沿って進める</li></ol>
-      <div class="lw-fig" role="img" aria-label="LINE 公式アカウントの管理画面の図。1 設定、2 Messaging API、3 Messaging API を利用する の順に押す"><p class="cap">図: LINE 公式アカウントの管理画面（簡略。実際の画面ではありません）</p>
+      <p class="lw-site">LINE 公式アカウントの管理画面で</p>
+      <ol class="lw-list"><li><b>①「設定」</b> を押す</li><li><b>②「Messaging API」</b> を押す</li><li><b>③「Messaging APIを利用する」</b> を押す</li><li>プロバイダー（運営者の名前。あとから変えられません。サロン名で大丈夫です）を作って同意し、「OK」を押す</li></ol>
+      <div class="lw-fig" role="img" aria-label="LINE 公式アカウントの管理画面の図。1 設定、2 Messaging API、3 Messaging APIを利用する の順に押す"><p class="cap">図: LINE 公式アカウントの管理画面（枠と番号だけの簡略図。実際の画面ではありません）</p>
       <div class="top"><span>@salon-lumiere</span><span class="fld hit"><i class="lw-n">1</i>設定</span></div>
       <div class="win"><div class="side"><span>アカウント設定</span><span>応答設定</span><span class="hit"><i class="lw-n">2</i>Messaging API</span><span>権限管理</span></div>
-      <div class="pane"><i class="ph"></i><i class="ph s"></i><span class="fld hit"><i class="lw-n">3</i>Messaging API を利用する</span><i class="ph s"></i></div></div></div>
-      <a class="btn sm block" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>LINE の管理画面を開く（新しいタブ）</a>
+      <div class="pane"><i class="ph"></i><i class="ph s"></i><span class="fld hit"><i class="lw-n">3</i>Messaging APIを利用する</span><i class="ph s"></i></div></div></div>
+      <a class="btn sm block" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>LINE 公式アカウントの管理画面を開く（新しいタブ）</a>
+      <p class="meta">この操作は、パソコンのブラウザで開いた管理画面で、管理者だけができます</p>
       <div class="row2"><a class="btn" href="#SCR-12" data-go="lw1"><svg class="i"><use href="#i-chevron-left"/></svg>戻る</a><a class="btn primary" href="#SCR-12" data-go="lw3"><svg class="i"><use href="#i-chevron-right"/></svg>次へ</a></div>
     </div></div>
     <div class="state-view" data-state="lw3" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
       <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>3 / 5</b>2 つの値を貼る</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i></div>
       <h2>2 つの値を貼る</h2>
-      <p class="sub">LINE の開発者向けの画面から 2 つの値をコピーして、下に貼ります。</p>
-      <div class="lw-fig" role="img" aria-label="LINE の開発者向け画面の図。1 チャネル基本設定のチャネルシークレット、2 Messaging API 設定のチャネルアクセストークン（長期）の発行"><p class="cap">図: LINE の開発者向けの画面（簡略。実際の画面ではありません）</p>
-      <div class="tabs2"><span class="hit"><i class="lw-n">1</i>チャネル基本設定</span><span class="hit"><i class="lw-n">2</i>Messaging API 設定</span></div>
+      <p class="lw-site">LINE の開発者向けのサイトで</p>
+      <p class="sub">段階 2 と同じ LINE のアカウントで入り、プロバイダー → チャネル（公式アカウントと同じ名前）の順に開きます。2 つの値をコピーして、下に貼ります。</p>
+      <div class="lw-fig" role="img" aria-label="LINE の開発者向けのサイトの図。1 チャネル基本設定タブのチャネルシークレット、2 Messaging API設定タブのチャネルアクセストークン（長期）"><p class="cap">図: LINE の開発者向けのサイト（枠と番号だけの簡略図。実際の画面ではありません）</p>
+      <div class="tabs2"><span class="hit"><i class="lw-n">1</i>チャネル基本設定</span><span class="hit"><i class="lw-n">2</i>Messaging API設定</span></div>
       <div class="pane"><i class="ph s"></i><span class="fld hit"><span><i class="lw-n">1</i>チャネルシークレット</span><em>••••••••</em></span><i class="ph"></i><span class="fld hit"><span><i class="lw-n">2</i>チャネルアクセストークン（長期）</span><em>発行</em></span></div></div>
-      <div class="field"><label class="label">チャネルシークレット</label><div class="pw"><input class="input" value="••••••••••••••••••••••••••••a1b2" placeholder="図の ① の値を貼る"><span>表示</span></div><span class="hint">「チャネル基本設定」の下のほうにあります</span></div><div class="field"><label class="label">チャネルアクセストークン（長期）</label><div class="pw"><input class="input" value="" placeholder="図の ② で「発行」を押して出た値を貼る"><span>表示</span></div><span class="hint">「Messaging API 設定」のいちばん下にあります</span></div>
+      <div class="field"><label class="label">チャネルシークレット</label><div class="pw"><input class="input" value="••••••••••••••••••••••••••••a1b2" placeholder="図の ① の値を貼る"><span>表示</span></div><span class="hint">「チャネル基本設定」タブにあります</span></div><div class="field"><label class="label">チャネルアクセストークン（長期）</label><div class="pw"><input class="input" value="" placeholder="図の ② で発行して出た値を貼る"><span>表示</span></div><span class="hint">「Messaging API設定」タブで発行します</span></div>
       <div class="row2"><a class="btn" href="#SCR-12" data-go="lw2"><svg class="i"><use href="#i-chevron-left"/></svg>戻る</a><a class="btn primary" href="#SCR-12" data-go="lw3chk"><svg class="i"><use href="#i-chevron-right"/></svg>次へ</a></div>
-      <p class="meta">「次へ」で LINE に問い合わせて、値が正しいかを確かめます</p>
+      <p class="meta">「次へ」で LINE に問い合わせて値が正しいかを確かめ、続けて受け口の URL を LINE に自動で設定します</p>
     </div></div>
     <div class="state-view" data-state="lw3chk" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
       <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>3 / 5</b>2 つの値を貼る</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i></div>
       <h2>2 つの値を貼る</h2>
-      <p class="sub">LINE の開発者向けの画面から 2 つの値をコピーして、下に貼ります。</p>
-      <div class="lw-fig" role="img" aria-label="LINE の開発者向け画面の図。1 チャネル基本設定のチャネルシークレット、2 Messaging API 設定のチャネルアクセストークン（長期）の発行"><p class="cap">図: LINE の開発者向けの画面（簡略。実際の画面ではありません）</p>
-      <div class="tabs2"><span class="hit"><i class="lw-n">1</i>チャネル基本設定</span><span class="hit"><i class="lw-n">2</i>Messaging API 設定</span></div>
+      <p class="lw-site">LINE の開発者向けのサイトで</p>
+      <p class="sub">段階 2 と同じ LINE のアカウントで入り、プロバイダー → チャネル（公式アカウントと同じ名前）の順に開きます。2 つの値をコピーして、下に貼ります。</p>
+      <div class="lw-fig" role="img" aria-label="LINE の開発者向けのサイトの図。1 チャネル基本設定タブのチャネルシークレット、2 Messaging API設定タブのチャネルアクセストークン（長期）"><p class="cap">図: LINE の開発者向けのサイト（枠と番号だけの簡略図。実際の画面ではありません）</p>
+      <div class="tabs2"><span class="hit"><i class="lw-n">1</i>チャネル基本設定</span><span class="hit"><i class="lw-n">2</i>Messaging API設定</span></div>
       <div class="pane"><i class="ph s"></i><span class="fld hit"><span><i class="lw-n">1</i>チャネルシークレット</span><em>••••••••</em></span><i class="ph"></i><span class="fld hit"><span><i class="lw-n">2</i>チャネルアクセストークン（長期）</span><em>発行</em></span></div></div>
-      <div class="field"><label class="label">チャネルシークレット</label><div class="pw"><input class="input" value="••••••••••••••••••••••••••••a1b2" placeholder="図の ① の値を貼る"><span>表示</span></div><span class="hint">「チャネル基本設定」の下のほうにあります</span></div><div class="field"><label class="label">チャネルアクセストークン（長期）</label><div class="pw"><input class="input" value="••••••••••••••••••••••••••••7c9d" placeholder="図の ② で「発行」を押して出た値を貼る"><span>表示</span></div><span class="hint">「Messaging API 設定」のいちばん下にあります</span></div>
+      <div class="field"><label class="label">チャネルシークレット</label><div class="pw"><input class="input" value="••••••••••••••••••••••••••••a1b2" placeholder="図の ① の値を貼る"><span>表示</span></div><span class="hint">「チャネル基本設定」タブにあります</span></div><div class="field"><label class="label">チャネルアクセストークン（長期）</label><div class="pw"><input class="input" value="••••••••••••••••••••••••••••7c9d" placeholder="図の ② で発行して出た値を貼る"><span>表示</span></div><span class="hint">「Messaging API設定」タブで発行します</span></div>
       <div class="row2"><a class="btn" href="#SCR-12" data-go="lw2"><svg class="i"><use href="#i-chevron-left"/></svg>戻る</a><a class="btn primary wait" href="#SCR-12" data-go="lw4" aria-disabled="true"><svg class="i"><use href="#i-clock"/></svg>確認しています</a></div>
-      <p class="meta">LINE に問い合わせています。数秒かかります</p>
+      <p class="meta">LINE に問い合わせて、受け口の URL を設定しています。数秒かかります</p>
     </div></div>
     <div class="state-view" data-state="lw3err" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
       <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>3 / 5</b>2 つの値を貼る</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i></i><i></i></div>
       <h2>2 つの値を貼る</h2>
-      <p class="sub">LINE の開発者向けの画面から 2 つの値をコピーして、下に貼ります。</p>
-      <div class="lw-fig" role="img" aria-label="LINE の開発者向け画面の図。1 チャネル基本設定のチャネルシークレット、2 Messaging API 設定のチャネルアクセストークン（長期）の発行"><p class="cap">図: LINE の開発者向けの画面（簡略。実際の画面ではありません）</p>
-      <div class="tabs2"><span class="hit"><i class="lw-n">1</i>チャネル基本設定</span><span class="hit"><i class="lw-n">2</i>Messaging API 設定</span></div>
+      <p class="lw-site">LINE の開発者向けのサイトで</p>
+      <p class="sub">段階 2 と同じ LINE のアカウントで入り、プロバイダー → チャネル（公式アカウントと同じ名前）の順に開きます。2 つの値をコピーして、下に貼ります。</p>
+      <div class="lw-fig" role="img" aria-label="LINE の開発者向けのサイトの図。1 チャネル基本設定タブのチャネルシークレット、2 Messaging API設定タブのチャネルアクセストークン（長期）"><p class="cap">図: LINE の開発者向けのサイト（枠と番号だけの簡略図。実際の画面ではありません）</p>
+      <div class="tabs2"><span class="hit"><i class="lw-n">1</i>チャネル基本設定</span><span class="hit"><i class="lw-n">2</i>Messaging API設定</span></div>
       <div class="pane"><i class="ph s"></i><span class="fld hit"><span><i class="lw-n">1</i>チャネルシークレット</span><em>••••••••</em></span><i class="ph"></i><span class="fld hit"><span><i class="lw-n">2</i>チャネルアクセストークン（長期）</span><em>発行</em></span></div></div>
-      <div class="field"><label class="label">チャネルシークレット</label><div class="pw bad"><input class="input" value="••••••••••••••••••••••••••••a1b2" placeholder="図の ① の値を貼る"><span>表示</span></div><span class="hint">「チャネル基本設定」の下のほうにあります</span></div><div class="field"><label class="label">チャネルアクセストークン（長期）</label><div class="pw bad"><input class="input" value="••••••••••••••••••••••••••••7c9d" placeholder="図の ② で「発行」を押して出た値を貼る"><span>表示</span></div><span class="hint">「Messaging API 設定」のいちばん下にあります</span></div>
-      <div class="errorbox"><b>チャネルシークレットかアクセストークンが正しくありません。</b>LINE の管理画面の『Messaging API 設定』からもう一度コピーしてください（前後に空白が入っていないかも確かめてください）</div>
+      <div class="field"><label class="label">チャネルシークレット</label><div class="pw bad"><input class="input" value="••••••••••••••••••••••••••••a1b2" placeholder="図の ① の値を貼る"><span>表示</span></div><span class="hint">「チャネル基本設定」タブにあります</span></div><div class="field"><label class="label">チャネルアクセストークン（長期）</label><div class="pw bad"><input class="input" value="••••••••••••••••••••••••••••7c9d" placeholder="図の ② で発行して出た値を貼る"><span>表示</span></div><span class="hint">「Messaging API設定」タブで発行します</span></div>
+      <div class="errorbox"><b>チャネルシークレットかアクセストークンが正しくありません。</b>LINE の開発者向けのサイトの「チャネル基本設定」タブ（チャネルシークレット）と「Messaging API設定」タブ（チャネルアクセストークン（長期））から、もう一度コピーしてください（前後に空白が入っていないかも確かめてください）</div>
       <div class="row2"><a class="btn" href="#SCR-12" data-go="lw2"><svg class="i"><use href="#i-chevron-left"/></svg>戻る</a><a class="btn primary" href="#SCR-12" data-go="lw3chk"><svg class="i"><use href="#i-chevron-right"/></svg>次へ</a></div>
     </div></div>
     <div class="state-view" data-state="lw4" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
-      <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>4 / 5</b>受け口の URL を LINE に貼る</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i></div>
-      <h2>受け口の URL を LINE に貼る</h2>
+      <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>4 / 5</b>LINE 側のスイッチを 2 つ切り替える</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i></div>
+      <h2>LINE 側のスイッチを 2 つ切り替える</h2>
+      <div class="okbox"><b>受け口の URL は自動で設定しました</b>URL を貼る作業はありません。残りはスイッチ 2 つです。この順に切り替えてください。</div>
+      <p class="lw-site">まず、LINE の開発者向けのサイトで</p>
+      <ol class="lw-list"><li>チャネルの「Messaging API設定」タブで <b>①「Webhookの利用」</b> をオン</li></ol>
+      <div class="lw-fig" role="img" aria-label="LINE の開発者向けのサイトの図。Messaging API設定タブの、1 Webhookの利用 をオン"><p class="cap">図: LINE の開発者向けのサイト（枠と番号だけの簡略図。実際の画面ではありません）</p>
+      <div class="tabs2"><span>チャネル基本設定</span><span class="hit">Messaging API設定</span></div>
+      <div class="pane"><span class="fld"><span>Webhook URL</span><em>karte.example.jp/line/…</em></span><span class="fld hit"><span><i class="lw-n">1</i>Webhookの利用</span><span class="toggle on"><i></i></span></span><i class="ph s"></i></div></div>
+      <p class="lw-site">次に、LINE 公式アカウントの管理画面で</p>
+      <ol class="lw-list" start="2"><li>「設定」→「応答設定」で <b>②「応答メッセージ」</b> をオフ</li></ol>
+      <div class="lw-fig" role="img" aria-label="LINE 公式アカウントの管理画面の図。設定、応答設定の、2 応答メッセージ をオフ"><p class="cap">図: LINE 公式アカウントの管理画面（枠と番号だけの簡略図。実際の画面ではありません）</p>
+      <div class="top"><span>@salon-lumiere</span><span class="fld">設定</span></div>
+      <div class="win"><div class="side"><span>アカウント設定</span><span class="hit">応答設定</span><span>Messaging API</span></div>
+      <div class="pane"><i class="ph s"></i><span class="fld hit"><span><i class="lw-n">2</i>応答メッセージ</span><span class="toggle"><i></i></span></span><i class="ph s"></i></div></div></div>
+      <p class="meta">応答メッセージがオンのままだと、お客様に LINE の自動返信とこちらからの文面が二重に届きます。「Webhookの利用」を先にオンにするのは、LINE が「両方オフ」を受け付けないためです（「Webhookの利用」は管理画面の「応答設定」からも切り替えられます）</p>
+      <a class="btn sm block" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>LINE の開発者向けのサイトを開く</a><a class="btn sm block" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>LINE 公式アカウントの管理画面を開く</a>
+      <div class="row2"><a class="btn" href="#SCR-12" data-go="lw3"><svg class="i"><use href="#i-chevron-left"/></svg>戻る</a><a class="btn primary" href="#SCR-12" data-go="lw5"><svg class="i"><use href="#i-chevron-right"/></svg>次へ</a></div>
+    </div></div>
+    <div class="state-view" data-state="lw4man" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
+      <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>4 / 5</b>受け口の URL を手で貼る</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i></i></div>
+      <h2>受け口の URL を手で貼る</h2>
+      <div class="errorbox"><b>受け口の URL を自動で設定できませんでした。</b>下の URL を手で貼ってください。「もう一度自動で設定する」で試し直すこともできます。</div>
       <span class="label">このサロン専用の URL</span>
       <div class="lw-url"><code>karte.example.jp/line/webhook/salon-lumiere</code><a class="btn sm" href="#SCR-12"><svg class="i"><use href="#i-copy"/></svg>コピー</a></div>
-      <ol class="lw-list"><li>「Messaging API 設定」の <b>①「Webhook URL」</b> に貼って「更新」</li><li><b>②「Webhook の利用」</b> をオン</li><li><b>③「応答メッセージ」</b> をオフ（LINE の管理画面の「応答設定」）</li></ol>
-      <div class="lw-fig" role="img" aria-label="LINE の画面の図。1 Webhook URL に貼る、2 Webhook の利用をオン、3 応答メッセージをオフ"><p class="cap">図: LINE の画面（簡略。実際の画面ではありません）</p>
-      <div class="pane"><span class="fld hit"><span><i class="lw-n">1</i>Webhook URL</span><em>karte.example.jp/line/…</em></span><span class="fld hit"><span><i class="lw-n">2</i>Webhook の利用</span><span class="toggle on"><i></i></span></span><i class="ph s"></i><span class="fld hit"><span><i class="lw-n">3</i>応答メッセージ（応答設定）</span><span class="toggle"><i></i></span></span></div></div>
+      <a class="btn sm block" href="#SCR-12" data-go="lw4"><svg class="i"><use href="#i-rotate"/></svg>もう一度自動で設定する</a>
+      <p class="lw-site">LINE の開発者向けのサイトで（「Messaging API設定」タブ）</p>
+      <ol class="lw-list"><li><b>①「Webhook URL」</b> の「編集」を押して貼り、「更新」</li><li><b>②「Webhookの利用」</b> をオン</li></ol>
+      <div class="lw-fig" role="img" aria-label="LINE の開発者向けのサイトの図。Messaging API設定タブの、1 Webhook URL に貼る、2 Webhookの利用 をオン"><p class="cap">図: LINE の開発者向けのサイト（枠と番号だけの簡略図。実際の画面ではありません）</p>
+      <div class="tabs2"><span>チャネル基本設定</span><span class="hit">Messaging API設定</span></div>
+      <div class="pane"><span class="fld hit"><span><i class="lw-n">1</i>Webhook URL</span><em>karte.example.jp/line/…</em></span><span class="fld hit"><span><i class="lw-n">2</i>Webhookの利用</span><span class="toggle on"><i></i></span></span><i class="ph s"></i></div></div>
+      <p class="lw-site">LINE 公式アカウントの管理画面で</p>
+      <ol class="lw-list" start="3"><li><b>③「設定」→「応答設定」の「応答メッセージ」</b> をオフ</li></ol>
       <p class="meta">応答メッセージがオンのままだと、お客様に LINE の自動返信とこちらからの文面が二重に届きます</p>
       <div class="row2"><a class="btn" href="#SCR-12" data-go="lw3"><svg class="i"><use href="#i-chevron-left"/></svg>戻る</a><a class="btn primary" href="#SCR-12" data-go="lw5"><svg class="i"><use href="#i-chevron-right"/></svg>次へ</a></div>
     </div></div>
     <div class="state-view" data-state="lw5" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
       <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>5 / 5</b>接続テスト</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div>
       <h2>接続テスト</h2>
-      <p class="sub">「テストする」を押すと、LINE からこのサロン専用の受け口に届くかを確かめます。届くまでは「接続済み」になりません。</p>
+      <p class="sub">「テストする」を押すと、LINE 側の受け口の設定を読み、LINE からこのサロン専用の受け口に届くかを確かめます。届くまでは「接続済み」になりません。</p>
       <div class="row2"><a class="btn" href="#SCR-12" data-go="lw4"><svg class="i"><use href="#i-chevron-left"/></svg>戻る</a><a class="btn primary" href="#SCR-12" data-go="lw5ok"><svg class="i"><use href="#i-send"/></svg>テストする</a></div>
     </div></div>
     <div class="state-view" data-state="lw5ok" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
@@ -1138,11 +1185,32 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       <p class="sub">自分のスマホで @salon-lumiere を友だち追加して、あいさつが届くかを確かめてください。</p>
       <a class="btn primary block" href="#SCR-12" data-go="line"><svg class="i"><use href="#i-check"/></svg>完了</a>
     </div></div>
+    <div class="state-view" data-state="lw5nourl" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
+      <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>5 / 5</b>接続テスト</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div>
+      <h2>接続テスト</h2>
+      <div class="errorbox"><b>LINE 側に受け口の URL が入っていません。</b>「もう一度自動で設定する」を押してください。設定してから反映まで 1 分ほどかかることがあります。</div>
+      <div class="row2"><a class="btn" href="#SCR-12" data-go="lw5"><svg class="i"><use href="#i-send"/></svg>もう一度テスト</a><a class="btn primary" href="#SCR-12" data-go="lw5"><svg class="i"><use href="#i-rotate"/></svg>もう一度自動で設定する</a></div>
+    </div></div>
+    <div class="state-view" data-state="lw5wrong" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
+      <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>5 / 5</b>接続テスト</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div>
+      <h2>接続テスト</h2>
+      <div class="errorbox"><b>LINE 側の受け口の URL が、このサロンのものと違います。</b>別のサービスの URL が入っているか、手で貼った URL が違います。「もう一度自動で設定する」で正しい URL に置き換えます。</div>
+      <p class="meta">ほかのサービスにこの LINE 公式アカウントをつないでいるときは、置き換えるとそちらに届かなくなります。迷ったらスクールにご相談ください</p>
+      <div class="row2"><a class="btn" href="#SCR-12" data-go="lw5"><svg class="i"><use href="#i-send"/></svg>もう一度テスト</a><a class="btn primary" href="#SCR-12" data-go="lw5"><svg class="i"><use href="#i-rotate"/></svg>もう一度自動で設定する</a></div>
+    </div></div>
+    <div class="state-view" data-state="lw5off" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
+      <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>5 / 5</b>接続テスト</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div>
+      <h2>接続テスト</h2>
+      <div class="errorbox"><b>LINE 側の「Webhookの利用」がオフになっています。</b>LINE の開発者向けのサイトで、チャネルの「Messaging API設定」タブを開き、「Webhookの利用」をオンにしてから、もう一度テストしてください。</div>
+      <p class="meta">LINE 公式アカウントの管理画面の「設定」→「応答設定」からもオンにできます</p>
+      <a class="btn sm block" href="#SCR-12"><svg class="i"><use href="#i-external"/></svg>LINE の開発者向けのサイトを開く</a>
+      <a class="btn primary block" href="#SCR-12" data-go="lw5ok"><svg class="i"><use href="#i-send"/></svg>もう一度テスト</a>
+    </div></div>
     <div class="state-view" data-state="lw5err" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="LINE 公式アカウントをつなぐ">
       <div class="grip"></div><div class="lw-head"><span class="lw-step"><b>5 / 5</b>接続テスト</span><a class="lnk" href="#SCR-12" data-go="linemid"><svg class="i"><use href="#i-x"/></svg>閉じる</a></div><div class="lw-bar"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div>
       <h2>接続テスト</h2>
-      <div class="errorbox"><b>LINE から届きませんでした。</b>LINE 側で『Webhook の利用』がオンになっているか、URL が正しく貼られているかを確かめてください</div>
-      <div class="row2"><a class="btn" href="#SCR-12" data-go="lw5"><svg class="i"><use href="#i-send"/></svg>もう一度テスト</a><a class="btn primary" href="#SCR-12" data-go="lw4"><svg class="i"><use href="#i-chevron-left"/></svg>段階 4 に戻る</a></div>
+      <div class="errorbox"><b>LINE からのテストが届きませんでした。</b>LINE 側の設定は合っています。少し待ってからもう一度テストしてください。続くときはスクールにご相談ください。</div>
+      <div class="row2"><a class="btn" href="#SCR-12" data-go="lw4"><svg class="i"><use href="#i-chevron-left"/></svg>段階 4 に戻る</a><a class="btn primary" href="#SCR-12" data-go="lw5ok"><svg class="i"><use href="#i-send"/></svg>もう一度テスト</a></div>
     </div></div>
     <div class="state-view" data-state="lwreset" data-group="linewiz"><div class="dim"></div><div class="sheet" role="dialog" aria-label="最初からやり直す">
       <div class="grip"></div><h2>最初からやり直しますか</h2>
@@ -1150,7 +1218,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
       <div class="row2"><a class="btn" href="#SCR-12" data-go="lw0"><svg class="i"><use href="#i-x"/></svg>やめる</a><a class="btn danger" href="#SCR-12" data-go="lw1"><svg class="i"><use href="#i-rotate"/></svg>やり直す</a></div>
     </div></div>
   </div>
-  <div class="statebar">画面: <button data-toggle="menu" class="on">一覧</button><button data-toggle="items">カルテの項目</button><button data-toggle="staff">スタッフ</button><button data-toggle="menu2">メニュー S2</button><button data-toggle="line">LINE S2（接続済み）</button><button data-toggle="line0">LINE 未接続</button><button data-toggle="linemid">LINE つなぐ途中</button><button data-toggle="linecut">LINE 切れた</button><button data-toggle="data">データ</button><button data-toggle="ai">AI 利用</button><button data-toggle="salon">サロン</button>　<button data-toggle="dual" data-parent="menu">兼務の人（所属の切り替え）</button>　LINE のつなぎ方のシート: <button data-toggle="lw0" class="on">閉じる</button><button data-toggle="lw1">1 準備</button><button data-toggle="lw2">2 機能をオン</button><button data-toggle="lw3">3 値を貼る</button><button data-toggle="lw3chk">3 確認しています</button><button data-toggle="lw3err">3 値が違う</button><button data-toggle="lw4">4 受け口の URL</button><button data-toggle="lw5">5 テスト</button><button data-toggle="lw5ok">5 つながりました</button><button data-toggle="lw5err">5 届かない</button><button data-toggle="lwreset">やり直しの確認</button></div>
+  <div class="statebar">画面: <button data-toggle="menu" class="on">一覧</button><button data-toggle="items">カルテの項目</button><button data-toggle="staff">スタッフ</button><button data-toggle="menu2">メニュー S2</button><button data-toggle="line">LINE S2（接続済み）</button><button data-toggle="line0">LINE 未接続</button><button data-toggle="linemid">LINE つなぐ途中</button><button data-toggle="linecut">LINE 切れた</button><button data-toggle="lineoff">LINE 受け取りが止まった</button><button data-toggle="data">データ</button><button data-toggle="ai">AI 利用</button><button data-toggle="salon">サロン</button>　<button data-toggle="dual" data-parent="menu">兼務の人（所属の切り替え）</button>　LINE のつなぎ方のシート: <button data-toggle="lw0" class="on">閉じる</button><button data-toggle="lw1">1 準備</button><button data-toggle="lw2">2 機能をオン</button><button data-toggle="lw3">3 値を貼る</button><button data-toggle="lw3chk">3 確認しています</button><button data-toggle="lw3err">3 値が違う</button><button data-toggle="lw4">4 スイッチ 2 つ</button><button data-toggle="lw4man">4 自動で設定できなかった</button><button data-toggle="lw5">5 テスト</button><button data-toggle="lw5ok">5 つながりました</button><button data-toggle="lw5nourl">5 URL が無い</button><button data-toggle="lw5wrong">5 URL が違う</button><button data-toggle="lw5off">5 Webhook がオフ</button><button data-toggle="lw5err">5 届かない（その他）</button><button data-toggle="lwreset">やり直しの確認</button></div>
 </section>
 
 <!-- ================= SCR-13 ================= -->
