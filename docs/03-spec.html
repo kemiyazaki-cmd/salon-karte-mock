@@ -1,0 +1,3837 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>salon-karte 03-spec</title><style>@page{size:A4;margin:16mm 14mm}body{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-size:15px;line-height:1.75;color:#1F1B17;background:#F8F5EF;margin:0}main{max-width:960px;margin:0 auto;padding:32px 20px 80px}h1{font-size:26px;border-bottom:1px solid #D6C7AE;padding-bottom:8px;letter-spacing:.04em}h2{font-size:20px;margin-top:40px;border-left:3px solid #9A7B4F;padding-left:10px}h3{font-size:16px;margin-top:28px}blockquote{color:#5C544B;border-left:2px solid #D6C7AE;margin:0;padding:6px 14px;background:#FDFBF7;font-size:14px}table{border-collapse:collapse;width:100%;font-size:13.5px;margin:12px 0;background:#FDFBF7}th,td{border:1px solid #D6C7AE;padding:6px 8px;vertical-align:top;text-align:left}th{background:#F1EBE1}code{font-family:Menlo,monospace;font-size:13px;background:#F1EBE1;padding:0 4px}pre{background:#F1EBE1;padding:12px;overflow:auto;font-size:13px}pre.mermaid{background:#FDFBF7;text-align:center}a{color:#6F5633}nav.top{font-size:13px;color:#8C8378;margin-bottom:18px}nav.top a{margin-right:12px}del{color:#8C8378}</style><script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,theme:"neutral"});</script></head><body><main><nav class="top"><a href="./">設計書の一覧</a><a href="../">モック</a></nav><h1>仕様書（基本設計）: salon-karte</h1>
+<blockquote>
+<p>Vモデル: 基本設計 / 対応する検証: 結合テスト
+要件（②）を画面に落とし込む。画面構成・画面ごとの機能・モックHTMLを定義する。
+モックは全画面を1つにまとめた <a href="../index.html">mocks/mockup.html</a> に作成する（画面ID <code>#SCR-xx</code> で各画面へアンカー移動）。
+状態: <strong>仮（2026-10-07）</strong>。対象は要件定義書の <strong>全スコープ（Scope 1〜3・30機能）</strong>。Scope 1 は SCR-01〜13、Scope 2・3 は SCR-14〜26。友人ヒアリング（2026-10-08）・事業計画書・スプレッドシートの受領後に見直す。ヒアリングで動く箇所には「（仮）」を付した。
+改訂（2026-10-08・第3版）: 「SaaS として30点・構成が単調」の評価を受け、画面（CRUD）起点から <strong>瞬間起点</strong>（施術前の30秒・施術後の1分・閉店後の5分）に設計を組み替えた。ログインはパスワード方式に変更。まず SCR-01・03・06・07 に適用し、残りの画面は合意後に展開する。
+手順上の注記: 構造モック（ワイヤーフレーム）とデザイン適用を1回で行った。デザイン案は3案を §3 に併記し、推奨案（A）を適用済み。別案への差し替えは <code>:root</code> の値の入れ替えだけで済む。</p>
+</blockquote>
+<h2>0. 画面設計の方針</h2>
+<ul>
+<li><strong>スマホ幅 375px を基準に設計し、タブレット・PC でも同じ画面がそのまま使える</strong>（1つの Web 画面。端末別の別画面は作らない）。<strong>スマホ向けはストア配布の専用アプリ（ネイティブの殻に同じ画面を載せる）を標準の配布形態とする</strong>（2026-10-08 確定）。殻が録音のバックグラウンド継続・カメラ・プッシュ通知を担い、画面はそのまま。片手・親指で届く下部に主要アクションを置く</li>
+<li><strong>レスポンシブの方針（3段階）</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>幅</th>
+<th>想定端末</th>
+<th>レイアウト</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>〜767px</td>
+<td>スマホ（主）</td>
+<td>1カラム。主要アクションは下部固定。本書のモックの基準</td>
+</tr>
+<tr>
+<td>768〜1023px</td>
+<td>タブレット（店の共有端末・施術室の iPad）</td>
+<td>本文を最大幅 640px で中央に置き、余白を広げる。ホーム・顧客一覧は2列のカードにしてよい。お客様向けの同意画面（SCR-11）は端末を渡す前提でこの幅を最も重視する</td>
+</tr>
+<tr>
+<td>1024px〜</td>
+<td>PC（オーナーの事務作業・スクール）</td>
+<td>左に顧客一覧または設定のメニュー、右に詳細の2カラム。入力画面は最大幅 640px を維持し横に伸ばさない。SCR-13 はこの幅を基準に設計する</td>
+</tr>
+</tbody></table>
+<ul>
+<li>どの幅でもタップ領域 44px・入力欄 48px・primary ボタン 52px のサイズは変えない（PC でもタブレットと同じ指での操作を想定する）</li>
+<li>モックの左ナビにある「表示幅」でスマホ／タブレット／PC の3段階を切り替えて確認できる</li>
+<li><strong>設計の軸は画面ではなく「瞬間」</strong>。利用者の1日にある3つの瞬間から逆算する</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>瞬間</th>
+<th>利用者がしたいこと</th>
+<th>画面の答え</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>施術前の30秒</td>
+<td>次の人の注意点と警告を、開かずに知りたい</td>
+<td>ホームの「次のお客様」ヒーローカードに注意点と警告を直接出す</td>
+</tr>
+<tr>
+<td>施術後の1分</td>
+<td>手を止めずに記録を残したい</td>
+<td>来店記録は「確認 → 記録 → 次回」の3ステップ。最初に大きな「話す」、入力欄は後ろ</td>
+</tr>
+<tr>
+<td>閉店後の5分</td>
+<td>今日の分が全部残ったか確かめたい</td>
+<td>ホームの「今日の記録 n / m 人」リングと「あとで」の一覧。完了画面でも進みを見せる</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>原則5つ</strong>: 今やることを1つだけ大きく／進捗が見える／人を主語にする（顧客詳細は「この人カード」から）／記録は会話のように／迷わない足場（スマホは下部タブ、サブ画面は階層行）。視覚のリズムはヒーロー・タイムライン・リング・グリッド・リストを使い分け、全部をリストにしない</li>
+<li><strong>アプリの入口はホーム（SCR-03）</strong>。顧客一覧ではなく「今日の来店・記録がまだ・確認待ち」から日常の操作に入る。検索窓はホームと顧客一覧の上部に常設し、絞り込み条件は置かない</li>
+<li><strong>入口が違っても出口は同じ</strong>。紙取り込み（SCR-08）と音声メモ（SCR-09）は、どちらも「候補を確認して来店記録に保存する」同じ確認画面の構造を持つ</li>
+<li><strong>情報階層は3段で固定し、全画面の上部に「階層行」を常設する。</strong> 利用者が「今どこにいるか」を見失わないための規則で、戻るボタンの代わりではなく併設する</li>
+</ul>
+<pre><code>ホーム
+├─ お客様（一覧・検索）
+│   ├─ 重複のまとめ（S2）
+│   └─ ○○さん（顧客詳細）
+│        ├─ 来店記録 ── 話して記録 ／ 会話録音の取り込み（S2）
+│        ├─ 紙カルテ取り込み
+│        ├─ 書類 ── 読み取り確認（S2）
+│        ├─ 同意
+│        ├─ 契約（S2）
+│        ├─ お客様に送る（S3）
+│        └─ 削除（S2・オーナー）
+├─ 未処理の回答（S2）
+├─ 声かけ（S3）
+└─ 設定 ── 持ち込み（S2）／ 分析（S3）／ 退職処理（S2）
+お客様向け問診フォーム（S2・公開・階層外）
+スクール ── 生徒サロンの状況 ── 個別サロン（S2）
+</code></pre>
+<ul>
+<li>階層行は画面タイトルの上に小さく置き、「今日 › お客様 › みさき」のように親の経路を示す（ホームの名は「今日」）。現在地は太字にせず色だけ変え、親はタップで戻れる</li>
+<li>顧客配下の画面（来店記録・取り込み・書類・同意）は、階層行に必ず顧客名を含める。共有端末で「誰の記録を開いているか」を間違えないため</li>
+<li>階層行は3段まで。4段目が必要になる画面は作らない（画面を増やす代わりに、同じ画面内のステップ表示で吸収する）。顧客配下の4段目相当（話して記録・読み取り確認など）は、先頭の「ホーム」を省いて「○○さん › 来店記録 › 話して記録」の3段で表す</li>
+<li>タブレット・PC では階層行の各段がリンクとして機能する。スマホでは戻るボタンとの併用になる</li>
+<li><strong>塗りボタン（primary）は1画面に1つ</strong>。その画面で最も進めたい操作だけを塗る</li>
+<li><strong>3状態（空・ローディング・エラー）を全画面に持つ</strong>。空状態は次の行動へ誘導する文言にする</li>
+<li><strong>Scope 1 の画面数は 14</strong>（SCR-01〜13 と SCR-27 のシート）。前回の実測上限（14枚）ちょうど。<strong>Scope 2・3 は 13 画面（SCR-14〜26）を追加</strong>し、既存画面には拡張ブロック（顧客詳細の契約・次回提案候補、ホームの未処理回答、来店記録のコース消化・会話録音、設定の追加タブ）を足す。Scope 2 以降の画面はサイトマップに「S2」「S3」と明記し、初版の実装対象から外す</li>
+</ul>
+<h2>1. 画面構成（サイトマップ）</h2>
+<table>
+<thead>
+<tr>
+<th>画面ID</th>
+<th>画面名</th>
+<th>目的</th>
+<th>対応機能(②)</th>
+<th>モック</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SCR-01</td>
+<td>ログイン</td>
+<td>メールアドレス＋パスワードで入る。端末記憶・再設定リンク</td>
+<td>FUNC-02</td>
+<td><a href="../index.html#SCR-01">mockup.html#SCR-01</a></td>
+</tr>
+<tr>
+<td>SCR-02</td>
+<td>初期設定</td>
+<td>サロン名・業種・使っている入口／ツールの申告・スタッフ招待を最短で済ませる</td>
+<td>FUNC-01, FUNC-05</td>
+<td><a href="../index.html#SCR-02">mockup.html#SCR-02</a></td>
+</tr>
+<tr>
+<td>SCR-03</td>
+<td>ホーム（今日）</td>
+<td>「次のお客様」ヒーロー・今日の記録リング・タイムライン（次回予約・今日の記録・手で足した人のみ）・あとで。アプリの入口</td>
+<td>FUNC-29, FUNC-03, FUNC-06, FUNC-31</td>
+<td><a href="../index.html#SCR-03">mockup.html#SCR-03</a></td>
+</tr>
+<tr>
+<td>SCR-04</td>
+<td>お客様（一覧・検索）</td>
+<td>検索窓1つで顧客を探す。最近来店順の一覧</td>
+<td>FUNC-03</td>
+<td><a href="../index.html#SCR-04">mockup.html#SCR-04</a></td>
+</tr>
+<tr>
+<td>SCR-05</td>
+<td>顧客登録</td>
+<td>呼び名（必須）と本名の姓・名（任意・別データ）。重複候補を知らせる</td>
+<td>FUNC-03</td>
+<td><a href="../index.html#SCR-05">mockup.html#SCR-05</a></td>
+</tr>
+<tr>
+<td>SCR-06</td>
+<td>顧客詳細（この人カード）</td>
+<td>モノグラム・来店のリズム・3つの数字・警告・注意点。記録／写真／書類／契約／同意のタブ。シグネチャ（金のヘアラインと明朝の帯）</td>
+<td>FUNC-03, FUNC-06, FUNC-07, FUNC-09, FUNC-15</td>
+<td><a href="../index.html#SCR-06">mockup.html#SCR-06</a></td>
+</tr>
+<tr>
+<td>SCR-07</td>
+<td>来店記録（3ステップ）</td>
+<td>確認 → 記録 → 次回。最初に「話す」、入力欄は後ろ。完了画面で今日の進み</td>
+<td>FUNC-04, FUNC-05, FUNC-07</td>
+<td><a href="../index.html#SCR-07">mockup.html#SCR-07</a></td>
+</tr>
+<tr>
+<td>SCR-08</td>
+<td>紙カルテ取り込み</td>
+<td>撮影 → 抽出候補を元画像と並べて確認 → 来店ごとに保存</td>
+<td>FUNC-08, FUNC-25</td>
+<td><a href="../index.html#SCR-08">mockup.html#SCR-08</a></td>
+</tr>
+<tr>
+<td>SCR-09</td>
+<td>話して記録（音声メモ）</td>
+<td>録音 → 文字起こしと項目候補を確認 → 来店記録に保存</td>
+<td>FUNC-13, FUNC-25</td>
+<td><a href="../index.html#SCR-09">mockup.html#SCR-09</a></td>
+</tr>
+<tr>
+<td>SCR-10</td>
+<td>書類</td>
+<td>PDF／写真を顧客に紐づけて預け、種類と日付を付ける。原本を開く</td>
+<td>FUNC-09</td>
+<td><a href="../index.html#SCR-10">mockup.html#SCR-10</a></td>
+</tr>
+<tr>
+<td>SCR-11</td>
+<td>同意</td>
+<td>同意の一覧と、お客様に見せてタップ／サインしてもらう電子同意</td>
+<td>FUNC-15</td>
+<td><a href="../index.html#SCR-11">mockup.html#SCR-11</a></td>
+</tr>
+<tr>
+<td>SCR-12</td>
+<td>設定</td>
+<td>AI 利用・カルテ項目・スタッフ・データ（顧客・来店の CSV ダウンロード）・サロン情報</td>
+<td>FUNC-05, FUNC-02, FUNC-25, FUNC-01, FUNC-30</td>
+<td><a href="../index.html#SCR-12">mockup.html#SCR-12</a></td>
+</tr>
+<tr>
+<td>SCR-13</td>
+<td>スクール横断ビュー</td>
+<td>生徒サロンの定着状況・入口構成・AI 利用量を横断で見る（スクールロール専用）</td>
+<td>FUNC-23</td>
+<td><a href="../index.html#SCR-13">mockup.html#SCR-13</a></td>
+</tr>
+<tr>
+<td>SCR-27</td>
+<td>誰の記録ですか？（シート）</td>
+<td>下部タブ「＋記録」で開く。賢い既定・今日来る人・検索・最近来た方・新規登録を1枚に。記録かお客様追加かを先に選ばせない</td>
+<td>FUNC-04, FUNC-03</td>
+<td><a href="../index.html#SCR-27">mockup.html#SCR-27</a></td>
+</tr>
+<tr>
+<td>SCR-14</td>
+<td>お客様向け問診フォーム（S2）</td>
+<td><strong>お客様のスマホで開く公開 Web ページ（アプリ外・ログイン不要）</strong>。LINE のリンクや店頭 QR から。来店時はサロンのタブレットを渡してもよい</td>
+<td>FUNC-10, FUNC-15, FUNC-27</td>
+<td><a href="../index.html#SCR-14">mockup.html#SCR-14</a></td>
+</tr>
+<tr>
+<td>SCR-15</td>
+<td>未処理の回答（S2）</td>
+<td>フォーム回答を既存顧客に結びつける、または新規作成する</td>
+<td>FUNC-10, FUNC-12</td>
+<td><a href="../index.html#SCR-15">mockup.html#SCR-15</a></td>
+</tr>
+<tr>
+<td>SCR-16</td>
+<td>顧客一覧の持ち込み（S2）</td>
+<td>予約サイト等の CSV を列対応を確認して取り込む。全件成功か全件取り消し</td>
+<td>FUNC-11</td>
+<td><a href="../index.html#SCR-16">mockup.html#SCR-16</a></td>
+</tr>
+<tr>
+<td>SCR-17</td>
+<td>重複のまとめ（S2）</td>
+<td>2人分を合わせて1人に。記録は全部残し、属性は項目ごとに選ぶ</td>
+<td>FUNC-12</td>
+<td><a href="../index.html#SCR-17">mockup.html#SCR-17</a></td>
+</tr>
+<tr>
+<td>SCR-18</td>
+<td>会話録音（S2）</td>
+<td>Web 版は録音アプリのファイルを取り込み、アプリ版はこの画面で録音。見込み費用を確認して文字起こしへ。出口は SCR-09</td>
+<td>FUNC-14, FUNC-25</td>
+<td><a href="../index.html#SCR-18">mockup.html#SCR-18</a></td>
+</tr>
+<tr>
+<td>SCR-19</td>
+<td>書類の読み取り確認（S2）</td>
+<td>預かった書類から抽出した項目を既存値と並べて確認し、顧客情報・同意・契約に反映</td>
+<td>FUNC-28, FUNC-03, FUNC-15, FUNC-22</td>
+<td><a href="../index.html#SCR-19">mockup.html#SCR-19</a></td>
+</tr>
+<tr>
+<td>SCR-20</td>
+<td>コース契約（S2）</td>
+<td>回数制・期間制の契約を登録し、残回数・有効期限・原本を見る</td>
+<td>FUNC-22, FUNC-09</td>
+<td><a href="../index.html#SCR-20">mockup.html#SCR-20</a></td>
+</tr>
+<tr>
+<td>SCR-21</td>
+<td>お客様に送る（S3）</td>
+<td>来店記録から「今日の内容と次回のおすすめ」の文面を確認し、コピーまたは LINE で送る</td>
+<td>FUNC-20, FUNC-27, FUNC-15</td>
+<td><a href="../index.html#SCR-21">mockup.html#SCR-21</a></td>
+</tr>
+<tr>
+<td>SCR-22</td>
+<td>声かけ（S3）</td>
+<td>メニューの周期から「今週声をかける人」を根拠つきで並べ、声かけ済みにする</td>
+<td>FUNC-19, FUNC-26, FUNC-27</td>
+<td><a href="../index.html#SCR-22">mockup.html#SCR-22</a></td>
+</tr>
+<tr>
+<td>SCR-23</td>
+<td>分析（S3）</td>
+<td>周期内再来率・成約率・客単価・次回予約率・メニュー別・来店経路別と、根拠つきの改善点候補</td>
+<td>FUNC-21</td>
+<td><a href="../index.html#SCR-23">mockup.html#SCR-23</a></td>
+</tr>
+<tr>
+<td>SCR-24</td>
+<td>顧客データの削除（S2）</td>
+<td>消えるものと保管義務で残るものを示し、確認して実行。オーナー専用</td>
+<td>FUNC-16</td>
+<td><a href="../index.html#SCR-24">mockup.html#SCR-24</a></td>
+</tr>
+<tr>
+<td>SCR-25</td>
+<td>スタッフ退職処理（S2）</td>
+<td>停止と担当顧客の一括振り直し。オーナー専用</td>
+<td>FUNC-17, FUNC-02</td>
+<td><a href="../index.html#SCR-25">mockup.html#SCR-25</a></td>
+</tr>
+<tr>
+<td>SCR-26</td>
+<td>スクール個別サロン閲覧（S2）</td>
+<td>スクールがそのサロンの集計・記録をすべて見る（閲覧のみ）。閲覧履歴がサロン側に残る</td>
+<td>FUNC-24, FUNC-21</td>
+<td><a href="../index.html#SCR-26">mockup.html#SCR-26</a></td>
+</tr>
+</tbody></table>
+<p><strong>既存画面への拡張ブロック（Scope 2・3）</strong></p>
+<table>
+<thead>
+<tr>
+<th>画面</th>
+<th>追加するブロック</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SCR-03 ホーム</td>
+<td>「未処理の回答」段（件数つき）→ SCR-15。「今週声をかける人」の件数 → SCR-22</td>
+<td>FUNC-10, FUNC-19</td>
+</tr>
+<tr>
+<td>SCR-06 顧客詳細</td>
+<td>「契約」ブロック（残回数・有効期限）→ SCR-20。「今回気をつけること」に AI 候補（候補バッジ・根拠リンク・確定）。アクションに「お客様に送る」→ SCR-21、「削除」（オーナーのみ）→ SCR-24</td>
+<td>FUNC-22, FUNC-18, FUNC-20, FUNC-16</td>
+</tr>
+<tr>
+<td>SCR-07 来店記録</td>
+<td>「このコースを消化」の選択。入口ボタンに「会話録音を取り込む」→ SCR-18。メニューはマスタから選択（金額・周期が入る）</td>
+<td>FUNC-22, FUNC-14, FUNC-26</td>
+</tr>
+<tr>
+<td>SCR-10 書類預かり</td>
+<td>各書類に「項目を読み取る」→ SCR-19。書類種別に「概要書面」</td>
+<td>FUNC-28</td>
+</tr>
+<tr>
+<td>SCR-12 設定</td>
+<td>「メニュー」（マスタ・標準価格・周期）、「LINE」（接続・送信数）、「データ」（顧客・来店の CSV ダウンロードは S1、原本一式の持ち出しは S2、担当限定オプション、スクールの閲覧履歴）</td>
+<td>FUNC-26, FUNC-27, FUNC-30, FUNC-24, FUNC-02</td>
+</tr>
+<tr>
+<td>SCR-13 スクール横断ビュー</td>
+<td>サロン行のタップ → SCR-26（閲覧のみ・履歴が残る）</td>
+<td>FUNC-24</td>
+</tr>
+</tbody></table>
+<h3>画面遷移図</h3>
+<pre class="mermaid">flowchart TD
+    SCR-01[ログイン] -->|初回オーナー| SCR-02[初期設定]
+    SCR-01 -->|2回目以降| SCR-03[ホーム]
+    SCR-01 -->|スクールロール| SCR-13[スクール横断ビュー]
+    SCR-02 --> SCR-03
+    SCR-03 -->|検索窓・顧客一覧| SCR-04[お客様]
+    SCR-03 -->|今日の来店をタップ| SCR-06[顧客詳細]
+    SCR-03 -->|記録がまだ| SCR-07[来店記録]
+    SCR-03 -->|確認待ち| SCR-08[紙カルテ取り込み]
+    SCR-03 -->|確認待ち| SCR-09[話して記録]
+    SCR-03 -->|＋記録（下部タブ）| SCR-27[誰の記録？ シート]
+    SCR-27 -->|人を選ぶ| SCR-07
+    SCR-27 -->|一致なし→新規登録して記録| SCR-07
+    SCR-03 -->|設定| SCR-12[設定]
+    SCR-04 -->|顧客をタップ| SCR-06
+    SCR-04 -->|顧客を追加| SCR-05[顧客登録]
+    SCR-05 -->|保存| SCR-06
+    SCR-06 -->|来店を記録| SCR-07
+    SCR-06 -->|紙カルテを取り込む| SCR-08
+    SCR-06 -->|書類を預ける| SCR-10[書類]
+    SCR-06 -->|同意| SCR-11[同意]
+    SCR-07 -->|話して記録| SCR-09
+    SCR-07 -->|保存| SCR-06
+    SCR-08 -->|保存| SCR-06
+    SCR-09 -->|保存| SCR-07
+    SCR-10 --> SCR-06
+    SCR-11 --> SCR-06
+    SCR-12 --> SCR-03
+    %% ---- Scope 2・3 ----
+    SCR-14[お客様向け問診フォーム S2] -.お客様が送信.-> SCR-15[未処理の回答 S2]
+    SCR-03 -->|未処理の回答| SCR-15
+    SCR-15 -->|結びつけ／新規| SCR-06
+    SCR-12 -->|データ: 持ち込み| SCR-16[顧客一覧の持ち込み S2]
+    SCR-16 -->|重複候補| SCR-17[重複のまとめ S2]
+    SCR-04 -->|重複の候補| SCR-17
+    SCR-17 --> SCR-06
+    SCR-07 -->|会話録音を取り込む| SCR-18[会話録音の取り込み S2]
+    SCR-18 -->|文字起こし完了| SCR-09
+    SCR-10 -->|項目を読み取る| SCR-19[書類の読み取り確認 S2]
+    SCR-19 --> SCR-06
+    SCR-06 -->|契約| SCR-20[コース契約 S2]
+    SCR-20 --> SCR-06
+    SCR-07 -->|保存後: お客様に送る| SCR-21[お客様に送る S3]
+    SCR-06 -->|お客様に送る| SCR-21
+    SCR-03 -->|今週声をかける人| SCR-22[声かけ S3]
+    SCR-22 -->|顧客をタップ| SCR-06
+    SCR-12 -->|分析| SCR-23[分析 S3]
+    SCR-06 -->|削除（オーナー）| SCR-24[顧客データの削除 S2]
+    SCR-12 -->|スタッフ: 停止| SCR-25[スタッフ退職処理 S2]
+    SCR-13 -->|サロンをタップ| SCR-26[スクール個別サロン閲覧 S2]
+</pre>
+<h3>共通要素</h3>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>内容</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>下部タブ（スマホ）</td>
+<td>最上位の5つ: 今日（ホーム）・お客様・＋記録（中央・浮かせる。SCR-27 のシートを開く）・声かけ（S3。Scope 1 では薄く表示し、実装は4タブ相当）・設定。最上位画面（SCR-03・04・12・22）にだけ出す。サブ画面では戻る＋階層行に切り替わる</td>
+<td>FUNC-29, 03, 04, 19</td>
+</tr>
+<tr>
+<td>上部バー</td>
+<td>2段構成。上段に<strong>階層行</strong>（今日 › お客様 › ○○さん）、下段に戻るボタンと画面タイトル。最上位画面では階層行は1段のみ</td>
+<td>-</td>
+</tr>
+<tr>
+<td>階層行</td>
+<td>全画面に常設。親はタップで戻れる。顧客配下の画面は顧客名を必ず含む。3段まで</td>
+<td>-</td>
+</tr>
+<tr>
+<td>敬称</td>
+<td>既定は「様」。名前を大きく出す場所（ヒーロー・この人カード・シートの既定）だけ、名前の後ろに小さく薄い字で添える。タイムライン・一覧・表などの密な行では敬称を省き名前だけにする。お客様に見せる文面（送付・同意画面）は通常サイズの「様」。サロン設定で「様／さん／なし」を選べる（FUNC-01）</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>検索窓</td>
+<td>ホームと顧客一覧の上部。名前・ふりがな・電話番号の部分一致。入力のたびに絞り込む。条件選択は無い</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>施術者切替</td>
+<td>来店記録の先頭。現在の操作者が既定。タップで店のスタッフ一覧から選ぶ（共有端末対応）</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>候補の表示</td>
+<td>AI が入れた値は「候補」バッジ付きの入力欄。確定前は保存されない</td>
+<td>FUNC-08, 13</td>
+</tr>
+<tr>
+<td>3状態</td>
+<td>空状態は「まだ○○がありません。＋で追加」の形。ローディングはスケルトン。エラーは原因と直し方を1文ずつ</td>
+<td>全画面</td>
+</tr>
+<tr>
+<td>警告</td>
+<td>禁忌由来の警告は error 色の帯。画面上部に固定し、人が消せない</td>
+<td>FUNC-06</td>
+</tr>
+</tbody></table>
+<h2>2. 画面ごとの仕様</h2>
+<h3>SCR-01 ログイン</h3>
+<p><strong>目的</strong>: メールアドレスとパスワードで入る。「この端末を記憶する」で30日は再入力不要。忘れたらメールで再設定。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>サービス名・挨拶</td>
+<td>「おかえりなさい」。明朝・字間広め</td>
+<td>上部</td>
+<td>-</td>
+</tr>
+<tr>
+<td>メールアドレス</td>
+<td>ラベル常時表示・下線入力</td>
+<td>中央</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>パスワード</td>
+<td>伏せ字。「表示」で切替</td>
+<td>中央</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>この端末を記憶する</td>
+<td>トグル。既定オン</td>
+<td>パスワードの下</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>ログイン（primary）</td>
+<td></td>
+<td>トグルの下</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>補助リンク</td>
+<td>「パスワードを忘れた」「招待リンクから始める」</td>
+<td>下部・小さく</td>
+<td>FUNC-02, 01</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>入力してログイン</td>
+<td>primary</td>
+<td>初回オーナーは SCR-02、それ以外は SCR-03、スクールロールは SCR-13 へ</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>パスワードを忘れた</td>
+<td>リンク</td>
+<td>メールアドレスに再設定リンクを送る（30分有効）</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>端末を記憶する</td>
+<td>トグル</td>
+<td>30日のスライド更新。共有端末ではオフを推奨する注記</td>
+<td>FUNC-02</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不一致</td>
+<td>ログイン</td>
+<td>パスワード欄の下に「メールアドレスかパスワードが違います。忘れた場合は下のリンクから再設定できます」。どちらが違うかは言わない</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>連続5回失敗</td>
+<td>ログイン</td>
+<td>「しばらく時間をおいてください。10分間ログインできません」</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>停止済み</td>
+<td>ログイン</td>
+<td>「このアカウントは利用できません。サロンのオーナーに確認してください」</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>再設定リンク期限切れ</td>
+<td>リンクを開く</td>
+<td>「リンクの有効期限が切れました。もう一度送ってください」</td>
+<td>FUNC-02</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-01">mockup.html#SCR-01</a></p>
+<h3>SCR-02 初期設定</h3>
+<p><strong>目的</strong>: 招待されたオーナーが、必須4項目以内でホームに到達する。スクールが伴走する前提。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>進捗表示</td>
+<td>「1/3 サロン」「2/3 使っているもの」「3/3 スタッフ」</td>
+<td>上部</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>サロン名</td>
+<td>必須。スクールが作ったテナント名が既定で入る</td>
+<td>ステップ1</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>業種（複数可）</td>
+<td>フェイシャル・痩身・脱毛・眉毛・ネイル・まつエク。チェック式</td>
+<td>ステップ1</td>
+<td>FUNC-01, 05</td>
+</tr>
+<tr>
+<td>使っている入口／ツール</td>
+<td>予約サイト・LINE フォーム・紙カルテ・紙の同意書・その他。チェック式</td>
+<td>ステップ2</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>スタッフ招待</td>
+<td>連絡先を1行ずつ。任意。「あとで」で飛ばせる</td>
+<td>ステップ3</td>
+<td>FUNC-01, 02</td>
+</tr>
+<tr>
+<td>進むボタン（primary）</td>
+<td>「次へ」→ 最終ステップで「はじめる」</td>
+<td>下部固定</td>
+<td>FUNC-01</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>業種を選ぶ</td>
+<td>業種チェック</td>
+<td>選んだ業種のメニュー種別テンプレートが用意される（SCR-12 で確認できる）</td>
+<td>FUNC-05</td>
+</tr>
+<tr>
+<td>入口を申告</td>
+<td>入口チェック</td>
+<td>サロン詳細に保存され、SCR-13 の集計に反映</td>
+<td>FUNC-01, 23</td>
+</tr>
+<tr>
+<td>はじめる</td>
+<td>進むボタン</td>
+<td>SCR-03 ホームへ。空状態の案内が出る</td>
+<td>FUNC-01, 29</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>サロン名が空</td>
+<td>次へ</td>
+<td>入力欄の下に「サロン名を入力してください」</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>業種が未選択</td>
+<td>次へ</td>
+<td>「1つ以上選んでください。あとから足せます」</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>招待の連絡先が不正</td>
+<td>はじめる</td>
+<td>該当行に「形式を確認してください」。他の行は送る</td>
+<td>FUNC-02</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-02">mockup.html#SCR-02</a></p>
+<h3>SCR-03 ホーム（今日）</h3>
+<p><strong>目的</strong>: 「次のお客様」を主役にして施術前の30秒を済ませ、今日の記録の進みを見せる。アプリの入口。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日付</td>
+<td>「10月8日 水曜日」だけ。挨拶や名前は出さない（共有端末で誰のログインかが曖昧になり、最上部2行を消費するため。2026-10-08 判断）</td>
+<td>最上部</td>
+<td>FUNC-29</td>
+</tr>
+<tr>
+<td>検索窓</td>
+<td>名前か電話番号。入力で SCR-04 の結果に</td>
+<td>挨拶の下</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>次のお客様（ヒーロー）</td>
+<td>深い地色のカード。<strong>3状態のどれか1枚だけ</strong>: 施術前（来店を確認する）／施術中（記録を残す・話して記録）／全員記録済み（完了）。名前（大）・時刻と残り時間・来店回数・メニュー・前回日・<strong>今回気をつけること</strong>・<strong>安全上の警告</strong>・「記録を始める」（primary）「この方を見る」</td>
+<td>1段目</td>
+<td>FUNC-29, 06, 04</td>
+</tr>
+<tr>
+<td>今日の記録リング</td>
+<td>「2 / 5 人 記録済み」のリングと一言</td>
+<td>2段目</td>
+<td>FUNC-29, 04</td>
+</tr>
+<tr>
+<td>今日の流れ（タイムライン）</td>
+<td>時刻順。済・次・未の点。各行は名前の下に <strong>「新規」または「n回目」を先頭に</strong>、メニュー・前回日・間隔（久しぶりなら）・記録状態。新規は「新規」バッジ、体験・警告もバッジ。データ源（次回予約日・今日の記録・手で足した人）は画面には書かない（利用者には不要な実装の事情）。末尾に「今日来る人を足す」</td>
+<td>3段目</td>
+<td>FUNC-29, 04</td>
+</tr>
+<tr>
+<td>今日来る人を足す</td>
+<td>顧客を検索して選ぶだけ（時刻は任意）。予約サイト・DM・電話の予約はここから。外部の予定の自動取り込みは S3（FUNC-31）</td>
+<td>タイムライン末尾</td>
+<td>FUNC-29, 31</td>
+</tr>
+<tr>
+<td>あとで</td>
+<td>記録がまだ・確認待ち・未処理の回答（S2）。件数つき</td>
+<td>4段目</td>
+<td>FUNC-29, 08, 13, 10</td>
+</tr>
+<tr>
+<td>下部タブ</td>
+<td>今日・お客様・＋記録・声かけ（S3）・設定</td>
+<td>下部固定</td>
+<td>FUNC-29</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>記録を始める</td>
+<td>ヒーローの primary</td>
+<td>その顧客の SCR-07 ステップ1へ</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>この方を見る</td>
+<td>ヒーローのリンク</td>
+<td>SCR-06 へ</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>タイムラインの人をタップ</td>
+<td>行</td>
+<td>SCR-06 へ。済の人は直近の来店記録へ</td>
+<td>FUNC-03, 04</td>
+</tr>
+<tr>
+<td>＋記録</td>
+<td>下部タブ中央</td>
+<td>顧客を選んで SCR-07 へ</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>あとでの行</td>
+<td>行</td>
+<td>SCR-07（続き）／SCR-08・09（確認）／SCR-15 へ</td>
+<td>FUNC-04, 08, 13, 10</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>顧客0人（初回）</td>
+<td>表示</td>
+<td>ヒーローの代わりに「はじめの3歩」（最初のお客様を登録／紙を1枚撮る／今日の来店を1件話して残す）。primary は1つ。「予約はこれまでどおり予約サイトや LINE で。ここには今日来る人を足すだけ」の説明はこの初回状態にだけ出す</td>
+<td>FUNC-03, 08, 13</td>
+</tr>
+<tr>
+<td>今日の来店なし</td>
+<td>表示</td>
+<td>ヒーローに「今日の予定はまだ入っていません」と「今日来る人を足す」「記録を始める」</td>
+<td>FUNC-29</td>
+</tr>
+<tr>
+<td>外部の予定の候補（S3）</td>
+<td>表示</td>
+<td>Google カレンダー／予約通知メール由来の予定は「候補」バッジで出て、顧客に結びつけると通常の行になる</td>
+<td>FUNC-31</td>
+</tr>
+<tr>
+<td>次の人に警告</td>
+<td>表示</td>
+<td>ヒーロー内に警告チップ。タイムラインにも警告バッジ</td>
+<td>FUNC-06</td>
+</tr>
+<tr>
+<td>記録がまだが7日超</td>
+<td>表示</td>
+<td>一覧から消え、件数バッジだけ残す</td>
+<td>FUNC-29</td>
+</tr>
+<tr>
+<td>AI 上限到達</td>
+<td>表示</td>
+<td>あとでの下に「今月の AI 利用が上限」</td>
+<td>FUNC-25</td>
+</tr>
+<tr>
+<td>取得失敗</td>
+<td>表示</td>
+<td>「読み込めませんでした。電波を確認して引き下げて更新」</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-03">mockup.html#SCR-03</a></p>
+<h3>SCR-04 お客様（一覧・検索）</h3>
+<p><strong>目的</strong>: 検索窓1つで顧客にたどり着く。条件は選ばせない。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>検索窓</td>
+<td>ホームと同じ。フォーカス状態で開く</td>
+<td>最上部</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>顧客行</td>
+<td>呼び名・ふりがな・最終来店日・警告の有無・次回予約日</td>
+<td>一覧</td>
+<td>FUNC-03, 06</td>
+</tr>
+<tr>
+<td>件数</td>
+<td>「○人」</td>
+<td>一覧の上</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>顧客を追加（primary）</td>
+<td>SCR-05 へ</td>
+<td>下部固定</td>
+<td>FUNC-03</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文字を入力</td>
+<td>検索窓</td>
+<td>1文字ごとに名前・ふりがな・電話番号の部分一致で絞り込む（1秒以内）</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>顧客をタップ</td>
+<td>顧客行</td>
+<td>SCR-06 へ</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>顧客を追加</td>
+<td>primary</td>
+<td>SCR-05 へ。検索窓の文字列を呼び名の初期値にする</td>
+<td>FUNC-03</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一致なし</td>
+<td>検索</td>
+<td>「『○○』に一致するお客様はいません」と、その文字列で登録する primary</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>顧客0人</td>
+<td>表示</td>
+<td>「まだお客様が登録されていません」と登録・取り込みへの導線</td>
+<td>FUNC-03, 08</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-04">mockup.html#SCR-04</a></p>
+<h3>SCR-05 顧客登録</h3>
+<p><strong>目的</strong>: 呼び名だけで3タップ以内に登録する。本名の姓・名は任意で、別のデータとして持つ。重複を知らせる。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>問い</td>
+<td>「お客様をなんと呼んでいますか」。明朝・大きく</td>
+<td>上部</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>呼び名</td>
+<td>必須。大きな入力欄。敬称は付けない（表示時に自動）</td>
+<td>問いの下</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>本名（任意）</td>
+<td>姓・名・せい・めい の4欄。用途の説明（書面の宛名・メッセージの宛名）。名を入れると呼び名の候補になる</td>
+<td>呼び名の下・カード</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>連絡先など（折りたたみ）</td>
+<td>電話番号・LINE 表示名・生年月日・初回来店日</td>
+<td>本名の下・閉じた状態</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>重複候補</td>
+<td>電話番号一致時に、既存顧客のカード（呼び名・本名・最終来店・回数）と「このお客様を開く／別の人」</td>
+<td>連絡先の下</td>
+<td>FUNC-03, 12</td>
+</tr>
+<tr>
+<td>登録する（primary）</td>
+<td></td>
+<td>下部固定</td>
+<td>FUNC-03</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>呼び名を入れて登録</td>
+<td>primary</td>
+<td>顧客を作り SCR-06 へ</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>名を入力</td>
+<td>本名・名</td>
+<td>呼び名が空なら候補として自動で入る（上書きはしない）</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>重複候補を開く</td>
+<td>候補カード</td>
+<td>新規登録をやめ、既存顧客の SCR-06 へ</td>
+<td>FUNC-03</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>呼び名が空</td>
+<td>登録</td>
+<td>「呼び名を入力してください」</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>電話番号一致</td>
+<td>入力中</td>
+<td>重複候補を表示。登録は止めない</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>姓だけ・名だけ</td>
+<td>登録</td>
+<td>片方だけでも保存できる（宛名は入っている方を使う）</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>初回来店日が未来</td>
+<td>登録</td>
+<td>「初回来店日は今日以前の日付にしてください」</td>
+<td>FUNC-03</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-05">mockup.html#SCR-05</a></p>
+<h3>SCR-06 顧客詳細（この人カード）</h3>
+<p><strong>目的</strong>: 人を主語に、この人の「いま」を1画面目で把握する。記録・写真・書類・契約・同意はタブで分け、縦に長く並べない。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>この人カード</td>
+<td>モノグラム（頭文字）・呼び名（大・明朝・小さな敬称）・本名とふりがな（小）・初回来店月・<strong>来店のリズム</strong>（来店を点で並べ、次回は白抜き）</td>
+<td>最上部</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>3つの数字</td>
+<td>来店回数・周期（日）・次回予約日</td>
+<td>カードの下・罫線で区切る</td>
+<td>FUNC-03, 04, 26</td>
+</tr>
+<tr>
+<td>安全上の警告</td>
+<td>禁忌がある場合のみ。ボルドーの縦線</td>
+<td>数字の下</td>
+<td>FUNC-06, 03</td>
+</tr>
+<tr>
+<td>今回気をつけること</td>
+<td>金の縦線＋明朝。人が確定した注意点</td>
+<td>警告の下</td>
+<td>FUNC-06</td>
+</tr>
+<tr>
+<td>次回提案の候補（S2）</td>
+<td>候補バッジ・根拠リンク・確定</td>
+<td>注意点の下</td>
+<td>FUNC-18</td>
+</tr>
+<tr>
+<td>タブ</td>
+<td>記録／写真／書類／契約（S2）／同意</td>
+<td>中央</td>
+<td>-</td>
+</tr>
+<tr>
+<td>記録タブ</td>
+<td>来店記録の時系列（紙由来はバッジ）＋「紙カルテを取り込む」「お客様に送る（S3）」</td>
+<td>タブ内</td>
+<td>FUNC-04, 08, 20</td>
+</tr>
+<tr>
+<td>写真タブ</td>
+<td>施術後写真の3列グリッド（時系列）。タップで前後比較</td>
+<td>タブ内</td>
+<td>FUNC-07</td>
+</tr>
+<tr>
+<td>書類タブ</td>
+<td>預かり書類の一覧＋「書類を預ける」</td>
+<td>タブ内</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>契約タブ（S2）</td>
+<td>残回数（大）・有効期限・進捗バー → SCR-20</td>
+<td>タブ内</td>
+<td>FUNC-22</td>
+</tr>
+<tr>
+<td>同意タブ</td>
+<td>4種の取得状況＋「画面で同意をもらう」。最下部に削除（S2・オーナー）</td>
+<td>タブ内</td>
+<td>FUNC-15, 16</td>
+</tr>
+<tr>
+<td>この方の来店を記録（primary）</td>
+<td></td>
+<td>下部固定</td>
+<td>FUNC-04</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>来店を記録</td>
+<td>primary</td>
+<td>SCR-07 ステップ1へ（顧客確定）</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>タブ切替</td>
+<td>タブ</td>
+<td>内容だけ入れ替わる。この人カード・警告・注意点は固定</td>
+<td>-</td>
+</tr>
+<tr>
+<td>注意点を編集</td>
+<td>注意点</td>
+<td>その場で編集・確定</td>
+<td>FUNC-06</td>
+</tr>
+<tr>
+<td>写真をタップ</td>
+<td>グリッド</td>
+<td>前後比較の拡大表示</td>
+<td>FUNC-07</td>
+</tr>
+<tr>
+<td>リズムの点をタップ</td>
+<td>来店のリズム</td>
+<td>その来店記録へ</td>
+<td>FUNC-04</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>来店記録0件</td>
+<td>表示</td>
+<td>リズムは点なし。記録タブに「まだ来店の記録がありません」と取り込み導線</td>
+<td>FUNC-04, 08</td>
+</tr>
+<tr>
+<td>写真同意未取得</td>
+<td>写真を撮ろうとする</td>
+<td>「写真の同意がまだです。お客様に確認しますか」→ SCR-11</td>
+<td>FUNC-07, 15</td>
+</tr>
+<tr>
+<td>原本 URL 期限切れ</td>
+<td>書類タップ</td>
+<td>再取得。失敗時「もう一度お試しください」</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>別サロンの顧客 ID</td>
+<td>直接アクセス</td>
+<td>「このお客様は見つかりません」</td>
+<td>FUNC-02</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-06">mockup.html#SCR-06</a></p>
+<h3>SCR-07 来店記録（確認 → 記録 → 次回）</h3>
+<p><strong>目的</strong>: 長いフォームではなく3ステップの会話で、施術後の1分で残す。最初に「話す」、入力欄は後ろ。終わりに進みを見せる。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>上部</td>
+<td>顧客名・来店日・施術者（タップで切替）・「あとで」</td>
+<td>上部バー</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>ステップ表示</td>
+<td>1 確認 → 2 記録 → 3 次回</td>
+<td>バーの下</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>ステップ1 確認</td>
+<td>本日の禁忌チェック・来店種別（体験は仮）・メニュー・コース消化（S2）・前回の申し送り</td>
+<td>ステップ1</td>
+<td>FUNC-04, 03, 22</td>
+</tr>
+<tr>
+<td>ステップ2 記録</td>
+<td>大きな「話す」（SCR-09）、写真を撮る、録音を取り込む（S2）。その下に「または直接入力する」の区切りと「話さなくても大丈夫です。欄をタップしてそのまま書けます」の一文、続けてテンプレート項目（AI を使えば候補バッジ付き、使わなければ空欄で直接入力）・写真サムネ。<strong>手入力は常に使える基本の入口で、「話す」はその上に乗る省力手段</strong></td>
+<td>ステップ2</td>
+<td>FUNC-13, 07, 14, 05</td>
+</tr>
+<tr>
+<td>ステップ3 次回</td>
+<td>次回への申し送り（候補）・次回予約日・金額（任意）・来店経路</td>
+<td>ステップ3</td>
+<td>FUNC-04, 06</td>
+</tr>
+<tr>
+<td>完了</td>
+<td>「記録が残りました」と今日のリング（3/5）、「お客様に送る（S3）」「今日に戻る」</td>
+<td>保存後</td>
+<td>FUNC-04, 29, 20</td>
+</tr>
+<tr>
+<td>進むボタン（primary）</td>
+<td>「確認しました。記録へ」→「次へ（3 次回）」→「保存する」</td>
+<td>下部固定</td>
+<td>FUNC-04</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>話す</td>
+<td>円ボタン</td>
+<td>SCR-09 へ。戻ると候補がステップ2・3の欄に入る</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>写真を撮る</td>
+<td>ボタン</td>
+<td>カメラ → 前／後ラベル → サムネ</td>
+<td>FUNC-07</td>
+</tr>
+<tr>
+<td>候補を確定</td>
+<td>候補欄</td>
+<td>タップでバッジが消え確定値に</td>
+<td>FUNC-08, 13</td>
+</tr>
+<tr>
+<td>次へ／保存</td>
+<td>primary</td>
+<td>保存で完了画面。空欄があっても保存できる</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>あとで</td>
+<td>上部リンク</td>
+<td>下書き保存。ホームの「記録がまだ」へ</td>
+<td>FUNC-04, 29</td>
+</tr>
+<tr>
+<td>ステップを戻る</td>
+<td>ステップ表示</td>
+<td>入力は保持</td>
+<td>FUNC-04</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>禁忌チェック未記入</td>
+<td>ステップ1→2</td>
+<td>「本日の確認がまだです。確認せずに進みますか」。進めはする</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>候補のまま保存</td>
+<td>保存</td>
+<td>「候補のままの項目があります。確定して保存／候補を捨てる」</td>
+<td>FUNC-08, 13</td>
+</tr>
+<tr>
+<td>同一日2件目</td>
+<td>保存</td>
+<td>「今日はすでに記録があります。別の来店として保存しますか」</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>次回予約日が来店日以前</td>
+<td>ステップ3</td>
+<td>「来店日より後の日付にしてください」</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>写真20枚超</td>
+<td>追加</td>
+<td>「1回の来店に添付できる写真は20枚までです」</td>
+<td>FUNC-07</td>
+</tr>
+<tr>
+<td>電波なし</td>
+<td>写真・音声</td>
+<td>「送信待ち」。つながったら自動送信</td>
+<td>FUNC-07, 13</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-07">mockup.html#SCR-07</a></p>
+<h3>SCR-08 紙カルテ取り込み</h3>
+<p><strong>目的</strong>: 紙を撮るだけで、元画像と並べて確認し、来店ごとの記録にする。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ステップ表示</td>
+<td>「撮影 → 読み取り中 → 確認」</td>
+<td>上部</td>
+<td>FUNC-08</td>
+</tr>
+<tr>
+<td>撮影エリア</td>
+<td>カメラ起動・複数枚。撮った枚数</td>
+<td>ステップ1</td>
+<td>FUNC-08</td>
+</tr>
+<tr>
+<td>読み取り中</td>
+<td>「読み取っています。閉じてもホームの確認待ちに届きます」</td>
+<td>ステップ2</td>
+<td>FUNC-08, 29</td>
+</tr>
+<tr>
+<td>元画像</td>
+<td>撮った紙。ピンチで拡大</td>
+<td>ステップ3 上半分</td>
+<td>FUNC-08</td>
+</tr>
+<tr>
+<td>抽出候補</td>
+<td>来店日ごとにタブ分け。項目ごとに候補バッジ付き欄。読めない箇所は空欄＋「読めませんでした」</td>
+<td>ステップ3 下半分</td>
+<td>FUNC-08, 05</td>
+</tr>
+<tr>
+<td>初回来店日の候補</td>
+<td>最も古い来店日を提案</td>
+<td>候補の上</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>保存（primary）</td>
+<td>「○件の来店として保存」</td>
+<td>下部固定</td>
+<td>FUNC-08</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>撮影</td>
+<td>撮影エリア</td>
+<td>複数枚撮り「読み取る」で非同期処理へ</td>
+<td>FUNC-08</td>
+</tr>
+<tr>
+<td>来店タブを切替</td>
+<td>候補タブ</td>
+<td>その来店分の候補を表示</td>
+<td>FUNC-08</td>
+</tr>
+<tr>
+<td>候補を直す</td>
+<td>候補欄</td>
+<td>編集で確定値に</td>
+<td>FUNC-08</td>
+</tr>
+<tr>
+<td>保存</td>
+<td>primary</td>
+<td>来店記録を複数件作り、元画像を各記録に紐づけて SCR-06 へ</td>
+<td>FUNC-08, 04</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI 上限到達</td>
+<td>読み取る</td>
+<td>「今月の読み取りは上限に達しました。画像は保存し、上限が戻ったら読み取ります」。元画像だけ保存</td>
+<td>FUNC-25</td>
+</tr>
+<tr>
+<td>日付が読めない</td>
+<td>確認</td>
+<td>来店日欄が空＋「日付を入力してください」。保存は日付必須</td>
+<td>FUNC-08, 04</td>
+</tr>
+<tr>
+<td>読み取り失敗</td>
+<td>処理</td>
+<td>「読み取れませんでした。明るい場所でもう一度撮るか、画像だけ保存できます」</td>
+<td>FUNC-08</td>
+</tr>
+<tr>
+<td>顧客未選択で開始</td>
+<td>撮影前</td>
+<td>顧客を検索して選ぶか「新しいお客様として」を選ぶ</td>
+<td>FUNC-08, 03</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-08">mockup.html#SCR-08</a></p>
+<h3>SCR-09 話して記録（音声メモ）</h3>
+<p><strong>目的</strong>: 話すだけで項目候補を作り、来店記録に戻す。会話録音（Scope 2）も出口はこの画面。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>録音ボタン</td>
+<td>大きな1つのボタン。録音中は停止に変わる。経過時間</td>
+<td>中央</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>案内</td>
+<td>「施術の内容・気づいたこと・次回への申し送りを話してください」</td>
+<td>ボタンの上</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>処理中</td>
+<td>「文字にしています。閉じてもホームの確認待ちに届きます」</td>
+<td>停止後</td>
+<td>FUNC-13, 29</td>
+</tr>
+<tr>
+<td>文字起こし全文</td>
+<td>折りたたみ。自由メモに残すチェック</td>
+<td>確認ステップ上部</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>項目候補</td>
+<td>項目ごとに候補バッジ付き欄。聞き取れない箇所は空欄</td>
+<td>確認ステップ下部</td>
+<td>FUNC-13, 05</td>
+</tr>
+<tr>
+<td>来店記録に戻す（primary）</td>
+<td>「この内容で来店記録へ」</td>
+<td>下部固定</td>
+<td>FUNC-13</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>録音→停止</td>
+<td>録音ボタン</td>
+<td>音声を送り、非同期で文字起こしと候補生成</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>候補を直す</td>
+<td>候補欄</td>
+<td>編集で確定値に</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>来店記録に戻す</td>
+<td>primary</td>
+<td>SCR-07 に候補が入った状態で戻る</td>
+<td>FUNC-13, 04</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>マイク許可なし</td>
+<td>録音</td>
+<td>「マイクの使用を許可してください。端末の設定から変更できます」</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>10分超</td>
+<td>録音中</td>
+<td>10分で自動停止し「ここまでの内容で進めます」</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>AI 上限到達</td>
+<td>停止</td>
+<td>「音声は保存しました。読み取りは上限が戻ったら行います」</td>
+<td>FUNC-25</td>
+</tr>
+<tr>
+<td>電波なし</td>
+<td>停止</td>
+<td>「送信待ち。つながったら自動で文字にします」</td>
+<td>FUNC-13</td>
+</tr>
+<tr>
+<td>聞き取り不能</td>
+<td>処理</td>
+<td>候補が全部空。「聞き取れませんでした。静かな場所でもう一度お試しください」</td>
+<td>FUNC-13</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-09">mockup.html#SCR-09</a></p>
+<h3>SCR-10 書類</h3>
+<p><strong>目的</strong>: 契約書・概要書面・同意書・問診票を顧客に紐づけて預け、原本をいつでも開ける。抽出は Scope 2。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>預かった書類一覧</td>
+<td>種類・日付・元のファイル名</td>
+<td>上部</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>ファイル選択／撮影</td>
+<td>「ファイルを選ぶ」「撮影する」の枠線ボタン</td>
+<td>一覧の下</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>種類と日付</td>
+<td>契約書／概要書面／同意書／問診票／その他。日付</td>
+<td>選択後</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>同意に紐づける</td>
+<td>同意書のとき「同意の記録を作る」チェック（SCR-11 に反映）</td>
+<td>種類の下</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>預ける（primary）</td>
+<td>「預ける」</td>
+<td>下部固定</td>
+<td>FUNC-09</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>書類をタップ</td>
+<td>一覧の行</td>
+<td>原本を開く</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>ファイルを選んで預ける</td>
+<td>primary</td>
+<td>保存し一覧に追加。SCR-06 の時系列にも出る</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>同意書として預ける</td>
+<td>同意チェック</td>
+<td>同意記録（紙）を同時に作り、原本に紐づける</td>
+<td>FUNC-15</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>20MB 超</td>
+<td>選択</td>
+<td>「20MB までのファイルを選んでください」</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>対応外の形式</td>
+<td>選択</td>
+<td>「PDF か画像を選んでください」</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>日本語ファイル名</td>
+<td>保存</td>
+<td>そのまま預かれる。一覧には元の名前を表示（内部名は変換）</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>送信失敗</td>
+<td>預ける</td>
+<td>「保存できませんでした。電波を確認してもう一度」</td>
+<td>FUNC-09</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-10">mockup.html#SCR-10</a></p>
+<h3>SCR-11 同意</h3>
+<p><strong>目的</strong>: 同意の状態を見て、その場でお客様に画面を見せてタップ／サインしてもらう。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同意一覧</td>
+<td>要配慮情報の取得／写真（記録用）／写真（販促用）／施術内容の送付。各行に状態・取得日・方法（会話録音の同意は持たない）</td>
+<td>上部</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>取得方法の選択</td>
+<td>「画面で同意をもらう」「紙の同意書を預ける（SCR-10）」</td>
+<td>一覧の下</td>
+<td>FUNC-15, 09</td>
+</tr>
+<tr>
+<td>お客様向け画面</td>
+<td>サロン名入りの説明文（1画面に収まる）・同意する項目のチェック・サイン欄・「同意する」ボタン。スタッフ向け UI は隠す</td>
+<td>全画面モード</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>完了</td>
+<td>「○○さんの同意を記録しました」と日時</td>
+<td>戻った後</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>撤回</td>
+<td>各行の「撤回」テキストリンク。確認を挟む</td>
+<td>一覧の行</td>
+<td>FUNC-15</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>画面で同意をもらう</td>
+<td>選択ボタン</td>
+<td>お客様向け画面に切り替え、端末をお客様に渡す</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>同意する（お客様）</td>
+<td>お客様向け画面の primary</td>
+<td>サイン画像・日時・項目を保存し、スタッフ向け画面に戻る</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>撤回</td>
+<td>テキストリンク</td>
+<td>撤回日を記録。送付・写真の該当機能が使えなくなる</td>
+<td>FUNC-15</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>項目未選択で同意</td>
+<td>同意する</td>
+<td>「同意する項目を1つ以上選んでください」</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>サイン欄が空（サイン方式）</td>
+<td>同意する</td>
+<td>「サインをお願いします」。タップ方式なら不要</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>お客様向け画面からの離脱</td>
+<td>戻る操作</td>
+<td>「同意は記録されていません。戻りますか」</td>
+<td>FUNC-15</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-11">mockup.html#SCR-11</a></p>
+<h3>SCR-12 設定</h3>
+<p><strong>目的</strong>: カルテ項目・スタッフ・AI 利用量・サロン情報を1画面（タブ）で管理する。オーナー専用。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>タブ</td>
+<td>「カルテ項目」「スタッフ」「AI 利用」「サロン」</td>
+<td>上部</td>
+<td>-</td>
+</tr>
+<tr>
+<td>カルテ項目</td>
+<td>メニュー種別ごとの項目一覧。追加・非表示・並べ替え。項目の型。<strong>各行に「問診フォームに出す」の切替とお客様向け表示名</strong>。「フォームを確認する」で SCR-14 を開く。禁忌の既定リスト（問診の「体調について」の選択肢にもなる）。フォームで固定の部分（名前・連絡先・同意）の説明</td>
+<td>タブ1</td>
+<td>FUNC-05, FUNC-10</td>
+</tr>
+<tr>
+<td>スタッフ</td>
+<td>一覧（名前・ロール・状態）。招待・停止</td>
+<td>タブ2</td>
+<td>FUNC-02, 01</td>
+</tr>
+<tr>
+<td>AI 利用</td>
+<td>今月の利用量（機能別）・請求見込み・上限・残量。上限はスクールが設定（表示のみ。仮）</td>
+<td>タブ3</td>
+<td>FUNC-25</td>
+</tr>
+<tr>
+<td>サロン</td>
+<td>サロン名・業種・使っている入口／ツール（変更可）</td>
+<td>タブ4</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>保存（primary）</td>
+<td>タブ内で変更があるときだけ活性</td>
+<td>下部固定</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>項目を追加</td>
+<td>カルテ項目タブ</td>
+<td>名前と型を入れて追加。次の来店記録から入力欄に出る</td>
+<td>FUNC-05</td>
+</tr>
+<tr>
+<td>項目を非表示</td>
+<td>カルテ項目タブ</td>
+<td>非表示に。過去記録では値が読める</td>
+<td>FUNC-05</td>
+</tr>
+<tr>
+<td>スタッフを停止</td>
+<td>スタッフタブ</td>
+<td>確認後に即時停止。振り直しは Scope 2</td>
+<td>FUNC-02, 17</td>
+</tr>
+<tr>
+<td>入口を変更</td>
+<td>サロンタブ</td>
+<td>変更履歴を残し、SCR-13 の集計に反映</td>
+<td>FUNC-01, 23</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>項目名の重複</td>
+<td>追加</td>
+<td>「同じ名前の項目があります」</td>
+<td>FUNC-05</td>
+</tr>
+<tr>
+<td>既定項目を削除しようとする</td>
+<td>削除</td>
+<td>削除ボタンは無く「非表示」のみ。説明文「過去の記録を守るため非表示にします」</td>
+<td>FUNC-05</td>
+</tr>
+<tr>
+<td>スタッフが設定を開く</td>
+<td>遷移</td>
+<td>設定への導線自体を出さない。直接 URL は「この画面はオーナーのみ使えます」</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>自分自身を停止</td>
+<td>停止</td>
+<td>「自分のアカウントは停止できません」</td>
+<td>FUNC-02</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-12">mockup.html#SCR-12</a></p>
+<h3>SCR-13 スクール横断ビュー</h3>
+<p><strong>目的</strong>: スクールが全生徒サロンの定着状況・入口構成・AI 利用量を横断で見て、つまずいている店を見つける。顧客名・来店内容は出さない。PC 幅も想定。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全体サマリ</td>
+<td>サロン数・1件目作成済み率・直近4週に記録のあるサロン率</td>
+<td>上部</td>
+<td>FUNC-23</td>
+</tr>
+<tr>
+<td>入口／ツールの構成</td>
+<td>予約サイト・LINE フォーム・紙カルテ等を使っている割合（横棒）</td>
+<td>サマリの下</td>
+<td>FUNC-23</td>
+</tr>
+<tr>
+<td>サロン一覧</td>
+<td>サロン名・業種・顧客数・来店記録数・最初の1件までの日数・直近4週の記録数・AI 利用量・つまずき表示。つまずき（1件目未作成・2週以上記録なし）が上位</td>
+<td>中央</td>
+<td>FUNC-23, 25</td>
+</tr>
+<tr>
+<td>並べ替え</td>
+<td>「つまずき順」「記録数順」「登録順」</td>
+<td>一覧の上</td>
+<td>FUNC-23</td>
+</tr>
+<tr>
+<td>サロンを追加（primary）</td>
+<td>テナント作成・オーナー招待</td>
+<td>上部右</td>
+<td>FUNC-01</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>サロンを追加</td>
+<td>primary</td>
+<td>サロン名とオーナー連絡先で作成・招待。一覧に追加</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>サロン行をタップ</td>
+<td>一覧</td>
+<td>初版はそのサロンの指標の詳細（件数・日付）のみ。個別記録の閲覧は Scope 2（FUNC-24）</td>
+<td>FUNC-23</td>
+</tr>
+<tr>
+<td>並べ替え</td>
+<td>並べ替え</td>
+<td>一覧の順序を変える</td>
+<td>FUNC-23</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>サロン0件</td>
+<td>表示</td>
+<td>「まだ生徒サロンがありません。最初のサロンを追加しましょう」</td>
+<td>FUNC-01</td>
+</tr>
+<tr>
+<td>配下から外れたサロン</td>
+<td>表示</td>
+<td>一覧から消える。履歴は残さない</td>
+<td>FUNC-23</td>
+</tr>
+<tr>
+<td>顧客名・来店内容の漏れ</td>
+<td>表示</td>
+<td>この画面には構造上出ない（受入基準）</td>
+<td>FUNC-23</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-13">mockup.html#SCR-13</a></p>
+<h3>SCR-27 誰の記録ですか？（シート）</h3>
+<p><strong>目的</strong>: 下部タブ中央の「＋記録」から、誰の記録かを最短で決める。「来店記録か、お客様追加か」を先に選ばせない。目の前の人が登録済みかどうかは検索して初めて分かるので、分岐はメニューではなく検索で吸収する。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>見出し</td>
+<td>「誰の記録ですか？」</td>
+<td>最上部</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>賢い既定</td>
+<td>今日の予定で記録がまだの人が1人だけなら、その人を深い地色で最上段に「記録を始める」</td>
+<td>見出しの下</td>
+<td>FUNC-29, 04</td>
+</tr>
+<tr>
+<td>検索窓</td>
+<td>常に見える。入力のたびに下の一覧が絞り込まれる</td>
+<td>既定の下</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>今日来る人</td>
+<td>記録がまだの人を先に、記録済みは薄く（開いて直せる）</td>
+<td>検索が空のとき</td>
+<td>FUNC-29</td>
+</tr>
+<tr>
+<td>最近来た方</td>
+<td>最終来店が新しい順に数人</td>
+<td>今日の下</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>新しいお客様として登録して記録を始める</td>
+<td>最下段に常設。検索に一致が無いときは、検索した文字列を呼び名にした形で最上段に浮かぶ</td>
+<td>最下段／一致なし時は最上段</td>
+<td>FUNC-03, 04</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>既定をタップ</td>
+<td>賢い既定</td>
+<td>その人の SCR-07 ステップ1へ。1タップで終わる</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>人をタップ</td>
+<td>今日来る人／最近来た方／検索結果</td>
+<td>その人の SCR-07 へ。記録済みの人は既存の記録を開く</td>
+<td>FUNC-04</td>
+</tr>
+<tr>
+<td>検索</td>
+<td>検索窓</td>
+<td><strong>部分一致</strong>（名前・ふりがな・電話番号のどこかに含まれる）。「はる」で「はるか」「こはる」が出る。一致した部分は太字。一致が1人以上いれば一覧を出し、新規登録の行はその下。一致が0人のときだけ「『○○』様を登録して記録を始める」が最上段に出る</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>新規登録して記録</td>
+<td>新規の行</td>
+<td>呼び名だけで顧客を作り、そのまま SCR-07 へ（SCR-05 を経由しない）</td>
+<td>FUNC-03, 04</td>
+</tr>
+<tr>
+<td>閉じる</td>
+<td>シート外をタップ／下に引く</td>
+<td>元の画面に戻る</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>今日の未記録が0人または2人以上</td>
+<td>開く</td>
+<td>賢い既定は出さず、検索窓が最上段</td>
+<td>FUNC-29</td>
+</tr>
+<tr>
+<td>一致なし</td>
+<td>検索</td>
+<td>部分一致でも0人のときだけ。「『○○』に一致するお客様はいません」と新規登録の行を最上段に</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>同名が複数</td>
+<td>検索</td>
+<td>最終来店日・回数・警告で見分けられる行にする</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>顧客0人（初回）</td>
+<td>開く</td>
+<td>検索窓と新規登録の行だけ</td>
+<td>FUNC-03</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-27">mockup.html#SCR-27</a></p>
+<h3>SCR-14 お客様向け問診フォーム（Scope 2）</h3>
+<p><strong>目的</strong>: お客様が <strong>自分のスマホ</strong> で、ログインせずに事前問診を入力して送る。サロンのアプリとは別の公開 Web ページで、お客様にアプリは入れさせない。LINE 連携があれば LINE 内で開き、回答が自動で本人に紐づく。リンクを持っていない来店客には、サロンのタブレットでこのページを開いて渡す（SCR-11 と同じ使い方）。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>サロン名・案内</td>
+<td>「ご来店前にお伺いします。3分ほどで終わります」</td>
+<td>上部</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>基本情報</td>
+<td>お名前・ふりがな・電話番号・生年月日（任意）。固定部分</td>
+<td>1ブロック目</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>問診項目</td>
+<td>サロンが FUNC-05 で「問診フォームに出す」にした項目を、お客様向け表示名・設定した順で。テナントが自由に変えられる部分。選択式を優先</td>
+<td>2ブロック目</td>
+<td>FUNC-10, 05</td>
+</tr>
+<tr>
+<td>体調・禁忌の自己申告</td>
+<td>妊娠・服薬・アレルギー・肌トラブル等のチェック + 自由記述</td>
+<td>3ブロック目</td>
+<td>FUNC-10, 03</td>
+</tr>
+<tr>
+<td>同意</td>
+<td>要配慮情報の取得・写真（記録用）のチェック。説明文はサロン名入り</td>
+<td>送信前</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>送信（primary）</td>
+<td>「送信する」</td>
+<td>下部</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>完了</td>
+<td>「ありがとうございます。ご来店をお待ちしています」</td>
+<td>送信後</td>
+<td>FUNC-10</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>入力して送信</td>
+<td>primary</td>
+<td>サロンの「未処理の回答」（SCR-15）に届く。顧客レコードには直接書かない</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>LINE 内で開く</td>
+<td>（LIFF）</td>
+<td>LINE ユーザー ID が回答に付き、既存顧客なら自動で結びつき候補になる</td>
+<td>FUNC-27</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同意チェックなし</td>
+<td>送信</td>
+<td>「ご確認いただける項目にチェックをお願いします」。送信しない</td>
+<td>FUNC-10, 15</td>
+</tr>
+<tr>
+<td>必須（お名前）が空</td>
+<td>送信</td>
+<td>「お名前をご入力ください」</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>リンク無効</td>
+<td>開く</td>
+<td>「このフォームは現在ご利用いただけません。サロンへお問い合わせください」</td>
+<td>FUNC-10</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-14">mockup.html#SCR-14</a></p>
+<h3>SCR-15 未処理の回答（Scope 2）</h3>
+<p><strong>目的</strong>: 届いたフォーム回答を、既存顧客に結びつけるか新規顧客として作る。要配慮情報を含むので確認してから取り込む。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>回答一覧</td>
+<td>送信日時・お名前・電話番号・LINE 表示名。未処理のみ</td>
+<td>上部</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>回答の内容</td>
+<td>選んだ回答の全項目。禁忌の自己申告は目立たせる</td>
+<td>選択後</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>結びつけ候補</td>
+<td>電話番号・氏名・LINE ユーザー ID が一致する既存顧客。根拠を表示</td>
+<td>内容の下</td>
+<td>FUNC-12, 27</td>
+</tr>
+<tr>
+<td>取り込み先の選択</td>
+<td>「この方に結びつける」（候補）／「新しいお客様として登録」</td>
+<td>下部</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>取り込む（primary）</td>
+<td>「取り込む」</td>
+<td>下部固定</td>
+<td>FUNC-10</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>候補を選んで取り込む</td>
+<td>primary</td>
+<td>回答が既存顧客の記録に入り、禁忌は警告に反映。SCR-06 へ</td>
+<td>FUNC-10, 03, 06</td>
+</tr>
+<tr>
+<td>新規として取り込む</td>
+<td>primary</td>
+<td>顧客を作って SCR-06 へ</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>回答を破棄</td>
+<td>テキストリンク</td>
+<td>いたずら等。確認後に削除</td>
+<td>FUNC-10</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>候補が複数</td>
+<td>表示</td>
+<td>全候補を根拠つきで並べる。自動では結びつけない</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>既存値と回答が違う</td>
+<td>取り込む</td>
+<td>「電話番号が違います」と両方を見せて選ばせる</td>
+<td>FUNC-10</td>
+</tr>
+<tr>
+<td>未処理0件</td>
+<td>表示</td>
+<td>「未処理の回答はありません」</td>
+<td>FUNC-10</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-15">mockup.html#SCR-15</a></p>
+<h3>SCR-16 顧客一覧の持ち込み（Scope 2）</h3>
+<p><strong>目的</strong>: 予約サイト等から出した CSV を、列対応の確認だけで取り込む。全件成功か全件取り消し。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ステップ</td>
+<td>「ファイル → 列の対応 → 確認 → 完了」</td>
+<td>上部</td>
+<td>FUNC-11</td>
+</tr>
+<tr>
+<td>ファイル選択</td>
+<td>CSV（UTF-8 / Shift_JIS）</td>
+<td>ステップ1</td>
+<td>FUNC-11</td>
+</tr>
+<tr>
+<td>列の対応</td>
+<td>左にファイルの列名とサンプル値、右に顧客項目（呼び名・ふりがな・電話・初回来店日・外部 ID・メモ・取り込まない）</td>
+<td>ステップ2</td>
+<td>FUNC-11</td>
+</tr>
+<tr>
+<td>確認</td>
+<td>件数・重複候補の件数・初回来店日が無い場合の扱い</td>
+<td>ステップ3</td>
+<td>FUNC-11, 12</td>
+</tr>
+<tr>
+<td>取り込む（primary）</td>
+<td>「○件を取り込む」</td>
+<td>下部固定</td>
+<td>FUNC-11</td>
+</tr>
+<tr>
+<td>履歴</td>
+<td>過去の取り込み単位。「取り消す」</td>
+<td>完了後</td>
+<td>FUNC-11</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>列を対応づける</td>
+<td>列の対応</td>
+<td>サンプル値を見ながら選ぶ。既定は列名から推定</td>
+<td>FUNC-11</td>
+</tr>
+<tr>
+<td>取り込む</td>
+<td>primary</td>
+<td>全件を取り込み、重複候補を SCR-17 に送る。既存顧客フラグが立つ</td>
+<td>FUNC-11, 12</td>
+</tr>
+<tr>
+<td>取り消す</td>
+<td>履歴</td>
+<td>その取り込み単位をまとめて取り消す</td>
+<td>FUNC-11</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文字化け</td>
+<td>ファイル選択</td>
+<td>文字コードを自動判定。失敗時「文字コードを選んでください（UTF-8 / Shift_JIS）」</td>
+<td>FUNC-11</td>
+</tr>
+<tr>
+<td>呼び名の列が無い</td>
+<td>確認</td>
+<td>「呼び名にあたる列を選んでください」。進めない</td>
+<td>FUNC-11</td>
+</tr>
+<tr>
+<td>途中で失敗</td>
+<td>取り込む</td>
+<td>「取り込めませんでした。1件も登録されていません」</td>
+<td>FUNC-11</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-16">mockup.html#SCR-16</a></p>
+<h3>SCR-17 重複のまとめ（Scope 2）</h3>
+<p><strong>目的</strong>: 2人分を合わせて1人にする。記録はすべて残し、属性は項目ごとに正しい方を選ぶ。自動ではまとめない。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>進み</td>
+<td>候補 18 組のうち処理済み</td>
+<td>上部</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>根拠</td>
+<td>何が一致したか（電話番号／ふりがな／LINE ID）</td>
+<td>上部</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>2人のカード</td>
+<td>A・B を横並び。モノグラム・名前・由来（紙／予約サイト／フォーム）・来店回数・写真／書類の数</td>
+<td>中央上</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>合わせた結果</td>
+<td>「来店 12 + 0 回 → 12 回」「写真 24 枚」「書類 2 + 0」。すべて残ることを明示</td>
+<td>カードの下</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>属性の選択</td>
+<td>項目ごとに A／B の値を並べ、使う方をタップ。既定は空でない方、両方あれば新しい方。同じ値の項目は折りたたむ</td>
+<td>中央下</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>和集合の表示</td>
+<td>禁忌・外部 ID・同意は「両方を残します」と明示</td>
+<td>属性の下</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>まとめる（primary）</td>
+<td>「1人にまとめる」</td>
+<td>下部固定</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>別人</td>
+<td>「別人です」でこのペアを候補から外す</td>
+<td>テキストリンク</td>
+<td>FUNC-12</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>値を選ぶ</td>
+<td>属性の選択</td>
+<td>選んだ側が太枠に。違う値が未選択のままだとまとめられない</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>まとめる</td>
+<td>primary</td>
+<td>1人になり、全記録が1つの時系列に。初回来店日は古い方。SCR-06 へ</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>別人</td>
+<td>テキストリンク</td>
+<td>以後このペアは候補に出ない</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>取り消す</td>
+<td>まとめ履歴（30日）</td>
+<td>元の2人に戻る</td>
+<td>FUNC-12</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>値が違う項目が未選択</td>
+<td>まとめる</td>
+<td>該当項目に「どちらを使うか選んでください」。ボタンは活性にならない</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>同じ日の来店記録が両方にある</td>
+<td>まとめ後</td>
+<td>2件とも残し「重複の可能性」バッジ。顧客詳細で片方を削除できる</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>候補0件</td>
+<td>表示</td>
+<td>「重複の候補はありません」</td>
+<td>FUNC-12</td>
+</tr>
+<tr>
+<td>30日超の取り消し</td>
+<td>取り消す</td>
+<td>「30日を過ぎたため取り消せません」</td>
+<td>FUNC-12</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-17">mockup.html#SCR-17</a></p>
+<h3>SCR-18 会話録音（Scope 2）</h3>
+<p><strong>目的</strong>: 施術中の会話を録音して文字起こしへ。Web 版は端末の録音アプリで録ったファイルを取り込み、アプリ版（ネイティブの殻）はこの画面で録り始めて画面を閉じても録り続ける。見込み費用を先に見せる。出口は SCR-09 と同じ確認画面。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>録り方の案内</td>
+<td>アプリ版（標準）: 「録音ボタンで開始。画面を閉じても録り続けます」。Web 版（補助）: 「画面が暗くなると止まるので録音アプリで録って取り込む」</td>
+<td>上部</td>
+<td>FUNC-14</td>
+</tr>
+<tr>
+<td>録音／取り込み</td>
+<td>アプリ版は大きな録音ボタン（SCR-09 と同じ）。Web 版は共有メニュー／ファイル選択</td>
+<td>中央</td>
+<td>FUNC-14</td>
+</tr>
+<tr>
+<td>見込み</td>
+<td>録音の長さ・無音を除いた見込み分数・費用の目安・今月の残量</td>
+<td>選択後／停止後</td>
+<td>FUNC-25</td>
+</tr>
+<tr>
+<td>文字起こしを始める（primary）</td>
+<td></td>
+<td>下部固定</td>
+<td>FUNC-14</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ファイルを選ぶ（Web）</td>
+<td>取り込み</td>
+<td>長さと見込み費用を表示</td>
+<td>FUNC-14, 25</td>
+</tr>
+<tr>
+<td>録音→停止（アプリ）</td>
+<td>録音ボタン</td>
+<td>OS の録音中表示が出る。画面消灯・他アプリ使用中も継続</td>
+<td>FUNC-14</td>
+</tr>
+<tr>
+<td>文字起こしを始める</td>
+<td>primary</td>
+<td>無音除去 → 非同期処理 → ホームの確認待ち → SCR-09 の確認ステップへ</td>
+<td>FUNC-14, 13</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>90分超</td>
+<td>選択／録音中</td>
+<td>「90分までのファイルを取り込めます」／90 分で自動停止</td>
+<td>FUNC-14</td>
+</tr>
+<tr>
+<td>上限到達</td>
+<td>始める</td>
+<td>「音声は保存しました。文字起こしは上限が戻ってから」</td>
+<td>FUNC-25</td>
+</tr>
+<tr>
+<td>対応外形式</td>
+<td>選択</td>
+<td>「m4a / mp3 / wav を選んでください」</td>
+<td>FUNC-14</td>
+</tr>
+<tr>
+<td>アプリ版で録音中にアプリ終了</td>
+<td>復帰時</td>
+<td>「途中までの録音を保存しました」と続きの案内</td>
+<td>FUNC-14</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-18">mockup.html#SCR-18</a></p>
+<h3>SCR-19 書類の読み取り確認（Scope 2）</h3>
+<p><strong>目的</strong>: 預かった書類から抽出した項目を、既存の値と並べて確認し、顧客情報・同意・契約に反映する。黙って上書きしない。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原本</td>
+<td>預かった PDF／画像。ピンチで拡大</td>
+<td>上半分</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>抽出項目</td>
+<td>項目ごとに「読み取った値」と「今の値」。違う行は選択式</td>
+<td>下半分</td>
+<td>FUNC-28, 03</td>
+</tr>
+<tr>
+<td>同意の候補</td>
+<td>同意書のとき「○○の同意を 9/10 取得として記録」</td>
+<td>項目の下</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>契約の候補</td>
+<td>契約書のとき「保湿10回コース ¥98,000 契約日 7/15 有効期限 1/15」</td>
+<td>項目の下</td>
+<td>FUNC-22</td>
+</tr>
+<tr>
+<td>禁忌の候補</td>
+<td>問診票のとき「妊娠の可能性 / 金属アレルギー」</td>
+<td>項目の下</td>
+<td>FUNC-03</td>
+</tr>
+<tr>
+<td>反映する（primary）</td>
+<td></td>
+<td>下部固定</td>
+<td>FUNC-28</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>違う値を選ぶ</td>
+<td>抽出項目</td>
+<td>読み取った値／今の値のどちらかをタップ</td>
+<td>FUNC-28</td>
+</tr>
+<tr>
+<td>候補を確定</td>
+<td>同意／契約／禁忌の候補</td>
+<td>1タップで記録が作られる</td>
+<td>FUNC-15, 22, 03</td>
+</tr>
+<tr>
+<td>反映する</td>
+<td>primary</td>
+<td>顧客情報を更新し SCR-06 へ</td>
+<td>FUNC-28</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>読めない項目</td>
+<td>表示</td>
+<td>空欄＋「読めませんでした」。原本を見て入力</td>
+<td>FUNC-28</td>
+</tr>
+<tr>
+<td>氏名が既存と不一致</td>
+<td>表示</td>
+<td>両方を表示し選ばせる。選ぶまで反映できない</td>
+<td>FUNC-28</td>
+</tr>
+<tr>
+<td>上限到達</td>
+<td>読み取る</td>
+<td>「読み取りは上限が戻ってから。書類は預かっています」</td>
+<td>FUNC-25</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-19">mockup.html#SCR-19</a></p>
+<h3>SCR-20 コース契約（Scope 2）</h3>
+<p><strong>目的</strong>: 回数制・期間制の契約を顧客に持たせ、残回数・有効期限・原本を即答できるようにする。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>契約一覧</td>
+<td>コース名・残回数／期間・有効期限・金額・契約日。期限切れは薄く</td>
+<td>上部</td>
+<td>FUNC-22</td>
+</tr>
+<tr>
+<td>新規契約</td>
+<td>コース名（メニューマスタから）・回数制／期間制・総回数または期間・金額・契約日・有効期限</td>
+<td>追加時</td>
+<td>FUNC-22, 26</td>
+</tr>
+<tr>
+<td>原本</td>
+<td>契約書・概要書面（SCR-10 で預かったもの）への紐づけ</td>
+<td>契約の中</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>消化履歴</td>
+<td>この契約を消化した来店記録の一覧</td>
+<td>契約の中</td>
+<td>FUNC-22, 04</td>
+</tr>
+<tr>
+<td>保存（primary）</td>
+<td>「契約を登録」</td>
+<td>下部固定</td>
+<td>FUNC-22</td>
+</tr>
+<tr>
+<td>法定情報（仮）</td>
+<td>クーリングオフ期限・中途解約の精算目安。特商法の該当確定まで日付の表示のみ</td>
+<td>契約の中・薄く</td>
+<td>FUNC-22</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>契約を登録</td>
+<td>primary</td>
+<td>顧客詳細に契約ブロックが出る。体験来店があれば成約として KPI に数える</td>
+<td>FUNC-22, 21</td>
+</tr>
+<tr>
+<td>原本を紐づける</td>
+<td>原本</td>
+<td>預かり済みの書類から選ぶ、または SCR-10 へ</td>
+<td>FUNC-09</td>
+</tr>
+<tr>
+<td>来店記録で消化</td>
+<td>（SCR-07）</td>
+<td>残回数が1減り、消化履歴に載る</td>
+<td>FUNC-04, 22</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>残回数0で消化</td>
+<td>SCR-07 保存</td>
+<td>「このコースは残回数がありません。消化せず保存しますか」</td>
+<td>FUNC-22</td>
+</tr>
+<tr>
+<td>有効期限切れで消化</td>
+<td>SCR-07 保存</td>
+<td>「有効期限（1/15）を過ぎています。消化しますか」</td>
+<td>FUNC-22</td>
+</tr>
+<tr>
+<td>契約0件</td>
+<td>表示</td>
+<td>「契約はまだありません」と登録導線</td>
+<td>FUNC-22</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-20">mockup.html#SCR-20</a></p>
+<h3>SCR-21 お客様に送る（Scope 3）</h3>
+<p><strong>目的</strong>: 「今日の内容と次回のおすすめ」の文面を確認・編集し、コピーまたは LINE で送る。要配慮情報は含めない。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>送付同意</td>
+<td>「送付の同意: 取得済」</td>
+<td>上部</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>文面</td>
+<td>候補の文面（編集可）。サロン名・今日の内容・次回のおすすめ・次回予約日</td>
+<td>中央</td>
+<td>FUNC-20</td>
+</tr>
+<tr>
+<td>除外項目</td>
+<td>「文面に含めない項目: 肌の状態の詳細」設定へのリンク</td>
+<td>文面の上</td>
+<td>FUNC-20</td>
+</tr>
+<tr>
+<td>送る手段</td>
+<td>LINE 接続時は「LINE で送る」（primary）、未接続は「コピーする」（primary）</td>
+<td>下部固定</td>
+<td>FUNC-20, 27</td>
+</tr>
+<tr>
+<td>送った記録</td>
+<td>「10/8 11:40 LINE で送付」</td>
+<td>送付後</td>
+<td>FUNC-20</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文面を直して送る</td>
+<td>primary</td>
+<td>送信またはコピー。送った事実が来店記録に残る</td>
+<td>FUNC-20</td>
+</tr>
+<tr>
+<td>除外項目を変える</td>
+<td>リンク</td>
+<td>設定（SCR-12 データタブ）へ</td>
+<td>FUNC-20</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>送付同意なし</td>
+<td>開く</td>
+<td>「送付の同意がまだです」と SCR-11 への導線</td>
+<td>FUNC-15</td>
+</tr>
+<tr>
+<td>LINE 送信通数の上限</td>
+<td>送る</td>
+<td>「今月の LINE 送信が上限に近づいています（4,800/5,000）」。コピーに切り替えられる</td>
+<td>FUNC-27</td>
+</tr>
+<tr>
+<td>LINE 未紐づけ</td>
+<td>送る</td>
+<td>「この方の LINE が紐づいていません」。コピーに切り替え</td>
+<td>FUNC-27</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-21">mockup.html#SCR-21</a></p>
+<h3>SCR-22 声かけ（Scope 3）</h3>
+<p><strong>目的</strong>: メニューの周期から「今週声をかける人」を根拠つきで並べ、声かけ済みにしていく。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一覧</td>
+<td>顧客名・前回来店日・前回メニュー・周期・推奨日・根拠（本人の平均間隔／メニューの既定）</td>
+<td>中央</td>
+<td>FUNC-19, 26</td>
+</tr>
+<tr>
+<td>区分</td>
+<td>「今週」「来週」「過ぎている」</td>
+<td>タブ</td>
+<td>FUNC-19</td>
+</tr>
+<tr>
+<td>声かけ済み</td>
+<td>各行のボタン。手段（LINE／電話／その他）を選ぶ</td>
+<td>行内</td>
+<td>FUNC-19</td>
+</tr>
+<tr>
+<td>LINE で送る</td>
+<td>接続時は行から直接 SCR-21 相当の文面へ</td>
+<td>行内</td>
+<td>FUNC-27</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>声かけ済みにする</td>
+<td>行のボタン</td>
+<td>一覧から消え、KPI の分子に数える</td>
+<td>FUNC-19</td>
+</tr>
+<tr>
+<td>顧客をタップ</td>
+<td>行</td>
+<td>SCR-06 へ</td>
+<td>FUNC-03</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>対象0人</td>
+<td>表示</td>
+<td>「今週声をかける方はいません」</td>
+<td>FUNC-19</td>
+</tr>
+<tr>
+<td>周期未設定のメニュー</td>
+<td>表示</td>
+<td>根拠に「メニュー種別の既定（30日）」と明示。設定への導線</td>
+<td>FUNC-26</td>
+</tr>
+<tr>
+<td>次回予約あり</td>
+<td>表示</td>
+<td>一覧に出ない（受入基準）</td>
+<td>FUNC-19</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-22">mockup.html#SCR-22</a></p>
+<h3>SCR-23 分析（Scope 3）</h3>
+<p><strong>目的</strong>: サロン全体の数字と、根拠つきの改善点候補を見る。スクールも SCR-26 から同じ画面を見る（閲覧のみ）。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>期間</td>
+<td>「直近3か月」「直近6か月」「今年」</td>
+<td>上部</td>
+<td>FUNC-21</td>
+</tr>
+<tr>
+<td>主要指標</td>
+<td>周期内再来率・体験からの成約率・次回予約率・客単価（母数つき）・禁忌確認率</td>
+<td>1段目</td>
+<td>FUNC-21</td>
+</tr>
+<tr>
+<td>メニュー別</td>
+<td>件数・売上・再来率</td>
+<td>2段目</td>
+<td>FUNC-21, 26</td>
+</tr>
+<tr>
+<td>来店経路別</td>
+<td>新規数・再来率</td>
+<td>3段目</td>
+<td>FUNC-21</td>
+</tr>
+<tr>
+<td>失客候補</td>
+<td>周期の1.5倍を過ぎた顧客数 → SCR-22</td>
+<td>4段目</td>
+<td>FUNC-21, 19</td>
+</tr>
+<tr>
+<td>改善点の候補</td>
+<td>文章 + 根拠の数字。「候補」バッジ</td>
+<td>最下部</td>
+<td>FUNC-21</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>期間を変える</td>
+<td>期間</td>
+<td>全指標が再計算</td>
+<td>FUNC-21</td>
+</tr>
+<tr>
+<td>失客候補をタップ</td>
+<td>4段目</td>
+<td>SCR-22 の「過ぎている」へ</td>
+<td>FUNC-19</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>来店記録100件未満</td>
+<td>表示</td>
+<td>「まだ分析に足りません（現在 62 件／100 件）」。指標は出さない</td>
+<td>FUNC-21</td>
+</tr>
+<tr>
+<td>金額未入力が多い</td>
+<td>表示</td>
+<td>客単価に「母数 38 件（全体の 18%）」と注記</td>
+<td>FUNC-21</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-23">mockup.html#SCR-23</a></p>
+<h3>SCR-24 顧客データの削除（Scope 2）</h3>
+<p><strong>目的</strong>: お客様の求めに応じて削除する。消えるものと保管義務で残るものを明示し、確認して実行。オーナー専用。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>対象</td>
+<td>顧客名・来店回数</td>
+<td>上部</td>
+<td>FUNC-16</td>
+</tr>
+<tr>
+<td>消えるもの</td>
+<td>来店記録 12件・写真 24枚・音声 0件・書類 1件・同意 2件・フォーム回答 1件</td>
+<td>中央</td>
+<td>FUNC-16</td>
+</tr>
+<tr>
+<td>残るもの</td>
+<td>保管義務のある契約書面 1件（閲覧を閉じて保管。仮）</td>
+<td>中央</td>
+<td>FUNC-16</td>
+</tr>
+<tr>
+<td>確認入力</td>
+<td>「削除」と入力</td>
+<td>下部</td>
+<td>FUNC-16</td>
+</tr>
+<tr>
+<td>削除する（primary・error 色の枠）</td>
+<td></td>
+<td>下部固定</td>
+<td>FUNC-16</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>確認して削除</td>
+<td>primary</td>
+<td>削除し、日時・実行者・件数だけが監査に残る。顧客一覧へ</td>
+<td>FUNC-16</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>スタッフが開く</td>
+<td>遷移</td>
+<td>導線を出さない。直接 URL は「この操作はオーナーのみ行えます」</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>確認入力が違う</td>
+<td>削除</td>
+<td>ボタンが活性にならない</td>
+<td>FUNC-16</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-24">mockup.html#SCR-24</a></p>
+<h3>SCR-25 スタッフ退職処理（Scope 2）</h3>
+<p><strong>目的</strong>: スタッフを停止し、担当顧客を一括で振り直す。記録は店に残る。オーナー専用。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>対象スタッフ</td>
+<td>名前・担当顧客数・記録件数</td>
+<td>上部</td>
+<td>FUNC-17</td>
+</tr>
+<tr>
+<td>停止</td>
+<td>「このスタッフを停止する」。即時</td>
+<td>1ステップ目</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>振り直し</td>
+<td>担当顧客一覧（全選択可）→ 振り直し先のスタッフ</td>
+<td>2ステップ目</td>
+<td>FUNC-17</td>
+</tr>
+<tr>
+<td>完了（primary）</td>
+<td>「停止して振り直す」</td>
+<td>下部固定</td>
+<td>FUNC-17</td>
+</tr>
+<tr>
+<td>注記</td>
+<td>「このスタッフが書いた記録は店に残り、施術者名も表示され続けます」</td>
+<td>下部</td>
+<td>FUNC-17</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>停止して振り直す</td>
+<td>primary</td>
+<td>ログイン・セッションが即時無効。担当が移る。SCR-12 スタッフタブへ</td>
+<td>FUNC-02, 17</td>
+</tr>
+<tr>
+<td>振り直さず停止</td>
+<td>テキストリンク</td>
+<td>担当なしの顧客として残る</td>
+<td>FUNC-17</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自分自身</td>
+<td>開く</td>
+<td>「自分のアカウントは停止できません」</td>
+<td>FUNC-02</td>
+</tr>
+<tr>
+<td>振り直し先が停止済み</td>
+<td>選択</td>
+<td>停止済みスタッフは選択肢に出ない</td>
+<td>FUNC-17</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-25">mockup.html#SCR-25</a></p>
+<h3>SCR-26 スクール個別サロン閲覧（Scope 2）</h3>
+<p><strong>目的</strong>: スクールがそのサロンの集計と記録をすべて見る（閲覧のみ）。コンサルの場で一緒に見る用途。許諾設定は持たず、閲覧の事実をサロン側に残す。</p>
+<p><strong>UI要素</strong></p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>説明</th>
+<th>位置</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>閲覧の帯</td>
+<td>「閲覧のみ。編集はできず、この閲覧はサロン側の履歴に残ります（山本 ・ 日時）」</td>
+<td>上部・常時</td>
+<td>FUNC-24</td>
+</tr>
+<tr>
+<td>集計</td>
+<td>SCR-23 と同じ指標（閲覧のみ）</td>
+<td>中央</td>
+<td>FUNC-21</td>
+</tr>
+<tr>
+<td>最近の来店記録</td>
+<td>顧客名・来店記録の一覧。編集不可。写真はサムネのみ</td>
+<td>下部</td>
+<td>FUNC-24</td>
+</tr>
+<tr>
+<td>コンサルのメモ</td>
+<td>スクール側だけが見るメモ（サロンには見えない）</td>
+<td>右</td>
+<td>FUNC-24</td>
+</tr>
+</tbody></table>
+<p><strong>操作とインタラクション</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>UI要素</th>
+<th>挙動</th>
+<th>対応機能(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>開く</td>
+<td>SCR-13 の行</td>
+<td>閲覧履歴を記録してから表示</td>
+<td>FUNC-24</td>
+</tr>
+<tr>
+<td>期間を変える</td>
+<td>期間</td>
+<td>集計を再計算</td>
+<td>FUNC-21</td>
+</tr>
+</tbody></table>
+<p><strong>エラー・例外表示</strong></p>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>トリガー</th>
+<th>画面の挙動・表示</th>
+<th>対応する要件(②)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>配下から外れたサロン</td>
+<td>開く</td>
+<td>「このサロンは配下から外れています」。SCR-13 に戻る</td>
+<td>FUNC-24</td>
+</tr>
+<tr>
+<td>編集操作</td>
+<td>入力しようとする</td>
+<td>入力欄は無効。「スクールは閲覧のみです」</td>
+<td>FUNC-24</td>
+</tr>
+</tbody></table>
+<p><strong>モック</strong>: <a href="../index.html#SCR-26">mockup.html#SCR-26</a></p>
+<h2>3. デザイントークン</h2>
+<blockquote>
+<p>⚠️ ここで決めたデザインが Build 以降のUIの基準として固定される（モック修正時もこの表と mockup.html の <code>:root</code> を同期させる）。
+値の真実源はこの表。Build の <code>tailwind.config.ts</code> はここから転記する。
+<strong>状態: 仮。</strong> 初版のテラコッタ案は「ちゃっちい」との評価で破棄し（2026-10-07）、<strong>高級サロン・スパの文法</strong>に根本から置き換えた。3案を併記し、推奨の A 案を適用済み。友人の事業計画書のトーンを見て確定する。</p>
+</blockquote>
+<h3>破棄した方向と、置き換えの考え方</h3>
+<table>
+<thead>
+<tr>
+<th>破棄したもの</th>
+<th>なぜ安く見えたか</th>
+<th>置き換え</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>彩度の高いテラコッタの塗り</td>
+<td>業務ツールの「元気な色」の文法。サロンの空間と合わない</td>
+<td>深いブロンズ（#3F311D）の塗りと、金色（#9A7B4F）の細い罫線。色は面ではなく線で使う</td>
+</tr>
+<tr>
+<td>大きな角丸（12px）のカードを並べる</td>
+<td>コンシューマーアプリの既視感</td>
+<td>角丸 4px。カードの箱を減らし、1px のヘアラインで区切る。余白で分ける</td>
+</tr>
+<tr>
+<td>絵文字アイコン・丸いバッジ</td>
+<td>装飾が多いほど安く見える</td>
+<td>絵文字は全廃。バッジは細枠の角型・字間広め。アイコンは最小限の線画のみ</td>
+</tr>
+<tr>
+<td>ゴシック一色の見出し</td>
+<td>情報の格が付かない</td>
+<td>見出しと「気をつけること」の本文だけ明朝体。ラベルはゴシックの小さな字間広め</td>
+</tr>
+</tbody></table>
+<h3>検討した3案</h3>
+<table>
+<thead>
+<tr>
+<th>案</th>
+<th>方向性</th>
+<th>main の色相</th>
+<th>雰囲気</th>
+<th>自己批評</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A: アイボリー × ブロンズ（推奨・適用済み）</strong></td>
+<td>高級スパ・ホテルの文法。明るい基調に金色の細線</td>
+<td>落ち着いたブロンズ（金）</td>
+<td>静かで上質。明るい施術室でも読める</td>
+<td>美容医療クリニックの Web とは被るが、業務ツールとしては他に無い。低リテラシー層にも読みやすい</td>
+</tr>
+<tr>
+<td>B: ノワール × シャンパン</td>
+<td>暗い基調に金の細線。夜のサロン</td>
+<td>同じブロンズ（暗背景）</td>
+<td>最も高級感が出る。まつエク・ネイルに合う</td>
+<td>明るい施術室では反射で読みにくい。写真の色判断（肌・ネイル）が暗背景で狂う。お客様向け同意画面にだけ使うのが現実的（A 案でも SCR-11 はこの反転を採用）</td>
+</tr>
+<tr>
+<td>C: スレート × ローズゴールド</td>
+<td>青みのグレー基調にローズゴールドの線</td>
+<td>くすんだローズ</td>
+<td>現代的で洗練</td>
+<td>ローズゴールドは流行色で古びやすい。グレー基調は「無指定の Tailwind」に見える危険がある</td>
+</tr>
+</tbody></table>
+<p><strong>デザインの方向性</strong>: アイボリーの余白を主役にし、色は「線」でだけ使う。見出しと注意点の本文は明朝体で字間を広く、ラベルはゴシックの小さな字で字間をさらに広く取る。塗りは1画面に1つの深いブロンズのボタンだけ。箱で囲まず、1px のヘアラインで区切る。</p>
+<p><strong>シグネチャ要素</strong>: <strong>「金のヘアラインと明朝の帯」</strong>。顧客詳細の最上部、「今回気をつけること」を左に金色の縦線1本を添えた明朝体の帯で置く。禁忌があるときだけ、その上にボルドーの縦線の警告帯が重なる。この帯がこのプロダクトの「カルテを使う」思想を表す。それ以外は静かに保つ。</p>
+<h3>色（色相は main と error の2つだけ。他はすべて濃淡）</h3>
+<table>
+<thead>
+<tr>
+<th>トークン</th>
+<th>値</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>main-100</td>
+<td>#F1EBE1</td>
+<td>淡い背景・候補欄の背景・サムネイル地</td>
+</tr>
+<tr>
+<td>main-300</td>
+<td>#D6C7AE</td>
+<td>ヘアライン（罫線・入力欄の下線・区切り）</td>
+</tr>
+<tr>
+<td>main-500</td>
+<td>#9A7B4F</td>
+<td>金色の強調線（注意点の縦線・バッジ枠・進捗・チェック枠）</td>
+</tr>
+<tr>
+<td>main-700</td>
+<td>#6F5633</td>
+<td>リンク・補助ボタンの枠と文字・階層行の親</td>
+</tr>
+<tr>
+<td>main-900</td>
+<td>#3F311D</td>
+<td>primary ボタンの塗り・選択中のタブ下線・お客様向け画面の背景</td>
+</tr>
+<tr>
+<td>background</td>
+<td>#F8F5EF</td>
+<td>ページ背景（アイボリー）</td>
+</tr>
+<tr>
+<td>surface</td>
+<td>#FDFBF7</td>
+<td>カード・パネル背景（箱は最小限）</td>
+</tr>
+<tr>
+<td>text-primary</td>
+<td>#1F1B17</td>
+<td>見出し・本文</td>
+</tr>
+<tr>
+<td>text-secondary</td>
+<td>#5C544B</td>
+<td>補足・ラベル・小見出し</td>
+</tr>
+<tr>
+<td>text-meta</td>
+<td>#8C8378</td>
+<td>メタ情報・placeholder・階層行の現在地</td>
+</tr>
+<tr>
+<td>error</td>
+<td>#8E2F2F</td>
+<td>禁忌の警告帯・エラー文・警告バッジ（ボルドー。この1色のみ）</td>
+</tr>
+</tbody></table>
+<h3>タイポグラフィ（サイズ5種・ウェイト3種・フォント族2つ）</h3>
+<table>
+<thead>
+<tr>
+<th>トークン</th>
+<th>値</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>font-heading</td>
+<td>&quot;Hiragino Mincho ProN&quot;, &quot;Yu Mincho&quot;, &quot;Noto Serif JP&quot;, serif</td>
+<td>画面タイトル・見出し・「気をつけること」の本文・数値の大表示。字間 0.06em</td>
+</tr>
+<tr>
+<td>font-body</td>
+<td>&quot;Hiragino Sans&quot;, &quot;Noto Sans JP&quot;, &quot;Yu Gothic&quot;, sans-serif</td>
+<td>本文・入力・ボタン・ラベル</td>
+</tr>
+<tr>
+<td>size-xl / lg / md / sm / xs</td>
+<td>26px / 19px / 15px / 13px / 11px</td>
+<td>画面タイトル / 見出し・顧客名 / 本文・入力 / 補足・ボタン / ラベル・バッジ・階層行</td>
+</tr>
+<tr>
+<td>weight</td>
+<td>300 / 400 / 600</td>
+<td>大きな数値・サービス名 / 本文・見出し / ラベル・警告</td>
+</tr>
+<tr>
+<td>letter-spacing</td>
+<td>本文 0.02em / 見出し 0.06em / ボタン 0.14em / ラベル・階層行 0.12〜0.16em</td>
+<td>字間で格を作る。詰めない</td>
+</tr>
+</tbody></table>
+<h3>形状（全画面で各1種類）</h3>
+<table>
+<thead>
+<tr>
+<th>トークン</th>
+<th>値</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>radius</td>
+<td>4px</td>
+<td>角丸（ボタン・カード・サムネイル。入力欄は下線のみで角丸なし）</td>
+</tr>
+<tr>
+<td>shadow</td>
+<td>なし</td>
+<td>影は使わない。ヘアラインと余白で区切る</td>
+</tr>
+<tr>
+<td>border</td>
+<td>1px solid main-300</td>
+<td>罫線・区切り・入力欄の下線</td>
+</tr>
+<tr>
+<td>accent-rule</td>
+<td>2px solid main-500（警告は error）</td>
+<td>注意点・警告帯の左縦線。この1本だけ太い</td>
+</tr>
+</tbody></table>
+<h3>操作まわりの固定値</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>タップ領域の最小</td>
+<td>44px</td>
+<td>片手操作・非機能要件</td>
+</tr>
+<tr>
+<td>primary ボタン高さ</td>
+<td>52px</td>
+<td>下部固定で親指で押せる</td>
+</tr>
+<tr>
+<td>画面の横余白</td>
+<td>20px</td>
+<td>余白を広く取る。375px 幅でも本文は 335px 確保</td>
+</tr>
+<tr>
+<td>入力欄の高さ</td>
+<td>48px</td>
+<td>下線のみの入力欄。フリック入力時の誤タップ防止</td>
+</tr>
+<tr>
+<td>上部バー</td>
+<td>2段（階層行 + タイトル）。下にヘアライン</td>
+<td>現在地の把握</td>
+</tr>
+</tbody></table>
+<h2>4. モックHTML</h2>
+<p>全画面を1つにまとめた <a href="../index.html">mocks/mockup.html</a> を単一ファイル完結（外部CSS/JS依存なし）で作成した。</p>
+<ul>
+<li>各画面は <code>&lt;section id=&quot;SCR-01&quot;&gt;</code> … のように画面IDをアンカーに持ち、本文の各画面仕様からリンクする</li>
+<li>左（PC）または上（スマホ）にナビゲーションを置き、全画面を行き来できる。URL のハッシュで画面を切り替える</li>
+<li>3章のデザイントークンを <code>:root</code> の CSS 変数として埋め込み、全画面に適用した（外部フォントの読み込みは無し。フォントスタック指定のみ）</li>
+<li>全26画面（Scope 1: 13、Scope 2・3: 13）。Scope 2・3 の画面と拡張ブロックには「S2」「S3」の表示を付けた</li>
+<li>各画面はスマホ幅（375px）のフレーム内に描画する。左ナビの「表示幅」でタブレット（768px）・PC（1024px）に切り替えると、本文が最大幅 640px で中央に寄る挙動を確認できる。SCR-13 は PC 幅が基準</li>
+<li>実データはダミー。空状態・エラー表示の例は「状態を見る」ボタンで切り替えて確認できる</li>
+<li>ヒアリングで動く箇所（来店種別「体験」、AI 上限の決定権）には画面内に「仮」バッジを付けた</li>
+</ul>
+<p>確認方法:</p>
+<pre><code class="language-bash">open ./docs/requirements/mocks/mockup.html
+</code></pre>
+<h2>5. 導線のセルフチェック記録（2026-10-08）</h2>
+<p>全27画面のリンク先・戻り先・primary ボタン数を機械抽出し、王道導線（施術前→施術後→閉店後）とその他の導線を歩いて検査した。行き先の無いリンクは 0 件。見つけた問題と対応は次のとおり。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>見つけた問題</th>
+<th>重さ</th>
+<th>対応</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>ホームの「記録を始める」が施術後の3ステップに入るのに、ステップ1が施術前の禁忌確認。施術後に押すと確認を遡ってやらされる</td>
+<td>高</td>
+<td>ヒーローを3状態に分けた。施術前「来店を確認する」（ステップ1だけ）→ 施術中「記録を残す」／「話して記録」→ 全員記録済みの完了カード。顧客詳細の primary も「今日の記録を続ける」に変わる</td>
+</tr>
+<tr>
+<td>2</td>
+<td>過去の来店記録を開く画面が無い（SCR-07 は作成の3ステップのみ）</td>
+<td>高</td>
+<td>SCR-07 に「過去の記録を開く」状態を追加。確認・内容・写真・申し送り・編集履歴・編集／送る</td>
+</tr>
+<tr>
+<td>3</td>
+<td>禁忌を編集する入口が無い（警告帯に「編集すると変わります」とだけ）</td>
+<td>高</td>
+<td>警告帯に「禁忌を編集」。顧客詳細内で既定リスト＋自由記述を編集する状態を追加</td>
+</tr>
+<tr>
+<td>4</td>
+<td>「誰の記録？」シートの新規行が SCR-05（登録画面）へ飛び、仕様の「呼び名だけで作ってそのまま記録へ」と不一致</td>
+<td>中</td>
+<td>検索語がある場合は呼び名として作り SCR-07 へ直行。空の場合は SCR-05 に入り、primary が「登録して記録を始める」になる状態を追加</td>
+</tr>
+<tr>
+<td>5</td>
+<td>新規顧客の初回来店で写真同意が未取得でも、ステップ1が何も言わない</td>
+<td>中</td>
+<td>ステップ1に「写真の同意がまだです → 画面で同意をもらう／今日は撮らない」を追加</td>
+</tr>
+<tr>
+<td>6</td>
+<td>お客様向け同意画面の「同意する」が顧客詳細へ戻る（端末はお客様の手の中）</td>
+<td>中</td>
+<td>同意一覧（スタッフ向け）に戻し、「端末をお返しください」の一文を追加</td>
+</tr>
+<tr>
+<td>7</td>
+<td>契約画面の primary が一覧状態でも「契約を登録」（何も入力していない）</td>
+<td>中</td>
+<td>一覧では「新しい契約を登録」、入力状態で「契約を登録」</td>
+</tr>
+<tr>
+<td>8</td>
+<td>CSV 持ち込みが完了画面無しで重複のまとめへ飛ぶ</td>
+<td>中</td>
+<td>「312 人を取り込みました。重複候補 18 組」の完了状態を追加。取り消しもここから</td>
+</tr>
+<tr>
+<td>9</td>
+<td>スクールの「サロンを追加」に画面が無い</td>
+<td>中</td>
+<td>サロン名・オーナーのメール・AI 上限を入れて招待する状態を追加</td>
+</tr>
+<tr>
+<td>10</td>
+<td>紙カルテ取り込みの撮影状態で「誰の紙か」が決まっていない（ホームの初回導線から来ると顧客がいない）</td>
+<td>中</td>
+<td>撮影状態に「誰の紙カルテ？ ○○様／変える」と未登録なら新規として、の案内を追加</td>
+</tr>
+<tr>
+<td>11</td>
+<td>パスワード再設定の「新しいパスワードを設定する」画面が無い</td>
+<td>低</td>
+<td>SCR-01 に状態を追加</td>
+</tr>
+<tr>
+<td>12</td>
+<td>顧客詳細の上部「同意」リンクと同意タブが重複</td>
+<td>低</td>
+<td>上部リンクを削除</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Scope 1 の下部タブに S3 の「声かけ」が同じ濃さで出る</td>
+<td>低</td>
+<td>薄く＋S3 バッジ。Scope 1 では4タブ相当</td>
+</tr>
+<tr>
+<td>14</td>
+<td>設定の「スクールに見せる範囲」は不要（スクールは全部見える）</td>
+<td>指示</td>
+<td>許諾設定を廃止。閲覧履歴の表示だけ残す。FUNC-24・SCR-26 を書き換え</td>
+</tr>
+<tr>
+<td>15</td>
+<td>顧客データ・来店データを CSV で落とす導線が無い（全データ一式に埋もれていた）</td>
+<td>指示</td>
+<td>設定 → データに「顧客データ」「来店データ」の CSV ダウンロード（期間指定）を追加し Scope 1 に。原本込みの一式は Scope 2 のまま</td>
+</tr>
+<tr>
+<td>16</td>
+<td>ホームのヒーロー「施術前」と「施術中」がモック上で重なって見え、カードの線引きが無かった</td>
+<td>高（表示）</td>
+<td>3状態を排他に。顧客登録・顧客詳細の塗りボタンの重ね表示も同様に排他へ</td>
+</tr>
+<tr>
+<td>17</td>
+<td>挨拶「おはようございます、佐藤さん」は不要（共有端末・画面上部の浪費）</td>
+<td>中</td>
+<td>日付だけに。設定リンクを同じ行へ</td>
+</tr>
+<tr>
+<td>18</td>
+<td>行の中にリンクを入れた箇所（声かけの「設定」、書類の「読み取る」）で HTML 上リンクが入れ子になり、行が崩れていた</td>
+<td>高（表示）</td>
+<td>行内のリンクを下線テキストに変更</td>
+</tr>
+</tbody></table>
+<p><strong>直していない・判断を残した点</strong></p>
+<ul>
+<li>戻るボタンの行き先はモックでは固定（親画面）。実装では直前の画面に戻る。階層行の親は固定のまま</li>
+<li>写真の前後比較（拡大表示）は顧客詳細の写真タブ内の挙動として扱い、別画面にしていない</li>
+<li>スタッフ招待・ログアウト確認・パスワード変更（ログイン中）は設定内の小さな流れとしてモック化していない</li>
+<li>来店記録の削除権限（スタッフは自分の記録を当日中のみ、それ以外はオーナー）は要件定義書に書くべき事項。次の更新で FUNC-04 に追記する</li>
+<li>次のお客様が新規（問診回答あり）のときのヒーロー文言（「はじめまして」の案内・問診の要約）は未設計</li>
+</ul>
+<hr>
+<h2>次のステップ</h2>
+<p>→ <code>/r2b:design-agent</code> で AI 処理（FUNC-08・13、Scope 2 以降の 14・18・21・28）の完了条件と評価シナリオを <code>agent-plan.md</code> に書く（<code>00-brief.md</code> 確定方針）
+→ <code>04-db</code>（DB設計書・詳細設計）でテーブル設計とCREATE文を作成する</p>
+</main></body></html>
