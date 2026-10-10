@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>デザインコンペ比較</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* 4 案を同じ軸で比べる 1 枚。各案の見た目はリンク先で見る */
+:root{
+  --bg:#F6F5F2; --surface:#FFFFFF; --rule:#DDD9D1; --fg:#1E1C19; --fg2:#58544C; --meta:#8A857B;
+  --accent:#2F4A6B; --good:#2F6B47; --mid:#8A6A1F; --weak:#9A3B3B;
+  --c0:#9A7B4F; --ca:#6B5BA8; --cb:#2F6B47; --cc:#1E1C19;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151413; --surface:#1E1D1B; --rule:#3A3733; --fg:#EEEBE6; --fg2:#C3BEB5; --meta:#938E85;
+  --accent:#9DB6D6; --good:#8CC7A0; --mid:#D9B865; --weak:#E39A9A; --c0:#C9A877; --ca:#B3A6E6; --cb:#8CC7A0; --cc:#EEEBE6; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151413; --surface:#1E1D1B; --rule:#3A3733; --fg:#EEEBE6; --fg2:#C3BEB5; --meta:#938E85;
+  --accent:#9DB6D6; --good:#8CC7A0; --mid:#D9B865; --weak:#E39A9A; --c0:#C9A877; --ca:#B3A6E6; --cb:#8CC7A0; --cc:#EEEBE6; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;font-size:15px;line-height:1.8}
+main{max-width:1080px;margin:0 auto;padding:40px 16px 80px;display:grid;gap:44px}
+h1{font-size:28px;line-height:1.4;margin:0;letter-spacing:.02em}
+h2{font-size:20px;margin:0 0 4px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+p{margin:0}
+.meta{font-size:13px;color:var(--fg2)}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--meta)}
+.stack{display:grid;gap:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:16px;display:grid;gap:8px;align-content:start;border-top:4px solid var(--k)}
+.card .co{font-size:12px;color:var(--meta)}
+.card .name{font-size:18px;font-weight:700;line-height:1.4}
+.card .one{font-size:14px;color:var(--fg2)}
+.card a{color:var(--accent);font-weight:500;text-decoration:none;font-size:14px}
+.card a:hover{text-decoration:underline}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top;text-align:left}
+thead th{font-size:12.5px;color:var(--fg2);font-weight:500;background:var(--bg)}
+tbody th{font-weight:500;width:22%}
+tbody th small{display:block;color:var(--meta);font-weight:400;font-size:12px;line-height:1.5}
+.mk{display:inline-block;min-width:1.6em;font-weight:700}
+.g{color:var(--good)} .m{color:var(--mid)} .w{color:var(--weak)}
+td .why{display:block;font-size:12.5px;color:var(--fg2);line-height:1.6}
+.legend{font-size:13px;color:var(--fg2)}
+.pick{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--accent);border-radius:6px;padding:16px 18px;display:grid;gap:10px}
+.pick ul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.q{display:grid;gap:8px;padding:0;margin:0;counter-reset:q}
+.q li{list-style:none;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 14px 12px 44px;position:relative}
+.q li::before{counter-increment:q;content:counter(q);position:absolute;left:16px;top:11px;font-weight:700;color:var(--accent)}
+footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding-top:14px}
+@media (max-width:480px){h1{font-size:23px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="stack">
+    <p class="eyebrow">SALONOTE ／ デザインコンペ（主要 4 画面）／ 2026-10-10</p>
+    <h1>デザインコンペ比較</h1>
+    <p>社内案と、世界有数の UI/UX 制作会社 3 社（架空）の提案を、要求定義の重要要件で比べたもの。各社とも同じ依頼書・同じダミーデータで、ホーム（今日）・施術後の記録・顧客詳細・今月の数字の 4 画面を作っている。見た目は各案のページで確かめてほしい。</p>
+  </header>
+
+  <section class="stack" aria-labelledby="s-cand">
+    <h2 id="s-cand">4 つの案</h2>
+    <div class="cards">
+      <div class="card" style="--k:var(--c0)">
+        <span class="co">社内案</span>
+        <span class="name">瞬間起点</span>
+        <span class="one">施術前・施術後・閉店後の場面ごとに画面を用意。アイボリー×ブロンズ・明朝の見出しで静かな高級感。</span>
+        <a href="./">モックを開く →</a>
+      </div>
+      <div class="card" style="--k:var(--ca)">
+        <span class="co">A 社 ／ Studio Kotoha</span>
+        <span class="name">話しかけるカルテ</span>
+        <span class="one">アプリ全体が AI アシスタントとのトーク。話す・押すの 2 つで終わる。すみれ色×丸ゴシックでやさしい。</span>
+        <a href="compe-a.html">提案を開く →</a>
+      </div>
+      <div class="card" style="--k:var(--cb)">
+        <span class="co">B 社 ／ KEISEN Studio</span>
+        <span class="name">生きている日報</span>
+        <span class="one">1 来店＝日報の 1 行。今月の数字がいつも上にある。紙の白×等幅の数字で、精密で信頼できる見た目。</span>
+        <a href="compe-b.html">提案を開く →</a>
+      </div>
+      <div class="card" style="--k:var(--cc)">
+        <span class="co">C 社 ／ Tidemark Studio</span>
+        <span class="name">NOWLINE</span>
+        <span class="one">1 日を縦の時間軸で見せ、今のお客様のカードだけを大きく開く。黒地のハイコントラストで暗い施術室向け。</span>
+        <a href="compe-c.html">提案を開く →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack" aria-labelledby="s-score">
+    <h2 id="s-score">重要要件ごとの比較</h2>
+    <p class="legend"><span class="mk g">◎</span>とても強い　<span class="mk g">○</span>十分　<span class="mk m">△</span>工夫が要る　（宮崎側での評価案。決めるのは、あすみちゃんと宮崎さん）</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>要件</th><th>社内案（瞬間起点）</th><th>A 社（話しかけるカルテ）</th><th>B 社（生きている日報）</th><th>C 社（NOWLINE）</th></tr></thead>
+        <tbody>
+          <tr><th>1. 入力しない<small>話す・撮るだけで記録、確認は 1〜2 分、片手</small></th>
+            <td><span class="mk g">○</span><span class="why">ステップ式で迷わないが、画面の数はやや多い</span></td>
+            <td><span class="mk g">◎</span><span class="why">マイクを押して話し、「はい」で確定。キーボードが出ない</span></td>
+            <td><span class="mk g">○</span><span class="why">黄色い候補のセルを押して確定。項目は多めに見える</span></td>
+            <td><span class="mk g">◎</span><span class="why">候補が 1 枚ずつ出て 1 タップで確定。操作は親指の届く下半分</span></td></tr>
+          <tr><th>2. 見落とさない<small>禁忌・アレルギーが必ず目に入る</small></th>
+            <td><span class="mk g">○</span><span class="why">次のお客様のカードと顧客詳細に警告</span></td>
+            <td><span class="mk g">○</span><span class="why">会話の上にピンで固定。ただし流れる画面なので慣れが要る</span></td>
+            <td><span class="mk g">◎</span><span class="why">赤は禁忌の帯だけ。行の直下に割り込み、閉じられない</span></td>
+            <td><span class="mk g">◎</span><span class="why">赤い塗りと縞は禁忌だけ。どの画面でも上に固定</span></td></tr>
+          <tr><th>3. 今日が一目でわかる<small>今日来る人と記録がまだの人</small></th>
+            <td><span class="mk g">○</span><span class="why">次のお客様と今日の流れ、記録の進み</span></td>
+            <td><span class="mk g">○</span><span class="why">朝の 1 通に 5 名が並ぶ。全体は見渡しにくい</span></td>
+            <td><span class="mk g">○</span><span class="why">日報と同じ列で一覧。数字が上にあり、来店はその下</span></td>
+            <td><span class="mk g">◎</span><span class="why">時間軸と「いま」の線、5 マスの状態で一目</span></td></tr>
+          <tr><th>4. 分析しやすい<small>日報の置き換え・目標と日割り・担当・商品・媒体</small></th>
+            <td><span class="mk m">△</span><span class="why">分析は別の画面。数字の密度は低め</span></td>
+            <td><span class="mk m">△</span><span class="why">「今月どう？」で答えが返る。一覧で比べる・月をまたぐ比較に弱い</span></td>
+            <td><span class="mk g">◎</span><span class="why">日報の①〜⑦と同じ並び。目標・日割り・担当・商品・媒体が表で揃う</span></td>
+            <td><span class="mk g">○</span><span class="why">リングとゲージで今月はすぐ読める。推移と比較は弱め</span></td></tr>
+          <tr><th>5. アナログな人が初日から使える<small>専門用語なし・迷わない</small></th>
+            <td><span class="mk g">○</span><span class="why">落ち着いた画面で、場面ごとに案内がある</span></td>
+            <td><span class="mk g">◎</span><span class="why">LINE と同じ見た目なので説明がいらない</span></td>
+            <td><span class="mk m">△</span><span class="why">日報をつけている人には読みやすいが、そうでない人には重い</span></td>
+            <td><span class="mk m">△</span><span class="why">スワイプは最初に教える必要がある。黒地は好みが分かれる</span></td></tr>
+          <tr><th>6. AI は候補を出すだけ<small>候補と根拠が分かる</small></th>
+            <td><span class="mk g">○</span><span class="why">候補の印と引用</span></td>
+            <td><span class="mk g">◎</span><span class="why">点線＝候補・実線＝確定。話した言葉を横に添える</span></td>
+            <td><span class="mk g">◎</span><span class="why">黄色いセル＝候補。確定すると黒い文字に変わる</span></td>
+            <td><span class="mk g">◎</span><span class="why">水色の点線＝候補。引用と録音の何秒目か、波形も色が変わる</span></td></tr>
+          <tr><th>7. お客様に届ける<small>LINE 文面をコピー</small></th>
+            <td><span class="mk g">○</span><span class="why">保存の後にコピー</span></td>
+            <td><span class="mk g">○</span><span class="why">保存すると返事として文面が届く</span></td>
+            <td><span class="mk g">○</span><span class="why">保存すると文面のシート</span></td>
+            <td><span class="mk g">○</span><span class="why">保存すると文面。済んだカードのスワイプからも送れる見せ方</span></td></tr>
+          <tr><th>作る手間<small>初版の実装の重さ</small></th>
+            <td><span class="mk g">○</span><span class="why">今の設計書がこの案に沿っている</span></td>
+            <td><span class="mk m">△</span><span class="why">トーク形式に合わせて画面の作りを組み直す。返事の速さがそのまま使い心地になる</span></td>
+            <td><span class="mk g">○</span><span class="why">表が中心で作りは素直。スマホで表を読ませる工夫が要る</span></td>
+            <td><span class="mk m">△</span><span class="why">スワイプ・めくり・ダークの表示切替など、動きの作り込みが多い</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="stack" aria-labelledby="s-pick">
+    <h2 id="s-pick">宮崎側の見立て</h2>
+    <div class="pick">
+      <p><b>どれか 1 案を丸ごと採るより、「強いところ」を組み合わせるのが合いそう。</b>あすみちゃんの言う「カルテが一番」「日報の上の集計があれば置き換えられる」「業界はアナログ」を全部満たす案は、単独では無い。</p>
+      <ul>
+        <li><b>今月の数字</b>は B 社（生きている日報）の並び。日報と同じ ①〜⑦ と目標・日割りが揃い、スクール生は初日から読める</li>
+        <li><b>施術後の記録</b>は C 社の「1 枚ずつ確定」か A 社の「はい／直す」。どちらも確認が 1 分前後に収まる</li>
+        <li><b>禁忌の見せ方</b>は B 社・C 社の「赤は禁忌だけ」を全案共通の決まりにする</li>
+        <li><b>全体の雰囲気と初日のわかりやすさ</b>は、社内案か A 社のやさしい見た目。黒地（C 社）は、明るい表示を基本にして暗い表示を選べる形がよい</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="stack" aria-labelledby="s-ask">
+    <h2 id="s-ask">あすみちゃんに見てほしいこと</h2>
+    <ol class="q">
+      <li>4 案のうち、生徒さんが「これなら毎日使える」と思えそうなのはどれか（直感でよい）</li>
+      <li>今月の数字は、B 社の「日報と同じ並び」と、C 社の「大きな数字とリング」のどちらが見たい形か</li>
+      <li>施術後の記録は、A 社の「話しかけて返事をもらう」と、C 社の「カードを 1 枚ずつ確定」のどちらがしっくりくるか</li>
+      <li>黒地（C 社）は施術室で使いたいか、明るい画面がよいか</li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>3 社は架空の制作会社の想定。ダミーデータのみで、実在のお客様・お店の情報は含まない。日付の曜日（10 月 8 日を水曜としている）は社内案に合わせたもので、実際の暦とはずれている。</p>
+  </footer>
+</main>
+</body>
+</html>
