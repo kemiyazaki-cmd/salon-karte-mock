@@ -516,6 +516,40 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 a.chip{text-decoration:none;cursor:pointer}
 .card h3+.badge{white-space:nowrap;flex:none;align-self:flex-start}
 a.chip:hover{border-color:var(--main-700)}
+/* ==== SCR-28 今月の数字（S2。2026-10-10）: docs/shared/compe-0.html の「04 今月の数字」から移した。トークンと既存の部品だけ ==== */
+#SCR-28 .body{gap:18px;padding-bottom:28px}
+#SCR-28 .body>.state-view.on{display:flex;flex-direction:column;gap:18px}
+#SCR-28 a.item{text-decoration:none;color:inherit}
+#SCR-28 .segm span{min-height:44px;cursor:pointer}
+.m-switch{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.daynav u.off{opacity:.35}
+.hero h2.m-big{font-size:var(--size-xl);font-variant-numeric:tabular-nums}
+.m-bar{position:relative;height:2px;background:var(--main-700);margin-top:12px}
+.m-fill{position:absolute;left:0;top:0;bottom:0;background:var(--main-300)}
+.m-tick{position:absolute;top:-4px;width:1px;height:10px;background:var(--background)}
+.m-w296{width:29.6%}.m-l258{left:25.8%}
+.m-goal{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;font-size:var(--size-xs);letter-spacing:.12em;color:var(--main-300)}
+.m-goal b{font-family:var(--font-heading);font-size:var(--size-lg);font-weight:var(--w-light);color:var(--background);letter-spacing:.04em}
+.hero .meta.m-onhero{color:var(--main-300);margin-top:4px}
+#SCR-28 table.grid th,#SCR-28 table.grid td{padding:10px 6px}
+#SCR-28 table.grid th:first-child,#SCR-28 table.grid td:first-child{padding-left:2px}
+#SCR-28 table.grid th:last-child,#SCR-28 table.grid td:last-child{padding-right:2px}
+table.grid td.y,table.grid th.y{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.grid td.y{font-family:var(--font-heading)}
+table.grid td.m-na{color:var(--text-meta)}
+.m-staff{border-top:var(--border);padding:12px 2px 14px}
+.m-staff:last-child{border-bottom:var(--border)}
+.m-staff-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+.m-staff-h b{font-weight:var(--w-regular);font-size:var(--size-md)}
+.m-staff>.meta{margin-bottom:6px}
+.m-yen{font-family:var(--font-heading);font-size:var(--size-lg);font-weight:var(--w-light);font-variant-numeric:tabular-nums}
+#SCR-28 .item .r{text-align:right;font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.04em;line-height:1.5;white-space:nowrap}
+#SCR-28 .item .r b{display:block;font-family:var(--font-heading);font-size:var(--size-md);color:var(--text-primary);font-weight:var(--w-light);font-variant-numeric:tabular-nums}
+.m-pick{margin-bottom:8px}
+.label.m-home{margin-top:18px}
+.m-goals>.label{margin:0}
+.m-goals .field{min-width:0}
+.m-goals .input{font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -587,6 +621,7 @@ a.chip:hover{border-color:var(--main-700)}
   <a href="#SCR-24">SCR-24 顧客データの削除</a>
   <a href="#SCR-25">SCR-25 スタッフ退職処理</a>
   <a href="#SCR-26">SCR-26 スクール個別サロン閲覧</a>
+  <a href="#SCR-28">SCR-28 今月の数字</a>
   <h2 style="margin-top:14px">配色（候補）</h2>
   <div class="palbar viewbar" style="flex-direction:column;align-items:stretch;gap:4px"><button data-palette="bronze" style="text-align:left">A アイボリー×ブロンズ（現行）</button><button data-palette="sage" style="text-align:left">B リネン×セージ</button><button data-palette="rose" style="text-align:left">C ミルク×ローズベージュ</button><button data-palette="mauve" style="text-align:left">D ペール×モーヴ</button><button data-palette="slateblue" style="text-align:left">E ホワイト×スレートブルー</button></div>
   <p class="note" id="paldesc"></p>
@@ -702,6 +737,8 @@ a.chip:hover{border-color:var(--main-700)}
           <a class="item" href="#SCR-15" style="text-decoration:none;color:inherit"><div class="main"><div class="name">未処理の回答 <span class="count">2</span> <span class="badge scope">S2</span></div><div class="meta">かなこ ・ M.T ・ フォームから</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
           <a class="item" href="#SCR-15:line" style="text-decoration:none;color:inherit"><div class="main"><div class="name">まだ結びついていない LINE <span class="count">3</span> <span class="badge scope">S2</span></div><div class="meta">Yuka ・ m.tanaka ・ ほか 1 人</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
         </div>
+        <span class="label m-home">お店の数字 <span class="badge scope">S2</span> <span class="badge scope">オーナーだけ</span></span>
+        <div class="list"><a class="item" href="#SCR-28" style="text-decoration:none;color:inherit"><svg class="i" style="color:var(--main-700)"><use href="#i-chart"/></svg><div class="main"><div class="name">今月の数字</div><div class="meta">売上・目標・担当ごと</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a></div>
         <div class="errorbox state-view" data-state="limit"><b>今月の AI 利用が上限に達しました</b>録音と紙は保存してあり、11/1 に読み取ります。急ぐときは、設定の「AI 利用」で「続けて使う」にできます。</div>
         <div class="errorbox state-view" data-state="limitstaff"><b>今月の AI 利用が上限に達しました</b>録音と紙は保存してあり、11/1 に読み取ります。急ぐときはオーナーに伝えてください。</div>
       </div>
@@ -1885,6 +1922,163 @@ a.chip:hover{border-color:var(--main-700)}
   <div class="statebar">状態: <button data-toggle="normal" class="on">開いた直後</button><button data-toggle="booking">予約（電話で受けた）</button><button data-toggle="hit">「はる」→ 部分一致あり</button><button data-toggle="miss">「れいな」→ 一致なし → 新規</button></div>
 </section>
 
+<!-- ================= SCR-28（S2。2026-10-10。docs/shared/compe-0.html の「04 今月の数字」から移した） ================= -->
+<section class="screen" id="SCR-28">
+  <p class="screen-title"><b>SCR-28 今月の数字</b> ／ FUNC-35, 19 ・ S2 ・ オーナーだけ ・ 総売上と目標を主役に、下に内訳・率・担当・商品・集客媒体。「日ごと」で日報の 1 日分（モックは 10/7 に送った表示）</p>
+  <div class="phone">
+    <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><b>今月の数字</b></p><a class="back" href="#SCR-03" aria-label="戻る"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1>今月の数字</h1></div>
+    <div class="body">
+
+      <!-- 月 -->
+      <div class="state-view on" data-state="month">
+        <div class="m-switch">
+          <div class="segm" role="group" aria-label="月か日か"><span class="on" data-go="month" role="button" tabindex="0" aria-pressed="true">月</span><span data-go="day" role="button" tabindex="0" aria-pressed="false">日ごと</span></div>
+          <span class="daynav"><u data-href="#SCR-28:month" aria-label="前の月"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10月</b><u data-href="#SCR-28:empty" aria-label="次の月"><svg class="i"><use href="#i-chevron-right"/></svg></u></span>
+        </div>
+        <div class="hero">
+          <div class="eyebrow"><span>総売上 ・ 10/1〜10/8</span><span>残り 23 日</span></div>
+          <h2 class="m-big">¥887,937</h2>
+          <div class="m-bar" role="img" aria-label="目標 300 万円に対して 29.6%。日割りの目安は 25.8%"><i class="m-fill m-w296"></i><i class="m-tick m-l258"></i></div>
+          <p class="m-goal"><span>目標 ¥3,000,000</span><b>29.6%</b></p>
+          <div class="line"></div>
+          <p class="note">あと ¥2,112,063 ・ 1 日あたり ¥91,829</p>
+          <p class="meta m-onhero">日割りの目安（¥774,194）より ¥113,743 多い</p>
+        </div>
+
+        <div>
+          <span class="label">売上の内訳<button type="button" class="help" aria-expanded="false" aria-controls="help-28-kind" aria-label="売上の内訳の説明"><svg class="i"><use href="#i-help"/></svg></button></span>
+          <div class="helptip" id="help-28-kind" role="note">総売上は、その月に受けた売上（コースの購入・施術・物販）。会計売上は、その月に提供した分（施術・コースの消化・物販）です。</div>
+          <table class="grid">
+            <thead><tr><th scope="col">項目</th><th scope="col" class="y">実績</th><th scope="col" class="y">目標</th><th scope="col" class="y">達成</th></tr></thead>
+            <tbody>
+              <tr><td>会計売上</td><td class="y">¥577,873</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
+              <tr><td>新規売上</td><td class="y">¥143,000</td><td class="y">¥2,054,000</td><td class="y">7.0%</td></tr>
+              <tr><td>再販売上</td><td class="y">¥42,000</td><td class="y">¥600,000</td><td class="y">7.0%</td></tr>
+              <tr><td>施術売上</td><td class="y">¥69,073</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
+              <tr><td>消化売上</td><td class="y">¥412,000</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
+              <tr><td>商品売上</td><td class="y">¥96,800</td><td class="y">¥425,000</td><td class="y">22.8%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <a class="btn sm block" href="#SCR-28" data-open="goal"><svg class="i"><use href="#i-pen"/></svg>目標を入れる</a>
+
+        <div class="kpi">
+          <div class="card"><span class="label">次回予約率</span><b>58%</b><span class="delta">帰りに次の予約を入れた方の割合</span></div>
+          <div class="card"><span class="label">周期内再来率</span><b>71%</b><span class="delta">いつもの間隔のうちに また来た方の割合</span></div>
+        </div>
+
+        <div>
+          <span class="label">担当ごと</span>
+          <div class="m-staff">
+            <div class="m-staff-h"><b>佐藤 恵</b><span class="m-yen">¥835,972</span></div>
+            <p class="meta">目標 ¥2,400,000 ・ 34.8%</p>
+            <div class="kv"><span>消化</span><b>¥380,000</b><span>商品</span><b>¥87,120</b><span>新規の契約</span><b>3 件 ・ 50%</b><span>再販の契約</span><b>1 件</b></div>
+          </div>
+          <div class="m-staff">
+            <div class="m-staff-h"><b>鈴木 さくら</b><span class="m-yen">¥51,965</span></div>
+            <p class="meta">目標 ¥600,000 ・ 8.7%</p>
+            <div class="kv"><span>消化</span><b>¥32,000</b><span>商品</span><b>¥9,680</b><span>新規の契約</span><b>0 件 ・ 0%</b><span>再販の契約</span><b>0 件</b></div>
+          </div>
+        </div>
+
+        <div>
+          <span class="label">商品別の売上<button type="button" class="help" aria-expanded="false" aria-controls="help-28-goods" aria-label="商品別の売上の説明"><svg class="i"><use href="#i-help"/></svg></button></span>
+          <div class="helptip" id="help-28-goods" role="note">プリペイドから払った分も商品の売上に数えます。行を押すと、その商品を買った方の一覧が出ます。</div>
+          <div class="segm m-pick" data-pick role="group" aria-label="商品別のまとめ方"><span class="on">商品</span><span>分類</span><span>担当</span></div>
+          <div class="list">
+            <a class="item" href="#SCR-22"><div class="main"><div class="name">保湿クリーム</div><div class="meta">化粧品 ・ 12 個</div></div><div class="r"><b>¥52,800</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <a class="item" href="#SCR-22"><div class="main"><div class="name">美容液</div><div class="meta">化粧品 ・ 6 本</div></div><div class="r"><b>¥33,000</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <a class="item" href="#SCR-22"><div class="main"><div class="name">ホームケアマシン</div><div class="meta">ホームケアマシン ・ 1 台</div></div><div class="r"><b>¥11,000</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          </div>
+        </div>
+
+        <div>
+          <span class="label">どこで知ったか（集客媒体）ごと ・ はじめての方</span>
+          <table class="grid">
+            <thead><tr><th scope="col">媒体</th><th scope="col" class="y">来店</th><th scope="col" class="y">契約</th><th scope="col" class="y">契約率</th><th scope="col" class="y">契約単価</th></tr></thead>
+            <tbody>
+              <tr><td>ホットペッパー</td><td class="y">2</td><td class="y">0</td><td class="y">0%</td><td class="y m-na">—</td></tr>
+              <tr><td>サロン予約</td><td class="y">3</td><td class="y">2</td><td class="y">67%</td><td class="y">¥71,500</td></tr>
+              <tr><td>Instagram</td><td class="y">1</td><td class="y">0</td><td class="y">0%</td><td class="y m-na">—</td></tr>
+              <tr><td>紹介</td><td class="y">1</td><td class="y">1</td><td class="y">100%</td><td class="y m-na">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 日ごと（日報の 1 日分） -->
+      <div class="state-view" data-state="day">
+        <div class="m-switch">
+          <div class="segm" role="group" aria-label="月か日か"><span data-go="month" role="button" tabindex="0" aria-pressed="false">月</span><span class="on" data-go="day" role="button" tabindex="0" aria-pressed="true">日ごと</span></div>
+          <span class="daynav"><u data-href="#SCR-28:day" aria-label="前の日"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/7 火</b><u data-href="#SCR-28:day" aria-label="次の日"><svg class="i"><use href="#i-chevron-right"/></svg></u></span>
+        </div>
+        <div class="hero light">
+          <div class="eyebrow"><span>10/7（火）の総売上</span><span>来店 5 人</span></div>
+          <h2 class="m-big">¥37,200</h2>
+          <p class="meta">次の予約を入れた方 3 人 ・ はじめての方 1 人</p>
+        </div>
+        <table class="grid">
+          <thead><tr><th scope="col">項目</th><th scope="col" class="y">10/7</th></tr></thead>
+          <tbody>
+            <tr><td>会計売上</td><td class="y">¥73,200</td></tr>
+            <tr><td>新規売上</td><td class="y">¥0</td></tr>
+            <tr><td>再販売上</td><td class="y">¥0</td></tr>
+            <tr><td>施術売上</td><td class="y">¥24,000</td></tr>
+            <tr><td>消化売上</td><td class="y">¥36,000</td></tr>
+            <tr><td>商品売上</td><td class="y">¥13,200</td></tr>
+          </tbody>
+        </table>
+        <div>
+          <span class="label">担当ごと</span>
+          <table class="grid">
+            <thead><tr><th scope="col">担当</th><th scope="col" class="y">個人売上</th><th scope="col" class="y">消化</th><th scope="col" class="y">商品</th></tr></thead>
+            <tbody>
+              <tr><td>佐藤 恵</td><td class="y">¥24,000</td><td class="y">¥36,000</td><td class="y">¥0</td></tr>
+              <tr><td>鈴木 さくら</td><td class="y">¥13,200</td><td class="y">¥0</td><td class="y">¥13,200</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="meta">日報の 1 日分と同じ並びです。来店記録の会計から出しています</p>
+      </div>
+
+      <!-- 空（記録が無い月。来月を開いたときも） -->
+      <div class="state-view" data-state="empty">
+        <div class="m-switch">
+          <div class="segm" role="group" aria-label="月か日か"><span class="on" data-go="empty" role="button" tabindex="0" aria-pressed="true">月</span><span data-go="day" role="button" tabindex="0" aria-pressed="false">日ごと</span></div>
+          <span class="daynav"><u data-href="#SCR-28:month" aria-label="前の月"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>11月</b><u data-href="#SCR-28:empty" class="off" aria-label="次の月"><svg class="i"><use href="#i-chevron-right"/></svg></u></span>
+        </div>
+        <div class="empty"><h3>11月の記録はまだありません</h3><p class="sub">来店記録の会計を保存すると、ここに数字が出ます。目標は先に入れておけます。</p><a class="btn sm" href="#SCR-28" data-open="goal"><svg class="i"><use href="#i-pen"/></svg>目標を入れる</a></div>
+      </div>
+
+      <div class="state-view" data-state="loading"><div class="skeleton" style="height:44px"></div><div class="skeleton" style="height:180px"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+      <div class="state-view" data-state="error"><div class="errorbox"><b>読み込めませんでした</b>電波を確かめて、画面を引き下げてもう一度読み込んでください。</div><a class="btn sm block" href="#SCR-28:month"><svg class="i"><use href="#i-rotate"/></svg>もう一度読み込む</a></div>
+    </div>
+
+    <!-- 目標を入れる（シート。開いている月の目標。店全体は項目ごと、担当は個人売上） -->
+    <div class="state-view" data-state="goal"><div class="dim"></div><div class="sheet m-goals" role="dialog" aria-label="10月の目標">
+      <div class="grip"></div><h2>10月の目標</h2>
+      <p class="sub">空の欄は目標なしです。担当は個人売上の目標です</p>
+      <span class="label">店全体</span>
+      <div class="grid2">
+        <div class="field"><label class="label" for="g28-total">総売上</label><input class="input" id="g28-total" inputmode="numeric" value="¥3,000,000"></div>
+        <div class="field"><label class="label" for="g28-acc">会計売上</label><input class="input" id="g28-acc" inputmode="numeric" value="" placeholder="目標なし"></div>
+        <div class="field"><label class="label" for="g28-new">新規売上</label><input class="input" id="g28-new" inputmode="numeric" value="¥2,054,000"></div>
+        <div class="field"><label class="label" for="g28-resale">再販売上</label><input class="input" id="g28-resale" inputmode="numeric" value="¥600,000"></div>
+        <div class="field"><label class="label" for="g28-treat">施術売上</label><input class="input" id="g28-treat" inputmode="numeric" value="" placeholder="目標なし"></div>
+        <div class="field"><label class="label" for="g28-cons">消化売上</label><input class="input" id="g28-cons" inputmode="numeric" value="" placeholder="目標なし"></div>
+        <div class="field"><label class="label" for="g28-retail">商品売上</label><input class="input" id="g28-retail" inputmode="numeric" value="¥425,000"></div>
+      </div>
+      <span class="label">担当ごと（個人売上）</span>
+      <div class="grid2">
+        <div class="field"><label class="label" for="g28-sato">佐藤 恵</label><input class="input" id="g28-sato" inputmode="numeric" value="¥2,400,000"></div>
+        <div class="field"><label class="label" for="g28-suzuki">鈴木 さくら</label><input class="input" id="g28-suzuki" inputmode="numeric" value="¥600,000"></div>
+      </div>
+      <div class="row2"><a class="btn" href="#SCR-28" data-close="goal"><svg class="i"><use href="#i-x"/></svg>やめる</a><a class="btn primary" href="#SCR-28" data-close="goal"><svg class="i"><use href="#i-check"/></svg>保存する</a></div>
+    </div></div>
+  </div>
+  <div class="statebar">状態: <button data-toggle="month" class="on">月</button><button data-toggle="day">日ごと</button><button data-toggle="goal">目標を入れる（シート）</button><button data-toggle="empty">空（記録が無い月）</button><button data-toggle="loading">読み込み中</button><button data-toggle="error">エラー</button></div>
+</section>
+
 </main>
 </div>
 <script>
@@ -1918,7 +2112,7 @@ a.chip:hover{border-color:var(--main-700)}
   var qs=new URLSearchParams(location.search).get('state'); if(qs){setTimeout(function(){var sec=document.querySelector('section.screen.active'); if(!sec)return; var b=sec.querySelector('.statebar button[data-toggle="'+qs+'"]'); if(b) b.click();},0);}
   var qv=new URLSearchParams(location.search).get('v'); if(qv==='tablet'||qv==='pc'){document.querySelector('main.stage').classList.add('view-'+qv);document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-view')===qv);});}
   // 状態切り替え: 「排他」グループと「重ねる」グループ
-  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','limitstaff','ext','acct'],'SCR-04':['dup','acct'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo','unread','ticket','acct'],'SCR-07':['error','consent','buy','shot','date','second','delphoto','goods','pick','pickadd','prepaid','nobal','acct'],'SCR-08':['limit','over10','noai','multidate'],'SCR-10':['add','error'],'SCR-12':['dual','acct'],'SCR-13':['add','acct'],'SCR-14':['done'],'SCR-15':['dismiss'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error','free0'],'SCR-21':['copied','limit','sent','changed','skipped','line'],'SCR-26':[]};
+  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','limitstaff','ext','acct'],'SCR-04':['dup','acct'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo','unread','ticket','acct'],'SCR-07':['error','consent','buy','shot','date','second','delphoto','goods','pick','pickadd','prepaid','nobal','acct'],'SCR-08':['limit','over10','noai','multidate'],'SCR-10':['add','error'],'SCR-12':['dual','acct'],'SCR-13':['add','acct'],'SCR-14':['done'],'SCR-15':['dismiss'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error','free0'],'SCR-21':['copied','limit','sent','changed','skipped','line'],'SCR-26':[],'SCR-28':['goal']};
   document.querySelectorAll('.statebar button').forEach(function(b){
     b.addEventListener('click',function(){
       var sec=b.closest('section'); var st=b.getAttribute('data-toggle');
