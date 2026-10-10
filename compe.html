@@ -52,6 +52,17 @@ td .why{display:block;font-size:12.5px;color:var(--fg2);line-height:1.6}
 .q{display:grid;gap:8px;padding:0;margin:0;counter-reset:q}
 .q li{list-style:none;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 14px 12px 44px;position:relative}
 .q li::before{counter-increment:q;content:counter(q);position:absolute;left:16px;top:11px;font-weight:700;color:var(--accent)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font:inherit;font-size:14px;padding:8px 14px;border:1px solid var(--rule);background:var(--surface);color:var(--fg);border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.shots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.shots figure{margin:0;display:grid;gap:6px;align-content:start}
+.shots img{width:100%;height:auto;display:block;border-radius:22px;background:var(--surface)}
+.shots figcaption{font-size:13px;color:var(--fg2);line-height:1.5}
+.shots figcaption b{color:var(--fg);display:block}
+.shots figcaption a{color:var(--accent);text-decoration:none}
+.panel[hidden]{display:none}
+@media (max-width:860px){.shots{grid-template-columns:repeat(2,minmax(0,1fr))}}
 footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding-top:14px}
 @media (max-width:480px){h1{font-size:23px}}
 </style>
@@ -59,9 +70,9 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
 <body>
 <main>
   <header class="stack">
-    <p class="eyebrow">SALONOTE ／ デザインコンペ（主要 4 画面）／ 2026-10-10</p>
+    <p class="eyebrow">SALONOTE ／ デザインコンペ（主要 4 画面）／ 2026-10-10 第 2 稿</p>
     <h1>デザインコンペ比較</h1>
-    <p>社内案と、世界有数の UI/UX 制作会社 3 社（架空）の提案を、要求定義の重要要件で比べたもの。各社とも同じ依頼書・同じダミーデータで、ホーム（今日）・施術後の記録・顧客詳細・今月の数字の 4 画面を作っている。見た目は各案のページで確かめてほしい。</p>
+    <p>社内案と、世界有数の UI/UX 制作会社 3 社（架空）の提案を、要求定義の重要要件で比べたもの。各社とも同じ依頼書・同じダミーデータで、ホーム（今日）・施術後の記録・顧客詳細・今月の数字の 4 画面を作っている。<b>第 2 稿は、機能・記録の持ち方・API を今の要件定義書と同じにそろえ、違うのはコンセプト・画面の組み立て・並び順・トンマナだけ</b>（第 1 稿にあった「話して直す」「AI が質問に答える」などの要件に無い機能は外した）。今月の数字は 2 段目の画面（SCR-28）。見た目は各案のページで確かめてほしい。</p>
   </header>
 
   <section class="stack" aria-labelledby="s-cand">
@@ -71,7 +82,7 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
         <span class="co">社内案</span>
         <span class="name">瞬間起点</span>
         <span class="one">施術前・施術後・閉店後の場面ごとに画面を用意。アイボリー×ブロンズ・明朝の見出しで静かな高級感。</span>
-        <a href="./">モックを開く →</a>
+        <a href="compe-0.html">提案を開く →</a> <a href="./">（全画面のモック）</a>
       </div>
       <div class="card" style="--k:var(--ca)">
         <span class="co">A 社 ／ Studio Kotoha</span>
@@ -94,6 +105,13 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
     </div>
   </section>
 
+  <section class="stack" aria-labelledby="s-screens">
+    <h2 id="s-screens">画面ごとに 4 案を並べる</h2>
+    <p class="meta">各案の画面を開いた直後の状態で撮ったもの。画面の続き（スクロール）と、押して試せる操作は各案のページで。</p>
+    <div class="tabs" role="tablist" aria-label="比べる画面"><button role="tab" id="t1" aria-controls="p1" aria-selected="true">ホーム（今日）</button><button role="tab" id="t2" aria-controls="p2" aria-selected="false">施術後の記録</button><button role="tab" id="t3" aria-controls="p3" aria-selected="false">顧客詳細</button><button role="tab" id="t4" aria-controls="p4" aria-selected="false">今月の数字（2 段目）</button></div>
+    <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1"><div class="shots"><figure><img src="compe-shots/s0-1.png" alt="社内案（瞬間起点）のホーム（今日）" loading="lazy" width="375" height="812"><figcaption><b>社内案</b>瞬間起点 ・ <a href="compe-0.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sa-1.png" alt="A 社（話しかけるカルテ）のホーム（今日）" loading="lazy" width="375" height="812"><figcaption><b>A 社</b>話しかけるカルテ ・ <a href="compe-a.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sb-1.png" alt="B 社（生きている日報）のホーム（今日）" loading="lazy" width="375" height="812"><figcaption><b>B 社</b>生きている日報 ・ <a href="compe-b.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sc-1.png" alt="C 社（NOWLINE）のホーム（今日）" loading="lazy" width="375" height="812"><figcaption><b>C 社</b>NOWLINE ・ <a href="compe-c.html">ページで操作する →</a></figcaption></figure></div></div><div class="panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden><div class="shots"><figure><img src="compe-shots/s0-2.png" alt="社内案（瞬間起点）の施術後の記録" loading="lazy" width="375" height="812"><figcaption><b>社内案</b>瞬間起点 ・ <a href="compe-0.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sa-2.png" alt="A 社（話しかけるカルテ）の施術後の記録" loading="lazy" width="375" height="812"><figcaption><b>A 社</b>話しかけるカルテ ・ <a href="compe-a.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sb-2.png" alt="B 社（生きている日報）の施術後の記録" loading="lazy" width="375" height="812"><figcaption><b>B 社</b>生きている日報 ・ <a href="compe-b.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sc-2.png" alt="C 社（NOWLINE）の施術後の記録" loading="lazy" width="375" height="812"><figcaption><b>C 社</b>NOWLINE ・ <a href="compe-c.html">ページで操作する →</a></figcaption></figure></div></div><div class="panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden><div class="shots"><figure><img src="compe-shots/s0-3.png" alt="社内案（瞬間起点）の顧客詳細" loading="lazy" width="375" height="812"><figcaption><b>社内案</b>瞬間起点 ・ <a href="compe-0.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sa-3.png" alt="A 社（話しかけるカルテ）の顧客詳細" loading="lazy" width="375" height="812"><figcaption><b>A 社</b>話しかけるカルテ ・ <a href="compe-a.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sb-3.png" alt="B 社（生きている日報）の顧客詳細" loading="lazy" width="375" height="812"><figcaption><b>B 社</b>生きている日報 ・ <a href="compe-b.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sc-3.png" alt="C 社（NOWLINE）の顧客詳細" loading="lazy" width="375" height="812"><figcaption><b>C 社</b>NOWLINE ・ <a href="compe-c.html">ページで操作する →</a></figcaption></figure></div></div><div class="panel" role="tabpanel" id="p4" aria-labelledby="t4" hidden><div class="shots"><figure><img src="compe-shots/s0-4.png" alt="社内案（瞬間起点）の今月の数字（2 段目）" loading="lazy" width="375" height="812"><figcaption><b>社内案</b>瞬間起点 ・ <a href="compe-0.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sa-4.png" alt="A 社（話しかけるカルテ）の今月の数字（2 段目）" loading="lazy" width="375" height="812"><figcaption><b>A 社</b>話しかけるカルテ ・ <a href="compe-a.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sb-4.png" alt="B 社（生きている日報）の今月の数字（2 段目）" loading="lazy" width="375" height="812"><figcaption><b>B 社</b>生きている日報 ・ <a href="compe-b.html">ページで操作する →</a></figcaption></figure><figure><img src="compe-shots/sc-4.png" alt="C 社（NOWLINE）の今月の数字（2 段目）" loading="lazy" width="375" height="812"><figcaption><b>C 社</b>NOWLINE ・ <a href="compe-c.html">ページで操作する →</a></figcaption></figure></div></div>
+  </section>
+
   <section class="stack" aria-labelledby="s-score">
     <h2 id="s-score">重要要件ごとの比較</h2>
     <p class="legend"><span class="mk g">◎</span>とても強い　<span class="mk g">○</span>十分　<span class="mk m">△</span>工夫が要る　（宮崎側での評価案。決めるのは、あすみちゃんと宮崎さん）</p>
@@ -102,45 +120,47 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
         <thead><tr><th>要件</th><th>社内案（瞬間起点）</th><th>A 社（話しかけるカルテ）</th><th>B 社（生きている日報）</th><th>C 社（NOWLINE）</th></tr></thead>
         <tbody>
           <tr><th>1. 入力しない<small>話す・撮るだけで記録、確認は 1〜2 分、片手</small></th>
-            <td><span class="mk g">○</span><span class="why">ステップ式で迷わないが、画面の数はやや多い</span></td>
-            <td><span class="mk g">◎</span><span class="why">マイクを押して話し、「はい」で確定。キーボードが出ない</span></td>
-            <td><span class="mk g">○</span><span class="why">黄色い候補のセルを押して確定。項目は多めに見える</span></td>
-            <td><span class="mk g">◎</span><span class="why">候補が 1 枚ずつ出て 1 タップで確定。操作は親指の届く下半分</span></td></tr>
+            <td><span class="mk g">○</span><span class="why">候補欄と全文の引用、「すべて確定」。記録は 3〜4 画面に分かれ、タップは多め</span></td>
+            <td><span class="mk g">◎</span><span class="why">自分の声（右）に候補（左の点線）が返り、「確定」か「直す」を押すだけ。流れが LINE と同じ</span></td>
+            <td><span class="mk g">○</span><span class="why">候補を押して確定、会計は日報と同じ形の行。項目は多めに見える</span></td>
+            <td><span class="mk g">◎</span><span class="why">候補を 1 枚ずつ確定、残りはまとめて確定。操作は親指の届く下半分</span></td></tr>
           <tr><th>2. 見落とさない<small>禁忌・アレルギーが必ず目に入る</small></th>
-            <td><span class="mk g">○</span><span class="why">次のお客様のカードと顧客詳細に警告</span></td>
-            <td><span class="mk g">○</span><span class="why">会話の上にピンで固定。ただし流れる画面なので慣れが要る</span></td>
-            <td><span class="mk g">◎</span><span class="why">赤は禁忌の帯だけ。行の直下に割り込み、閉じられない</span></td>
-            <td><span class="mk g">◎</span><span class="why">赤い塗りと縞は禁忌だけ。どの画面でも上に固定</span></td></tr>
-          <tr><th>3. 今日が一目でわかる<small>今日来る人と記録がまだの人</small></th>
-            <td><span class="mk g">○</span><span class="why">次のお客様と今日の流れ、記録の進み</span></td>
-            <td><span class="mk g">○</span><span class="why">朝の 1 通に 5 名が並ぶ。全体は見渡しにくい</span></td>
-            <td><span class="mk g">○</span><span class="why">日報と同じ列で一覧。数字が上にあり、来店はその下</span></td>
-            <td><span class="mk g">◎</span><span class="why">時間軸と「いま」の線、5 マスの状態で一目</span></td></tr>
-          <tr><th>4. 分析しやすい<small>日報の置き換え・目標と日割り・担当・商品・媒体</small></th>
-            <td><span class="mk m">△</span><span class="why">分析は別の画面。数字の密度は低め</span></td>
-            <td><span class="mk m">△</span><span class="why">「今月どう？」で答えが返る。一覧で比べる・月をまたぐ比較に弱い</span></td>
-            <td><span class="mk g">◎</span><span class="why">日報の①〜⑦と同じ並び。目標・日割り・担当・商品・媒体が表で揃う</span></td>
-            <td><span class="mk g">○</span><span class="why">リングとゲージで今月はすぐ読める。推移と比較は弱め</span></td></tr>
+            <td><span class="mk g">○</span><span class="why">次のお客様のカードと顧客詳細の上部に警告。警告の色は 1 つだけ</span></td>
+            <td><span class="mk g">◎</span><span class="why">赤い帯を会話の上に固定し、確認しても消えない</span></td>
+            <td><span class="mk g">◎</span><span class="why">赤は禁忌の帯だけ。次のお客様の行に割り込み、閉じられない</span></td>
+            <td><span class="mk g">◎</span><span class="why">赤は禁忌だけ。顧客詳細では名前と一緒に上に固定</span></td></tr>
+          <tr><th>3. 今日が一目でわかる<small>今日来る人と、あとでやること</small></th>
+            <td><span class="mk g">○</span><span class="why">濃いカードの次のお客様、今日の流れ、「あとで」</span></td>
+            <td><span class="mk g">○</span><span class="why">次のお客様をピン留めし、今日の流れを 1 本の線と点で</span></td>
+            <td><span class="mk g">○</span><span class="why">今日の流れを罫線の表に。次のお客様の行だけが広がる</span></td>
+            <td><span class="mk g">◎</span><span class="why">今の時刻の線の上に済んだ人、すぐ下で次のお客様だけが開く</span></td></tr>
+          <tr><th>4. 分析しやすい<small>今月の数字（SCR-28・2 段目）</small></th>
+            <td><span class="mk g">○</span><span class="why">濃いカードに総売上と日割り、下に表。社内の部品だけで組んでいて、そのままモックに移せる</span></td>
+            <td><span class="mk g">○</span><span class="why">目標と日割りを上に固定し、7 つの切り口を押すとその集計へ移る。1 画面で全部は見渡せない</span></td>
+            <td><span class="mk g">◎</span><span class="why">日報の ①〜⑦ と同じ並び。目標・日割りの残りが行ごと。棒を押すとその日の日報</span></td>
+            <td><span class="mk g">○</span><span class="why">リングと帯で今月がすぐ読める。細かい比較は表を開いてから</span></td></tr>
           <tr><th>5. アナログな人が初日から使える<small>専門用語なし・迷わない</small></th>
-            <td><span class="mk g">○</span><span class="why">落ち着いた画面で、場面ごとに案内がある</span></td>
-            <td><span class="mk g">◎</span><span class="why">LINE と同じ見た目なので説明がいらない</span></td>
-            <td><span class="mk m">△</span><span class="why">日報をつけている人には読みやすいが、そうでない人には重い</span></td>
-            <td><span class="mk m">△</span><span class="why">スワイプは最初に教える必要がある。黒地は好みが分かれる</span></td></tr>
+            <td><span class="mk g">○</span><span class="why">落ち着いた画面と場面ごとの入口。11px の字と細い線が多いのは弱み</span></td>
+            <td><span class="mk g">◎</span><span class="why">LINE と同じ見た目と読み方（右＝自分、左＝候補、上＝警告）</span></td>
+            <td><span class="mk m">△</span><span class="why">日報をつけている人には読みやすいが、そうでない人には表が重い</span></td>
+            <td><span class="mk m">△</span><span class="why">黒地は好みが分かれる。明るい表示への切り替えが要る</span></td></tr>
           <tr><th>6. AI は候補を出すだけ<small>候補と根拠が分かる</small></th>
-            <td><span class="mk g">○</span><span class="why">候補の印と引用</span></td>
-            <td><span class="mk g">◎</span><span class="why">点線＝候補・実線＝確定。話した言葉を横に添える</span></td>
-            <td><span class="mk g">◎</span><span class="why">黄色いセル＝候補。確定すると黒い文字に変わる</span></td>
-            <td><span class="mk g">◎</span><span class="why">水色の点線＝候補。引用と録音の何秒目か、波形も色が変わる</span></td></tr>
+            <td><span class="mk m">△</span><span class="why">根拠は全文の引用が 1 つで、欄ごとには結びついていない</span></td>
+            <td><span class="mk g">◎</span><span class="why">点線＝候補・実線＝確定。候補ごとに話した言葉の引用</span></td>
+            <td><span class="mk g">◎</span><span class="why">候補のセルの下に話した言葉の引用。確定すると黒い文字に</span></td>
+            <td><span class="mk g">◎</span><span class="why">カードごとに話した言葉の引用。次回予約日は選ぶまで確定できない</span></td></tr>
           <tr><th>7. お客様に届ける<small>LINE 文面をコピー</small></th>
-            <td><span class="mk g">○</span><span class="why">保存の後にコピー</span></td>
-            <td><span class="mk g">○</span><span class="why">保存すると返事として文面が届く</span></td>
-            <td><span class="mk g">○</span><span class="why">保存すると文面のシート</span></td>
-            <td><span class="mk g">○</span><span class="why">保存すると文面。済んだカードのスワイプからも送れる見せ方</span></td></tr>
+            <td><span class="mk g">○</span><span class="why">保存の後に吹き出しとコピー</span></td>
+            <td><span class="mk g">○</span><span class="why">保存すると文面。よく使う文面と商品のアフターフォロー文を選べる</span></td>
+            <td><span class="mk g">○</span><span class="why">完了の後に文面のチップ・アフターフォロー文・コピー後の案内</span></td>
+            <td><span class="mk g">○</span><span class="why">完了の後に文面とコピー後の案内（名前の確認・送信取消）</span></td></tr>
           <tr><th>作る手間<small>初版の実装の重さ</small></th>
-            <td><span class="mk g">○</span><span class="why">今の設計書がこの案に沿っている</span></td>
-            <td><span class="mk m">△</span><span class="why">トーク形式に合わせて画面の作りを組み直す。返事の速さがそのまま使い心地になる</span></td>
-            <td><span class="mk g">○</span><span class="why">表が中心で作りは素直。スマホで表を読ませる工夫が要る</span></td>
-            <td><span class="mk m">△</span><span class="why">スワイプ・めくり・ダークの表示切替など、動きの作り込みが多い</span></td></tr>
+            <td><span class="mk g">◎</span><span class="why">今の設計書とモックがこの案に沿っている</span></td>
+            <td><span class="mk m">△</span><span class="why">画面をトークの流れとして組み直す。部品の作りが今と大きく違う</span></td>
+            <td><span class="mk g">○</span><span class="why">表が中心で作りは素直。スマホで表を読ませる工夫（列の固定）が要る</span></td>
+            <td><span class="mk m">△</span><span class="why">今の線・カードの開閉・ダークと明るい表示の切り替えなど、動きの作り込みが多い</span></td></tr>
+          <tr><th>今月の数字の置き場所<small>2 段目の画面をどこから開くか</small></th>
+            <td colspan="4"><span class="why">社内案と A 社は下部タブを初版の 4 つのまま、B 社は「声かけ・数字」、C 社は「今月」を足した 5 つのタブを案にしている。置き場所は画面仕様（03）で決める</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -151,9 +171,9 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
     <div class="pick">
       <p><b>どれか 1 案を丸ごと採るより、「強いところ」を組み合わせるのが合いそう。</b>あすみちゃんの言う「カルテが一番」「日報の上の集計があれば置き換えられる」「業界はアナログ」を全部満たす案は、単独では無い。</p>
       <ul>
-        <li><b>今月の数字</b>は B 社（生きている日報）の並び。日報と同じ ①〜⑦ と目標・日割りが揃い、スクール生は初日から読める</li>
-        <li><b>施術後の記録</b>は C 社の「1 枚ずつ確定」か A 社の「はい／直す」。どちらも確認が 1 分前後に収まる</li>
-        <li><b>禁忌の見せ方</b>は B 社・C 社の「赤は禁忌だけ」を全案共通の決まりにする</li>
+        <li><b>今月の数字</b>は B 社（生きている日報）の並び。日報と同じ ①〜⑦ と目標・日割りの残りが行ごとに揃い、棒を押すとその日の日報が出る</li>
+        <li><b>施術後の記録</b>は C 社の「1 枚ずつ確定」か A 社の「確定／直す」。どちらも候補ごとに根拠の引用が付き、社内案の弱み（根拠が欄ごとに結びつかない）を解く</li>
+        <li><b>禁忌の見せ方</b>は「赤は禁忌だけ・上に固定して消せない」を全案共通の決まりにする（A・B・C 社とも同じ考え方）</li>
         <li><b>全体の雰囲気と初日のわかりやすさ</b>は、社内案か A 社のやさしい見た目。黒地（C 社）は、明るい表示を基本にして暗い表示を選べる形がよい</li>
       </ul>
     </div>
@@ -170,8 +190,14 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
   </section>
 
   <footer>
-    <p>3 社は架空の制作会社の想定。ダミーデータのみで、実在のお客様・お店の情報は含まない。日付の曜日（10 月 8 日を水曜としている）は社内案に合わせたもので、実際の暦とはずれている。</p>
+    <p>3 社は架空の制作会社の想定。ダミーデータのみで、実在のお客様・お店の情報は含まない。日付の曜日（10 月 8 日を水曜としている）は社内案に合わせたもので、実際の暦とはずれている。今月の数字のうち依頼書に無い値（施術売上・日ごとの数字・担当ごとの契約数など）は各社が辻褄の合う形で補った仮の値で、社ごとに少し違う。</p>
   </footer>
 </main>
+<script>
+document.querySelectorAll('.tabs [role=tab]').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('.tabs [role=tab]').forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false')});
+  document.querySelectorAll('.panel').forEach(function(p){p.hidden=(p.id!==b.getAttribute('aria-controls'))});
+});});
+</script>
 </body>
 </html>

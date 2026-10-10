@@ -9,26 +9,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
 <style>
-/* Studio Kotoha / 提案 A「話しかけるカルテ」
-   Layout: 提案の読み物（1 カラム・最大 1080px）→ 4 台のスマホ（PC は横並び・狭い幅は縦）→ 強み・弱み */
+/* Studio Kotoha / 提案 A 第 2 稿「話しかけるカルテ」
+   Layout: 提案の読み物（1 カラム・最大 1080px）→ 4 台のスマホ（PC は横並び・狭い幅は縦）→ 正直な評価
+   画面の文法: 右＝あなたが話した・入れたもの／左＝カルテが返すもの・残っているもの／上にピン＝消えない警告／下＝押すところ */
 :root{
-  /* 紙・面 */
-  --page:#F3EDEA; --page-deep:#E9DFDA;
-  --thread:#FBF6F3; --surface:#FFFDFB; --sunk:#F6EFEC;
-  /* 文字 */
+  --page:#F3EDEA; --thread:#FBF6F3; --surface:#FFFDFB; --sunk:#F5EEEB;
   --ink:#2A2030; --ink-2:#62576A; --ink-3:#958A99;
   --line:#EADFDA; --line-2:#DCCFD8;
-  /* 主役: 夜明けのすみれ色（押せるもの） */
   --plum:#5A3A74; --plum-2:#7A5A94; --plum-soft:#F1E9F5; --plum-line:#CBB7DA;
-  /* あたたかさ: あんず色（自分の声・やわらかい強調） */
   --apricot:#F0956A; --apricot-soft:#FFE6D8; --apricot-deep:#B65A33;
-  /* 意味 */
   --alert:#BC2C27; --alert-bg:#FCE8E5; --alert-line:#EFB3AC;
   --ok:#2C765B; --ok-bg:#E2F1E9;
-  /* 文字 */
+  --skin-1:#F3D2BF; --skin-2:#E9BFA7; --skin-3:#F7DCCB; --blush:rgba(214,108,98,.55);
   --font:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
-  --fs-2xs:10.5px; --fs-xs:11.5px; --fs-s:12.5px; --fs-m:14px; --fs-l:16px; --fs-xl:19px; --fs-num:30px;
-  /* かたち */
+  --fs-2xs:10.5px; --fs-xs:11.5px; --fs-s:12.5px; --fs-m:14px; --fs-l:16px; --fs-xl:19px; --fs-num:26px;
   --r-bubble:20px; --r-card:16px; --r-pill:999px;
   --sh-phone:0 0 0 1px rgba(42,32,48,.07),0 40px 70px -30px rgba(90,58,116,.35),0 14px 28px -16px rgba(42,32,48,.18);
   --sh-card:0 1px 0 rgba(42,32,48,.04),0 6px 16px -10px rgba(90,58,116,.22);
@@ -39,34 +33,36 @@ body{margin:0;background:var(--page);color:var(--ink);font-family:var(--font);fo
 h1,h2,h3,h4,p{margin:0}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 .i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.i.s{width:14px;height:14px}.i.l{width:22px;height:22px}.i.xl{width:28px;height:28px}
+.i.s{width:14px;height:14px}.i.l{width:22px;height:22px}.i.xl{width:26px;height:26px}
 .num{font-variant-numeric:tabular-nums;letter-spacing:.01em}
 
 /* ───────── 提案の読み物 ───────── */
 .doc{max-width:1080px;margin:0 auto;display:grid;gap:64px}
 .brand{display:flex;align-items:center;gap:12px;color:var(--ink-2);font-size:var(--fs-s);letter-spacing:.08em}
-.logo{width:36px;height:36px;border-radius:50%;background:var(--plum);display:grid;place-items:center;flex:none}
+.logo{width:36px;height:36px;border-radius:50%;background:var(--plum);display:grid;place-items:center;flex:none;color:var(--apricot)}
 .eyebrow{font-size:var(--fs-s);letter-spacing:.12em;color:var(--ink-3)}
 .hero{display:grid;gap:22px}
 .hero h1{font-size:clamp(34px,6vw,56px);line-height:1.25;font-weight:700;letter-spacing:.02em}
 .hero h1 em{font-style:normal;color:var(--plum);background:linear-gradient(transparent 68%,var(--apricot-soft) 68%)}
 .hero .en{font-size:var(--fs-l);color:var(--ink-3);letter-spacing:.14em}
-.lead{font-size:clamp(16px,2.1vw,18px);line-height:2;max-width:760px;color:var(--ink)}
+.lead{font-size:clamp(16px,2.1vw,18px);line-height:2;max-width:760px}
 .diff{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:var(--r-card);padding:16px 18px;max-width:760px;box-shadow:var(--sh-card);font-size:var(--fs-m);color:var(--ink-2)}
 .diff b{color:var(--ink)}
 .sec{display:grid;gap:22px}
-.sec>h2{font-size:var(--fs-xl);font-weight:700;display:flex;align-items:center;gap:10px}
-.sec>h2 .k{font-size:var(--fs-xs);color:var(--plum);background:var(--plum-soft);border-radius:var(--r-pill);padding:2px 10px;letter-spacing:.08em;font-weight:500}
+.sec>h2{font-size:var(--fs-xl);font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sec>h2 .k{font-size:var(--fs-xs);color:var(--plum);background:var(--plum-soft);border-radius:var(--r-pill);padding:2px 10px;letter-spacing:.06em;font-weight:500}
 .principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
 .pr{background:var(--surface);border-radius:var(--r-card);padding:18px 18px 20px;display:grid;gap:8px;align-content:start;box-shadow:var(--sh-card)}
 .pr .n{width:28px;height:28px;border-radius:50%;background:var(--apricot-soft);color:var(--apricot-deep);display:grid;place-items:center;font-weight:700;font-size:var(--fs-s)}
 .pr h3{font-size:var(--fs-l);font-weight:700;line-height:1.5}
 .pr p{font-size:var(--fs-s);color:var(--ink-2);line-height:1.8}
-.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.talk{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:var(--r-card);background:var(--sunk)}
-.talk .av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:700}
-.talk h3{font-size:var(--fs-m);font-weight:700}
-.talk p{font-size:var(--fs-s);color:var(--ink-2);line-height:1.7}
+/* 読み方の凡例（ミニ会話） */
+.legend-box{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center;background:var(--surface);border-radius:var(--r-card);padding:22px;box-shadow:var(--sh-card)}
+.mini{background:var(--thread);border-radius:18px;padding:14px;display:grid;gap:10px}
+.lg-list{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.lg-list li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:var(--fs-s);color:var(--ink-2);line-height:1.75}
+.lg-list li b{color:var(--ink);display:block;font-size:var(--fs-m)}
+.sw{width:28px;height:22px;border-radius:8px;margin-top:2px}
 .req{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 32px;border-top:1px solid var(--line-2)}
 .rq{display:grid;grid-template-columns:30px 1fr;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line-2)}
 .rq .n{font-weight:700;color:var(--plum);font-size:var(--fs-l)}
@@ -75,240 +71,324 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 /* ───────── 4 台のスマホ ───────── */
 .screens{display:flex;flex-wrap:wrap;justify-content:center;gap:56px 36px;max-width:1660px;margin:0 auto}
-.col{width:375px;max-width:100%;display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-content:start}
-.col-h{display:flex;align-items:baseline;gap:10px}
+.col{width:375px;max-width:100%;display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-content:start}
+.col-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .col-h .no{font-size:var(--fs-xl);font-weight:700;color:var(--plum)}
 .col-h h3{font-size:var(--fs-l);font-weight:700}
 .col-h .sub{font-size:var(--fs-xs);color:var(--ink-3)}
+.col-h .s2{font-size:var(--fs-2xs);font-weight:700;color:var(--apricot-deep);border:1.5px solid var(--apricot);border-radius:var(--r-pill);padding:0 8px}
 .aim{font-size:var(--fs-s);line-height:1.9;color:var(--ink-2);padding:0 4px}
 .aim b{color:var(--ink);font-weight:700}
 .aim .try{display:inline-flex;align-items:center;gap:4px;color:var(--plum);font-weight:500}
+.uses{font-size:var(--fs-xs);line-height:1.8;color:var(--ink-2);padding:8px 12px;margin:0 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.uses b{color:var(--plum);font-weight:700}
 
 .phone{width:min(375px,100%);height:812px;border-radius:44px;background:var(--thread);box-shadow:var(--sh-phone);overflow:hidden;display:flex;flex-direction:column;position:relative;isolation:isolate}
-.sb{height:42px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 28px 0;font-size:13px;font-weight:700;letter-spacing:.02em}
+.sb{height:42px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 28px 0;font-size:13px;font-weight:700}
 .sb .ic{display:flex;gap:5px;align-items:center}
-.hdr{flex:none;display:flex;align-items:center;gap:10px;padding:4px 14px 10px}
-.hdr .back{width:32px;height:32px;display:grid;place-items:center;color:var(--ink-2);margin-left:-6px}
-.hdr .t{flex:1;min-width:0;display:grid;line-height:1.35}
-.hdr .t b{font-size:var(--fs-l);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hdr .t span{font-size:var(--fs-xs);color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hdr .me{width:34px;height:34px;border-radius:50%;background:var(--apricot-soft);color:var(--apricot-deep);display:grid;place-items:center;font-weight:700;font-size:var(--fs-s);flex:none}
-.hav{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:700}
+.top{flex:none;display:flex;align-items:center;gap:10px;padding:2px 14px 8px}
+.top .back{width:32px;height:32px;display:grid;place-items:center;color:var(--ink-2);margin-left:-6px;flex:none}
+.top .t{flex:1;min-width:0;display:grid;line-height:1.35}
+.top .t b{font-size:var(--fs-l);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .t span{font-size:var(--fs-xs);color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .acct{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;color:var(--plum);flex:none}
+.top .later{font-size:var(--fs-s);font-weight:700;color:var(--plum);display:flex;align-items:center;gap:4px;border:1.5px solid var(--plum-line);border-radius:var(--r-pill);padding:4px 10px;flex:none}
+.search{flex:none;margin:0 14px 10px;height:40px;border-radius:var(--r-pill);background:var(--surface);border:1.5px solid var(--line-2);display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--ink-3);font-size:var(--fs-s)}
+.search .i{color:var(--plum)}
 
-/* ピン（会話の上に固定。流れない） */
-.pin{flex:none;margin:0 10px 6px;border-radius:14px;display:flex;gap:10px;align-items:center;padding:10px 10px 10px 12px;position:relative}
-.pin.alert{background:var(--alert-bg);border:1px solid var(--alert-line);color:var(--alert)}
-.pin .badge{width:34px;height:34px;border-radius:50%;background:var(--alert);color:var(--surface);display:grid;place-items:center;flex:none}
-.pin .body{flex:1;min-width:0;line-height:1.45}
-.pin .body .tag{font-size:var(--fs-2xs);display:flex;align-items:center;gap:3px;opacity:.85;letter-spacing:.04em}
-.pin .body b{display:block;font-size:var(--fs-l);font-weight:700;letter-spacing:.02em}
-.pin .body span{font-size:var(--fs-xs);color:var(--ink)}
-.pin .ack{flex:none;border:1.5px solid var(--alert);color:var(--alert);background:var(--surface);border-radius:var(--r-pill);padding:6px 10px;font-size:var(--fs-xs);font-weight:700;display:flex;align-items:center;gap:4px}
-.pin .done{flex:none;font-size:var(--fs-2xs);color:var(--alert);display:grid;justify-items:center;line-height:1.3;text-align:center}
-.pin .done .ck{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--alert);display:grid;place-items:center;margin-bottom:2px}
-.pin.mini{padding:7px 12px}
-.pin.mini .badge{width:24px;height:24px}
-.pin.mini .body b{display:inline;font-size:var(--fs-m)}
-.pin.goal{background:var(--surface);border:1px solid var(--line-2);color:var(--ink);display:block;padding:10px 14px 12px}
-.goal-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:var(--fs-xs);color:var(--ink-2)}
-.goal-top b{font-size:var(--fs-l);color:var(--plum);font-weight:700}
-.track{position:relative;height:8px;border-radius:var(--r-pill);background:var(--sunk);margin-top:6px}
-.track .fill{position:absolute;inset:0 auto 0 0;border-radius:var(--r-pill);background:var(--plum)}
-.track .mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--apricot-deep);border-radius:2px}
-.goal-leg{display:flex;justify-content:space-between;margin-top:6px;font-size:var(--fs-2xs);color:var(--ink-3)}
-.goal-leg i{font-style:normal;color:var(--apricot-deep)}
+/* ピン（消えない・流れない） */
+.pinzone{flex:none;padding:0 10px 8px;display:grid;gap:6px;position:relative}
+.pinzone::after{content:"";position:absolute;left:24px;right:24px;bottom:0;height:1px;background:var(--line-2)}
+.warn{display:flex;gap:10px;align-items:center;background:var(--alert-bg);border:1px solid var(--alert-line);border-radius:14px;padding:9px 12px;color:var(--alert)}
+.warn .badge{width:30px;height:30px;border-radius:50%;background:var(--alert);color:var(--surface);display:grid;place-items:center;flex:none}
+.warn .body{flex:1;min-width:0;line-height:1.45}
+.warn .body b{font-size:var(--fs-l);font-weight:700}
+.warn .body span{display:block;font-size:var(--fs-xs);color:var(--ink)}
+.warn .pin{font-size:var(--fs-2xs);display:flex;align-items:center;gap:3px;flex:none;align-self:flex-start;opacity:.85}
+.warn.mini{padding:6px 10px}
+.warn.mini .badge{width:22px;height:22px}
+.warn.mini .body b{font-size:var(--fs-m)}
+.warn.mini .body span{display:block}
+.warn .ok{flex:none;font-size:var(--fs-2xs);color:var(--ok);background:var(--ok-bg);border-radius:var(--r-pill);padding:2px 8px;font-weight:700;display:flex;align-items:center;gap:3px}
 
-/* 会話 */
-.thread{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:10px 14px 22px;display:flex;flex-direction:column;gap:16px;position:relative;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
-.day{align-self:center;font-size:var(--fs-2xs);color:var(--ink-3);background:var(--sunk);border-radius:var(--r-pill);padding:2px 12px;letter-spacing:.04em}
-.ai{display:grid;gap:8px}
+/* ヒーロー（次のお客様） */
+.next{background:var(--plum);color:var(--surface);border-radius:20px;padding:13px 14px 12px;display:grid;gap:8px;box-shadow:0 12px 24px -16px rgba(90,58,116,.8)}
+.next .row1{display:flex;align-items:baseline;gap:8px;font-size:var(--fs-xs);color:var(--plum-line)}
+.next .row1 b{color:var(--surface);font-size:var(--fs-m)}
+.next .row1 .lab{margin-right:auto;letter-spacing:.06em}
+.next .nm{font-size:22px;font-weight:700;line-height:1.3}
+.next .nm small{font-size:var(--fs-s);font-weight:500;color:var(--plum-line);margin-left:2px}
+.next .meta{font-size:var(--fs-xs);color:var(--plum-line);display:flex;flex-wrap:wrap;gap:0 10px;line-height:1.6}
+.next .meta b{color:var(--surface);font-weight:700}
+.next .wchip{display:flex;align-items:center;gap:6px;background:var(--alert-bg);color:var(--alert);border-radius:10px;padding:5px 10px;font-size:var(--fs-s);font-weight:700}
+.next .wchip span{font-weight:500;color:var(--ink);font-size:var(--fs-xs)}
+.next .care{font-size:var(--fs-s);line-height:1.6;display:grid;gap:1px}
+.next .care .h{font-size:var(--fs-2xs);color:var(--plum-line);letter-spacing:.06em}
+.next .acts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px}
+.next .p{grid-column:1/-1;height:40px;border-radius:var(--r-pill);background:var(--surface);color:var(--plum);font-weight:700;font-size:var(--fs-m);display:flex;align-items:center;justify-content:center;gap:6px}
+.next .o{height:36px;border-radius:var(--r-pill);border:1.5px solid rgba(255,253,251,.5);color:var(--surface);font-weight:700;font-size:var(--fs-s);display:flex;align-items:center;justify-content:center;gap:5px}
+
+/* 会話の流れ */
+.thread{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px 22px;display:flex;flex-direction:column;gap:14px;position:relative;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.sys{align-self:center;font-size:var(--fs-xs);color:var(--ink-2);background:var(--sunk);border-radius:var(--r-pill);padding:3px 14px;display:flex;align-items:center;gap:5px}
+.sys b{color:var(--ink)}
+.divider{display:flex;align-items:center;gap:8px;font-size:var(--fs-xs);color:var(--ink-3);font-weight:700}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line-2)}
+.divider .st{width:20px;height:20px;border-radius:50%;background:var(--plum);color:var(--surface);display:grid;place-items:center;font-size:var(--fs-2xs)}
+.divider .st.done{background:var(--ok)}
+.left{display:grid;gap:8px;max-width:100%}
 .who{display:flex;align-items:center;gap:7px;font-size:var(--fs-xs);color:var(--ink-3)}
 .who b{color:var(--ink-2);font-weight:700}
-.ava{width:26px;height:26px;border-radius:50%;background:var(--plum);display:grid;place-items:center;flex:none}
-.say{font-size:var(--fs-m);line-height:1.75;padding-right:8px}
+.kav{width:24px;height:24px;border-radius:8px;background:var(--plum-soft);color:var(--plum);display:grid;place-items:center;flex:none}
+.say{font-size:var(--fs-m);line-height:1.7}
 .say b{font-weight:700}
-.mine{align-self:flex-end;max-width:84%;display:grid;gap:4px;justify-items:end}
-.mine .bub{background:var(--apricot-soft);border-radius:var(--r-bubble) var(--r-bubble) 6px var(--r-bubble);padding:10px 14px;font-size:var(--fs-m);line-height:1.65}
-.mine .tm{font-size:var(--fs-2xs);color:var(--ink-3)}
+.right{align-self:flex-end;max-width:88%;display:grid;gap:4px;justify-items:end}
+.right .bub{background:var(--apricot-soft);border-radius:var(--r-bubble) var(--r-bubble) 6px var(--r-bubble);padding:10px 14px;font-size:var(--fs-m);line-height:1.6;width:100%}
+.right .tm{font-size:var(--fs-2xs);color:var(--ink-3)}
 .card{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--sh-card);overflow:hidden}
 .card-h{display:flex;align-items:center;gap:8px;padding:12px 14px 8px;font-size:var(--fs-s);font-weight:700;color:var(--ink-2)}
 .card-h .r{margin-left:auto;font-weight:500;color:var(--ink-3);font-size:var(--fs-xs)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--r-pill);font-weight:700;font-size:var(--fs-s);padding:8px 14px;white-space:nowrap}
-.btn.line{border:1.5px solid var(--plum-line);color:var(--plum);background:var(--surface)}
-.btn.fill{background:var(--plum);color:var(--surface)}
-.btn.block{width:100%}
-
-/* 今日の予約 */
-.appt{display:grid;grid-template-columns:42px 1fr auto;gap:0 10px;align-items:center;padding:7px 14px;border-top:1px solid var(--line)}
-.appt .tm{font-weight:700;font-size:var(--fs-m);align-self:start;padding-top:1px}
-.appt .nm{font-weight:700;font-size:var(--fs-m);line-height:1.4}
-.appt .mn{grid-column:2;font-size:var(--fs-xs);color:var(--ink-3);line-height:1.5;display:flex;flex-wrap:wrap;gap:0 8px}
-.appt .st{grid-row:1/3;grid-column:3}
-.appt.next{background:var(--plum-soft)}
-.appt.next .tm{color:var(--plum)}
-.appt.done .nm,.appt.done .tm{color:var(--ink-3);font-weight:500}
-.tag{display:inline-flex;align-items:center;gap:3px;font-size:var(--fs-2xs);font-weight:700;border-radius:var(--r-pill);padding:3px 8px;white-space:nowrap;line-height:1.4}
+.pill{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--plum-line);color:var(--plum);border-radius:var(--r-pill);padding:4px 11px;font-size:var(--fs-s);font-weight:700;white-space:nowrap;background:var(--surface)}
+.tag{display:inline-flex;align-items:center;gap:3px;font-size:var(--fs-2xs);font-weight:700;border-radius:var(--r-pill);padding:2px 8px;white-space:nowrap;line-height:1.5}
 .tag.ok{color:var(--ok);background:var(--ok-bg)}
-.tag.next{color:var(--surface);background:var(--plum)}
 .tag.new{color:var(--apricot-deep);background:var(--apricot-soft)}
-.tag.todo{color:var(--apricot-deep);border:1.5px dashed var(--apricot)}
 .tag.warn{color:var(--alert);background:var(--alert-bg)}
-.tag.ai{color:var(--plum);background:var(--plum-soft)}
-.prog{display:flex;align-items:center;gap:10px;padding:10px 14px 12px;border-top:1px solid var(--line);font-size:var(--fs-xs);color:var(--ink-2)}
-.dots{display:flex;gap:4px}
-.dots i{width:9px;height:9px;border-radius:50%;background:var(--line-2)}
-.dots i.on{background:var(--ok)}
-.prog b{margin-left:auto;font-size:var(--fs-m);color:var(--ink)}
-.prog-r{display:flex;align-items:center;gap:6px}.prog-r b{color:var(--ink);font-size:var(--fs-s)}
+.tag.cand{color:var(--plum);background:var(--plum-soft)}
+.tag.line{color:var(--plum);border:1.5px solid var(--plum-line)}
+.tag.paper{color:var(--ink-2);background:var(--sunk)}
 
-.note-list{list-style:none;margin:0;padding:2px 14px 12px;display:grid;gap:6px}
-.note-list li{display:flex;gap:8px;font-size:var(--fs-m);line-height:1.6}
-.note-list li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--apricot);flex:none;margin-top:9px}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:10px 14px 12px;border-top:1px solid var(--line);font-size:var(--fs-s)}
-.kv dt{color:var(--ink-3)}
-.kv dd{margin:0;color:var(--ink)}
-.card-f{padding:0 14px 14px}
-.src{display:flex;align-items:center;gap:5px;font-size:var(--fs-2xs);color:var(--ink-3);padding:0 14px 12px}
+/* 今日の流れ（スレッドの縦線） */
+.flow-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.flow-h b{font-size:var(--fs-m);font-weight:700}
+.dsend{display:flex;align-items:center;gap:2px;font-size:var(--fs-s);font-weight:700;color:var(--plum)}
+.dsend .a{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;border:1.5px solid var(--line-2)}
+.dsend span{padding:0 6px}
+.flow{list-style:none;margin:0;padding:0;display:grid;position:relative}
+.flow::before{content:"";position:absolute;left:47px;top:14px;bottom:14px;width:2px;background:var(--line-2);border-radius:2px}
+.fl{display:grid;grid-template-columns:38px 20px 1fr auto;gap:0 8px;align-items:start;padding:7px 0}
+.fl .tm{font-weight:700;font-size:var(--fs-s);padding-top:1px;text-align:right}
+.fl .dot{width:12px;height:12px;border-radius:50%;margin:5px auto 0;background:var(--thread);border:2px solid var(--line-2);position:relative;z-index:1}
+.fl.done .dot{background:var(--ok);border-color:var(--ok)}
+.fl.now .dot{background:var(--plum);border-color:var(--plum);box-shadow:0 0 0 4px var(--plum-soft)}
+.fl .nm{font-weight:700;font-size:var(--fs-m);line-height:1.4;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fl .mn{font-size:var(--fs-xs);color:var(--ink-3);line-height:1.6}
+.fl .st{padding-top:2px}
+.fl.done .nm,.fl.done .tm{color:var(--ink-3);font-weight:500}
+.fl.now .tm{color:var(--plum)}
+.add{display:flex;align-items:center;gap:6px;font-size:var(--fs-s);font-weight:700;color:var(--plum);padding:4px 0 0 58px}
+.later-box{display:grid;gap:0}
+.later-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:var(--fs-s)}
+.later-row .ic{width:30px;height:30px;border-radius:10px;background:var(--sunk);color:var(--plum);display:grid;place-items:center;flex:none}
+.later-row .tx{flex:1;min-width:0;line-height:1.5}
+.later-row .tx small{display:block;color:var(--ink-3);font-size:var(--fs-xs)}
+.later-row .cnt{font-weight:700;color:var(--plum)}
 
-/* 音声メモ */
+/* 下部（押すところ） */
+.dock{flex:none;background:var(--surface);border-top:1px solid var(--line);padding:8px 0 16px;border-radius:22px 22px 0 0;box-shadow:0 -10px 24px -18px rgba(90,58,116,.3)}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);align-items:end;padding:0 8px}
+.tb{display:grid;justify-items:center;gap:2px;font-size:var(--fs-2xs);color:var(--ink-3);padding-top:4px}
+.tb.on{color:var(--plum);font-weight:700}
+.tb.plus{gap:4px;color:var(--plum);font-weight:700}
+.tb.plus span.o{width:52px;height:52px;border-radius:50%;background:var(--plum);color:var(--surface);display:grid;place-items:center;margin-top:-22px;box-shadow:0 0 0 6px var(--apricot-soft),0 8px 16px -8px rgba(90,58,116,.7)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:0 14px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--plum-line);color:var(--plum);background:var(--surface);border-radius:var(--r-pill);padding:6px 12px;font-size:var(--fs-s);font-weight:500;line-height:1.4;transition:background-color .15s}
+.chip.on{background:var(--plum-soft);border-color:var(--plum);font-weight:700}
+.primary{display:flex;width:calc(100% - 28px);align-items:center;justify-content:center;gap:6px;height:48px;border-radius:var(--r-pill);background:var(--plum);color:var(--surface);font-weight:700;font-size:var(--fs-m);margin:0 14px;transition:background-color .2s}
+.primary.done{background:var(--ok)}
+.dock .hint{font-size:var(--fs-2xs);color:var(--ink-3);text-align:center;margin-top:6px}
+
+/* 02 音声メモと候補 */
 .voice{display:flex;align-items:center;gap:10px}
 .voice .pl{width:30px;height:30px;border-radius:50%;background:var(--apricot-deep);color:var(--surface);display:grid;place-items:center;flex:none}
-.wave{display:flex;align-items:center;gap:2px;height:26px;flex:1}
+.wave{display:flex;align-items:center;gap:2px;height:24px;flex:1}
 .wave i{width:3px;border-radius:2px;background:var(--apricot-deep);opacity:.7}
 .voice .len{font-size:var(--fs-xs);color:var(--apricot-deep);font-weight:700}
 .transcript{font-size:var(--fs-xs);color:var(--ink-2);line-height:1.7;border-top:1px dashed rgba(182,90,51,.35);margin-top:8px;padding-top:8px}
-
-/* AI の候補（点線＝候補・実線＝確定） */
+.keep{display:flex;align-items:center;gap:6px;font-size:var(--fs-2xs);color:var(--ink-2);margin-top:6px}
+.keep .box{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--apricot-deep);display:grid;place-items:center;color:var(--apricot-deep)}
+.allbar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.allbar span{font-size:var(--fs-xs);color:var(--ink-3)}
 .cands{display:grid;gap:8px}
-.cand{background:var(--surface);border:1.5px dashed var(--plum-line);border-radius:14px;padding:10px 12px 10px;display:grid;gap:6px;transition:border-color .2s,background-color .2s}
-.cand.is-ok{border-style:solid;border-color:var(--line-2);background:var(--surface)}
+.cand{background:var(--surface);border:1.5px dashed var(--plum-line);border-radius:14px;padding:9px 12px 10px;display:grid;gap:5px;transition:border-color .2s}
+.cand.is-ok{border-style:solid;border-color:var(--line-2)}
 .cand-h{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--ink-3)}
-.cand-h .st{margin-left:auto}
-.cand .v{font-size:var(--fs-l);font-weight:700;line-height:1.5}
-.cand .v small{font-size:var(--fs-s);font-weight:500;color:var(--ink-2)}
-.quote{display:flex;gap:6px;font-size:var(--fs-xs);color:var(--ink-2);line-height:1.6;background:var(--sunk);border-radius:10px;padding:6px 9px}
+.cand-h .w{margin-left:auto;display:flex;gap:4px}
+.cand .v{font-size:var(--fs-m);font-weight:700;line-height:1.55;border-radius:6px;outline:none}
+.cand .v[contenteditable="true"]{background:var(--sunk);box-shadow:0 0 0 2px var(--plum-line);padding:2px 6px;font-weight:500}
+.quote{display:flex;gap:6px;font-size:var(--fs-xs);color:var(--ink-2);line-height:1.6}
 .quote .i{color:var(--plum-2);margin-top:2px}
-.acts{display:flex;gap:6px;justify-content:flex-end}
-.yes,.fix{display:inline-flex;align-items:center;gap:4px;border-radius:var(--r-pill);font-size:var(--fs-s);font-weight:700;padding:6px 14px;transition:background-color .15s,color .15s}
+.c-acts{display:flex;gap:6px;justify-content:flex-end}
+.yes,.fix{display:inline-flex;align-items:center;gap:4px;border-radius:var(--r-pill);font-size:var(--fs-s);font-weight:700;padding:5px 13px}
 .yes{background:var(--plum);color:var(--surface)}
 .fix{border:1.5px solid var(--plum-line);color:var(--plum)}
-.cand.is-ok .yes{background:var(--ok-bg);color:var(--ok)}
-.cand .when .st-ai,.cand.is-ok .when .st-ok{display:inline-flex}
-.cand .when .st-ok,.cand.is-ok .when .st-ai{display:none}
-.opts{display:flex;gap:6px;flex-wrap:wrap}
-.opt{border:1.5px solid var(--line-2);border-radius:10px;padding:5px 10px;font-size:var(--fs-s);font-weight:700;color:var(--ink-2)}
-.opt.on{border-color:var(--plum);color:var(--plum);background:var(--plum-soft)}
-.pay{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center}
-.pay .ico{width:34px;height:34px;border-radius:10px;background:var(--sunk);display:grid;place-items:center;color:var(--plum);grid-row:1/3}
-.pay .v{font-size:var(--fs-m)}
-.pay .m{font-size:var(--fs-xs);color:var(--ink-3)}
-.sum{display:flex;justify-content:space-between;align-items:baseline;padding:4px 4px 0;font-size:var(--fs-s);color:var(--ink-2)}
-.sum b{font-size:var(--fs-l);color:var(--ink)}
+.cand .st-ok,.cand.is-ok .st-cand,.cand.is-ok .yes{display:none}
+.cand .st-cand,.cand.is-ok .st-ok{display:inline-flex}
+.cand .auto{display:none}
+.cand.is-auto .auto{display:inline-flex}
+.grp{font-size:var(--fs-2xs);color:var(--ink-3);letter-spacing:.06em;padding:2px 2px 0}
+.pay{display:grid;gap:0;width:100%}
+.pay-h{display:flex;align-items:center;justify-content:space-between;font-size:var(--fs-xs);color:var(--apricot-deep);font-weight:700;padding-bottom:4px}
+.prow{display:grid;grid-template-columns:auto 1fr auto;gap:0 8px;align-items:start;padding:8px 0;border-top:1px dashed rgba(182,90,51,.3)}
+.prow .k{font-size:var(--fs-2xs);font-weight:700;color:var(--apricot-deep);background:var(--surface);border-radius:6px;padding:1px 6px;margin-top:2px}
+.prow .c{font-size:var(--fs-s);font-weight:700;line-height:1.5}
+.prow .c small{display:block;font-weight:500;color:var(--ink-2);font-size:var(--fs-2xs);line-height:1.6}
+.prow .y{font-size:var(--fs-m);font-weight:700;text-align:right}
+.prow .y small{display:block;font-size:var(--fs-2xs);font-weight:500;color:var(--ink-3)}
+.addrow{display:flex;align-items:center;gap:4px;font-size:var(--fs-xs);font-weight:700;color:var(--apricot-deep);padding-top:6px;border-top:1px dashed rgba(182,90,51,.3)}
+.sheet{display:none;background:var(--surface);border:1.5px solid var(--plum-line);border-radius:16px;padding:12px 14px;gap:8px;font-size:var(--fs-s)}
+.sheet.show{display:grid}
+.sheet .row{display:flex;gap:8px}
+.sheet .row button{flex:1;height:38px;border-radius:var(--r-pill);font-weight:700;font-size:var(--fs-s)}
+.sheet .a1{background:var(--plum);color:var(--surface)}
+.sheet .a2{border:1.5px solid var(--plum-line);color:var(--plum)}
+.after{display:none;gap:12px}
+.after.show{display:grid}
+.done-card{padding:12px 14px;display:flex;gap:10px;align-items:center}
+.done-card .ck{width:34px;height:34px;border-radius:50%;background:var(--ok);color:var(--surface);display:grid;place-items:center;flex:none}
+.done-card b{display:block;font-size:var(--fs-m)}
+.done-card span{font-size:var(--fs-xs);color:var(--ink-3)}
+.msgsel{display:flex;gap:6px;flex-wrap:wrap}
+.msg{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:12px 14px;font-size:var(--fs-s);line-height:1.85;white-space:pre-line;border-left:3px solid var(--plum-line)}
+.msg .af{display:block;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line-2);color:var(--ink-2)}
+.copied{display:none;background:var(--ok-bg);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:var(--fs-xs);line-height:1.7;gap:8px}
+.copied.show{display:grid}
+.copied .warnline{color:var(--alert)}
+.ghost{border:1.5px dashed var(--line-2);border-radius:var(--r-card);padding:12px 14px;color:var(--ink-3);font-size:var(--fs-xs);display:flex;gap:6px;align-items:center}
 
-/* LINE の文面 */
-.ghost{border:1.5px dashed var(--line-2);border-radius:var(--r-card);padding:12px 14px;display:grid;gap:6px;color:var(--ink-3);font-size:var(--fs-xs)}
-.ghost p{color:var(--ink-3);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.linecard{display:none;gap:8px}
-.linecard.show{display:grid}
-.linecard .msg{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--sh-card);padding:12px 14px;font-size:var(--fs-s);line-height:1.85;white-space:pre-line}
-.linecard .to{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--ink-3)}
-
-/* 下の操作（話す・押す） */
-.composer{flex:none;background:var(--surface);border-top:1px solid var(--line);padding:9px 0 14px;border-radius:22px 22px 0 0;box-shadow:0 -10px 24px -18px rgba(90,58,116,.3)}
-.chips{display:flex;gap:7px;overflow-x:auto;padding:0 14px 10px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1.5px solid var(--plum-line);color:var(--plum);background:var(--surface);border-radius:var(--r-pill);padding:6px 12px;font-size:var(--fs-s);font-weight:500;line-height:1.4;transition:background-color .15s}
-.chip.on{background:var(--plum-soft);border-color:var(--plum)}
-.microw{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 22px}
-.side{display:grid;justify-items:center;gap:3px;font-size:var(--fs-2xs);color:var(--ink-2)}
-.side span.o{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;color:var(--plum)}
-.side.l{justify-self:start}.side.r{justify-self:end}
-.mic{display:grid;justify-items:center;gap:6px;font-size:var(--fs-xs);font-weight:700;color:var(--plum)}
-.mic span.o{width:60px;height:60px;border-radius:50%;background:var(--plum);color:var(--surface);display:grid;place-items:center;box-shadow:0 0 0 7px var(--apricot-soft),0 10px 20px -8px rgba(90,58,116,.7)}
-.savebar{display:flex;align-items:center;gap:10px;padding:0 14px}
-.savebar .side span.o{width:40px;height:40px}
-.save{flex:1;height:48px;border-radius:var(--r-pill);background:var(--plum);color:var(--surface);font-weight:700;font-size:var(--fs-m);display:flex;align-items:center;justify-content:center;gap:6px;transition:opacity .2s}
-.save[aria-disabled="true"]{opacity:.45}
-.save.done{background:var(--ok)}
-
-/* 顧客 */
-.more-up{align-self:center;display:flex;align-items:center;gap:4px;font-size:var(--fs-2xs);color:var(--ink-3)}
-.visit{display:grid;gap:8px}
-.vcard{padding:12px 14px;display:grid;gap:8px}
-.vcard .t{display:flex;align-items:center;gap:8px;font-size:var(--fs-xs);color:var(--ink-3)}
+/* 03 この人 */
+.person{display:grid;gap:8px;padding:2px 4px 2px}
+.p1{display:flex;align-items:center;gap:10px}
+.mono{width:44px;height:44px;border-radius:50%;background:var(--apricot-soft);color:var(--apricot-deep);display:grid;place-items:center;font-weight:700;font-size:var(--fs-l);flex:none}
+.p1 .nm{flex:1;min-width:0;display:grid;line-height:1.35}
+.p1 .nm b{font-size:21px;font-weight:700}
+.p1 .nm b small{font-size:var(--fs-s);color:var(--ink-3);font-weight:500;margin-left:2px}
+.p1 .nm span{font-size:var(--fs-2xs);color:var(--ink-3)}
+.badge-k{font-size:var(--fs-2xs);font-weight:700;color:var(--plum);border:1.5px solid var(--plum-line);border-radius:var(--r-pill);padding:1px 8px;margin-left:6px;vertical-align:3px}
+.rhythm{display:flex;align-items:center;gap:4px}
+.rhythm i{width:8px;height:8px;border-radius:50%;background:var(--plum-2)}
+.rhythm i.nx{background:var(--thread);border:1.5px solid var(--plum)}
+.rhythm span{font-size:var(--fs-2xs);color:var(--ink-3);margin-left:6px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.three>div{padding:6px 4px;display:grid;justify-items:center;line-height:1.35}
+.three>div+div{border-left:1px solid var(--line)}
+.three .v{font-size:var(--fs-l);font-weight:700}
+.three .v small{font-size:var(--fs-2xs);font-weight:500;color:var(--ink-3);margin-left:1px}
+.three .lb{font-size:var(--fs-2xs);color:var(--ink-3)}
+.three .v.link{color:var(--plum)}
+.carebox{background:var(--surface);border-radius:14px;padding:8px 12px;border:1px solid var(--line)}
+.carebox .h{font-size:var(--fs-2xs);color:var(--ink-3);display:flex;align-items:center;gap:4px;letter-spacing:.04em}
+.carebox ul{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:2px 12px;font-size:var(--fs-s);line-height:1.6}
+.carebox li{display:flex;align-items:center;gap:6px}
+.carebox li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--apricot)}
+.ptabs{flex:none;display:flex;gap:4px;padding:8px 12px 6px;overflow-x:auto;scrollbar-width:none}
+.ptabs button{flex:none;padding:5px 12px;border-radius:var(--r-pill);font-size:var(--fs-s);color:var(--ink-2);font-weight:500}
+.ptabs button[aria-selected="true"]{background:var(--plum);color:var(--surface);font-weight:700}
+.tabpanel{display:none;flex-direction:column;gap:12px}
+.tabpanel.show{display:flex}
+.vcard{padding:11px 14px 12px;display:grid;gap:6px}
+.vcard .t{display:flex;align-items:center;gap:8px;font-size:var(--fs-xs);color:var(--ink-3);flex-wrap:wrap}
 .vcard .t b{color:var(--ink);font-size:var(--fs-m)}
 .vcard p{font-size:var(--fs-s);line-height:1.7}
+.vcard .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:var(--fs-s);line-height:1.6}
+.vcard .kv dt{color:var(--ink-3)}
+.vcard .kv dd{margin:0}
 .photos{display:flex;gap:6px}
-.ph{width:62px;height:76px;border-radius:12px;position:relative;overflow:hidden;flex:none;background:radial-gradient(ellipse 60% 70% at 50% 46%,#F3D2BF 0 55%,#E9BFA7 56% 100%)}
-.ph::before{content:"";position:absolute;width:28px;height:36px;left:17px;top:14px;border-radius:50%;background:#F7DCCB}
-.ph.red::after{content:"";position:absolute;width:12px;height:9px;left:36px;top:32px;border-radius:50%;background:rgba(214,108,98,.55);filter:blur(1.5px)}
-.ph .lb{position:absolute;left:5px;bottom:5px;font-size:9.5px;font-weight:700;background:rgba(255,253,251,.92);border-radius:6px;padding:0 5px;color:var(--ink-2);z-index:1}
-.about{border:1.5px solid var(--plum-line)}
-.about .card-h{color:var(--plum)}
-.about .lede{padding:0 14px 10px;font-size:var(--fs-l);font-weight:700;line-height:1.6}
-.sub-h{font-size:var(--fs-xs);color:var(--ink-3);padding:10px 14px 4px;border-top:1px solid var(--line);display:flex;align-items:center;gap:6px}
-.last{display:flex;gap:12px;padding:2px 14px 12px}
-.last .tx{font-size:var(--fs-s);line-height:1.7;min-width:0}
-.last .tx b{font-weight:700}
-.balance{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
-.balance>div{padding:10px 14px 12px;display:grid;gap:2px}
-.balance>div+div{border-left:1px solid var(--line)}
-.balance .lb{font-size:var(--fs-2xs);color:var(--ink-3);display:flex;align-items:center;gap:4px}
-.balance .v{font-size:var(--fs-xl);font-weight:700;line-height:1.3}
-.balance .v small{font-size:var(--fs-xs);font-weight:500;color:var(--ink-3);margin-left:2px}
-.tix{display:flex;gap:3px;margin-top:3px}
-.tix i{width:10px;height:6px;border-radius:2px;background:var(--plum)}
+.ph{width:54px;height:66px;border-radius:12px;position:relative;overflow:hidden;flex:none;background:radial-gradient(ellipse 60% 70% at 50% 46%,var(--skin-1) 0 55%,var(--skin-2) 56% 100%)}
+.ph::before{content:"";position:absolute;width:24px;height:31px;left:15px;top:12px;border-radius:50%;background:var(--skin-3)}
+.ph.red::after{content:"";position:absolute;width:10px;height:8px;left:31px;top:28px;border-radius:50%;background:var(--blush);filter:blur(1.5px)}
+.ph .lb{position:absolute;left:4px;bottom:4px;font-size:9.5px;font-weight:700;background:rgba(255,253,251,.92);border-radius:6px;padding:0 5px;color:var(--ink-2);z-index:1}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.grid3 .ph{width:auto;height:auto;aspect-ratio:4/5}
+.grid3 .ph::before{left:30%;top:18%;width:40%;height:46%}
+.gcap{font-size:var(--fs-2xs);color:var(--ink-3)}
+.contract{padding:12px 14px;display:grid;gap:6px}
+.contract .lb{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--ink-3)}
+.contract .v{font-size:var(--fs-num);font-weight:700;line-height:1.2}
+.contract .v small{font-size:var(--fs-s);font-weight:500;color:var(--ink-3);margin-left:4px}
+.tix{display:flex;gap:3px}
+.tix i{flex:1;max-width:22px;height:7px;border-radius:3px;background:var(--plum)}
 .tix i.used{background:var(--line-2)}
-.nextres{display:flex;align-items:center;gap:8px;padding:10px 14px 12px;border-top:1px solid var(--line);font-size:var(--fs-s)}
-.nextres .i{color:var(--plum)}
-.nextres b{font-weight:700}
 
-/* 数字 */
-.big{padding:4px 14px 6px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.big b{font-size:var(--fs-num);font-weight:700;line-height:1.2;letter-spacing:.01em}
+/* 04 数字 */
+.month{display:flex;align-items:center;gap:8px}
+.month .m{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;font-size:var(--fs-l);font-weight:700}
+.month .a{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;border:1.5px solid var(--line-2);color:var(--plum)}
+.big{padding:2px 14px 8px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.big b{font-size:var(--fs-num);font-weight:700;line-height:1.2}
 .big span{font-size:var(--fs-xs);color:var(--ink-3)}
-.mrow{padding:9px 14px;border-top:1px solid var(--line);display:grid;gap:4px}
-.mrow .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:var(--fs-s)}
-.mrow .top b{font-size:var(--fs-m);font-weight:700}
-.mrow .top .lb{color:var(--ink-2)}
-.mrow .meta{display:flex;justify-content:space-between;font-size:var(--fs-2xs);color:var(--ink-3)}
-.mrow .meta .lag{color:var(--apricot-deep);font-weight:700}
-.track.sm{height:6px;margin-top:2px}
-.track.sm .mark{top:-3px;bottom:-3px}
-.track.soft .fill{background:var(--plum-2)}
-.tiles{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
-.tile{padding:10px 14px 12px;display:grid;gap:2px}
-.tile+.tile{border-left:1px solid var(--line)}
-.tile .v{font-size:24px;font-weight:700;line-height:1.25;color:var(--plum)}
-.tile .v small{font-size:var(--fs-s)}
-.tile .lb{font-size:var(--fs-xs);line-height:1.5;color:var(--ink)}
-.tile .term{font-size:var(--fs-2xs);color:var(--ink-3)}
-.hint{display:flex;gap:8px;align-items:flex-start;background:var(--apricot-soft);border-radius:12px;padding:9px 11px;font-size:var(--fs-s);line-height:1.7;color:var(--ink)}
-.hint .i{color:var(--apricot-deep);margin-top:3px}
+.split{height:12px;border-radius:var(--r-pill);overflow:hidden;display:flex;margin:0 14px 6px;background:var(--sunk)}
+.split i{display:block;height:100%}
+.leg{display:flex;flex-wrap:wrap;gap:4px 14px;padding:0 14px 10px;font-size:var(--fs-xs);color:var(--ink-2)}
+.leg span{display:flex;align-items:center;gap:5px}
+.leg i{width:9px;height:9px;border-radius:3px}
+.kvs{display:grid;grid-template-columns:1fr auto;border-top:1px solid var(--line)}
+.kvs>*{padding:8px 14px;border-bottom:1px solid var(--line);font-size:var(--fs-s)}
+.kvs>*:nth-last-child(-n+2){border-bottom:0}
+.kvs dt{color:var(--ink-2)}
+.kvs dd{margin:0;font-weight:700;text-align:right}
+.kvs dd small{font-weight:500;color:var(--ink-3);font-size:var(--fs-2xs);margin-left:6px}
 .staff{padding:9px 14px 11px;border-top:1px solid var(--line);display:grid;gap:5px}
-.staff .top{display:flex;align-items:center;gap:8px;font-size:var(--fs-s)}
-.staff .top .av{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:var(--fs-2xs);font-weight:700;flex:none}
-.staff .top b{margin-left:auto;font-size:var(--fs-l);font-weight:700}
-.staff .meta{font-size:var(--fs-xs);color:var(--ink-3);display:flex;gap:12px;padding-left:32px}
+.staff .top2{display:flex;align-items:center;gap:8px;font-size:var(--fs-s)}
+.staff .top2 .av{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:var(--fs-2xs);font-weight:700;flex:none}
+.staff .top2 b{margin-left:auto;font-size:var(--fs-l);font-weight:700}
+.staff .meta{font-size:var(--fs-xs);color:var(--ink-3);padding-left:32px}
 .bar{height:10px;border-radius:var(--r-pill);background:var(--sunk);overflow:hidden;margin-left:32px}
 .bar i{display:block;height:100%;border-radius:var(--r-pill);background:var(--plum)}
-.bar.alt i{background:var(--apricot)}
+.prod{padding:9px 14px 10px;border-top:1px solid var(--line);display:grid;gap:5px}
+.prod .top2{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:var(--fs-s)}
+.prod .top2 span small{color:var(--ink-3);font-size:var(--fs-xs);margin-left:6px}
+.prod .top2 b{font-weight:700;font-size:var(--fs-m);display:flex;align-items:center;gap:2px}
+.prod .top2 b .i{color:var(--ink-3)}
+.prod .bar{margin-left:0;height:8px}
+.prod .who2{font-size:var(--fs-2xs);color:var(--ink-3)}
+.foot-note{font-size:var(--fs-2xs);color:var(--ink-3);padding:0 14px 12px;line-height:1.6}
+.resale{padding:4px 14px 10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.resale>div{background:var(--sunk);border-radius:12px;padding:8px 10px;display:grid;line-height:1.4}
+.resale .v{font-size:var(--fs-l);font-weight:700}
+.resale .lb{font-size:var(--fs-2xs);color:var(--ink-3)}
+.rrow{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--line);font-size:var(--fs-s)}
+.rrow .tx{flex:1;min-width:0;line-height:1.5}
+.rrow .tx small{display:block;color:var(--ink-3);font-size:var(--fs-2xs)}
+.rrow b{font-weight:700}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--sunk);border-radius:var(--r-pill);padding:3px}
+.seg button{height:30px;border-radius:var(--r-pill);font-size:var(--fs-s);color:var(--ink-2);display:flex;align-items:center;justify-content:center;gap:5px}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--plum);font-weight:700;box-shadow:var(--sh-card)}
+.goal{background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:9px 14px 10px}
+.goal-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:var(--fs-xs);color:var(--ink-2)}
+.goal-l{display:flex;align-items:center;gap:4px}
+.goal-top b{font-size:var(--fs-l);color:var(--plum);font-weight:700}
+.track{position:relative;height:8px;border-radius:var(--r-pill);background:var(--sunk);margin-top:6px}
+.track .fill{position:absolute;top:0;bottom:0;left:0;border-radius:var(--r-pill);background:var(--plum)}
+.track .mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--apricot-deep);border-radius:2px}
+.track.sm{height:6px;margin-top:2px}
+.track.sm .mark{top:-3px;bottom:-3px}
+.goal-leg{display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 8px;margin-top:6px;font-size:var(--fs-2xs);color:var(--ink-3)}
+.goal-leg b{color:var(--ink);font-weight:700}
+.goal-leg i{font-style:normal;color:var(--apricot-deep)}
+.mrow{padding:9px 14px;border-top:1px solid var(--line);display:grid;gap:4px}
+.mrow .top2{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:var(--fs-s)}
+.mrow .top2 b{font-size:var(--fs-m);font-weight:700}
+.mrow .lb{color:var(--ink-2)}
+.mrow .lb small{display:block;font-size:var(--fs-2xs);color:var(--ink-3)}
+.mrow .meta{display:flex;justify-content:space-between;font-size:var(--fs-2xs);color:var(--ink-3)}
+.mrow .meta .lag{color:var(--apricot-deep);font-weight:700}
 .media{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;align-items:center;padding:9px 14px;border-top:1px solid var(--line);font-size:var(--fs-s)}
 .media .pd{display:flex;gap:4px}
-.media .pd i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--plum-line)}
-.media .pd i.on{background:var(--plum);border-color:var(--plum)}
+.media .pd i,.mleg i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--plum-line)}
+.media .pd i.on,.mleg i.on{background:var(--plum);border-color:var(--plum)}
 .media .rt{font-weight:700;min-width:40px;text-align:right}
 .media .rt.zero{color:var(--ink-3);font-weight:500}
 .media .sub{grid-column:1/-1;font-size:var(--fs-2xs);color:var(--ink-3);margin-top:-4px}
-.legend{display:flex;gap:12px;padding:0 14px 12px;font-size:var(--fs-2xs);color:var(--ink-3)}
-.legend span{display:flex;align-items:center;gap:4px}
-.legend i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--plum-line)}
-.legend i.on{background:var(--plum);border-color:var(--plum)}
-.prod{padding:9px 14px 10px;border-top:1px solid var(--line);display:grid;gap:5px}
-.prod .top{display:flex;justify-content:space-between;align-items:baseline;font-size:var(--fs-s)}
-.prod .top span{color:var(--ink-3);font-size:var(--fs-xs);margin-left:6px}
-.prod .top b{font-weight:700;font-size:var(--fs-m)}
-.prod .bar{margin-left:0;height:8px}
+.mleg{display:flex;gap:12px;padding:0 14px 12px;font-size:var(--fs-2xs);color:var(--ink-3)}
+.mleg span{display:flex;align-items:center;gap:4px}
+.tiles{display:grid;grid-template-columns:1fr 1fr}
+.tile{padding:12px 14px;display:grid;gap:2px}
+.tile+.tile{border-left:1px solid var(--line)}
+.tile .v{font-size:24px;font-weight:700;line-height:1.25;color:var(--plum)}
+.tile .v small{font-size:var(--fs-s)}
+.tile .lb{font-size:var(--fs-xs);line-height:1.5}
+.tile .term{font-size:var(--fs-2xs);color:var(--ink-3)}
 .flash{animation:flash 1.2s ease}
 @keyframes flash{0%,100%{box-shadow:var(--sh-card)}30%{box-shadow:0 0 0 3px var(--plum-line),var(--sh-card)}}
 
@@ -323,10 +403,11 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .vd li b{color:var(--ink)}
 .foot{font-size:var(--fs-xs);color:var(--ink-3);text-align:center}
 
+@media (max-width:640px){.legend-box{grid-template-columns:minmax(0,1fr);padding:16px}}
 @media (max-width:440px){
   body{padding-top:36px}
   .doc{gap:48px}
-  .phone{border-radius:28px;height:780px}
+  .phone{border-radius:28px}
   .screens{gap:48px}
   .sb{padding:6px 20px 0}
 }
@@ -342,13 +423,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
     <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4.5h-5L7.5 7H4.5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h15a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.2"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6.5 9.5 17 4 11.5"/></symbol>
+    <symbol id="i-checks" viewBox="0 0 24 24"><path d="M17 7 8.5 15.5 5 12"/><path d="m22 7-8.5 8.5-1.2-1.2"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 4 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4"/><path d="M12 17h.01"/></symbol>
     <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
-    <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
     <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M16.5 3.5a2.4 2.4 0 0 1 3.4 3.4L7.5 19.3 3 21l1.7-4.5z"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12.5" height="12.5" rx="2.5"/><path d="M15.5 8.5V5.5a2.5 2.5 0 0 0-2.5-2.5H5.5A2.5 2.5 0 0 0 3 5.5V13a2.5 2.5 0 0 0 2.5 2.5h3"/></symbol>
-    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5l1.8 5 5 1.8-5 1.8-1.8 5-1.8-5-5-1.8 5-1.8z"/><path d="M19 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5l1.8 5 5 1.8-5 1.8-1.8 5-1.8-5-5-1.8 5-1.8z"/></symbol>
     <symbol id="i-said" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2.5 21.5z"/><path d="M8.5 10.5h7M8.5 13.5h4.5"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 17v4.5"/><path d="M9 10.8a2 2 0 0 1-1.1 1.8l-1.8.9A2 2 0 0 0 5 15.3v.7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.7a2 2 0 0 0-1.1-1.8l-1.8-.9a2 2 0 0 1-1.1-1.8V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
@@ -356,16 +437,21 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
     <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M2.5 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h15a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2h-15a2 2 0 0 0-2 2z"/><path d="M14 5v2M14 11v2M14 17v2"/></symbol>
     <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5a1.5 1.5 0 0 0-1.5-1.5H5.5a2.5 2.5 0 0 0 0 5h14a1.5 1.5 0 0 1 1.5 1.5v3.5h-3a2 2 0 0 0 0 4h3V19a1.5 1.5 0 0 1-1.5 1.5H5.5A2.5 2.5 0 0 1 3 18V6"/></symbol>
     <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 3 3.5 6.5v13a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5v-13L18 3z"/><path d="M3.5 6.5h17"/><path d="M15.5 10a3.5 3.5 0 0 1-7 0"/></symbol>
-    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2.5 21c0-3 1.9-5.4 5.1-6 2.4-.5 4.9-2 5.9-3"/></symbol>
-    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="1.8"/><path d="m21 15-3.5-3.5a1.5 1.5 0 0 0-2.1 0L6 21"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21.5h4"/><path d="M12 2.5a6.5 6.5 0 0 0-4 11.6c.7.6 1 1.4 1 2.2V17h6v-.7c0-.8.4-1.6 1-2.2a6.5 6.5 0 0 0-4-11.6z"/></symbol>
     <symbol id="i-msg" viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 7.5 0 0 1-12.2 6.7L3.5 19.5l1.4-3.8A7 7 0 0 1 3.5 11.5a8.5 7.5 0 0 1 17 0z"/></symbol>
     <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5M8.5 13h7M8.5 16.5h5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v17h17"/><path d="M7.5 15.5v-3M12 15.5v-7M16.5 15.5v-5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2.5 2.5 0 0 1 2.5-2.5H20v15H6.5A2.5 2.5 0 0 0 4 20a2.5 2.5 0 0 0 2.5 2.5H20"/><path d="M8.5 7h7"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></symbol>
     <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 20.5v-1.5a4 4 0 0 0-4-4H6.5a4 4 0 0 0-4 4v1.5"/><circle cx="9.2" cy="7.5" r="3.8"/><path d="M21.5 20.5v-1.5a4 4 0 0 0-3-3.9M15.5 3.8a3.8 3.8 0 0 1 0 7.4"/></symbol>
-    <symbol id="i-chart"viewBox="0 0 24 24"><path d="M3.5 3.5v17h17"/><path d="M7.5 15.5v-3M12 15.5v-7M16.5 15.5v-5"/></symbol>
     <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></symbol>
-    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21.5h4"/><path d="M12 2.5a6.5 6.5 0 0 0-4 11.6c.7.6 1 1.4 1 2.2V17h6v-.7c0-.8.4-1.6 1-2.2a6.5 6.5 0 0 0-4-11.6z"/></symbol>
-    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18.5" cy="12" r="1.2"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7V19a1.5 1.5 0 0 1-1.5 1.5h-4v-6h-6v6H5A1.5 1.5 0 0 1 3.5 19z"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3.5v12M7 11l5 5 5-5M4 20.5h16"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></symbol>
     <symbol id="i-wave" viewBox="0 0 24 24"><path d="M7 9.5v5M12 6.5v11M17 9.5v5"/></symbol>
+    <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 2.5h12M6 21.5h12M7 2.5c0 5 10 5 10 9.5S7 16.5 7 21.5M17 2.5c0 5-10 5-10 9.5s10 4.5 10 9.5"/></symbol>
     <symbol id="i-signal" viewBox="0 0 24 24"><path d="M4 18v-2M9 18v-5M14 18v-8M19 18V7"/></symbol>
     <symbol id="i-batt" viewBox="0 0 24 24"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M22 11v2"/><rect x="4.5" y="9.5" width="11" height="5" rx="1" fill="currentColor" stroke="none"/></symbol>
   </defs>
@@ -373,55 +459,60 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 <div class="doc">
 
-  <!-- 会社とコンセプト -->
   <header class="hero">
     <div class="brand">
-      <span class="logo"><svg class="i l" style="color:var(--apricot);stroke-width:2.4"><use href="#i-wave"/></svg></span>
+      <span class="logo"><svg class="i l" style="stroke-width:2.4"><use href="#i-wave"/></svg></span>
       <span><b style="color:var(--ink);letter-spacing:.06em">Studio Kotoha</b>（スタジオ・ことは）　声と言葉のデザインスタジオ</span>
     </div>
-    <p class="eyebrow">SALONOTE 主要画面 デザインコンペ ／ 提案 A</p>
-    <h1>カルテを、<br><em>話しかける</em>ものに。</h1>
+    <p class="eyebrow">SALONOTE 主要画面 デザインコンペ ／ 提案 A ・ 第 2 稿</p>
+    <h1>カルテに、<br><em>話しかける</em>。</h1>
     <p class="en">TALK-FIRST KARTE ─ 話しかけるカルテ</p>
-    <p class="lead">アプリ全体を、アシスタント「ノート」とのトークにしました。施術が終わったら大きなマイクを押して話す。ノートが「こう書きました。合っていますか？」と返す。人は「はい」か、直したいところを押すだけ。<b>LINE と同じ手つきなので、初日から迷いません。</b></p>
+    <p class="lead">施術が終わったら、カルテに向かって 30 秒話す。カルテは話した内容を欄に振り分けて「こう書きました」と返す。人は合っていれば押し、違う欄だけ手で直す。<b>話す → 返ってくる → うなずく。</b>このやりとりを、LINE のトークと同じ見た目で全画面に通しました。</p>
     <div class="diff">
       <svg class="i l" style="color:var(--plum);margin-top:2px"><use href="#i-msg"/></svg>
-      <p>現行案は「施術前・施術後・閉店後」の<b>画面を順に渡す</b>設計です。私たちは画面という単位をやめ、<b>1 本の会話が時間とともに流れる</b>設計にしました。メニューもタブもなく、あるのは「話す」と「押す」だけです。</p>
+      <p>現行案は「施術前・施術後・閉店後」の<b>画面を順に渡す</b>設計です。私たちは画面を<b>上から下へ流れる 1 本のやりとり</b>として組み、<b>右はあなた・左はカルテ・上は消えない警告・下は押すところ</b>という 4 つの約束だけで全画面を読めるようにしました。機能と記録の持ち方は、要件定義書のとおりです。</p>
     </div>
   </header>
 
-  <!-- 設計の原則 -->
+  <section class="sec" aria-labelledby="lg-h">
+    <h2 id="lg-h">画面の読み方は、4 つだけ</h2>
+    <div class="legend-box">
+      <div class="mini" aria-hidden="true">
+        <div class="warn mini"><span class="badge"><svg class="i s"><use href="#i-alert"/></svg></span><div class="body"><b>妊娠中・光過敏</b><span>光を使う施術はできません</span></div></div>
+        <div class="right" style="max-width:80%"><div class="bub"><div class="voice"><span class="pl"><svg class="i s"><use href="#i-play"/></svg></span><span class="wave"><i style="height:40%"></i><i style="height:80%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:35%"></i><i style="height:60%"></i><i style="height:30%"></i></span><span class="len">0:28</span></div></div></div>
+        <div class="cand"><div class="cand-h">ホームケア<span class="w"><span class="tag cand st-cand"><svg class="i s"><use href="#i-spark"/></svg>候補</span></span></div><p class="v">夜の美容液を毎日・日中は日焼け止め</p></div>
+        <div class="cand is-ok"><div class="cand-h">施術内容<span class="w"><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div><p class="v">保湿パック・デコルテ</p></div>
+      </div>
+      <ul class="lg-list">
+        <li><span class="sw" style="background:var(--alert-bg);border:1px solid var(--alert-line)"></span><span><b>上に留まる赤い帯 ＝ 警告</b>禁忌から自動で出る。どれだけ下へ進んでも上に残り、人は消せない。</span></li>
+        <li><span class="sw" style="background:var(--apricot-soft)"></span><span><b>右のあんず色 ＝ あなた</b>話した音声、入れた会計。自分がしたことは必ず右に並ぶ。</span></li>
+        <li><span class="sw" style="border:1.5px dashed var(--plum-line);background:var(--surface)"></span><span><b>左の点線 ＝ カルテの候補</b>話した内容から振り分けた値。横に話した言葉を添える。押すまで保存されない。</span></li>
+        <li><span class="sw" style="border:1.5px solid var(--line-2);background:var(--surface)"></span><span><b>左の実線 ＝ 確かな記録</b>人が確定したもの、過去の来店。点線が実線に変わるのが「うなずいた」しるし。</span></li>
+      </ul>
+    </div>
+  </section>
+
   <section class="sec" aria-labelledby="p-h">
     <h2 id="p-h">設計の原則 <span class="k">5 つ</span></h2>
     <div class="principles">
-      <div class="pr"><span class="n">1</span><h3>話す・押す、<br>の 2 つで終わる</h3><p>キーボードは出しません。話せない場面は、ノートが出す選択肢を押すだけで進みます。</p></div>
-      <div class="pr"><span class="n">2</span><h3>大事なことは<br>流さない</h3><p>禁忌は会話の上にピンで留めます。会話がどれだけ進んでも、確認しても、上に残ります。</p></div>
-      <div class="pr"><span class="n">3</span><h3>点線は候補、<br>実線は確かなこと</h3><p>AI が書いた所は点線。横に「話した言葉」をそのまま添えます。「はい」で実線に変わります。</p></div>
-      <div class="pr"><span class="n">4</span><h3>聞き方は<br>ボタンで渡す</h3><p>「今月どう？」「みさきさんのこと」。よく聞くことは、マイクの上にボタンで並べます。</p></div>
-      <div class="pr"><span class="n">5</span><h3>トークは<br>人ごとに分かれる</h3><p>LINE の友だちと同じで、お客様ごとに 1 本のトーク。さかのぼれば、その人の歴史です。</p></div>
+      <div class="pr"><span class="n">1</span><h3>話す・うなずく、<br>で終わる</h3><p>話すのは 1 回。返ってきた候補は押して確定。違う欄だけ、その場で手で直す。</p></div>
+      <div class="pr"><span class="n">2</span><h3>誰が書いたかは<br>位置でわかる</h3><p>右はあなた、左はカルテ。AI の候補は点線で、確定すると実線。色を覚えなくても読める。</p></div>
+      <div class="pr"><span class="n">3</span><h3>警告は<br>流さない</h3><p>禁忌の帯は上に固定。ホーム・記録・お客様のどこでも同じ赤い形で、人は消せない。</p></div>
+      <div class="pr"><span class="n">4</span><h3>手順は<br>区切り線になる</h3><p>来店記録の「確認 → 記録 → 会計・次回」は、トークの日付の区切りのように流れの中に入る。</p></div>
+      <div class="pr"><span class="n">5</span><h3>押すところは<br>下にまとめる</h3><p>LINE の下のメニューのように、操作と切り口は親指の届く下に並べる。</p></div>
     </div>
   </section>
 
-  <!-- トークの地図 -->
-  <section class="sec" aria-labelledby="m-h">
-    <h2 id="m-h">トークは 3 種類だけ</h2>
-    <div class="map">
-      <div class="talk"><span class="talk av" style="background:var(--plum);padding:0"><svg class="i l" style="color:var(--apricot);stroke-width:2.4"><use href="#i-wave"/></svg></span><div><h3>「きょう」のトーク</h3><p>朝の「おはよう」、今日の予約、施術後の記録。毎日ここから始まる。</p></div></div>
-      <div class="talk"><span class="talk av" style="background:var(--apricot-soft);color:var(--apricot-deep);padding:0">み</span><div><h3>お客様ごとのトーク</h3><p>来店のたびに記録と写真がたまる。名前を言うか押せば開く。</p></div></div>
-      <div class="talk"><span class="talk av" style="background:var(--plum-soft);color:var(--plum);padding:0"><svg class="i l"><use href="#i-chart"/></svg></span><div><h3>「お店の数字」のトーク</h3><p>聞けば、ひとこと＋小さなグラフで答える。日報の代わり。</p></div></div>
-    </div>
-  </section>
-
-  <!-- 要件への答え -->
   <section class="sec" aria-labelledby="r-h">
     <h2 id="r-h">要件 1〜7 への答え</h2>
     <div class="req">
-      <div class="rq"><span class="n">1</span><h3>入力しない</h3><p>マイクを押して話すだけ。返事は「はい」か「直す」。文字を打つ欄は 1 つも置かない。</p></div>
-      <div class="rq"><span class="n">2</span><h3>見落とさない</h3><p>禁忌は会話の上にピン留め。ホーム・記録・お客様の 3 か所で同じ赤い形。確認しても消えない。</p></div>
-      <div class="rq"><span class="n">3</span><h3>今日が一目でわかる</h3><p>朝いちばんのノートの「おはよう」が、今日の 5 名と記録の数を 1 通にまとめて届ける。</p></div>
-      <div class="rq"><span class="n">4</span><h3>分析しやすい</h3><p>「今月どう？」を押すと、答えのひとことと小さなグラフ。担当・商品・集客もボタンで聞ける。</p></div>
-      <div class="rq"><span class="n">5</span><h3>初日から使える</h3><p>LINE のトークと同じ見た目と手つき。専門の言葉は、ふだんの言葉に置きかえて話す。</p></div>
-      <div class="rq"><span class="n">6</span><h3>AI は候補を出すだけ</h3><p>点線＝AI の候補。根拠は話した言葉の引用。全部が実線にならないと保存できない。</p></div>
-      <div class="rq"><span class="n">7</span><h3>お客様に届ける</h3><p>保存すると、ノートが LINE の文面を「返事」として返す。押せばコピーできる。</p></div>
+      <div class="rq"><span class="n">1</span><h3>入力しない</h3><p>話して、押して確定。打つのは違う欄を直すときだけ。会計は一覧から選ぶ行で足す。</p></div>
+      <div class="rq"><span class="n">2</span><h3>見落とさない</h3><p>禁忌の帯は上に固定。お客様の画面では、帯と「今回気をつけること」をタブを切り替えても動かさない。</p></div>
+      <div class="rq"><span class="n">3</span><h3>今日が一目でわかる</h3><p>次のお客様を上に留め、その下に今日の流れを 1 本の線で。済・次・まだが点の色でわかる。</p></div>
+      <div class="rq"><span class="n">4</span><h3>分析しやすい</h3><p>今月の数字（Scope 2）は、目標の進み具合と日割りの残りを上に留め、売上・担当・商品・集客媒体・予約と再来を、下の切り口を押すとカードで開く形に。</p></div>
+      <div class="rq"><span class="n">5</span><h3>初日から使える</h3><p>LINE のトークと同じ見た目と手つき。言葉は「宿題」「申し送り」など、お店の言葉のまま。</p></div>
+      <div class="rq"><span class="n">6</span><h3>AI は候補を出すだけ</h3><p>点線＝候補。横に話した言葉そのものを添える。押すまで保存されない。</p></div>
+      <div class="rq"><span class="n">7</span><h3>お客様に届ける</h3><p>保存すると、同じ流れの下に LINE の文面が届く。押せばコピー、貼る先の名前も確かめさせる。</p></div>
     </div>
   </section>
 
@@ -435,332 +526,397 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
   <!-- 01 ホーム -->
   <div class="col">
-    <div class="col-h"><span class="no">01</span><h3>ホーム</h3><span class="sub">「きょう」のトーク ・ 10:46</span></div>
+    <div class="col-h"><span class="no">01</span><h3>ホーム（今日）</h3><span class="sub">10:46 ・ 施術前</span></div>
     <div class="phone" aria-label="ホームの画面">
       <div class="sb"><span>10:46</span><span class="ic"><svg class="i s"><use href="#i-signal"/></svg><svg class="i" style="width:22px"><use href="#i-batt"/></svg></span></div>
-      <div class="hdr">
-        <span class="hav" style="background:var(--plum)"><svg class="i l" style="color:var(--apricot);stroke-width:2.4"><use href="#i-wave"/></svg></span>
-        <div class="t"><b>きょう</b><span>Salon Lumière ・ 10月8日（水）</span></div>
-        <span class="me" aria-label="佐藤 恵">恵</span>
+      <div class="top">
+        <div class="t"><b>10月8日 水曜日</b><span>Salon Lumière</span></div>
+        <span class="acct" aria-label="アカウント"><svg class="i"><use href="#i-user"/></svg></span>
       </div>
-      <div class="pin alert" role="alert">
-        <span class="badge"><svg class="i l"><use href="#i-alert"/></svg></span>
-        <div class="body">
-          <span class="tag"><svg class="i s"><use href="#i-pin"/></svg>11:00 みさきさん</span>
-          <b>妊娠中・光過敏</b>
-          <span>光を使う施術はできません</span>
+      <div class="search"><svg class="i"><use href="#i-search"/></svg>名前か電話番号でさがす</div>
+      <div class="pinzone">
+        <div class="next">
+          <div class="row1"><span class="lab">次のお客様</span><b class="num">11:00</b><span>あと 14 分</span></div>
+          <div class="nm">みさき<small>様</small></div>
+          <div class="meta"><span><b>12回目</b></span><span>フェイシャル（保湿）</span><span>前回 9/10</span><span>回数券 <b>残 6</b></span></div>
+          <div class="wchip"><svg class="i s"><use href="#i-alert"/></svg>妊娠中・光過敏<span>光を使う施術はできません</span></div>
+          <div class="care"><span class="h">今回気をつけること</span><span>頬の赤みが出やすい ・ 前回より圧を弱めに ・ 乾燥を気にされている</span></div>
+          <div class="acts">
+            <button class="p" type="button"><svg class="i"><use href="#i-check"/></svg>来店を確認する</button>
+            <button class="o" type="button"><svg class="i s"><use href="#i-user"/></svg>この方を見る</button>
+            <button class="o" type="button"><svg class="i s"><use href="#i-plus"/></svg>記録を始める</button>
+          </div>
         </div>
-        <button class="ack" type="button"><svg class="i s"><use href="#i-check"/></svg>確認した</button>
       </div>
 
       <div class="thread" data-start="top">
-        <div class="ai">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>8:50</div>
-          <p class="say">おはようございます、恵さん。<br>今日は <b>5 名さま</b>です。</p>
-          <div class="card">
-            <div class="card-h"><svg class="i s"><use href="#i-cal"/></svg>今日来る人<span class="r prog-r">今日の記録<span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span><b class="num">2 / 5</b></span></div>
-            <div class="appt done"><span class="tm num">9:30</span><span class="nm">ともこさん</span><span class="mn">フェイシャル ・ 残 2</span><span class="st"><span class="tag ok"><svg class="i s"><use href="#i-check"/></svg>記録済み</span></span></div>
-            <div class="appt done"><span class="tm num">10:00</span><span class="nm">あやのさん</span><span class="mn">脱毛（顔）・ 都度払い</span><span class="st"><span class="tag ok"><svg class="i s"><use href="#i-check"/></svg>記録済み</span></span></div>
-            <div class="appt next"><span class="tm num">11:00</span><span class="nm">みさきさん</span><span class="mn"><span>フェイシャル（保湿）・ 12回目</span><span>残 6 ・ <b style="color:var(--alert)">禁忌あり</b></span></span><span class="st"><span class="tag next">次のお客様</span></span></div>
-            <div class="appt"><span class="tm num">14:00</span><span class="nm">ゆかさん</span><span class="mn">体験フェイシャル</span><span class="st"><span class="tag new">はじめて</span></span></div>
-            <div class="appt"><span class="tm num">16:30</span><span class="nm">はるかさん</span><span class="mn">脱毛（ひざ下）・ 残 4</span><span class="st"><span class="tag todo">記録がまだ</span></span></div>
-          </div>
-        </div>
+        <span class="sys"><svg class="i s" style="color:var(--ok)"><use href="#i-check"/></svg>今日 <b>2 人</b>記録しました</span>
+        <div class="flow-h"><b>今日の流れ</b><span class="dsend"><span class="a" aria-label="前の日"><svg class="i s"><use href="#i-back"/></svg></span><span>今日</span><span class="a" aria-label="次の日"><svg class="i s"><use href="#i-right"/></svg></span></span></div>
+        <ul class="flow">
+          <li class="fl done"><span class="tm num">9:30</span><span class="dot"></span><span><span class="nm">ともこ</span><span class="mn">8回目 ・ フェイシャル ・ 前回 9/10</span></span><span class="st"><span class="tag ok"><svg class="i s"><use href="#i-check"/></svg>記録済み</span></span></li>
+          <li class="fl done"><span class="tm num">10:00</span><span class="dot"></span><span><span class="nm">あやの</span><span class="mn">5回目 ・ 脱毛（顔）・ 前回 9/3</span></span><span class="st"><span class="tag ok"><svg class="i s"><use href="#i-check"/></svg>記録済み</span></span></li>
+          <li class="fl now"><span class="tm num">11:00</span><span class="dot"></span><span><span class="nm">みさき<span class="tag warn"><svg class="i s"><use href="#i-alert"/></svg>警告</span></span><span class="mn">12回目 ・ フェイシャル（保湿）・ 前回 9/10</span></span><span class="st"><span class="tag line">次</span></span></li>
+          <li class="fl"><span class="tm num">14:00</span><span class="dot"></span><span><span class="nm">ゆか<span class="tag new">はじめて</span><span class="tag new">体験</span></span><span class="mn">フェイシャル</span></span><span class="st"><span class="tag paper">まだ</span></span></li>
+          <li class="fl"><span class="tm num">16:30</span><span class="dot"></span><span><span class="nm">はるか</span><span class="mn">3回目 ・ 脱毛（ひざ下）・ 前回 7/30 ・ 10 週ぶり</span></span><span class="st"><span class="tag paper">記録がまだ</span></span></li>
+        </ul>
+        <span class="add"><svg class="i s"><use href="#i-plus"/></svg>今日来る人を足す</span>
 
-        <div class="ai">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>10:45</div>
-          <p class="say">次は 11:00 の<b>みさきさん</b>（12回目）。<br>気をつけることを先にお伝えしますね。</p>
-          <div class="card">
-            <div class="card-h"><svg class="i s"><use href="#i-bulb"/></svg>みさきさんの気をつけること</div>
-            <ul class="note-list">
-              <li>頬の赤みが出やすい</li>
-              <li>前回より圧を弱めに</li>
-              <li>乾燥を気にされている</li>
-            </ul>
-            <dl class="kv"><dt>前回</dt><dd>9月10日（水）保湿パック</dd><dt>ホームケア</dt><dd>夜の美容液を毎日・日中は日焼け止め</dd></dl>
-            <div class="card-f"><button class="btn line block" type="button">みさきさんのトークを開く<svg class="i s"><use href="#i-right"/></svg></button></div>
-          </div>
-        </div>
-
-        <div class="ai">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>10:45</div>
-          <p class="say">記録がまだなのは <b>16:30 はるかさん</b>です。終わったら、マイクを押して 30 秒話すだけで大丈夫です。</p>
+        <div class="card later-box">
+          <div class="card-h"><svg class="i s"><use href="#i-hourglass"/></svg>あとで<span class="r">1 件</span></div>
+          <div class="later-row"><span class="ic"><svg class="i s"><use href="#i-msg"/></svg></span><span class="tx">お客様に送っていない文面<small>あやの ・ 10:00 の来店</small></span><span class="cnt">1</span><svg class="i s" style="color:var(--ink-3)"><use href="#i-right"/></svg></div>
         </div>
       </div>
 
-      <div class="composer">
-        <div class="chips"><button class="chip" type="button">みさきさんのこと</button><button class="chip" type="button">記録がまだの人</button><button class="chip" type="button">今月どう？</button><button class="chip" type="button">明日の予約</button></div>
-        <div class="microw">
-          <span class="side l"><span class="o"><svg class="i"><use href="#i-camera"/></svg></span>撮る</span>
-          <button class="mic" type="button"><span class="o"><svg class="i xl"><use href="#i-mic"/></svg></span>押して話す</button>
-          <span class="side r"><span class="o"><svg class="i"><use href="#i-search"/></svg></span>お客様</span>
+      <div class="dock">
+        <div class="tabs">
+          <span class="tb on"><svg class="i"><use href="#i-home"/></svg>今日</span>
+          <span class="tb"><svg class="i"><use href="#i-users"/></svg>お客様</span>
+          <span class="tb plus"><span class="o"><svg class="i l"><use href="#i-plus"/></svg></span>記録</span>
+          <span class="tb"><svg class="i"><use href="#i-gear"/></svg>設定</span>
         </div>
       </div>
     </div>
-    <p class="aim"><b>この画面の狙い</b>　開くと、ノートからの「おはよう」が届いている。今日の 5 名と記録の数は 1 通にまとまり、次のお客様の禁忌だけは会話の上に留まって流れない。打つ場所はなく、マイクか質問のボタンを押すだけ。</p>
+    <p class="aim"><b>この画面の狙い</b>　次のお客様を「ピン留めのメッセージ」として上に固定し、警告と今回気をつけることを施術前の 30 秒で読み切らせる。その下は今日の流れが 1 本の線で続き、点の色で済・次・まだがわかる。予約がずれた日も「記録を始める」は同じ大きさで押せる。</p>
+    <p class="uses"><b>使っている要件</b>　FUNC-29・03・04・06・20・33 ／ 03 の SCR-03（＋記録は SCR-27 を開く）</p>
   </div>
 
   <!-- 02 施術後の記録 -->
   <div class="col">
-    <div class="col-h"><span class="no">02</span><h3>施術後の記録</h3><span class="sub">話した内容の確認 ・ 12:09</span></div>
+    <div class="col-h"><span class="no">02</span><h3>施術後の記録</h3><span class="sub">話した内容の確認 → 保存 → LINE 文面 ・ 12:09</span></div>
     <div class="phone" aria-label="施術後の記録の画面">
       <div class="sb"><span>12:09</span><span class="ic"><svg class="i s"><use href="#i-signal"/></svg><svg class="i" style="width:22px"><use href="#i-batt"/></svg></span></div>
-      <div class="hdr">
+      <div class="top">
         <button class="back" type="button" aria-label="もどる"><svg class="i l"><use href="#i-back"/></svg></button>
-        <span class="hav" style="background:var(--apricot-soft);color:var(--apricot-deep)">み</span>
-        <div class="t"><b>みさきさんの記録</b><span>11:00 ・ 12回目 ・ フェイシャル（保湿）</span></div>
+        <div class="t"><b>みさき様の来店記録</b><span>10月8日 ・ 施術者 佐藤 ・ 保存済み 12:09</span></div>
+        <span class="later"><svg class="i s"><use href="#i-hourglass"/></svg>あとで</span>
       </div>
-      <div class="pin alert mini" role="alert">
-        <span class="badge"><svg class="i s"><use href="#i-alert"/></svg></span>
-        <div class="body"><b>妊娠中・光過敏</b>　<span>光を使う施術はできません</span></div>
+      <div class="pinzone">
+        <div class="warn mini"><span class="badge"><svg class="i s"><use href="#i-alert"/></svg></span><div class="body"><b>妊娠中・光過敏</b><span>光を使う施術はできません</span></div><span class="ok"><svg class="i s"><use href="#i-check"/></svg>本日の確認 済</span></div>
       </div>
 
       <div class="thread" id="rec-thread" data-start="top">
-        <div class="mine">
-          <div class="bub" style="min-width:250px">
+        <div class="divider"><span class="st done"><svg class="i s"><use href="#i-check"/></svg></span>1 確認 ・ 10:58</div>
+        <div class="right"><div class="bub" style="font-size:var(--fs-s)">本日の確認 済 ・ フェイシャル（保湿）・ 通常<br>コース消化: 保湿10回コース（残 6）</div></div>
+
+        <div class="divider"><span class="st">2</span>記録 ・ 施術のあと</div>
+        <div class="right" style="max-width:92%">
+          <div class="bub">
             <div class="voice"><span class="pl"><svg class="i s"><use href="#i-play"/></svg></span>
-              <span class="wave" aria-hidden="true"><i style="height:30%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:95%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:75%"></i><i style="height:50%"></i><i style="height:88%"></i><i style="height:40%"></i><i style="height:65%"></i><i style="height:30%"></i><i style="height:80%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:60%"></i><i style="height:25%"></i><i style="height:45%"></i><i style="height:30%"></i><i style="height:20%"></i></span>
+              <span class="wave" aria-hidden="true"><i style="height:30%"></i><i style="height:60%"></i><i style="height:85%"></i><i style="height:45%"></i><i style="height:70%"></i><i style="height:95%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:75%"></i><i style="height:50%"></i><i style="height:88%"></i><i style="height:40%"></i><i style="height:65%"></i><i style="height:30%"></i><i style="height:80%"></i><i style="height:55%"></i><i style="height:35%"></i><i style="height:60%"></i><i style="height:25%"></i><i style="height:45%"></i></span>
               <span class="len num">0:28</span></div>
             <p class="transcript">えーと今日は保湿パックとデコルテ、頬にちょっと赤みが出てたので圧は弱めに。ホームケアは夜の美容液を毎日、日中は日焼け止め。次回は乾燥の時期なので 3〜4 週間後に保湿ケアをおすすめ…</p>
+            <span class="keep"><span class="box"><svg class="i s" style="width:10px;height:10px;stroke-width:3"><use href="#i-check"/></svg></span>この文を自由メモにも残す</span>
           </div>
           <span class="tm">12:08 ・ 話した内容</span>
         </div>
 
-        <div class="ai">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>12:08</div>
-          <p class="say">こう書きました。合っていますか？<br>ちがう所だけ「直す」を押してください。</p>
+        <div class="left">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-book"/></svg></span><b>カルテ</b>12:08</div>
+          <p class="say">話した内容を、欄に振り分けました。<br>合っていれば「確定」、違う欄だけ「直す」。</p>
+          <div class="allbar"><span id="cand-left">候補 5 つ ・ 確定するまで保存されません</span><button class="pill" type="button" id="all-ok"><svg class="i s"><use href="#i-checks"/></svg>すべて確定</button></div>
           <div class="cands">
-            <div class="cand is-ok" data-c>
-              <div class="cand-h">施術内容<span class="st when"><span class="tag ai st-ai"><svg class="i s"><use href="#i-spark"/></svg>AI の候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
+            <p class="grp">今日のこと</p>
+            <div class="cand is-ok is-auto" data-c>
+              <div class="cand-h">施術内容<span class="w"><span class="tag cand st-cand"><svg class="i s"><use href="#i-spark"/></svg>候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
               <p class="v">保湿パック・デコルテ</p>
               <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“今日は保湿パックとデコルテ”</p>
-              <div class="acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>はい</button></div>
-            </div>
-            <div class="cand is-ok" data-c>
-              <div class="cand-h">肌の状態<span class="st when"><span class="tag ai st-ai"><svg class="i s"><use href="#i-spark"/></svg>AI の候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
-              <p class="v">頬に赤み <small>・ 圧を弱めにした</small></p>
-              <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“頬にちょっと赤みが出てたので圧は弱めに”</p>
-              <div class="acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>はい</button></div>
+              <div class="c-acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>確定</button></div>
             </div>
             <div class="cand" data-c>
-              <div class="cand-h">ホームケア<span class="st when"><span class="tag ai st-ai"><svg class="i s"><use href="#i-spark"/></svg>AI の候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
-              <p class="v">夜の美容液を毎日 <small>・ 日中は日焼け止め</small></p>
+              <div class="cand-h">肌の状態<span class="w"><span class="tag cand st-cand"><svg class="i s"><use href="#i-spark"/></svg>候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
+              <p class="v">頬に赤み</p>
+              <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“頬にちょっと赤みが出てた”</p>
+              <div class="c-acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>確定</button></div>
+            </div>
+            <p class="grp">お客様へ（文面に入ります）</p>
+            <div class="cand" data-c>
+              <div class="cand-h">ホームケア（宿題）<span class="w"><span class="tag cand st-cand"><svg class="i s"><use href="#i-spark"/></svg>候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
+              <p class="v">夜の美容液を毎日・日中は日焼け止め</p>
               <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“夜の美容液を毎日、日中は日焼け止め”</p>
-              <div class="acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>はい</button></div>
+              <div class="c-acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>確定</button></div>
             </div>
             <div class="cand" data-c>
-              <div class="cand-h">次回のおすすめ<span class="st when"><span class="tag ai st-ai"><svg class="i s"><use href="#i-spark"/></svg>AI の候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
-              <p class="v">保湿ケア <small>・ 乾燥の時期のため</small></p>
-              <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“乾燥の時期なので…保湿ケアをおすすめ”</p>
-              <div class="acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>はい</button></div>
+              <div class="cand-h">次回のおすすめ<span class="w"><span class="tag cand st-cand"><svg class="i s"><use href="#i-spark"/></svg>候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
+              <p class="v">乾燥の時期なので、3〜4 週間後に保湿ケア</p>
+              <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“乾燥の時期なので 3〜4 週間後に保湿ケアをおすすめ”</p>
+              <div class="c-acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>確定</button></div>
             </div>
+            <p class="grp">お店の中だけ（お客様には送りません）</p>
             <div class="cand" data-c>
-              <div class="cand-h">次回の予約日<span class="st when"><span class="tag ai st-ai"><svg class="i s"><use href="#i-spark"/></svg>AI の候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
-              <div class="opts" role="radiogroup" aria-label="次回の予約日"><button class="opt on" type="button" role="radio" aria-checked="true">10/29（水）</button><button class="opt" type="button" role="radio" aria-checked="false">11/5（水）</button><button class="opt" type="button" role="radio" aria-checked="false">まだ決めない</button></div>
-              <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“3〜4 週間後に” → 3 週間後と 4 週間後の水曜</p>
-              <div class="acts"><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>はい</button></div>
+              <div class="cand-h">スタッフへの申し送り<span class="w"><span class="tag cand st-cand"><svg class="i s"><use href="#i-spark"/></svg>候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
+              <p class="v">頬に赤みが出やすい。圧は弱めに</p>
+              <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“赤みが出てたので圧は弱めに” ・ 次回の「今回気をつけること」に出ます</p>
+              <div class="c-acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>確定</button></div>
             </div>
           </div>
         </div>
 
-        <div class="ai">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>12:08</div>
-          <p class="say">お会計は、この 2 行で合っていますか？</p>
-          <div class="cands">
-            <div class="cand" data-c>
-              <div class="pay"><span class="ico"><svg class="i"><use href="#i-ticket"/></svg></span><span class="v"><b>回数券を 1 回使う</b>　<span class="num">¥12,000</span> 相当</span><span class="m">保湿10回コース　残 6 → <b style="color:var(--ink)">5</b></span></div>
-              <div class="acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>はい</button></div>
-            </div>
-            <div class="cand" data-c>
-              <div class="pay"><span class="ico"><svg class="i"><use href="#i-bag"/></svg></span><span class="v"><b>保湿クリーム</b>　<span class="num">¥4,400</span></span><span class="m">プリペイドから　<span class="num">¥50,000 → <b style="color:var(--ink)">¥45,600</b></span></span></div>
-              <div class="acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>はい</button></div>
-            </div>
-            <div class="sum"><span>今日お支払いいただく金額</span><b class="num">¥0</b></div>
+        <div class="divider"><span class="st">3</span>会計・次回 ・ お見送りのとき</div>
+        <div class="left">
+          <div class="cand" data-c>
+            <div class="cand-h">次回予約日<span class="w"><span class="tag cand st-cand"><svg class="i s"><use href="#i-spark"/></svg>候補</span><span class="tag ok st-ok"><svg class="i s"><use href="#i-check"/></svg>確定</span></span></div>
+            <p class="v">10月29日（水）</p>
+            <p class="quote"><svg class="i s"><use href="#i-said"/></svg>“3〜4 週間後に” ・ 入れるとその日の「今日の流れ」に出ます</p>
+            <div class="c-acts"><button class="fix" type="button"><svg class="i s"><use href="#i-pencil"/></svg>直す</button><button class="yes" type="button"><svg class="i s"><use href="#i-check"/></svg>確定</button></div>
           </div>
         </div>
-
-        <div class="ghost" id="line-ghost">
-          <span style="display:flex;align-items:center;gap:5px"><svg class="i s"><use href="#i-msg"/></svg>保存すると、みさきさんへの LINE の文面がここに届きます</span>
-          <p>みさきさん、今日もありがとうございました。今日は保湿パックとデコルテのケアをしました…</p>
+        <div class="right" style="max-width:96%">
+          <div class="bub pay">
+            <div class="pay-h"><span>お会計（行で足す・税込）</span><span>担当 佐藤</span></div>
+            <div class="prow"><span class="k">消化</span><span class="c">保湿10回コース 1 回<small>残 6 → 5 回 ・ 金額は自動</small></span><span class="y num">¥12,000<small>（自動）</small></span></div>
+            <div class="prow"><span class="k">物販</span><span class="c">保湿クリーム × 1<small>プリペイドから ・ 残高 ¥50,000 → ¥45,600</small></span><span class="y num">¥4,400</span></div>
+            <span class="addrow"><svg class="i s"><use href="#i-plus"/></svg>行を足す（施術・物販・コース購入・コース消化）</span>
+          </div>
+          <span class="tm">12:09 ・ 商品は一覧から選んで入れました</span>
         </div>
-        <div class="ai linecard" id="line-card" aria-live="polite">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>12:10</div>
-          <p class="say">保存しました。みさきさんへの LINE はこれでどうでしょう？</p>
-          <p class="msg" id="line-text">みさきさん、今日もありがとうございました。
-今日は保湿パックとデコルテのケアをしました。頬に少し赤みが出ていたので、圧はやさしめにしています。
+
+        <div class="sheet" id="save-sheet" role="dialog" aria-label="候補のままの項目があります">
+          <b>候補のままの項目があります</b>
+          <span style="color:var(--ink-2);font-size:var(--fs-xs)">確定して保存するか、候補を捨てて保存するかを選んでください。</span>
+          <div class="row"><button class="a2" type="button" id="drop-btn">候補を捨てる</button><button class="a1" type="button" id="confirm-save">確定して保存</button></div>
+        </div>
+
+        <div class="ghost" id="line-ghost"><svg class="i s"><use href="#i-msg"/></svg>保存すると、ここにお客様に送る LINE の文面が届きます</div>
+
+        <div class="after" id="after" aria-live="polite">
+          <div class="card done-card"><span class="ck"><svg class="i"><use href="#i-check"/></svg></span><span><b>記録が残りました</b><span>施術者: 佐藤 ・ 今日 3 人目の記録です</span></span></div>
+          <div class="left">
+            <div class="who"><span class="kav"><svg class="i s"><use href="#i-book"/></svg></span><b>カルテ</b>12:10</div>
+            <p class="say">お客様に送る文面です。直してからコピーもできます。</p>
+            <div class="msgsel"><span class="chip on">AI の文面</span><span class="chip">来店のお礼（定番）</span></div>
+            <p class="msg" id="line-text">本日はご来店ありがとうございました。
+今日は保湿パックとデコルテのケアをいたしました。
 おうちでは、夜の美容液を毎日、日中は日焼け止めをお願いします。
-これから乾燥の時期なので、次回は保湿ケアがおすすめです。10月29日（水）にお待ちしていますね。
-Salon Lumière　佐藤</p>
-          <span class="to"><svg class="i s"><use href="#i-check"/></svg>話した内容だけで作りました。光を使う施術は書いていません。</span>
-          <button class="btn fill block" type="button" id="copy-btn"><svg class="i s"><use href="#i-copy"/></svg>文面をコピーする</button>
+これから乾燥の時期ですので、3〜4 週間後の保湿ケアがおすすめです。<span class="af">お買い上げの商品について
+保湿クリーム：朝晩、化粧水のあとにパール粒ほどを手のひらで温めてからなじませてください。</span>
+次回のご予約は 10月29日（水）です。
+Salon Lumière</p>
+            <div class="copied" id="copied">
+              <span>コピーしました。<b>みさき様（LINE の名前: misaki）</b>のトークに貼り付け、名前を確かめてから送ってください。</span>
+              <span class="warnline">間違えて送ったら、24 時間以内にトークでその吹き出しを長押しして「送信取消」</span>
+              <span><span class="pill"><svg class="i s"><use href="#i-ext"/></svg>LINE を開く</span></span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="composer">
-        <div class="chips"><button class="chip" type="button" id="all-ok">ぜんぶ合っている</button><button class="chip" type="button">写真を足す</button><button class="chip" type="button">あとで確認する</button></div>
-        <div class="savebar">
-          <span class="side"><span class="o"><svg class="i"><use href="#i-mic"/></svg></span>話して直す</span>
-          <button class="save" type="button" id="save-btn" aria-disabled="true"><svg class="i"><use href="#i-check"/></svg><span id="save-label">あと 5 つ確認して保存</span></button>
-        </div>
+      <div class="dock">
+        <button class="primary" type="button" id="save-btn"><svg class="i"><use href="#i-check"/></svg><span id="save-label">保存する</span></button>
+        <p class="hint" id="save-hint">候補のまま 5 つ ・ 空の欄があっても保存できます</p>
       </div>
     </div>
-    <p class="aim"><b>この画面の狙い</b>　話した 28 秒が候補になって返ってくる。点線は AI の候補で、横に話した言葉そのものを添える。「はい」で実線に変わり、全部そろうと保存でき、LINE の文面が返事として届く。<span class="try"><svg class="i s"><use href="#i-check"/></svg>はい・ぜんぶ合っている・保存・コピーは押せます</span></p>
+    <p class="aim"><b>この画面の狙い</b>　来店記録の 3 つの手順を、トークの区切り線として 1 本の流れに並べる。右の自分の声に対して、左にカルテの候補が点線で返り、押すと実線になる。直すのは違う欄だけ、その場で手で。保存すると、同じ流れの下に LINE の文面が届く。<span class="try"><svg class="i s"><use href="#i-check"/></svg>確定・直す・すべて確定・保存・コピーは押せます</span></p>
+    <p class="uses"><b>使っている要件</b>　FUNC-13・05・04・06・22・26（商品の一覧）・20 ／ 03 の SCR-07（3 ステップ・完了）・SCR-09（項目候補・すべて確定）・SCR-21（文面・コピー後の案内）</p>
   </div>
 
   <!-- 03 顧客詳細 -->
   <div class="col">
-    <div class="col-h"><span class="no">03</span><h3>顧客詳細</h3><span class="sub">みさきさんのトーク ・ 10:47</span></div>
+    <div class="col-h"><span class="no">03</span><h3>顧客詳細（この人カード）</h3><span class="sub">10:47</span></div>
     <div class="phone" aria-label="顧客詳細の画面">
       <div class="sb"><span>10:47</span><span class="ic"><svg class="i s"><use href="#i-signal"/></svg><svg class="i" style="width:22px"><use href="#i-batt"/></svg></span></div>
-      <div class="hdr">
+      <div class="top">
         <button class="back" type="button" aria-label="もどる"><svg class="i l"><use href="#i-back"/></svg></button>
-        <span class="hav" style="background:var(--apricot-soft);color:var(--apricot-deep)">み</span>
-        <div class="t"><b>みさきさん</b><span>12回目 ・ 次回 今日 11:00</span></div>
-        <button class="back" type="button" aria-label="その他"><svg class="i l"><use href="#i-more"/></svg></button>
+        <div class="t"><span>今日 › お客様</span></div>
+        <span class="later"><svg class="i s"><use href="#i-pencil"/></svg>情報を直す</span>
       </div>
-      <div class="pin alert" role="alert">
-        <span class="badge"><svg class="i l"><use href="#i-alert"/></svg></span>
-        <div class="body">
-          <span class="tag"><svg class="i s"><use href="#i-pin"/></svg>問診票より ・ いつも上に表示</span>
-          <b>妊娠中・光過敏</b>
-          <span>光を使う施術はできません</span>
+      <div class="pinzone">
+        <div class="person">
+          <div class="p1">
+            <span class="mono">み</span>
+            <div class="nm"><b>みさき<small>様</small><span class="badge-k">契約あり</span></b><span>初回 3月 ・ 紹介で来店</span></div>
+          </div>
+          <div class="rhythm" aria-label="来店のリズム"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="nx"></i><span>来店のリズム</span></div>
+          <div class="three">
+            <div><span class="v num">11<small>回</small></span><span class="lb">来店</span></div>
+            <div><span class="v num">28<small>日</small></span><span class="lb">周期</span></div>
+            <div><span class="v link">今日 11:00</span><span class="lb">次の予約</span></div>
+          </div>
         </div>
-        <span class="done"><span class="ck"><svg class="i s"><use href="#i-check"/></svg></span>確認済み<br>10:46</span>
+        <div class="warn"><span class="badge"><svg class="i"><use href="#i-alert"/></svg></span><div class="body"><b>妊娠中・光過敏</b><span>光を使う施術はできません</span></div><span class="pin"><svg class="i s"><use href="#i-pin"/></svg>いつも上</span></div>
+        <div class="carebox"><span class="h"><svg class="i s"><use href="#i-bulb"/></svg>今回気をつけること</span><ul><li>頬の赤みが出やすい</li><li>前回より圧を弱めに</li><li>乾燥を気にされている</li></ul></div>
+      </div>
+      <div class="ptabs" role="tablist" id="ptabs">
+        <button type="button" role="tab" aria-selected="true" data-tab="t-rec">記録</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="t-photo">写真</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="t-doc">書類</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="t-con">契約</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="t-agree">同意</button>
       </div>
 
-      <div class="thread" data-start="anchor" data-anchor="about-misaki">
-        <span class="more-up"><svg class="i s"><use href="#i-up"/></svg>さかのぼると 1 回目から 12 回分</span>
-        <span class="day">8月13日（水）・ 10回目</span>
-        <div class="card vcard">
-          <div class="t"><b>フェイシャル（保湿）</b>担当 佐藤</div>
-          <div class="photos"><span class="ph"><span class="lb">前</span></span><span class="ph"><span class="lb">後</span></span></div>
-          <p>保湿パック。乾燥が強め。ホームケアに夜の美容液をおすすめ。</p>
+      <div class="thread" id="cust-thread" data-start="bottom">
+        <div class="tabpanel show" id="t-rec" role="tabpanel">
+          <span class="sys"><svg class="i s"><use href="#i-file"/></svg>3月12日 ・ 1回目 <span class="tag paper">紙カルテから</span></span>
+          <span class="sys" style="background:none;color:var(--ink-3)">… 2〜9 回目 …</span>
+          <div class="card vcard">
+            <div class="t"><b>8月13日（水）</b>10回目 ・ 担当 佐藤</div>
+            <p>保湿パック。乾燥が強め。</p>
+            <dl class="kv"><dt>宿題</dt><dd>夜の美容液を毎日</dd></dl>
+          </div>
+          <div class="card vcard">
+            <div class="t"><b>9月10日（水）</b>11回目 ・ 前回 ・ 担当 佐藤</div>
+            <div class="photos"><span class="ph red"><span class="lb">前</span></span><span class="ph"><span class="lb">後</span></span></div>
+            <p>保湿パック・首。頬に赤み。</p>
+            <dl class="kv"><dt>宿題</dt><dd>夜の美容液を毎日・日中は日焼け止め</dd><dt>申し送り</dt><dd>次回は圧を弱めに</dd></dl>
+            <span style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag ok"><svg class="i s"><use href="#i-check"/></svg>9/10 送った</span><span class="pill" style="font-size:var(--fs-xs);padding:2px 9px"><svg class="i s"><use href="#i-msg"/></svg>お客様に送る</span></span>
+          </div>
+          <span class="sys">次は 今日 11:00 ・ 12回目</span>
         </div>
-
-        <span class="day">9月10日（水）・ 11回目</span>
-        <div class="card vcard">
-          <div class="t"><b>フェイシャル（保湿）</b>担当 佐藤</div>
-          <p>保湿パック。頬に赤み。次回は圧を弱めに。</p>
-          <span class="tag ok" style="justify-self:start"><svg class="i s"><use href="#i-check"/></svg>LINE 送信済み</span>
+        <div class="tabpanel" id="t-photo" role="tabpanel">
+          <p class="gcap">施術後の写真（新しい順）・ 押すと前後を比べられます</p>
+          <div class="grid3"><span class="ph red"><span class="lb">9/10 前</span></span><span class="ph"><span class="lb">9/10 後</span></span><span class="ph"><span class="lb">8/13 後</span></span><span class="ph red"><span class="lb">7/16 前</span></span><span class="ph"><span class="lb">7/16 後</span></span><span class="ph"><span class="lb">6/18 後</span></span></div>
         </div>
-
-        <span class="day">きょう 10:44</span>
-        <div class="ai" id="about-misaki">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>10:44</div>
-          <div class="card about">
-            <div class="card-h"><svg class="i s"><use href="#i-spark"/></svg>みさきさんについて</div>
-            <p class="lede">乾燥が気になる、12回目の常連さん。赤みが出やすいので、やさしい圧で。</p>
-            <div class="sub-h"><svg class="i s"><use href="#i-bulb"/></svg>気をつけること</div>
-            <ul class="note-list"><li>頬の赤みが出やすい</li><li>前回より圧を弱めに</li><li>乾燥を気にされている</li></ul>
-            <div class="sub-h"><svg class="i s"><use href="#i-image"/></svg>前回 9月10日（水）</div>
-            <div class="last">
-              <div class="photos"><span class="ph red"><span class="lb">前</span></span><span class="ph"><span class="lb">後</span></span></div>
-              <p class="tx">保湿パック<br><b>ホームケア</b><br>夜の美容液を毎日<br>日中は日焼け止め</p>
-            </div>
-            <div class="balance">
-              <div><span class="lb"><svg class="i s"><use href="#i-ticket"/></svg>保湿10回コース</span><span class="v num">残 6<small>/ 10 回</small></span><span class="tix" aria-hidden="true"><i class="used"></i><i class="used"></i><i class="used"></i><i class="used"></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
-              <div><span class="lb"><svg class="i s"><use href="#i-wallet"/></svg>プリペイド残高</span><span class="v num">¥50,000</span></div>
-            </div>
-            <div class="nextres"><svg class="i"><use href="#i-cal"/></svg><span>次回予約　<b>今日 11:00</b></span></div>
-            <p class="src"><svg class="i s"><use href="#i-said"/></svg>11 回分の記録と問診票からまとめました</p>
+        <div class="tabpanel" id="t-doc" role="tabpanel">
+          <div class="card later-box">
+            <div class="later-row"><span class="ic"><svg class="i s"><use href="#i-file"/></svg></span><span class="tx">問診票（紙）<small>3月12日 ・ 撮影して預かり</small></span><svg class="i s" style="color:var(--ink-3)"><use href="#i-right"/></svg></div>
+            <div class="later-row"><span class="ic"><svg class="i s"><use href="#i-file"/></svg></span><span class="tx">保湿10回コース 契約書<small>6月18日 ・ PDF</small></span><svg class="i s" style="color:var(--ink-3)"><use href="#i-right"/></svg></div>
+          </div>
+          <span class="pill" style="align-self:flex-start"><svg class="i s"><use href="#i-plus"/></svg>書類を預ける</span>
+        </div>
+        <div class="tabpanel" id="t-con" role="tabpanel">
+          <div class="card contract">
+            <span class="lb"><svg class="i s"><use href="#i-ticket"/></svg>保湿10回コース（回数券）</span>
+            <span class="v num">残 6<small>/ 10 回</small></span>
+            <span class="tix" aria-hidden="true"><i class="used"></i><i class="used"></i><i class="used"></i><i class="used"></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <div class="card contract">
+            <span class="lb"><svg class="i s"><use href="#i-wallet"/></svg>プリペイド</span>
+            <span class="v num">¥50,000<small>残高 ・ 入金 ¥50,000</small></span>
+          </div>
+        </div>
+        <div class="tabpanel" id="t-agree" role="tabpanel">
+          <div class="card later-box">
+            <div class="later-row"><span class="ic"><svg class="i s"><use href="#i-camera"/></svg></span><span class="tx">写真（記録用）<small>3月12日 ・ 画面で同意</small></span><span class="tag ok">取得済</span></div>
+            <div class="later-row"><span class="ic"><svg class="i s"><use href="#i-msg"/></svg></span><span class="tx">施術内容の送付<small>3月12日 ・ 紙</small></span><span class="tag ok">取得済</span></div>
           </div>
         </div>
       </div>
 
-      <div class="composer">
-        <div class="chips"><button class="chip" type="button">前回の写真</button><button class="chip" type="button">ホームケアは？</button><button class="chip" type="button">回数券の残り</button><button class="chip" type="button">同意書を見る</button></div>
-        <div class="microw">
-          <span class="side l"><span class="o"><svg class="i"><use href="#i-camera"/></svg></span>撮る</span>
-          <button class="mic" type="button"><span class="o"><svg class="i xl"><use href="#i-mic"/></svg></span>押して話す</button>
-          <span class="side r"><span class="o"><svg class="i"><use href="#i-file"/></svg></span>書類</span>
-        </div>
+      <div class="dock">
+        <button class="primary" type="button"><svg class="i"><use href="#i-plus"/></svg>この方の来店を記録</button>
       </div>
     </div>
-    <p class="aim"><b>この画面の狙い</b>　お客様ごとに 1 本のトーク。いちばん下にはノートが「みさきさんについて」を置き、上にさかのぼれば過去の来店と写真が並ぶ。禁忌は確認しても消えず、確認した時刻とともに上に残る。</p>
+    <p class="aim"><b>この画面の狙い</b>　人ごとに 1 本のトーク。上には名前・3 つの数字・警告・今回気をつけることを留め、タブを替えても動かさない。記録タブは来店が古い順に流れ、いちばん下が前回。次の来店はいちばん下の「この方の来店を記録」から足していく。<span class="try"><svg class="i s"><use href="#i-check"/></svg>タブは押せます（契約タブに残回数と残高）</span></p>
+    <p class="uses"><b>使っている要件</b>　FUNC-03（区分バッジ）・06・04・07・08（紙由来）・09・15・22・33 ／ 03 の SCR-06</p>
   </div>
 
   <!-- 04 今月の数字 -->
   <div class="col">
-    <div class="col-h"><span class="no">04</span><h3>今月の数字</h3><span class="sub">「お店の数字」のトーク ・ 21:30</span></div>
+    <div class="col-h"><span class="no">04</span><h3>今月の数字</h3><span class="s2">Scope 2</span><span class="sub">21:30</span></div>
     <div class="phone" aria-label="今月の数字の画面">
       <div class="sb"><span>21:30</span><span class="ic"><svg class="i s"><use href="#i-signal"/></svg><svg class="i" style="width:22px"><use href="#i-batt"/></svg></span></div>
-      <div class="hdr">
+      <div class="top">
         <button class="back" type="button" aria-label="もどる"><svg class="i l"><use href="#i-back"/></svg></button>
-        <span class="hav" style="background:var(--plum-soft);color:var(--plum)"><svg class="i l"><use href="#i-chart"/></svg></span>
-        <div class="t"><b>お店の数字</b><span>10月1日〜8日 ・ 月末まで残り 23 日</span></div>
+        <div class="t"><b>今月の数字</b><span>日報の集計 ・ 10月1日〜8日</span></div>
+        <span class="later"><svg class="i s"><use href="#i-down"/></svg>CSV</span>
       </div>
-      <div class="pin goal">
-        <div class="goal-top"><span style="display:flex;align-items:center;gap:4px"><svg class="i s"><use href="#i-pin"/></svg>10月の目標 <span class="num">¥3,000,000</span></span><b class="num">29.6%</b></div>
-        <div class="track" aria-label="目標に対して 29.6%、日割りの目安は 25.8%"><span class="fill" style="width:29.6%"></span><span class="mark" style="left:25.8%"></span></div>
-        <div class="goal-leg"><span>いま <span class="num">¥887,937</span></span><i>｜今日までの目安 25.8%</i></div>
+      <div class="pinzone">
+        <div class="seg" role="tablist" aria-label="期間"><button type="button" role="tab" aria-selected="true"><svg class="i s"><use href="#i-cal"/></svg>10月の累計</button><button type="button" role="tab" aria-selected="false">日を選ぶ</button></div>
+        <div class="goal">
+          <div class="goal-top"><span class="goal-l"><svg class="i s"><use href="#i-pin"/></svg>10月の目標 <span class="num">¥3,000,000</span></span><b class="num">29.6%</b></div>
+          <div class="track" aria-label="目標に対して 29.6%。今日までの目安は 25.8%"><span class="fill" style="width:29.6%"></span><span class="mark" style="left:25.8%"></span></div>
+          <div class="goal-leg"><span>残り <b class="num">¥2,112,063</b> ・ 1日 <b class="num">¥91,829</b>（23 日）</span><i>｜今日までの目安 25.8%</i></div>
+        </div>
       </div>
 
       <div class="thread" id="num-thread" data-start="top">
-        <div class="mine"><div class="bub">今月どう？</div><span class="tm">21:30</span></div>
-        <div class="ai" id="q-month">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>21:30</div>
-          <p class="say">8日までで <b class="num">¥887,937</b>。目標の 29.6% で、<b>日割りの目安より少し先</b>を走っています。残り 23 日は、1 日 <b class="num">¥91,829</b> が目安です。</p>
+        <span class="sys">下の切り口を押すと、その集計がここに開きます</span>
+
+        <div class="left" id="q-sales">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-chart"/></svg></span><b>売上</b></div>
           <div class="card" data-flash>
-            <div class="card-h"><svg class="i s"><use href="#i-chart"/></svg>売上のうちわけ<span class="r">｜は今日までの目安</span></div>
-            <div class="mrow"><div class="top"><span class="lb">会計売上</span><b class="num">¥577,873</b></div></div>
-            <div class="mrow"><div class="top"><span class="lb">新規売上</span><b class="num">¥143,000</b></div><div class="track sm"><span class="fill" style="width:7%"></span><span class="mark" style="left:25.8%"></span></div><div class="meta"><span class="lag">目標の 7.0%</span><span class="num">目標 ¥2,054,000</span></div></div>
-            <div class="mrow"><div class="top"><span class="lb">再販売上</span><b class="num">¥42,000</b></div><div class="track sm"><span class="fill" style="width:7%"></span><span class="mark" style="left:25.8%"></span></div><div class="meta"><span class="lag">目標の 7.0%</span><span class="num">目標 ¥600,000</span></div></div>
-            <div class="mrow"><div class="top"><span class="lb">商品売上</span><b class="num">¥96,800</b></div><div class="track sm soft"><span class="fill" style="width:22.8%"></span><span class="mark" style="left:25.8%"></span></div><div class="meta"><span>目標の 22.8%</span><span class="num">目標 ¥425,000</span></div></div>
-            <div class="mrow"><div class="top"><span class="lb">消化売上（回数券を使った分）</span><b class="num">¥412,000</b></div></div>
+            <div class="card-h">総売上<span class="r">｜は今日までの目安</span></div>
+            <div class="big"><b class="num">¥887,937</b><span>会計売上 <span class="num">¥577,873</span></span></div>
+            <div class="mrow"><div class="top2"><span class="lb">新規売上</span><b class="num">¥143,000</b></div><div class="track sm"><span class="fill" style="width:7%"></span><span class="mark" style="left:25.8%"></span></div><div class="meta"><span class="lag">目標の 7.0%</span><span class="num">目標 ¥2,054,000</span></div></div>
+            <div class="mrow"><div class="top2"><span class="lb">再販売上</span><b class="num">¥42,000</b></div><div class="track sm"><span class="fill" style="width:7%"></span><span class="mark" style="left:25.8%"></span></div><div class="meta"><span class="lag">目標の 7.0%</span><span class="num">目標 ¥600,000</span></div></div>
+            <div class="mrow"><div class="top2"><span class="lb">商品売上</span><b class="num">¥96,800</b></div><div class="track sm"><span class="fill" style="width:22.8%"></span><span class="mark" style="left:25.8%"></span></div><div class="meta"><span>目標の 22.8%</span><span class="num">目標 ¥425,000</span></div></div>
+            <div class="mrow"><div class="top2"><span class="lb">消化売上<small>回数券 ¥352,000 ・ プリペイド ¥60,000</small></span><b class="num">¥412,000</b></div></div>
+            <div class="mrow"><div class="top2"><span class="lb">施術売上<small>都度払いの施術</small></span><b class="num">¥79,200</b></div></div>
+          </div>
+        </div>
+
+        <div class="left" id="q-staff">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-users"/></svg></span><b>担当ごと</b></div>
+          <div class="card" data-flash>
+            <div class="card-h">担当ごとの売上</div>
+            <div class="staff"><div class="top2"><span class="av" style="background:var(--apricot-soft);color:var(--apricot-deep)">恵</span>佐藤 恵<b class="num">¥835,972</b></div><div class="bar"><i style="width:94.1%"></i></div><div class="meta num">個人売上 ・ 消化 ¥380,000 ・ 商品 ¥87,120</div></div>
+            <div class="staff"><div class="top2"><span class="av" style="background:var(--plum-soft);color:var(--plum)">さ</span>鈴木 さくら<b class="num">¥51,965</b></div><div class="bar"><i style="width:5.9%"></i></div><div class="meta num">個人売上 ・ 消化 ¥32,000 ・ 商品 ¥9,680</div></div>
+          </div>
+        </div>
+
+        <div class="left" id="q-prod">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-bag"/></svg></span><b>商品別</b></div>
+          <div class="card" data-flash>
+            <div class="card-h">商品別の売上<span class="r num">合計 ¥96,800</span></div>
+            <div class="prod"><div class="top2"><span>保湿クリーム<small>スキンケア ・ 12 個</small></span><b class="num">¥52,800<svg class="i s"><use href="#i-right"/></svg></b></div><div class="bar"><i style="width:100%"></i></div></div>
+            <div class="prod"><div class="top2"><span>美容液<small>スキンケア ・ 6 本</small></span><b class="num">¥33,000<svg class="i s"><use href="#i-right"/></svg></b></div><div class="bar"><i style="width:62.5%"></i></div></div>
+            <div class="prod"><div class="top2"><span>ホームケアマシン<small>機器 ・ 1 台</small></span><b class="num">¥11,000<svg class="i s"><use href="#i-right"/></svg></b></div><div class="bar"><i style="width:20.8%"></i></div></div>
+            <p class="foot-note">プリペイドで払った分も含みます（消化の売上には入れません）。行を押すと「この商品を買った人」が開きます。</p>
+          </div>
+        </div>
+
+        <div class="left" id="q-media">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-search"/></svg></span><b>集客媒体</b></div>
+          <div class="card" data-flash>
+            <div class="card-h">集客媒体ごとの来店と契約<span class="r">契約率</span></div>
+            <div class="media"><span>サロン予約</span><span class="pd"><i class="on"></i><i class="on"></i><i></i></span><span class="rt num">67%</span><span class="sub num">来店 3 ・ 契約 2 ・ 契約単価 ¥71,500</span></div>
+            <div class="media"><span>紹介</span><span class="pd"><i class="on"></i></span><span class="rt num">100%</span><span class="sub">来店 1 ・ 契約 1</span></div>
+            <div class="media"><span>ホットペッパー</span><span class="pd"><i></i><i></i></span><span class="rt zero num">0%</span><span class="sub">来店 2 ・ 契約 0</span></div>
+            <div class="media"><span>Instagram</span><span class="pd"><i></i></span><span class="rt zero num">0%</span><span class="sub">来店 1 ・ 契約 0</span></div>
+            <div class="mleg"><span><i></i>来店した人</span><span><i class="on"></i>契約した人</span></div>
+          </div>
+        </div>
+
+        <div class="left" id="q-rate">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-cal"/></svg></span><b>予約と再来</b></div>
+          <div class="card" data-flash>
             <div class="tiles">
               <div class="tile"><span class="v num">58<small>%</small></span><span class="lb">次の予約を取って帰った人</span><span class="term">次回予約率</span></div>
               <div class="tile"><span class="v num">71<small>%</small></span><span class="lb">いつもの間隔で戻ってきた人</span><span class="term">周期内再来率</span></div>
             </div>
           </div>
-          <p class="hint"><svg class="i s"><use href="#i-bulb"/></svg><span>新規と再販がまだ目標の 7% です。今日の体験の<b>ゆかさん</b>が契約につながると、大きく進みます。</span></p>
         </div>
 
-        <div class="mine"><div class="bub">担当ごとは？</div><span class="tm">21:31</span></div>
-        <div class="ai" id="q-staff">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>21:31</div>
+        <div class="left" id="q-left">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-wallet"/></svg></span><b>未消化の残り</b></div>
           <div class="card" data-flash>
-            <div class="card-h"><svg class="i s"><use href="#i-chart"/></svg>担当ごとの売上</div>
-            <div class="staff"><div class="top"><span class="av" style="background:var(--apricot-soft);color:var(--apricot-deep)">恵</span>佐藤 恵<b class="num">¥835,972</b></div><div class="bar"><i style="width:94%"></i></div><div class="meta"><span class="num">商品 ¥87,120</span><span class="num">消化 ¥380,000</span></div></div>
-            <div class="staff"><div class="top"><span class="av" style="background:var(--plum-soft);color:var(--plum)">さ</span>鈴木 さくら<b class="num">¥51,965</b></div><div class="bar"><i style="width:6%"></i></div><div class="meta"><span class="num">商品 ¥9,680</span><span class="num">消化 ¥32,000</span></div></div>
+            <div class="card-h">前受金のうち、まだ使われていない分</div>
+            <div class="big"><b class="num">¥1,284,000</b></div>
+            <dl class="kvs">
+              <dt>期限内</dt><dd class="num">¥1,186,000</dd>
+              <dt>期限なし</dt><dd class="num">¥50,000</dd>
+              <dt>期限切れ</dt><dd class="num" style="color:var(--alert)">¥48,000</dd>
+            </dl>
           </div>
         </div>
 
-        <div class="mine"><div class="bub">どこから来た人が契約してる？</div><span class="tm">21:31</span></div>
-        <div class="ai" id="q-media">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>21:31</div>
-          <p class="say">「サロン予約」から来た方は 3 人中 2 人が契約。ホットペッパーと Instagram からは、まだ契約がありません。</p>
+        <div class="left" id="q-call">
+          <div class="who"><span class="kav"><svg class="i s"><use href="#i-msg"/></svg></span><b>声をかける人</b></div>
           <div class="card" data-flash>
-            <div class="card-h"><svg class="i s"><use href="#i-users"/></svg>来たきっかけ別の契約<span class="r">契約した割合</span></div>
-            <div class="media"><span>サロン予約</span><span class="pd"><i class="on"></i><i class="on"></i><i></i></span><span class="rt num">67%</span><span class="sub num">来店 3 ・ 契約 2 ・ 契約 1 件あたり ¥71,500</span></div>
-            <div class="media"><span>紹介</span><span class="pd"><i class="on"></i></span><span class="rt num">100%</span><span class="sub">来店 1 ・ 契約 1</span></div>
-            <div class="media"><span>ホットペッパー</span><span class="pd"><i></i><i></i></span><span class="rt zero num">0%</span><span class="sub">来店 2 ・ 契約 0</span></div>
-            <div class="media"><span>Instagram</span><span class="pd"><i></i></span><span class="rt zero num">0%</span><span class="sub">来店 1 ・ 契約 0</span></div>
-            <div class="legend"><span><i></i>来店した人</span><span><i class="on"></i>契約した人</span><span>人数が少ないので参考に</span></div>
-          </div>
-        </div>
-
-        <div class="mine"><div class="bub">商品は？</div><span class="tm">21:32</span></div>
-        <div class="ai" id="q-prod">
-          <div class="who"><span class="ava"><svg class="i s" style="color:var(--apricot);stroke-width:2.6"><use href="#i-wave"/></svg></span><b>ノート</b>21:32</div>
-          <div class="card" data-flash>
-            <div class="card-h"><svg class="i s"><use href="#i-bag"/></svg>商品別の売上<span class="r num">合計 ¥96,800</span></div>
-            <div class="prod"><div class="top"><span>保湿クリーム<span>12 個</span></span><b class="num">¥52,800</b></div><div class="bar"><i style="width:100%"></i></div></div>
-            <div class="prod"><div class="top"><span>美容液<span>6 本</span></span><b class="num">¥33,000</b></div><div class="bar"><i style="width:62.5%"></i></div></div>
-            <div class="prod"><div class="top"><span>ホームケアマシン<span>1 台</span></span><b class="num">¥11,000</b></div><div class="bar"><i style="width:20.8%"></i></div></div>
+            <div class="card-h">再販と商品切れ</div>
+            <div class="resale">
+              <div><span class="v num">¥288,000</span><span class="lb">再販の見込み合計（3 人）</span></div>
+              <div><span class="v num">50%</span><span class="lb">契約率（結果の入った 2 件）</span></div>
+            </div>
+            <div class="rrow"><span class="tx"><b>ともこ</b><small>再販 ・ 回数券 残 2 ・ 前回の契約 ¥120,000</small></span><svg class="i s" style="color:var(--ink-3)"><use href="#i-right"/></svg></div>
+            <div class="rrow"><span class="tx"><b>今月なくなるはずの人 4 人</b><small>保湿クリーム 3 ・ 美容液 1（使い切りの目安から）</small></span><svg class="i s" style="color:var(--ink-3)"><use href="#i-right"/></svg></div>
           </div>
         </div>
       </div>
 
-      <div class="composer">
-        <div class="chips" id="num-chips"><button class="chip on" type="button" data-target="q-month">今月どう？</button><button class="chip" type="button" data-target="q-staff">担当ごと</button><button class="chip" type="button" data-target="q-media">どこから来た人</button><button class="chip" type="button" data-target="q-prod">商品</button></div>
-        <div class="microw">
-          <span class="side l"><span class="o"><svg class="i"><use href="#i-cal"/></svg></span>月を選ぶ</span>
-          <button class="mic" type="button"><span class="o"><svg class="i xl"><use href="#i-mic"/></svg></span>押して聞く</button>
-          <span class="side r"><span class="o"><svg class="i"><use href="#i-sun"/></svg></span>日報</span>
+      <div class="dock">
+        <div class="chips" id="num-chips" style="padding-bottom:4px">
+          <button class="chip on" type="button" data-target="q-sales"><svg class="i s"><use href="#i-chart"/></svg>売上</button>
+          <button class="chip" type="button" data-target="q-staff"><svg class="i s"><use href="#i-users"/></svg>担当ごと</button>
+          <button class="chip" type="button" data-target="q-prod"><svg class="i s"><use href="#i-bag"/></svg>商品別</button>
+          <button class="chip" type="button" data-target="q-media"><svg class="i s"><use href="#i-search"/></svg>集客媒体</button>
+          <button class="chip" type="button" data-target="q-rate"><svg class="i s"><use href="#i-cal"/></svg>予約と再来</button>
+          <button class="chip" type="button" data-target="q-left"><svg class="i s"><use href="#i-wallet"/></svg>未消化</button>
+          <button class="chip" type="button" data-target="q-call"><svg class="i s"><use href="#i-msg"/></svg>声かけ</button>
         </div>
       </div>
     </div>
-    <p class="aim"><b>この画面の狙い</b>　表を読ませず、聞いてもらう。答えはひとこと＋小さなグラフで、目標の進み具合は上に留めておく。人数が少ない数字は「参考に」と正直に添える。<span class="try"><svg class="i s"><use href="#i-check"/></svg>下の質問ボタンで答えへ移動します</span></p>
+    <p class="aim"><b>この画面の狙い</b>　目標の進み具合と日割りの残りを上に留め、知りたい切り口を下から押すと、その集計がカードで届く（LINE の下のメニューと同じ手つき）。数字は計算した値だけで、AI の文章は入れない。上の「日を選ぶ」でその日の数字に切り替わる。<span class="try"><svg class="i s"><use href="#i-check"/></svg>下の切り口で集計へ移ります</span></p>
+    <p class="uses"><b>使っている要件</b>　FUNC-35（2026-10-10 に範囲を広げた）・19・30 ／ SCR-28（S2）</p>
   </div>
 </div>
 
@@ -770,17 +926,17 @@ Salon Lumière　佐藤</p>
     <h2 id="v-h">正直な評価</h2>
     <div class="verdict">
       <div class="vd"><h3><span class="dot" style="background:var(--ok)"></span>強み</h3><ul>
-        <li><b>入力の壁がいちばん低い。</b>話して「はい」を押すだけなので、1 来店 1〜2 分の確認に最短で届く。</li>
-        <li><b>LINE に慣れた人なら説明がいらない。</b>覚える画面がなく、困ったら「ノート」に聞けばいい。</li>
+        <li><b>入力の壁が低い。</b>話して押すだけで記録と LINE 文面まで 1 本の流れで終わる。</li>
+        <li><b>LINE に慣れた人なら説明がいらない。</b>右が自分、左が相手、下がメニュー、という読み方を最初から知っている。</li>
         <li><b>AI と人の境目が目で見える。</b>点線と実線、話した言葉の引用で、何を確かめたかが残る。</li>
       </ul></div>
       <div class="vd"><h3><span class="dot" style="background:var(--apricot)"></span>弱み</h3><ul>
-        <li><b>見渡すのは苦手。</b>全員を一覧で比べる・月をまたいで比べるといった使い方は、台帳型の案に劣る。</li>
-        <li><b>お客様の前で声を出しにくい場面</b>では、選択肢を押す・写真を撮る道に頼ることになる。</li>
-        <li><b>返事の速さと聞き取りの正確さ</b>が、そのまま使い心地になる。遅いと会話のよさが消える。</li>
+        <li><b>見渡すのは苦手。</b>一覧で比べる・月をまたいで比べるといった使い方は、台帳型の案に劣る。</li>
+        <li><b>長い来店記録は縦に長くなる。</b>欄が多いメニュー（痩身など）では、スクロールが増える。</li>
+        <li><b>聞き取りの精度と返ってくる速さ</b>が、そのまま使い心地になる。遅いと、やりとりの良さが消える。</li>
       </ul></div>
       <div class="vd"><h3><span class="dot" style="background:var(--plum)"></span>向いているサロン</h3><ul>
-        <li><b>1〜2 名で、オーナーが施術に入りっぱなし</b>の店。手が空くのは見送りの後の 30 秒だけ、という店。</li>
+        <li><b>1〜2 名で、オーナーが施術に入りっぱなし</b>の店。手が空くのはお見送りの後の 30 秒だけ、という店。</li>
         <li><b>紙カルテから初めてデジタルに移る</b>店。アプリに慣れていない人ほど効く。</li>
         <li>逆に、スタッフが多く数字を細かく比べたい店には、台帳型との組み合わせをすすめる。</li>
       </ul></div>
@@ -791,58 +947,74 @@ Salon Lumière　佐藤</p>
 
 <script>
 (function(){
-  // 会話の初期位置（LINE と同じく、まだ読んでいない所から開く）
+  // 会話の初期位置
   document.querySelectorAll('.thread').forEach(function(t){
-    var mode=t.getAttribute('data-start');
-    if(mode==='bottom'){t.scrollTop=t.scrollHeight}
-    if(mode==='anchor'){var a=document.getElementById(t.getAttribute('data-anchor'));if(a){t.scrollTop=a.offsetTop-8}}
+    if(t.getAttribute('data-start')==='bottom'){t.scrollTop=t.scrollHeight}
   });
 
-  // 02: 候補の確定 → 保存 → LINE の文面
-  var cands=[].slice.call(document.querySelectorAll('#rec-thread [data-c]'));
-  var save=document.getElementById('save-btn'),label=document.getElementById('save-label');
+  // 02: 候補の確定・手で直す → 保存 → LINE の文面
+  var th=document.getElementById('rec-thread');
+  var cands=[].slice.call(th.querySelectorAll('[data-c]'));
   var saved=false;
+  var hint=document.getElementById('save-hint'),label=document.getElementById('save-label'),save=document.getElementById('save-btn');
+  var sheet=document.getElementById('save-sheet');
+  function left(){return cands.filter(function(c){return !c.classList.contains('is-ok')}).length}
   function update(){
     if(saved)return;
-    var left=cands.filter(function(c){return !c.classList.contains('is-ok')}).length;
-    save.setAttribute('aria-disabled',left?'true':'false');
-    label.textContent=left?('あと '+left+' つ確認して保存'):'保存する';
+    var n=left();
+    hint.textContent=n?('候補のまま '+n+' つ ・ 空の欄があっても保存できます'):'すべて確定しました';
+    document.getElementById('cand-left').textContent=n?('候補 '+n+' つ ・ 確定するまで保存されません'):'すべて確定しました';
   }
   cands.forEach(function(c){
-    var y=c.querySelector('.yes');
-    if(y)y.addEventListener('click',function(){if(!saved){c.classList.toggle('is-ok');update()}});
-    c.querySelectorAll('.opt').forEach(function(o){o.addEventListener('click',function(){
-      c.querySelectorAll('.opt').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-checked','false')});
-      o.classList.add('on');o.setAttribute('aria-checked','true');
-    })});
+    var y=c.querySelector('.yes'),f=c.querySelector('.fix'),v=c.querySelector('.v');
+    if(y)y.addEventListener('click',function(){if(saved)return;c.classList.add('is-ok');v.removeAttribute('contenteditable');update()});
+    if(f)f.addEventListener('click',function(){
+      if(saved)return;
+      if(v.getAttribute('contenteditable')==='true'){v.removeAttribute('contenteditable');c.classList.add('is-ok');f.lastChild.textContent='直す';update();return}
+      v.setAttribute('contenteditable','true');v.focus();f.lastChild.textContent='これで確定';
+    });
   });
-  document.getElementById('all-ok').addEventListener('click',function(){if(saved)return;cands.forEach(function(c){c.classList.add('is-ok')});update()});
-  save.addEventListener('click',function(){
-    if(saved||save.getAttribute('aria-disabled')==='true')return;
-    saved=true;
-    save.classList.add('done');label.textContent='保存しました';
+  document.getElementById('all-ok').addEventListener('click',function(){if(saved)return;cands.forEach(function(c){c.classList.add('is-ok');c.querySelector('.v').removeAttribute('contenteditable')});update()});
+  function doSave(){
+    saved=true;sheet.classList.remove('show');
+    save.classList.add('done');label.textContent='文面をコピーする';hint.textContent='コピーした日時は記録に残ります';
     document.getElementById('line-ghost').style.display='none';
-    var card=document.getElementById('line-card');card.classList.add('show');
-    var th=document.getElementById('rec-thread');
-    th.scrollTo({top:card.offsetTop-8,behavior:'smooth'});
+    var a=document.getElementById('after');a.classList.add('show');
+    th.scrollTo({top:a.offsetTop-8,behavior:'smooth'});
+  }
+  save.addEventListener('click',function(){
+    if(saved){
+      var txt=document.getElementById('line-text').innerText;
+      var ok=function(){document.getElementById('copied').classList.add('show');label.textContent='コピーしました';var c=document.getElementById('copied');th.scrollTo({top:c.offsetTop-120,behavior:'smooth'})};
+      try{navigator.clipboard.writeText(txt).then(ok,ok)}catch(e){ok()}
+      return;
+    }
+    if(left()){sheet.classList.add('show');th.scrollTo({top:sheet.offsetTop-80,behavior:'smooth'});return}
+    doSave();
   });
-  var copy=document.getElementById('copy-btn');
-  copy.addEventListener('click',function(){
-    var txt=document.getElementById('line-text').textContent;
-    var done=function(){copy.lastChild.textContent='コピーしました。LINE に貼りつけて送れます'};
-    try{navigator.clipboard.writeText(txt).then(done,done)}catch(e){done()}
-  });
+  document.getElementById('confirm-save').addEventListener('click',function(){cands.forEach(function(c){c.classList.add('is-ok')});update();doSave()});
+  document.getElementById('drop-btn').addEventListener('click',function(){cands.forEach(function(c){if(!c.classList.contains('is-ok'))c.style.display='none'});doSave()});
   update();
 
-  // 04: 質問ボタン → その答えへ
+  // 03: タブ（上の人・警告・注意点は固定のまま）
+  var ct=document.getElementById('cust-thread');
+  document.querySelectorAll('#ptabs button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#ptabs button').forEach(function(x){x.setAttribute('aria-selected','false')});
+      b.setAttribute('aria-selected','true');
+      ct.querySelectorAll('.tabpanel').forEach(function(p){p.classList.toggle('show',p.id===b.getAttribute('data-tab'))});
+      ct.scrollTop=b.getAttribute('data-tab')==='t-rec'?ct.scrollHeight:0;
+    });
+  });
+
+  // 04: 切り口 → その集計へ
   var nt=document.getElementById('num-thread');
   document.querySelectorAll('#num-chips .chip').forEach(function(ch){
     ch.addEventListener('click',function(){
       document.querySelectorAll('#num-chips .chip').forEach(function(x){x.classList.remove('on')});
       ch.classList.add('on');
       var a=document.getElementById(ch.getAttribute('data-target'));if(!a)return;
-      var q=a.previousElementSibling;
-      nt.scrollTo({top:(q?q.offsetTop:a.offsetTop)-8,behavior:'smooth'});
+      nt.scrollTo({top:a.offsetTop-8,behavior:'smooth'});
       var c=a.querySelector('[data-flash]');if(c){c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')}
     });
   });
