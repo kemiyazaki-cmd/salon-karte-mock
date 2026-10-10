@@ -520,6 +520,9 @@ a.chip:hover{border-color:var(--main-700)}
 #SCR-28 .body{gap:18px;padding-bottom:28px}
 #SCR-28 .body>.state-view.on{display:flex;flex-direction:column;gap:18px}
 #SCR-28 a.item{text-decoration:none;color:inherit}
+/* スタッフで見たとき（2026-10-10）: 目標を入れる入口（ボタンと空の表示の 1 文）を出さない */
+#SCR-28 .state-view[data-state="staff"].on{display:none}
+#SCR-28:has(.state-view[data-state="staff"].on) [data-open="goal"],#SCR-28:has(.state-view[data-state="staff"].on) .m-owner{display:none}
 #SCR-28 .segm span{min-height:44px;cursor:pointer}
 .m-switch{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .daynav u.off{opacity:.35}
@@ -737,7 +740,7 @@ table.grid td.m-na{color:var(--text-meta)}
           <a class="item" href="#SCR-15" style="text-decoration:none;color:inherit"><div class="main"><div class="name">未処理の回答 <span class="count">2</span> <span class="badge scope">S2</span></div><div class="meta">かなこ ・ M.T ・ フォームから</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
           <a class="item" href="#SCR-15:line" style="text-decoration:none;color:inherit"><div class="main"><div class="name">まだ結びついていない LINE <span class="count">3</span> <span class="badge scope">S2</span></div><div class="meta">Yuka ・ m.tanaka ・ ほか 1 人</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
         </div>
-        <span class="label m-home">お店の数字 <span class="badge scope">S2</span> <span class="badge scope">オーナーだけ</span></span>
+        <span class="label m-home">お店の数字 <span class="badge scope">S2</span> <span class="badge scope">オーナー・スタッフ</span></span>
         <div class="list"><a class="item" href="#SCR-28" style="text-decoration:none;color:inherit"><svg class="i" style="color:var(--main-700)"><use href="#i-chart"/></svg><div class="main"><div class="name">今月の数字</div><div class="meta">売上・目標・担当ごと</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a></div>
         <div class="errorbox state-view" data-state="limit"><b>今月の AI 利用が上限に達しました</b>録音と紙は保存してあり、11/1 に読み取ります。急ぐときは、設定の「AI 利用」で「続けて使う」にできます。</div>
         <div class="errorbox state-view" data-state="limitstaff"><b>今月の AI 利用が上限に達しました</b>録音と紙は保存してあり、11/1 に読み取ります。急ぐときはオーナーに伝えてください。</div>
@@ -1923,7 +1926,7 @@ table.grid td.m-na{color:var(--text-meta)}
 
 <!-- ================= SCR-28（S2。2026-10-10。docs/shared/compe-0.html の「04 今月の数字」から移した） ================= -->
 <section class="screen" id="SCR-28">
-  <p class="screen-title"><b>SCR-28 今月の数字</b> ／ FUNC-35, 19 ・ S2 ・ オーナーだけ ・ 総売上と目標を主役に、下に内訳・率・担当・商品・集客媒体。「日ごと」で日報の 1 日分（モックは 10/7 に送った表示）</p>
+  <p class="screen-title"><b>SCR-28 今月の数字</b> ／ FUNC-35, 19 ・ S2 ・ オーナーとスタッフ（目標を入れるのはオーナーだけ。「スタッフで見る」で入口が消える） ・ 総売上と目標を主役に、下に内訳・率・担当・商品・集客媒体。「日ごと」で日報の 1 日分（モックは 10/7 に送った表示）</p>
   <div class="phone">
     <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><b>今月の数字</b></p><a class="back" href="#SCR-03" aria-label="戻る"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1>今月の数字</h1></div>
     <div class="body">
@@ -2046,7 +2049,7 @@ table.grid td.m-na{color:var(--text-meta)}
           <div class="segm" role="group" aria-label="月か日か"><span class="on" data-go="empty" role="button" tabindex="0" aria-pressed="true">月</span><span data-go="day" role="button" tabindex="0" aria-pressed="false">日ごと</span></div>
           <span class="daynav"><u data-href="#SCR-28:month" aria-label="前の月"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>11月</b><u data-href="#SCR-28:empty" class="off" aria-label="次の月"><svg class="i"><use href="#i-chevron-right"/></svg></u></span>
         </div>
-        <div class="empty"><h3>11月の記録はまだありません</h3><p class="sub">来店記録の会計を保存すると、ここに数字が出ます。目標は先に入れておけます。</p><a class="btn sm" href="#SCR-28" data-open="goal"><svg class="i"><use href="#i-pen"/></svg>目標を入れる</a></div>
+        <div class="empty"><h3>11月の記録はまだありません</h3><p class="sub">来店記録の会計を保存すると、ここに数字が出ます。<span class="m-owner">目標は先に入れておけます。</span></p><a class="btn sm" href="#SCR-28" data-open="goal"><svg class="i"><use href="#i-pen"/></svg>目標を入れる</a></div>
       </div>
 
       <div class="state-view" data-state="loading"><div class="skeleton" style="height:44px"></div><div class="skeleton" style="height:180px"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
@@ -2074,8 +2077,10 @@ table.grid td.m-na{color:var(--text-meta)}
       </div>
       <div class="row2"><a class="btn" href="#SCR-28" data-close="goal"><svg class="i"><use href="#i-x"/></svg>やめる</a><a class="btn primary" href="#SCR-28" data-close="goal"><svg class="i"><use href="#i-check"/></svg>保存する</a></div>
     </div></div>
+    <!-- スタッフで見たとき（2026-10-10 宮崎決定）: 数字はオーナーと同じ。目標は見るだけで、目標を入れる入口を出さない（印だけで表示はしない） -->
+    <div class="state-view" data-state="staff"></div>
   </div>
-  <div class="statebar">状態: <button data-toggle="month" class="on">月</button><button data-toggle="day">日ごと</button><button data-toggle="goal">目標を入れる（シート）</button><button data-toggle="empty">空（記録が無い月）</button><button data-toggle="loading">読み込み中</button><button data-toggle="error">エラー</button></div>
+  <div class="statebar">状態: <button data-toggle="month" class="on">月</button><button data-toggle="day">日ごと</button><button data-toggle="goal">目標を入れる（シート）</button><button data-toggle="empty">空（記録が無い月）</button><button data-toggle="loading">読み込み中</button><button data-toggle="error">エラー</button>　見る人: <button data-toggle="staff">スタッフで見る</button></div>
 </section>
 
 </main>
@@ -2111,7 +2116,7 @@ table.grid td.m-na{color:var(--text-meta)}
   var qs=new URLSearchParams(location.search).get('state'); if(qs){setTimeout(function(){var sec=document.querySelector('section.screen.active'); if(!sec)return; var b=sec.querySelector('.statebar button[data-toggle="'+qs+'"]'); if(b) b.click();},0);}
   var qv=new URLSearchParams(location.search).get('v'); if(qv==='tablet'||qv==='pc'){document.querySelector('main.stage').classList.add('view-'+qv);document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-view')===qv);});}
   // 状態切り替え: 「排他」グループと「重ねる」グループ
-  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','limitstaff','ext','acct'],'SCR-04':['dup','acct'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo','unread','ticket','acct'],'SCR-07':['error','consent','buy','shot','date','second','delphoto','goods','pick','pickadd','prepaid','nobal','acct'],'SCR-08':['limit','over10','noai','multidate'],'SCR-10':['add','error'],'SCR-12':['dual','acct'],'SCR-13':['add','acct'],'SCR-14':['done'],'SCR-15':['dismiss'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error','free0'],'SCR-21':['copied','limit','sent','changed','skipped','line'],'SCR-26':[],'SCR-28':['goal']};
+  var OVERLAY={'SCR-01':['error','reset','locked','newpw'],'SCR-02':['error'],'SCR-03':['limit','limitstaff','ext','acct'],'SCR-04':['dup','acct'],'SCR-05':['more','dup','error'],'SCR-06':['ai','taboo','unread','ticket','acct'],'SCR-07':['error','consent','buy','shot','date','second','delphoto','goods','pick','pickadd','prepaid','nobal','acct'],'SCR-08':['limit','over10','noai','multidate'],'SCR-10':['add','error'],'SCR-12':['dual','acct'],'SCR-13':['add','acct'],'SCR-14':['done'],'SCR-15':['dismiss'],'SCR-16':['confirm','error','done'],'SCR-17':['error','dupvisit'],'SCR-18':['error','free0'],'SCR-21':['copied','limit','sent','changed','skipped','line'],'SCR-26':[],'SCR-28':['goal','staff']};
   document.querySelectorAll('.statebar button').forEach(function(b){
     b.addEventListener('click',function(){
       var sec=b.closest('section'); var st=b.getAttribute('data-toggle');
