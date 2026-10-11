@@ -510,6 +510,10 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 /* 2026-10-09 11 §1 V-06: プリペイド払いの状態では回数券の消化の行を隠す。残高不足の状態では通常の残高の行を隠す */
 #SCR-07 .state-view[data-state="s3"]:has(.state-view[data-state="prepaid"].on) .amt{display:none}
 .amt-edit:has(.state-view[data-state="nobal"].on) .bal.ok{display:none}
+/* 2026-10-11 社販の印（03 §5 #42）: 来店に 1 つの切り替え。金額の行を開いて直している間は出さない（1 表示の ？ を 5 個までに） */
+.staffbuy{display:flex;flex-direction:column}
+.staffbuy-row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px}
+#SCR-07 .state-view[data-state="s3"]:has(.state-view[data-state="goods"].on) .staffbuy{display:none}
 .textarea.long{min-height:132px;line-height:1.8}
 .bubble .after{display:block;border-top:1px solid var(--main-300);margin-top:10px;padding-top:10px}
 .pickchips .chip{white-space:nowrap}
@@ -980,6 +984,7 @@ table.grid td.m-na{color:var(--text-meta)}
             <div class="amt-row"><div class="amt-top"><span class="badge">物販</span><span class="amt-name">ホームケア美容液 × 2</span><b class="amt-yen">¥13,200</b></div><p class="meta">化粧品 ・ 担当 <u data-href="#SCR-07"><svg class="i"><use href="#i-user"/></svg>鈴木</u> ・ カード ・ お渡し済み ・ <a class="lnk" href="#SCR-07" data-open="goods"><svg class="i"><use href="#i-pen"/></svg>開く</a></p></div>
           </div>
           <a class="btn sm block" href="#SCR-07" data-open="goods"><svg class="i"><use href="#i-plus"/></svg>行を足す</a>
+          <div class="staffbuy"><div class="staffbuy-row"><span class="sub helprow">社販<button type="button" class="help" aria-expanded="false" aria-controls="help-07-staffbuy" aria-label="社販の説明"><svg class="i"><use href="#i-help"/></svg></button></span><span class="toggle"><i></i></span></div><div class="helptip" id="help-07-staffbuy" role="note">スタッフ自身の購入。個人売上から外れます。</div></div>
         </div>
         <div class="state-view" data-state="goods"><div class="hero light amt-edit"><div class="eyebrow"><span>金額の行 ・ 物販</span></div>
           <div class="chips"><span class="chip">施術</span><span class="chip on">物販</span><span class="chip">コース購入</span><span class="chip">コース消化</span></div>
