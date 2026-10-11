@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ホームのファーストビュー案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
+<style>
+/* A 社「話しかけるカルテ」の決まり（03 §3）で、ホームの最初に見える範囲だけを 5 案並べる */
+:root{
+  --main-100:#F1E9F5; --main-300:#CBB7DA; --main-500:#7A5A94; --main-700:#5A3A74;
+  --accent-100:#FFE6D8; --accent-700:#A04E2A;
+  --error:#BC2C27; --error-100:#FCE8E5; --done:#2C765B; --done-100:#E2F1E9;
+  --bg:#FBF6F3; --surface:#FFFDFB; --sunk:#F5EEEB; --line:#DCCFD8;
+  --t1:#2A2030; --t2:#62576A; --t3:#6F6473;
+  --r-card:16px; --r-pill:999px; --shadow:0 1px 2px rgba(42,32,48,.06),0 6px 18px rgba(42,32,48,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t1);font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;font-size:14px;line-height:1.7}
+main{max-width:2000px;margin:0 auto;padding:36px 16px 72px;display:grid;gap:28px}
+h1{font-size:26px;margin:0}
+.lead{color:var(--t2);max-width:880px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:26px;align-items:start}
+.opt{display:grid;gap:12px}
+.opt h2{font-size:17px;margin:0}
+.opt h2 small{display:block;font-size:12.5px;color:var(--t3);font-weight:400}
+.phone{width:100%;max-width:360px;height:700px;border-radius:34px;border:8px solid #2A2030;background:var(--bg);overflow:hidden;display:flex;flex-direction:column;position:relative;box-shadow:var(--shadow)}
+.top{padding:14px 16px 8px;display:flex;justify-content:space-between;align-items:center}
+.date{font-weight:700;font-size:19px}.date small{font-size:12.5px;color:var(--t3);font-weight:400;margin-left:6px}
+.avatar{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--main-300);display:grid;place-items:center;color:var(--main-700)}
+.search{margin:4px 14px 10px;height:42px;border-radius:var(--r-pill);background:var(--surface);border:1.5px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--t3)}
+.scroll{flex:1;overflow:hidden;padding:0 14px}
+.tabs{height:62px;border-top:1px solid var(--line);background:var(--surface);display:grid;grid-template-columns:repeat(4,1fr);font-size:11.5px;color:var(--t3);text-align:center;align-items:center}
+.tabs b{color:var(--main-700);font-weight:700}
+.sect{font-size:12.5px;color:var(--t3);margin:12px 2px 6px;display:flex;justify-content:space-between}
+.row{display:grid;grid-template-columns:48px 1fr auto;gap:8px;align-items:center;padding:9px 4px;border-bottom:1px solid var(--line)}
+.row .t{font-weight:700;color:var(--t2)} .row .n{font-weight:700;font-size:15px} .row .m{font-size:12px;color:var(--t3)}
+.row.next{background:var(--main-100);border-radius:12px;border-bottom:none;padding:10px 8px;margin:2px -4px}
+.badge{font-size:11.5px;border-radius:var(--r-pill);padding:1px 9px;white-space:nowrap}
+.b-done{background:var(--done-100);color:var(--done)} .b-next{background:var(--main-700);color:#fff} .b-yet{border:1px solid var(--line);color:var(--t2)} .b-new{background:var(--accent-100);color:var(--accent-700)}
+.warn{display:inline-flex;gap:4px;align-items:center;background:var(--error-100);color:var(--error);font-size:11.5px;font-weight:700;border-radius:var(--r-pill);padding:1px 9px;margin-top:3px}
+.later{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:10px 12px;font-size:13px;margin-top:6px}
+.btn{height:48px;border-radius:var(--r-pill);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700}
+.btn.p{background:var(--main-700);color:#fff}.btn.o{border:1.5px solid var(--main-300);color:var(--main-700);background:var(--surface)}
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 0 6px}
+.big3 div{background:var(--surface);border:1.5px solid var(--main-300);border-radius:var(--r-card);height:86px;display:grid;place-items:center;text-align:center;color:var(--main-700);font-weight:700;font-size:13px}
+.big3 div.p{background:var(--main-700);color:#fff;border-color:var(--main-700)}
+.big3 svg{display:block;margin:0 auto 4px}
+.fab{position:absolute;left:50%;transform:translateX(-50%);bottom:74px;width:76px;height:76px;border-radius:50%;background:var(--main-700);color:#fff;display:grid;place-items:center;box-shadow:0 8px 22px rgba(90,58,116,.35)}
+.fabnote{position:absolute;left:0;right:0;bottom:154px;text-align:center;font-size:12px;color:var(--t2)}
+.fabnote span{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-pill);padding:3px 10px}
+.task{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:12px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-bottom:8px;box-shadow:var(--shadow)}
+.task .k{font-size:12px;color:var(--t3)} .task .v{font-weight:700}
+.task .go{height:36px;padding:0 14px;border-radius:var(--r-pill);border:1.5px solid var(--main-300);color:var(--main-700);display:flex;align-items:center;font-weight:700;font-size:13px}
+.task.w{border-color:var(--error-100);background:#FFF9F8}
+.strip{margin:0 0 6px;background:var(--main-700);color:#fff;border-radius:14px;padding:9px 12px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.strip .w2{background:var(--error-100);color:var(--error);font-weight:700;border-radius:var(--r-pill);padding:0 8px;font-size:11.5px}
+.note{font-size:13px;color:var(--t2)}
+.pc{display:grid;gap:4px;font-size:13px}
+.pc b{font-weight:700}
+.good::before{content:"○ ";color:var(--done);font-weight:700}
+.bad::before{content:"△ ";color:var(--accent-700);font-weight:700}
+.rec{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--main-700);border-radius:10px;padding:14px 16px;display:grid;gap:6px;max-width:980px}
+.rec ul{margin:0;padding-left:1.2em}
+</style>
+</head>
+<body>
+<main>
+  <header style="display:grid;gap:8px">
+    <p style="margin:0;font-size:12px;color:var(--t3);letter-spacing:.1em">SALONOTE ／ ホーム（SCR-03）のファーストビュー案 ／ 2026-10-11</p>
+    <h1>ホームのファーストビュー案</h1>
+    <p class="lead">「次のお客様」の大きなカードを外したときに、最初に見える範囲（スマホ 1 画面）をどう組むかの 5 案。どの案も機能は今の要件（S1）のまま：今日来る人・あとで・話して記録／撮る・検索・禁忌の警告。<b>大きなカードを外しても、禁忌の警告が施術前に必ず目に入ること</b>（要件の最優先の一つ）を、各案でどう守るかを添えた。</p>
+  </header>
+
+  <section class="grid">
+
+    <!-- 案 1 -->
+    <div class="opt">
+      <h2>案 1　外すだけ（一覧が主役）<small>今日の流れをそのまま最初に</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<small>水曜日</small></span><span class="avatar">●</span></div>
+        <div class="search">⌕ 名前か電話番号で探す</div>
+        <div class="scroll">
+          <div class="sect"><span>今日の流れ</span><span>今日 2 人記録しました</span></div>
+          <div class="row"><span class="t">9:30</span><span><span class="n">ともこ</span><br><span class="m">8回目・フェイシャル</span></span><span class="badge b-done">済</span></div>
+          <div class="row"><span class="t">10:00</span><span><span class="n">あやの</span><br><span class="m">5回目・脱毛</span></span><span class="badge b-done">済</span></div>
+          <div class="row next"><span class="t">11:00</span><span><span class="n">みさき</span><br><span class="m">12回目・フェイシャル・残 6</span><br><span class="warn">⚠ 妊娠中・光過敏</span></span><span class="badge b-next">次</span></div>
+          <div class="row"><span class="t">14:00</span><span><span class="n">ゆか</span> <span class="badge b-new">はじめて</span><br><span class="m">体験フェイシャル</span></span><span class="badge b-yet">まだ</span></div>
+          <div class="row"><span class="t">16:30</span><span><span class="n">はるか</span><br><span class="m">9回目・脱毛（全身）</span></span><span class="badge b-yet">まだ</span></div>
+          <div class="sect"><span>あとで</span></div>
+          <div class="later">あやの様　お客様に送っていない文面　›</div>
+        </div>
+        <div class="tabs"><b>今日</b><span>お客様</span><span>＋記録</span><span>設定</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">いちばん静かで、5 人全員が最初から見える。作るものが一番少ない</span>
+        <span class="good">「次」の行だけ淡く塗り、警告は行の中のチップで出す</span>
+        <span class="bad">施術後に「話して記録」まで、タブの「＋記録」→ 人を選ぶ、の 2 手かかる</span>
+        <span class="bad">警告が行の小さなチップだけになり、目に入る強さは弱まる（顧客詳細と記録の画面の帯で補う）</span>
+      </div>
+    </div>
+
+    <!-- 案 2 -->
+    <div class="opt">
+      <h2>案 2　大きな入口を 3 つ<small>やることの入口を最初に</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<small>水曜日</small></span><span class="avatar">●</span></div>
+        <div class="scroll">
+          <div class="big3">
+            <div class="p"><span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>話して記録</span></div>
+            <div><span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>撮る</span></div>
+            <div><span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>探す</span></div>
+          </div>
+          <div class="sect"><span>今日の流れ</span><span>今日 2 人記録しました</span></div>
+          <div class="row"><span class="t">9:30</span><span><span class="n">ともこ</span></span><span class="badge b-done">済</span></div>
+          <div class="row"><span class="t">10:00</span><span><span class="n">あやの</span></span><span class="badge b-done">済</span></div>
+          <div class="row next"><span class="t">11:00</span><span><span class="n">みさき</span><br><span class="warn">⚠ 妊娠中・光過敏</span></span><span class="badge b-next">次</span></div>
+          <div class="row"><span class="t">14:00</span><span><span class="n">ゆか</span> <span class="badge b-new">はじめて</span></span><span class="badge b-yet">まだ</span></div>
+          <div class="row"><span class="t">16:30</span><span><span class="n">はるか</span></span><span class="badge b-yet">まだ</span></div>
+          <div class="sect"><span>あとで</span></div>
+          <div class="later">あやの様　お客様に送っていない文面　›</div>
+        </div>
+        <div class="tabs"><b>今日</b><span>お客様</span><span>＋記録</span><span>設定</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">施術後に開いて、すぐ「話して記録」を押せる（記録先は次の人を候補に出す）</span>
+        <span class="good">アナログな人でも、押す場所が一目で分かる</span>
+        <span class="bad">入口が画面の上にあり、片手の親指から遠い</span>
+        <span class="bad">下部タブの「＋記録」と役割が重なる（タブ側を外す整理が要る）</span>
+      </div>
+    </div>
+
+    <!-- 案 3 -->
+    <div class="opt">
+      <h2>案 3　親指の位置に大きなマイク<small>一覧＋下に「話して記録」を 1 つ</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<small>水曜日</small></span><span class="avatar">●</span></div>
+        <div class="search">⌕ 名前か電話番号で探す</div>
+        <div class="scroll">
+          <div class="sect"><span>今日の流れ</span><span>今日 2 人記録しました</span></div>
+          <div class="row"><span class="t">9:30</span><span><span class="n">ともこ</span><br><span class="m">8回目・フェイシャル</span></span><span class="badge b-done">済</span></div>
+          <div class="row"><span class="t">10:00</span><span><span class="n">あやの</span><br><span class="m">5回目・脱毛</span></span><span class="badge b-done">済</span></div>
+          <div class="row next"><span class="t">11:00</span><span><span class="n">みさき</span><br><span class="m">12回目・残 6</span><br><span class="warn">⚠ 妊娠中・光過敏</span></span><span class="badge b-next">次</span></div>
+          <div class="row"><span class="t">14:00</span><span><span class="n">ゆか</span> <span class="badge b-new">はじめて</span></span><span class="badge b-yet">まだ</span></div>
+        </div>
+        <div class="fabnote"><span>みさき様の記録を話す</span></div>
+        <div class="fab"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+        <div class="tabs"><b>今日</b><span>お客様</span><span></span><span>設定</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">片手の親指で、施術後すぐ 1 手で話し始められる（A 社の「話しかける」に一番合う）</span>
+        <span class="good">マイクの上に「誰の記録か」を出すので、取り違えにくい（違えば押して選び直す）</span>
+        <span class="bad">マイクが一覧の下の方に重なり、5 人目以降は少しスクロールが要る</span>
+        <span class="bad">撮る・紙の取り込みの入口は、マイクの長押しかタブ側に回す必要がある</span>
+      </div>
+    </div>
+
+    <!-- 案 4 -->
+    <div class="opt">
+      <h2>案 4　「いまやること」だけ先に<small>やることのカード → 今日の流れ</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<small>水曜日</small></span><span class="avatar">●</span></div>
+        <div class="search">⌕ 名前か電話番号で探す</div>
+        <div class="scroll">
+          <div class="sect"><span>いまやること</span><span>3</span></div>
+          <div class="task w"><span><span class="k">11:00 みさき様の前に</span><br><span class="v">⚠ 妊娠中・光過敏を確かめる</span></span><span class="go">確認</span></div>
+          <div class="task"><span><span class="k">10:00 あやの様</span><br><span class="v">送っていない文面</span></span><span class="go">送る</span></div>
+          <div class="task"><span><span class="k">16:30 はるか様</span><br><span class="v">書きかけの記録</span></span><span class="go">続き</span></div>
+          <div class="sect"><span>今日の流れ</span><span>今日 2 人記録しました</span></div>
+          <div class="row"><span class="t">9:30</span><span class="n">ともこ</span><span class="badge b-done">済</span></div>
+          <div class="row"><span class="t">10:00</span><span class="n">あやの</span><span class="badge b-done">済</span></div>
+          <div class="row next"><span class="t">11:00</span><span class="n">みさき</span><span class="badge b-next">次</span></div>
+        </div>
+        <div class="tabs"><b>今日</b><span>お客様</span><span>＋記録</span><span>設定</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">開いた瞬間に「次に何をするか」が分かる。警告の確認もやることの 1 枚として必ず出る</span>
+        <span class="good">「あとで」と「次のお客様」を 1 か所にまとめられ、画面の部品が減る</span>
+        <span class="bad">やることが多い日はカードが積み上がり、今日の流れが下に押される（上限 3 枚＋「ほか n 件」で抑える）</span>
+        <span class="bad">「やること」の並べ方の決まり（何を優先するか）を新しく決める必要がある</span>
+      </div>
+    </div>
+
+    <!-- 案 5 -->
+    <div class="opt">
+      <h2>案 5　次のお客様を 1 行に縮める<small>細い帯＋今日の流れ</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<small>水曜日</small></span><span class="avatar">●</span></div>
+        <div class="search">⌕ 名前か電話番号で探す</div>
+        <div class="scroll">
+          <div class="strip"><span style="font-weight:700">11:00</span><span><b>みさき様</b>　<span class="w2">⚠ 妊娠中・光過敏</span></span><span>›</span></div>
+          <div class="sect"><span>今日の流れ</span><span>今日 2 人記録しました</span></div>
+          <div class="row"><span class="t">9:30</span><span><span class="n">ともこ</span><br><span class="m">8回目・フェイシャル</span></span><span class="badge b-done">済</span></div>
+          <div class="row"><span class="t">10:00</span><span><span class="n">あやの</span><br><span class="m">5回目・脱毛</span></span><span class="badge b-done">済</span></div>
+          <div class="row"><span class="t">11:00</span><span><span class="n">みさき</span><br><span class="m">12回目・残 6</span></span><span class="badge b-next">次</span></div>
+          <div class="row"><span class="t">14:00</span><span><span class="n">ゆか</span> <span class="badge b-new">はじめて</span></span><span class="badge b-yet">まだ</span></div>
+          <div class="row"><span class="t">16:30</span><span><span class="n">はるか</span></span><span class="badge b-yet">まだ</span></div>
+          <div class="sect"><span>あとで</span></div>
+          <div class="later">あやの様　お客様に送っていない文面　›</div>
+        </div>
+        <div class="tabs"><b>今日</b><span>お客様</span><span>＋記録</span><span>設定</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">次のお客様と警告は上に残しつつ、面積は 5 分の 1 に。今日の流れが全部見える</span>
+        <span class="good">押すと顧客詳細へ。今の作りからの変更が一番小さい</span>
+        <span class="bad">「今回気をつけること」は帯に入らないので、顧客詳細を開いて読む前提になる</span>
+        <span class="bad">施術後の「話して記録」の近道は今と同じ（タブの「＋記録」）</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="rec">
+    <b>宮崎側の見立て</b>
+    <ul>
+      <li><b>「施術後すぐ話す」を一番速くしたいなら 案 3</b>（親指の位置のマイク＋誰の記録かを上に出す）。A 社のコンセプトに一番合う</li>
+      <li><b>警告の見落としを一番防ぎたいなら 案 4</b>（警告の確認が「いまやること」の 1 枚として必ず出る）</li>
+      <li><b>変更を最小にしたいなら 案 5</b>（次のお客様を細い帯に縮めるだけ）</li>
+      <li>組み合わせ（例: 案 5 の細い帯＋案 3 の下のマイク）もできる。どれも機能・記録の持ち方は今のまま</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

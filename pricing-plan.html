@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<!-- 改訂 2026-10-11: 12 の反映（2026-10-11 宮崎決定）。AI の上限は「止める」だけ（従量は後の段階）・名前だけのスタッフは数えない・スタッフは月末の人数・年払いは課金の仕組みができるまで受けない・会話録音は精度を確かめてから提供の時期と料金を決める。数字は変えていない -->
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>SALONOTE 料金プラン案</title>
@@ -9,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600&display=swap">
 <style>
-/* Layout: one reading column on ivory, numbers set in Mincho, colour used only as thin gold rules (SALONOTE tokens, 03-spec §3) */
+/* Layout: one reading column on ivory, numbers set in Mincho, colour used only as thin gold rules */
 :root{
   --bg:#F8F5EF; --surface:#FDFBF7; --tint:#F1EBE1; --rule:#D6C7AE; --gold:#9A7B4F; --bronze:#6F5633; --ink-strong:#3F311D;
   --fg:#1F1B17; --fg2:#5C544B; --meta:#8C8378; --err:#8E2F2F; --ok:#4F6B3A;
@@ -110,25 +111,27 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
           <li>3 名の店で月 8,940 円（1 万円以内）</li>
           <li>人数が増えても原価はほぼ増えない</li>
           <li>招待を受け入れると自動で加わる</li>
+          <li>ログインしない人（名前だけ）は数えません</li>
         </ul>
       </div>
       <div class="plan">
-        <span class="name">AI の上限を超えた分（従量）</span>
+        <span class="name">AI の上限を超えた分（従量・後の段階）</span>
         <span class="price">使った分だけ<small>翌月にまとめて請求</small></span>
         <ul>
           <li>音声メモ 1 分 10 円</li>
           <li>紙カルテ・問診票の読み取り 1 枚 5 円</li>
           <li>LINE 文面 1 回 1 円</li>
-          <li>「続けて使う」を選んだサロンだけ。既定は上限で止める</li>
+          <li>いまは上限で止めます。「続けて使う」の選択は後の段階で足します</li>
         </ul>
       </div>
     </div>
     <div class="chips" aria-label="その他の条件">
       <span class="chip">会話録音（2 段目から）の無料枠を超えたら <b>1 回 150 円</b> か <b>20 回 2,980 円</b></span>
       <span class="chip">初期費用 <b>0 円</b>（導入の伴走は別メニュー）</span>
-      <span class="chip">年払いは <b>2 か月分割引</b></span>
+      <span class="chip">スタッフは <b>月末の人数</b>で数えます</span>
+      <span class="chip">年払いは <b>2 か月分割引</b>（課金の仕組みができるまでは受けません）</span>
     </div>
-    <p class="note">AI はプランの月額の 25% までを月額に含みます（基本 1,245 円・スクール生 745 円。スタッフ 1 名ごとに +495 円）。超えたら「止める」か「続けて使い、超えた分を使った分だけ払う」かをサロンが選びます（従量の単価は上の表。会話録音は別の料金）。どちらでもスクール側がマイナスになることはありません。始めたばかりの月に紙カルテをまとめて取り込むと、スクール生プランは上限を超えて読み取りが止まることがあります。そのときはスクールに連絡してもらい、こちらで上限を上げます。</p>
+    <p class="note">AI はプランの月額の 25% までを月額に含みます（基本 1,245 円・スクール生 745 円。スタッフ 1 名ごとに +495 円）。超えたらいまは止めます（撮影・録音は保存し、読み取りは上限が戻ってから行います）。続けて使い、超えた分を使った分だけ払う選択は後の段階で足します（従量の単価は上の表。会話録音は別の料金）。どちらでもスクール側がマイナスになることはありません。始めたばかりの月に紙カルテをまとめて取り込むと、スクール生プランは上限を超えて読み取りが止まることがあります。そうならないよう、サロンを作った直後にこちらで初めの月の上限を先に上げ、翌月 1 日に戻します。会話録音は精度を確かめてから、提供の時期と料金を決めます（ボディは対象外の見込みです）。</p>
   </section>
 
   <section class="stack" aria-labelledby="s-why">
@@ -189,7 +192,7 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
           <tr><td>初期費用</td><td style="text-align:left;white-space:normal">29,800 円（Pro 49,800 円）</td><td style="text-align:left;white-space:normal">0 円。導入の伴走は別メニュー（例: 19,800 円・任意）</td></tr>
           <tr><td>プランの分け方</td><td style="text-align:left;white-space:normal">機能で分ける（Standard から LINE 連携・問診など）</td><td style="text-align:left;white-space:normal">機能は全員同じ。分けるのは人数と会話録音</td></tr>
           <tr><td>月額</td><td style="text-align:left;white-space:normal">Solo 9,800 円・Standard 19,800 円</td><td style="text-align:left;white-space:normal">基本 4,980 円 ＋ 1 名 1,980 円（3 名で 8,940 円）</td></tr>
-          <tr><td>AI の上限</td><td style="text-align:left;white-space:normal">音声処理時間に月の上限</td><td style="text-align:left;white-space:normal">金額で上限（月額の 25%）。超えたら止めるか従量かを選ぶ</td></tr>
+          <tr><td>AI の上限</td><td style="text-align:left;white-space:normal">音声処理時間に月の上限</td><td style="text-align:left;white-space:normal">金額で上限（月額の 25%）。超えたら止める（従量で続ける選択は後の段階）</td></tr>
         </tbody>
       </table>
     </div>
@@ -200,7 +203,7 @@ footer{font-size:12px;color:var(--meta);border-top:1px solid var(--rule);padding
     <ol class="decide">
       <li><b>価格の水準</b><span>基本 4,980 円・スクール生 2,980 円・スタッフ追加 1 名 1,980 円でよいか。</span></li>
       <li><b>会話録音の扱い</b><span>無料枠（基本 15 回・スクール生 10 回）と、超えた分の 1 回 150 円・20 回 2,980 円でよいか。「1 回」は 1 回の来店で録った会話 1 本分です。20 回 2,980 円は 1 回ずつ 20 回払う（3,000 円）のとほぼ同じなので、精度を確かめて料金を決めるときにあわせて見直します。</span></li>
-      <li><b>AI の上限を超えたとき</b><span>「止める」と「続けて使い、超えた分を従量で払う」のどちらを既定にするか。従量の単価（音声メモ 1 分 10 円・紙 1 枚 5 円・LINE 文面 1 回 1 円）でよいか。</span></li>
+      <li><b>AI の上限を超えたとき</b><span>いまは「止める」だけにし、「続けて使い、超えた分を従量で払う」選択は後の段階で足す形でよいか。後で足すときの従量の単価（音声メモ 1 分 10 円・紙 1 枚 5 円・LINE 文面 1 回 1 円）でよいか。</span></li>
       <li><b>初期費用</b><span>0 円にし、導入の伴走を別メニューにしてよいか。</span></li>
     </ol>
   </section>
