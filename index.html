@@ -4,258 +4,275 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="salon-karte（サロン向け AI カルテ）の画面モック・第3版。全27画面、状態切替つき。たたき台です。">
+<meta name="description" content="salon-karte（サロン向け AI カルテ）の画面モック・第3版。全28画面、状態切替つき。2026-10-11 に A 社「話しかけるカルテ」の見た目へ着せ替え。">
 <title>SALONOTE モック（第3版・仮）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
 <style>
-/* ==== デザイントークン（真実源は 03-spec.md §3。ここはミラー） ==== */
+/* ==== デザイントークン（真実源は 03-spec.md §3。ここはミラー）。2026-10-11 に A 社「話しかけるカルテ」の決まりへ置き換え ==== */
 :root{
-  --main-100:#F1EBE1; --main-300:#D6C7AE; --main-500:#9A7B4F; --main-700:#6F5633; --main-900:#3F311D;
-  --background:#F8F5EF; --surface:#FDFBF7;
-  --text-primary:#1F1B17; --text-secondary:#5C544B; --text-meta:#8C8378;
-  --error:#8E2F2F;
-  --font-heading:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
-  --font-body:"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
-  --size-xl:26px; --size-lg:19px; --size-md:15px; --size-sm:13px; --size-xs:11px;
-  --w-light:300; --w-regular:400; --w-medium:600;
-  --radius:4px; --border:1px solid var(--main-300);
+  /* すみれ: 押せる色（main-700）・カルテ（AI）の側 */
+  --main-100:#F1E9F5; --main-300:#CBB7DA; --main-500:#7A5A94; --main-700:#5A3A74;
+  /* あんず: 自分が話した・入れたもの */
+  --accent-100:#FFE6D8; --accent-500:#F0956A; --accent-700:#A04E2A;
+  /* 赤: 消えない警告・エラー・削除 ／ 緑: 「済」の印だけ */
+  --error:#BC2C27; --error-100:#FCE8E5; --error-300:#EFB3AC;
+  --done:#2C765B; --done-100:#E2F1E9;
+  --background:#FBF6F3; --surface:#FFFDFB; --sunk:#F5EEEB; --line:#DCCFD8;
+  --text-primary:#2A2030; --text-secondary:#62576A; --text-meta:#6F6473;
+  --font-body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  --size-xl:26px; --size-lg:19px; --size-md:14px; --size-sm:12.5px; --size-xs:11.5px;
+  --w-regular:400; --w-medium:500; --w-bold:700;
+  --radius-card:16px; --radius-bubble:20px; --radius-pill:999px;
+  --shadow-card:0 1px 0 rgba(42,32,48,.04),0 6px 16px -10px rgba(90,58,116,.22);
+  --border:1px solid var(--line);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:#E9E3D8;color:var(--text-primary);font-family:var(--font-body);font-size:var(--size-md);line-height:1.7;font-weight:var(--w-regular)}
+html,body{margin:0;background:#F3EDEA;color:var(--text-primary);font-family:var(--font-body);font-size:var(--size-md);line-height:1.7;font-weight:var(--w-regular);-webkit-font-smoothing:antialiased}
 a{color:var(--main-700)}
-h1,h2,h3{font-family:var(--font-heading);font-weight:var(--w-regular);margin:0;letter-spacing:.06em;color:var(--text-primary)}
+h1,h2,h3{font-family:var(--font-body);font-weight:var(--w-bold);margin:0;letter-spacing:0;line-height:1.35;color:var(--text-primary)}
 h1{font-size:var(--size-xl)} h2{font-size:var(--size-lg)} h3{font-size:var(--size-md)}
 p{margin:0}
 
 /* ==== モック用の外枠（製品 UI ではない） ==== */
 .frame{display:flex;min-height:100vh}
-nav.mocknav{width:220px;flex:none;background:#1F1B17;color:#E9E3D8;padding:20px 16px;font-size:var(--size-sm)}
-nav.mocknav h2{font-size:var(--size-xs);color:#A89C8A;margin-bottom:10px;letter-spacing:.18em;font-family:var(--font-body)}
-nav.mocknav a{display:block;color:#E9E3D8;text-decoration:none;padding:6px 8px;border-left:1px solid transparent}
-nav.mocknav a.active,nav.mocknav a:hover{border-left-color:#9A7B4F;color:#fff}
-nav.mocknav .note{margin-top:16px;color:#A89C8A;font-size:var(--size-xs);line-height:1.7}
+nav.mocknav{width:220px;flex:none;background:#2A2030;color:#F3EDEA;padding:20px 16px;font-size:var(--size-sm)}
+nav.mocknav h2{font-size:var(--size-xs);color:#CBB7DA;margin-bottom:10px;letter-spacing:.06em;font-family:var(--font-body)}
+nav.mocknav a{display:block;color:#F3EDEA;text-decoration:none;padding:6px 8px;border-left:1px solid transparent}
+nav.mocknav a.active,nav.mocknav a:hover{border-left-color:#F0956A;color:#FFFDFB}
+nav.mocknav .note{margin-top:16px;color:#CBB7DA;font-size:var(--size-xs);line-height:1.7}
 main.stage{flex:1;padding:28px;display:flex;flex-direction:column;align-items:center;gap:12px}
-.screen-title{font-size:var(--size-sm);color:#5C544B;letter-spacing:.04em}
-.screen-title b{color:#1F1B17;font-weight:var(--w-medium)}
+.screen-title{font-size:var(--size-sm);color:#62576A;letter-spacing:.04em}
+.screen-title b{color:#2A2030;font-weight:var(--w-medium)}
 section.screen{display:none}
 section.screen.active{display:flex;flex-direction:column;align-items:center;gap:12px}
 section.screen .screen-title{order:0;align-self:flex-start;max-width:1200px}
 section.screen .statebar{order:1;align-self:flex-start;max-width:1200px;margin-bottom:4px}
 section.screen .phone{order:2}
-.phone{width:375px;min-height:760px;background:var(--background);border:1px solid #CFC5B5;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.phone{width:375px;min-height:760px;background:var(--background);border:0;border-radius:28px;box-shadow:0 0 0 1px rgba(42,32,48,.07),0 30px 60px -30px rgba(90,58,116,.35);overflow:hidden;position:relative;display:flex;flex-direction:column}
 .phone.pc{width:1024px;min-height:640px}
-.statebar{display:flex;gap:6px;font-size:var(--size-xs);color:#5C544B;align-items:center;flex-wrap:wrap}
-.statebar button{font:inherit;font-size:var(--size-xs);padding:3px 10px;border:1px solid #A89C8A;background:transparent;color:#1F1B17;cursor:pointer;letter-spacing:.04em}
-.statebar button.on{background:#1F1B17;color:#fff;border-color:#1F1B17}
-@media (max-width:800px){.frame{flex-direction:column}nav.mocknav{width:auto}.phone,.phone.pc{width:100%;border:0}}
+.statebar{display:flex;gap:6px;font-size:var(--size-xs);color:#62576A;align-items:center;flex-wrap:wrap}
+.statebar button{font:inherit;font-size:var(--size-xs);padding:3px 10px;border:1px solid #958A99;border-radius:999px;background:transparent;color:#2A2030;cursor:pointer;letter-spacing:.04em}
+.statebar button.on{background:#2A2030;color:#FFFDFB;border-color:#2A2030}
+@media (max-width:800px){.frame{flex-direction:column}nav.mocknav{width:auto}.phone,.phone.pc{width:100%;border:0;border-radius:0;box-shadow:none}}
 
 /* ==== 製品 UI 部品 ==== */
-.topbar{min-height:60px;display:flex;align-items:center;gap:8px;padding:10px 20px 10px;background:var(--background);flex:none;position:relative;flex-wrap:wrap}
-.crumb{width:100%;font-size:var(--size-xs);letter-spacing:.14em;color:var(--text-meta);display:flex;gap:6px;align-items:center;margin-bottom:2px;order:-1}
-.crumb a{color:var(--main-700);text-decoration:none;border-bottom:1px solid transparent}
+.topbar{min-height:60px;display:flex;align-items:center;gap:8px;padding:10px 14px 10px;background:var(--background);flex:none;position:relative;flex-wrap:wrap}
+.crumb{width:100%;font-size:var(--size-xs);letter-spacing:.06em;color:var(--text-meta);display:flex;gap:6px;align-items:center;margin-bottom:2px;order:-1}
+.crumb a{color:var(--main-700);text-decoration:none;border-bottom:1px solid transparent;font-weight:var(--w-medium)}
 .crumb a:hover{border-bottom-color:var(--main-300)}
-.crumb i{font-style:normal;color:var(--main-300)}
+.crumb i{font-style:normal;color:var(--text-meta)}
 .crumb b{color:var(--text-secondary);font-weight:var(--w-regular)}
-.topbar:after{content:"";position:absolute;left:20px;right:20px;bottom:0;height:1px;background:var(--main-300)}
+.topbar:after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:1px;background:var(--line)}
 .topbar .back{width:44px;height:44px;margin-left:-12px;display:flex;align-items:center;justify-content:center;color:var(--main-700);font-size:var(--size-lg)}
 .topbar h1{font-size:var(--size-lg);flex:1}
-.topbar .right{color:var(--main-700);font-size:var(--size-sm);min-width:44px;text-align:right;letter-spacing:.08em;text-decoration:none;border-bottom:1px solid var(--main-300);padding-bottom:1px}
-.body{padding:20px;display:flex;flex-direction:column;gap:16px;flex:1;overflow:auto;padding-bottom:96px}
+.topbar .right{color:var(--main-700);font-size:var(--size-sm);min-width:44px;text-align:right;text-decoration:none}
+.body{padding:16px 14px;display:flex;flex-direction:column;gap:14px;flex:1;overflow:auto;padding-bottom:96px}
 .body.nofix{padding-bottom:20px}
-.card{background:var(--surface);border:var(--border);border-radius:var(--radius);padding:16px 18px}
+.card{background:var(--surface);border:0;border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:14px 16px}
 .card h3{margin-bottom:8px}
-.label{font-size:var(--size-xs);font-weight:var(--w-medium);color:var(--text-secondary);display:block;margin-bottom:6px;letter-spacing:.12em}
+.label{font-size:var(--size-xs);font-weight:var(--w-bold);color:var(--text-secondary);display:block;margin-bottom:6px;letter-spacing:.02em}
 .meta{font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.02em}
 .sub{font-size:var(--size-sm);color:var(--text-secondary)}
-.input{height:48px;width:100%;border:0;border-bottom:var(--border);border-radius:0;background:transparent;padding:0 2px;font:inherit;font-size:var(--size-md);color:var(--text-primary)}
+.input{height:48px;width:100%;border:1.5px solid var(--line);border-radius:var(--radius-card);background:var(--surface);padding:0 14px;font:inherit;font-size:var(--size-md);color:var(--text-primary)}
+.input:focus{outline:none;border-color:var(--main-700)}
 .input::placeholder{color:var(--text-meta)}
-.textarea{min-height:72px;padding:10px 2px;height:auto}
-.search{display:flex;align-items:center;gap:10px;height:48px;border:0;border-bottom:var(--border);background:transparent;padding:0 2px;color:var(--text-meta)}
+.textarea{min-height:72px;padding:10px 14px;height:auto}
+.search{display:flex;align-items:center;gap:10px;height:48px;border:1.5px solid var(--line);border-radius:var(--radius-pill);background:var(--surface);padding:0 16px;color:var(--text-meta)}
 .search span.q{flex:1;letter-spacing:.02em}
-.search span.ico{width:14px;height:14px;border:1.5px solid var(--main-500);border-radius:50%;position:relative;flex:none}
-.search span.ico:after{content:"";position:absolute;width:6px;height:1.5px;background:var(--main-500);right:-5px;bottom:-2px;transform:rotate(45deg)}
-.btn{height:52px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-weight:var(--w-regular);font-size:var(--size-sm);letter-spacing:.14em;border:1px solid var(--main-700);background:transparent;color:var(--main-900);text-decoration:none;cursor:pointer;padding:0 16px}
-.btn.primary{background:var(--main-900);color:var(--background);border-color:var(--main-900)}
+.search span.ico{width:14px;height:14px;border:1.5px solid var(--main-700);border-radius:50%;position:relative;flex:none}
+.search span.ico:after{content:"";position:absolute;width:6px;height:1.5px;background:var(--main-700);right:-5px;bottom:-2px;transform:rotate(45deg)}
+.btn{height:48px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:center;font-weight:var(--w-bold);font-size:var(--size-sm);border:1.5px solid var(--main-300);background:var(--surface);color:var(--main-700);text-decoration:none;cursor:pointer;padding:0 16px;transition:background-color .15s,border-color .15s}
+.btn.primary{background:var(--main-700);color:var(--surface);border-color:var(--main-700);font-size:var(--size-md)}
 .btn.sm{height:44px;font-size:var(--size-xs)}
 .btn.block{width:100%}
 .row2{display:flex;gap:12px}.row2>*{flex:1}
-.fixed{position:absolute;left:0;right:0;bottom:0;padding:14px 20px 22px;background:var(--background);border-top:1px solid var(--main-300)}
+.fixed{position:absolute;left:0;right:0;bottom:0;padding:12px 14px 20px;background:var(--surface);border-top:var(--border);border-radius:var(--radius-bubble) var(--radius-bubble) 0 0;box-shadow:0 -10px 24px -18px rgba(90,58,116,.3)}
 .list{display:flex;flex-direction:column;gap:0;background:transparent;border-top:var(--border)}
 .item{display:flex;align-items:center;gap:14px;padding:16px 2px;border-bottom:var(--border);min-height:60px}
 .item .main{flex:1;min-width:0}
-.item .name{font-weight:var(--w-regular);font-size:var(--size-md);letter-spacing:.02em}
-.item .chev{color:var(--main-700);font-size:var(--size-lg);font-weight:var(--w-light)}
-.badge{display:inline-block;font-size:var(--size-xs);padding:1px 8px;border-radius:0;border:1px solid var(--main-500);color:var(--main-900);letter-spacing:.1em;vertical-align:middle;background:transparent;line-height:1.6}
-.badge.err{border-color:var(--error);color:var(--error)}
-.badge.ghost{border-color:var(--main-300);color:var(--text-secondary)}
-.badge.kari{border-style:dashed;color:var(--main-700)}
-.count{min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px;font-size:var(--size-xs);color:var(--main-900);border:1px solid var(--main-500);letter-spacing:.05em}
-.warnband{border-left:2px solid var(--error);padding:10px 0 10px 16px;color:var(--error);font-weight:var(--w-medium);letter-spacing:.02em;background:var(--surface)}
-.warnband .meta{color:var(--text-meta);font-weight:var(--w-regular)}
-.noteband{border-left:2px solid var(--main-500);padding:10px 0 10px 16px;background:var(--surface)}
-.noteband h3{font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.16em;color:var(--main-700);margin-bottom:6px;font-weight:var(--w-medium)}
-.noteband p{font-family:var(--font-heading);font-size:var(--size-md);line-height:1.9;letter-spacing:.03em}
+.item .name{font-weight:var(--w-bold);font-size:var(--size-md)}
+.item .chev{color:var(--main-700);font-size:var(--size-lg);font-weight:var(--w-bold)}
+.badge{display:inline-block;font-size:var(--size-xs);font-weight:var(--w-bold);padding:0 8px;border-radius:var(--radius-pill);border:1.5px solid var(--main-100);color:var(--main-700);letter-spacing:0;vertical-align:middle;background:var(--main-100);line-height:1.6;white-space:nowrap}
+.badge.done{border-color:var(--done-100);background:var(--done-100);color:var(--done)}
+.badge.new{border-color:var(--accent-100);background:var(--accent-100);color:var(--accent-700)}
+.badge.err{border-color:var(--error-100);background:var(--error-100);color:var(--error)}
+.badge.ghost{border-color:var(--sunk);background:var(--sunk);color:var(--text-secondary)}
+.badge.kari{border-style:dashed;border-color:var(--line);color:var(--text-secondary)}
+.count{min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0 7px;font-size:var(--size-xs);font-weight:var(--w-bold);color:var(--main-700);background:var(--main-100);border-radius:var(--radius-pill)}
+.warnband{position:relative;border:1px solid var(--error-300);border-radius:var(--radius-card);padding:10px 12px 10px 50px;color:var(--error);font-weight:var(--w-bold);font-size:var(--size-lg);line-height:1.45;background:var(--error-100)}
+.warnband:before{content:"!";position:absolute;left:12px;top:10px;width:28px;height:28px;border-radius:var(--radius-pill);background:var(--error);color:var(--surface);display:flex;align-items:center;justify-content:center;font-size:var(--size-md);font-weight:var(--w-bold)}
+.warnband .meta{color:var(--text-primary);font-weight:var(--w-regular);font-size:var(--size-xs);margin-top:2px}
+.noteband{border:1.5px solid var(--line);border-radius:var(--radius-card);padding:10px 14px;background:var(--surface)}
+.noteband h3{font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.02em;color:var(--text-secondary);margin-bottom:4px;font-weight:var(--w-bold)}
+.noteband p{font-family:var(--font-body);font-size:var(--size-md);line-height:1.7}
 .noteband p.sub,.noteband p.meta{font-family:var(--font-body);font-size:var(--size-xs);line-height:1.6}
 .field{display:flex;flex-direction:column;gap:2px}
-.field.cand .input{border-bottom:1px dashed var(--main-500);background:var(--main-100);padding:0 10px;border-radius:var(--radius) var(--radius) 0 0}
+.field.cand{border:1.5px dashed var(--main-300);border-radius:var(--radius-card);background:var(--surface);padding:8px 12px 6px}
+.field.cand .input{border:0;border-radius:0;background:transparent;padding:0;height:auto;min-height:32px;font-weight:var(--w-bold)}
+.field.cand+.field.cand{margin-top:8px}
 .field .hint{font-size:var(--size-xs);color:var(--text-meta);margin-top:4px}
 .field .err{font-size:var(--size-sm);color:var(--error);margin-top:4px}
-.check{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 2px;border-bottom:1px solid var(--main-100)}
+.check{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 2px;border-bottom:var(--border)}
 .check:last-child{border-bottom:0}
-.check .box{width:20px;height:20px;border:1px solid var(--main-700);border-radius:0;flex:none;display:flex;align-items:center;justify-content:center;color:var(--background);font-size:var(--size-xs)}
-.check .box.on{background:var(--main-900);border-color:var(--main-900)}
+.check .box{width:20px;height:20px;border:1.5px solid var(--main-700);border-radius:var(--radius-pill);flex:none;display:flex;align-items:center;justify-content:center;color:var(--surface);font-size:var(--size-xs)}
+.check .box.on{background:var(--main-700);border-color:var(--main-700)}
 .tabs{display:flex;border-bottom:var(--border);gap:0}
-.tabs span{padding:10px 14px;font-size:var(--size-sm);color:var(--text-secondary);border-bottom:1px solid transparent;margin-bottom:-1px;min-height:44px;display:flex;align-items:center;letter-spacing:.08em}
-.tabs span.on{color:var(--main-900);border-bottom-color:var(--main-900)}
-.steps{display:flex;gap:8px;align-items:center;font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.08em}
-.steps b{color:var(--main-900);font-weight:var(--w-medium)}
-.steps i{flex:1;height:1px;background:var(--main-300);font-style:normal}
-.steps i.done{background:var(--main-500)}
+.tabs span{padding:10px 14px;font-size:var(--size-sm);color:var(--text-secondary);border-bottom:1px solid transparent;margin-bottom:-1px;min-height:44px;display:flex;align-items:center;letter-spacing:.04em}
+.tabs span.on{color:var(--main-700);border-bottom:2px solid var(--main-700);font-weight:var(--w-bold)}
+.steps{display:flex;gap:8px;align-items:center;font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.04em}
+.steps b{color:var(--main-700);font-weight:var(--w-bold)}
+.steps i{flex:1;height:2px;border-radius:var(--radius-pill);background:var(--line);font-style:normal}
+.steps i.done{background:var(--done)}
 .thumbs{display:flex;gap:10px;flex-wrap:wrap}
-.thumb{width:72px;height:72px;border-radius:var(--radius);background:var(--main-100);border:var(--border);display:flex;align-items:flex-end;justify-content:center;font-size:var(--size-xs);color:var(--text-secondary);padding-bottom:4px;letter-spacing:.1em}
-.thumb.add{align-items:center;color:var(--main-700);background:transparent;border-style:dashed}
-.imgbox{height:160px;border-radius:var(--radius);background:repeating-linear-gradient(0deg,var(--main-100) 0 22px,var(--surface) 22px 24px);border:var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-meta);font-size:var(--size-sm)}
+.thumb{width:72px;height:72px;border-radius:var(--radius-card);background:var(--sunk);border:0;display:flex;align-items:flex-end;justify-content:center;font-size:var(--size-xs);color:var(--text-secondary);padding-bottom:4px;letter-spacing:.06em}
+.thumb.add{align-items:center;color:var(--main-700);background:transparent;border:1.5px dashed var(--line)}
+.imgbox{height:160px;border-radius:var(--radius-card);background:repeating-linear-gradient(0deg,var(--sunk) 0 22px,var(--surface) 22px 24px);border:var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-meta);font-size:var(--size-sm)}
 .empty{text-align:center;padding:36px 16px;color:var(--text-secondary)}
 .empty h3{margin-bottom:10px;font-size:var(--size-lg)}
 .empty .btn{margin:16px auto 0;max-width:260px}
-.errorbox{border-left:2px solid var(--error);padding:8px 0 8px 16px;color:var(--text-primary)}
-.errorbox b{color:var(--error);display:block;margin-bottom:2px;font-weight:var(--w-medium)}
-.skeleton{height:60px;border-bottom:var(--border);background:linear-gradient(90deg,var(--main-100),var(--surface),var(--main-100))}
-.recbtn{width:128px;height:128px;border-radius:50%;background:var(--main-900);color:var(--background);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:28px auto;letter-spacing:.2em;font-size:var(--size-sm)}
-.recbtn.stop{background:transparent;color:var(--main-900);border:1px solid var(--main-900)}
+.errorbox{border:1px solid var(--error-300);border-radius:var(--radius-card);background:var(--surface);padding:10px 14px;color:var(--text-primary)}
+.errorbox b{color:var(--error);display:block;margin-bottom:2px;font-weight:var(--w-bold)}
+.skeleton{height:60px;border-bottom:var(--border);background:linear-gradient(90deg,var(--sunk),var(--surface),var(--sunk))}
+.recbtn{width:128px;height:128px;border-radius:50%;background:var(--main-700);color:var(--surface);box-shadow:0 0 0 8px var(--main-100);font-weight:var(--w-bold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:28px auto;letter-spacing:.06em;font-size:var(--size-sm)}
+.recbtn.stop{background:transparent;color:var(--main-700);border:1px solid var(--main-700)}
 .kv{display:grid;grid-template-columns:1fr auto;gap:8px 12px;font-size:var(--size-sm)}
-.kv b{font-weight:var(--w-regular);color:var(--text-primary)}
-.kv>span{color:var(--text-meta);font-size:var(--size-xs);letter-spacing:.12em;align-self:center}
-.bar{height:2px;background:var(--main-100);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--main-500)}
-.sign{height:120px;border-bottom:var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-meta);font-size:var(--size-sm);letter-spacing:.1em}
-.customer-screen{background:var(--main-900);color:var(--background)}
+.kv b{font-weight:var(--w-bold);color:var(--text-primary)}
+.kv>span{color:var(--text-meta);font-size:var(--size-xs);letter-spacing:.06em;align-self:center}
+.bar{height:8px;border-radius:var(--radius-pill);background:var(--sunk);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:var(--radius-pill);background:var(--main-700)}
+.sign{height:120px;border-bottom:var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-meta);font-size:var(--size-sm);letter-spacing:.06em}
+.customer-screen{background:var(--main-700);color:var(--surface)}
 .customer-screen .card{background:var(--surface);color:var(--text-primary);border-color:transparent}
-.customer-screen h1{color:var(--background);font-weight:var(--w-light)}
-.customer-screen .btn.primary{background:var(--background);color:var(--main-900);border-color:var(--background)}
+.customer-screen h1{color:var(--background);font-weight:var(--w-bold)}
+.customer-screen .btn.primary{background:var(--background);color:var(--main-700);border-color:var(--background)}
 table.grid{width:100%;border-collapse:collapse;font-size:var(--size-sm);background:transparent}
 table.grid th,table.grid td{padding:12px 12px;border-bottom:var(--border);text-align:left;vertical-align:top}
-table.grid th{color:var(--text-secondary);font-weight:var(--w-medium);font-size:var(--size-xs);letter-spacing:.12em;border-bottom:1px solid var(--main-700)}
+table.grid th{color:var(--text-secondary);font-weight:var(--w-bold);font-size:var(--size-xs);letter-spacing:.02em;border-bottom:1.5px solid var(--line)}
 .pcbody{padding:24px 28px;display:grid;grid-template-columns:1fr;gap:20px}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.summary .card b{font-size:34px;font-family:var(--font-heading);display:block;font-weight:var(--w-light);letter-spacing:.04em;line-height:1.3}
+.summary .card b{font-size:var(--size-xl);font-family:var(--font-body);display:block;font-weight:var(--w-bold);letter-spacing:.04em;line-height:1.3}
 .state-view{display:none}.state-view.on{display:block}
 .state-view.on[data-state="login"]{display:flex;flex-direction:column;gap:18px}
-.badge.scope{border-color:var(--text-meta);color:var(--text-meta);font-size:10px;padding:0 5px}
+.badge.scope{border-color:var(--line);background:transparent;color:var(--text-meta);padding:0 6px}
 .btn.danger{border-color:var(--error);color:var(--error)}
-.btn.danger.primary{background:var(--error);border-color:var(--error);color:var(--background)}
-.ext{border:1px dashed var(--main-300);padding:12px 14px;border-radius:var(--radius)}
+.btn.danger.primary{background:var(--error);border-color:var(--error);color:var(--surface)}
+.ext{border:0;background:var(--sunk);padding:12px 14px;border-radius:var(--radius-card)}
 .ext .label{color:var(--text-meta)}
 
 /* ==== 第3版: 瞬間起点の UI 部品 ==== */
-.tabbar{position:absolute;left:0;right:0;bottom:0;height:72px;background:var(--surface);border-top:var(--border);display:flex;align-items:stretch;justify-content:space-around;padding:0 8px}
-.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-decoration:none;color:var(--text-meta);font-size:var(--size-xs);letter-spacing:.12em}
-.tabbar a.on{color:var(--main-900)}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:72px;background:var(--surface);border-top:var(--border);border-radius:var(--radius-bubble) var(--radius-bubble) 0 0;box-shadow:0 -10px 24px -18px rgba(90,58,116,.3);display:flex;align-items:stretch;justify-content:space-around;padding:0 8px}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-decoration:none;color:var(--text-meta);font-size:var(--size-xs);letter-spacing:.06em}
+.tabbar a.on{color:var(--main-700);font-weight:var(--w-bold)}
 .tabbar a .ic{width:22px;height:22px;border:1px solid currentColor;border-radius:50%}
-.tabbar a.on .ic{background:var(--main-900);border-color:var(--main-900)}
+.tabbar a.on .ic{background:var(--main-700);border-color:var(--main-700)}
 .tabbar a.action{flex:1.2}
-.tabbar a.action .plus{width:52px;height:52px;border-radius:50%;background:var(--main-900);color:var(--background);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:300;margin-top:-26px;border:4px solid var(--background)}
+.tabbar a.action{color:var(--main-700);font-weight:var(--w-bold)}
+.tabbar a.action .plus{width:52px;height:52px;border-radius:50%;background:var(--main-700);color:var(--surface);display:flex;align-items:center;justify-content:center;font-size:var(--size-xl);font-weight:var(--w-bold);margin-top:-22px;border:0;box-shadow:0 0 0 6px var(--accent-100),0 8px 16px -8px rgba(90,58,116,.7)}
 .body.tabbed{padding-bottom:92px}
-.hero{background:var(--main-900);color:var(--background);border-radius:var(--radius);padding:20px 20px 18px;position:relative;overflow:hidden}
-.hero .eyebrow{font-size:var(--size-xs);letter-spacing:.2em;color:var(--main-300);display:flex;justify-content:space-between}
-.hero h2{font-size:30px;color:var(--background);font-weight:300;margin:6px 0 2px;letter-spacing:.08em}
-.hero .line{height:1px;background:var(--main-500);margin:12px 0;opacity:.8}
-.hero .note{font-family:var(--font-heading);font-size:var(--size-md);line-height:1.8;color:#F3EDE2}
-.hero .warn{display:inline-block;border:1px solid #E0B4B4;color:#F4D3D0;font-size:var(--size-xs);letter-spacing:.12em;padding:1px 8px;margin-top:8px}
+.hero{background:var(--main-700);color:var(--surface);border-radius:var(--radius-bubble);padding:16px 16px 14px;position:relative;overflow:hidden;box-shadow:0 12px 24px -16px rgba(90,58,116,.8)}
+.hero .eyebrow{font-size:var(--size-xs);letter-spacing:.06em;color:var(--main-300);display:flex;justify-content:space-between}
+.hero h2{font-size:var(--size-xl);color:var(--surface);font-weight:var(--w-bold);margin:4px 0 2px;letter-spacing:0}
+.hero .line{height:1px;background:var(--main-500);margin:10px 0}
+.hero .note{font-family:var(--font-body);font-size:var(--size-md);line-height:1.7;color:var(--surface)}
+.hero .warn{display:inline-block;border:0;border-radius:var(--radius-card);background:var(--error-100);color:var(--error);font-size:var(--size-sm);font-weight:var(--w-bold);padding:4px 10px;margin-top:8px}
 .hero .acts{display:flex;gap:10px;margin-top:14px}
 .hero .acts .btn{height:44px;font-size:var(--size-xs)}
-.hero .acts .btn.primary{background:var(--background);color:var(--main-900);border-color:var(--background);flex:1.4}
-.hero .acts .btn.ghost{border-color:var(--main-300);color:var(--background);flex:1}
+.hero .acts .btn.primary{background:var(--surface);color:var(--main-700);border-color:var(--surface);flex:1.4}
+.hero .acts .btn.ghost{border-color:var(--main-300);color:var(--surface);flex:1}
 .greet{display:flex;justify-content:space-between;align-items:flex-end}
-.greet h1{font-size:var(--size-xl);font-weight:300}
+.greet h1{font-size:var(--size-xl);font-weight:700}
 .greet .meta{text-align:right}
 .ring{width:64px;height:64px;position:relative;flex:none}
 .ring svg{transform:rotate(-90deg)}
-.ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:var(--size-md);line-height:1}
-.ring .num small{font-family:var(--font-body);font-size:9px;color:var(--text-meta);letter-spacing:.1em;margin-top:2px}
+.ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-body);font-size:var(--size-md);line-height:1}
+.ring .num small{font-family:var(--font-body);font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.06em;margin-top:2px}
 .progress{display:flex;align-items:center;gap:16px;padding:4px 0}
 .progress .t{flex:1}
-.progress .t b{font-weight:var(--w-regular);display:block}
+.progress .t b{font-weight:var(--w-bold);display:block}
 .timeline{position:relative;padding-left:22px}
-.timeline:before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--main-300)}
+.timeline:before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;border-radius:2px;background:var(--line)}
 .tl{position:relative;padding:10px 0 10px 6px;display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit}
-.tl:before{content:"";position:absolute;left:-19px;top:16px;width:7px;height:7px;border-radius:50%;background:var(--background);border:1px solid var(--main-500)}
-.tl.done:before{background:var(--main-500)}
-.tl.now:before{background:var(--main-900);border-color:var(--main-900);width:9px;height:9px;left:-20px;top:15px}
-.tl .time{width:44px;flex:none;font-size:var(--size-sm);color:var(--text-secondary);font-variant-numeric:tabular-nums;padding-top:1px}
+.tl:before{content:"";position:absolute;left:-20px;top:15px;width:10px;height:10px;border-radius:50%;background:var(--background);border:2px solid var(--line)}
+.tl.done:before{background:var(--done);border-color:var(--done)}
+.tl.now:before{background:var(--main-700);border-color:var(--main-700);box-shadow:0 0 0 4px var(--main-100)}
+.tl .time{width:44px;flex:none;font-size:var(--size-sm);font-weight:var(--w-bold);color:var(--text-secondary);font-variant-numeric:tabular-nums;padding-top:1px}
 .tl .who{flex:1}
-.tl .who .name{font-size:var(--size-md)}
-.tl .st{font-size:var(--size-xs);letter-spacing:.1em;color:var(--text-meta);padding-top:3px}
-.tl .st.ok{color:var(--main-700)}
+.tl .who .name{font-size:var(--size-md);font-weight:var(--w-bold)}
+.tl .st{font-size:var(--size-xs);letter-spacing:.06em;color:var(--text-meta);padding-top:3px}
+.tl .st.ok{color:var(--done);font-weight:var(--w-bold)}
 .person{display:flex;gap:16px;align-items:center}
-.mono{width:64px;height:64px;border-radius:50%;background:var(--main-100);border:1px solid var(--main-300);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:28px;color:var(--main-900);flex:none}
-.person h1{font-size:var(--size-xl);font-weight:300;letter-spacing:.1em}
+.mono{width:64px;height:64px;border-radius:50%;background:var(--main-100);border:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);font-size:var(--size-xl);font-weight:var(--w-bold);color:var(--main-700);flex:none}
+.person h1{font-size:var(--size-xl);font-weight:var(--w-bold);letter-spacing:0}
 .rhythm{display:flex;gap:4px;align-items:center;margin-top:6px}
-.rhythm i{width:6px;height:6px;border-radius:50%;background:var(--main-500);display:block}
-.rhythm i.gap{width:14px;height:1px;border-radius:0;background:var(--main-300)}
-.rhythm i.next{background:transparent;border:1px solid var(--main-500)}
-.seg{display:flex;border-bottom:var(--border);margin:0 -20px;padding:0 20px;overflow-x:auto}
-.seg span{padding:12px 0;margin-right:22px;font-size:var(--size-sm);letter-spacing:.12em;color:var(--text-meta);border-bottom:1px solid transparent;margin-bottom:-1px;white-space:nowrap}
-.seg span.on{color:var(--main-900);border-bottom-color:var(--main-900)}
+.rhythm i{width:8px;height:8px;border-radius:50%;background:var(--main-500);display:block}
+.rhythm i.gap{width:14px;height:2px;border-radius:2px;background:var(--line)}
+.rhythm i.next{background:var(--background);border:1.5px solid var(--main-700)}
+.seg{display:flex;gap:4px;border-bottom:0;margin:0 -14px;padding:0 14px;overflow-x:auto}
+.seg span{padding:6px 14px;margin:0;min-height:36px;display:inline-flex;align-items:center;border-radius:var(--radius-pill);font-size:var(--size-sm);color:var(--text-secondary);white-space:nowrap;cursor:pointer}
+.seg span.on{color:var(--main-700);background:var(--main-100);font-weight:var(--w-bold)}
 .photogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.photogrid .ph{aspect-ratio:1;background:var(--main-100);border:var(--border);display:flex;align-items:flex-end;padding:6px;font-size:10px;color:var(--text-secondary);letter-spacing:.08em}
-.stat{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;border-top:var(--border);border-bottom:var(--border);padding:12px 0}
-.stat b{font-family:var(--font-heading);font-size:var(--size-lg);font-weight:300;display:block;line-height:1.2}
-.stat span{font-size:10px;letter-spacing:.14em;color:var(--text-meta)}
+.photogrid .ph{aspect-ratio:1;background:var(--sunk);border:0;border-radius:var(--radius-card);display:flex;align-items:flex-end;padding:6px;font-size:10px;color:var(--text-secondary);letter-spacing:.04em}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;border-top:var(--border);border-bottom:var(--border);padding:8px 0}
+.stat b{font-family:var(--font-body);font-size:var(--size-lg);font-weight:700;display:block;line-height:1.2}
+.stat span{font-size:var(--size-xs);letter-spacing:.06em;color:var(--text-meta)}
 .bigvoice{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 0 6px}
-.bigvoice .circle{width:96px;height:96px;border-radius:50%;background:var(--main-900);color:var(--background);display:flex;align-items:center;justify-content:center;letter-spacing:.2em;font-size:var(--size-sm)}
-.bigvoice p{font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.08em}
-.or{display:flex;align-items:center;gap:12px;color:var(--text-meta);font-size:var(--size-xs);letter-spacing:.2em}
-.or:before,.or:after{content:"";flex:1;height:1px;background:var(--main-300)}
-.pw{display:flex;align-items:center;border-bottom:var(--border)}
+.bigvoice .circle{width:96px;height:96px;border-radius:50%;background:var(--main-700);color:var(--surface);box-shadow:0 0 0 8px var(--main-100);font-weight:var(--w-bold);display:flex;align-items:center;justify-content:center;letter-spacing:.06em;font-size:var(--size-sm)}
+.bigvoice p{font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.04em}
+.or{display:flex;align-items:center;gap:12px;color:var(--text-meta);font-size:var(--size-xs);letter-spacing:.06em}
+.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.pw{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:var(--radius-card);background:var(--surface);padding-right:10px}
 .pw .input{border:0}
-.pw span{font-size:var(--size-xs);color:var(--main-700);letter-spacing:.1em;padding:0 4px;white-space:nowrap}
-.toggle{width:40px;height:22px;border-radius:11px;border:1px solid var(--main-700);position:relative;display:inline-block;vertical-align:middle}
-.toggle i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--main-900)}
-.toggle.on{background:var(--main-900)} .toggle.on i{left:20px;background:var(--background)}
+.pw span{font-size:var(--size-xs);font-weight:var(--w-bold);color:var(--main-700);letter-spacing:.06em;padding:0 4px;white-space:nowrap}
+.toggle{width:40px;height:22px;border-radius:var(--radius-pill);border:1.5px solid var(--main-300);background:var(--sunk);position:relative;display:inline-block;vertical-align:middle}
+.toggle i{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--main-700)}
+.toggle.on{background:var(--main-700);border-color:var(--main-700)} .toggle.on i{left:20px;background:var(--surface)}
 .donehero{text-align:center;padding:40px 0 20px}
 .donehero .ring{margin:0 auto 16px;width:96px;height:96px}
-.donehero h2{font-weight:300;font-size:var(--size-xl)}
+.donehero h2{font-weight:700;font-size:var(--size-xl)}
 
 /* ==== 記録の相手を選ぶシート ==== */
-.dim{position:absolute;inset:0;background:rgba(31,27,23,.45)}
-.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--background);border-radius:16px 16px 0 0;padding:10px 20px 24px;display:flex;flex-direction:column;gap:12px;max-height:94%;overflow:auto}
+.dim{position:absolute;inset:0;background:rgba(42,32,48,.45)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-radius:var(--radius-bubble) var(--radius-bubble) 0 0;padding:10px 14px 24px;display:flex;flex-direction:column;gap:12px;max-height:94%;overflow:auto}
 .sheet>*{flex:0 0 auto}
-.sheet .grip{width:36px;height:3px;border-radius:2px;background:var(--main-300);margin:0 auto 4px}
-.sheet h2{font-size:var(--size-lg);font-weight:300}
-.suggest{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--main-900);color:var(--background);border-radius:var(--radius);text-decoration:none}
-.suggest .mono{background:transparent;border-color:var(--main-500);color:var(--background);width:44px;height:44px;font-size:18px}
-.suggest .t b{font-weight:400;font-size:var(--size-md);display:block}
+.sheet .grip{width:36px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 4px}
+.sheet h2{font-size:var(--size-lg);font-weight:var(--w-bold)}
+.suggest{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--main-700);color:var(--surface);border-radius:var(--radius-card);text-decoration:none}
+.suggest .mono{background:var(--main-500);border:0;color:var(--surface);width:44px;height:44px;font-size:18px}
+.suggest .t b{font-weight:700;font-size:var(--size-md);display:block}
 .suggest .t span{font-size:var(--size-xs);color:var(--main-300);letter-spacing:.06em}
-.suggest .go{margin-left:auto;font-size:var(--size-xs);letter-spacing:.14em;border-bottom:1px solid var(--main-500);padding-bottom:1px;white-space:nowrap}
+.suggest .go{margin-left:auto;font-size:var(--size-xs);font-weight:var(--w-bold);border:1.5px solid var(--main-300);border-radius:var(--radius-pill);padding:2px 10px;white-space:nowrap}
 .pick-row{display:flex;align-items:center;gap:12px;padding:10px 2px;border-bottom:var(--border);text-decoration:none;color:inherit}
-.pick-row .mono{width:40px;height:40px;font-size:16px}
+.pick-row .mono{width:40px;height:40px;font-size:var(--size-md)}
 .pick-row.dim2{opacity:.5}
 .pick-row .main{flex:1}.pick-row .name{font-size:var(--size-md)}
 .newrow{display:flex;align-items:center;gap:12px;padding:14px 2px;text-decoration:none;color:var(--main-700);border-top:var(--border)}
-.newrow .mono{width:40px;height:40px;font-size:18px;background:transparent;border-style:dashed}
+.newrow .mono{width:40px;height:40px;font-size:var(--size-lg);background:transparent;border:1.5px dashed var(--line)}
 /* ==== 敬称: 大きな名前にだけ小さく添える。密な行では省く ==== */
-.hon{font-size:.55em;color:var(--text-meta);font-family:var(--font-body);letter-spacing:.1em;margin-left:.3em;font-weight:400;vertical-align:baseline}
+.hon{font-size:.55em;color:var(--text-meta);font-family:var(--font-body);letter-spacing:.06em;margin-left:.3em;font-weight:400;vertical-align:baseline}
+.hero:not(.light) .hon,.insight .hon,.suggest .hon,.cust-screen .hon,.customer-screen .hon,.btn.primary .hon{color:var(--main-300)}
 .tl .hon,.row .hon,.pick-row .hon,.item .hon,table .hon,.alert-row .hon,.statebar .hon,.meta .hon,.sub .hon,.check .hon,.hint .hon,.folder .hon,.kv .hon,.crumb .hon,.chip .hon{display:none}
 .bubble .hon{display:none}
-u[data-href]{text-decoration:none;border-bottom:1px solid var(--main-300);color:var(--main-700)}
+u[data-href]{text-decoration:none;color:var(--main-700)}
 /* ==== 編集できる行（ラベル小 + タップできる値） ==== */
 .edit{display:flex;flex-direction:column;gap:2px;padding:10px 0;border-bottom:var(--border)}
 .edit:last-child{border-bottom:0}
 .edit .label{margin:0}
 .edit .val{display:flex;align-items:center;justify-content:space-between;min-height:36px;font-size:var(--size-md);color:var(--text-primary)}
-.edit .val .chev{color:var(--main-700);font-size:var(--size-lg);font-weight:300}
+.edit .val .chev{color:var(--main-700);font-size:var(--size-lg);font-weight:700}
 .edit .hint{font-size:var(--size-xs);color:var(--text-meta);margin-top:4px}
-.segm{display:inline-flex;border:1px solid var(--main-300);border-radius:var(--radius);overflow:hidden}
-.segm span{padding:8px 18px;font-size:var(--size-sm);letter-spacing:.08em;color:var(--text-secondary);min-height:40px;display:flex;align-items:center;white-space:nowrap}
-.segm span.on{background:var(--main-900);color:var(--background)}
-.badge.phase{border-color:var(--main-500);color:var(--main-900);background:var(--main-100)}
-.badge.phase.warn{border-color:var(--error);color:var(--error);background:transparent}
+.segm{display:inline-flex;gap:4px;border:0;border-radius:var(--radius-pill);background:var(--sunk);padding:3px;overflow:hidden}
+.segm span{padding:6px 16px;font-size:var(--size-sm);color:var(--text-secondary);min-height:36px;display:flex;align-items:center;white-space:nowrap;border-radius:var(--radius-pill)}
+.segm span.on{background:var(--surface);color:var(--main-700);font-weight:var(--w-bold);box-shadow:var(--shadow-card)}
+.badge.phase{border-color:var(--main-300);color:var(--main-700);background:transparent}
+.badge.phase.warn{border-color:var(--error-100);color:var(--error);background:var(--error-100)}
 .funnel{display:flex;align-items:stretch;gap:6px}
-.funnel .st{flex:1;background:var(--surface);border:var(--border);padding:10px 4px;text-align:center;min-width:0;color:inherit;text-decoration:none}
+.funnel .st{flex:1;background:var(--surface);border:var(--border);border-radius:var(--radius-card);padding:10px 4px;text-align:center;min-width:0;color:inherit;text-decoration:none}
 a.funnel-st:hover,.funnel a.st:hover{border-color:var(--main-500)}
-.funnel .st b{font-family:var(--font-heading);font-size:22px;font-weight:300;display:block;line-height:1.2}
+.funnel .st b{font-family:var(--font-body);font-size:var(--size-lg);font-weight:700;display:block;line-height:1.2}
 .funnel .st.split{padding:0;display:flex;flex-direction:column;background:transparent;border:0;gap:4px}
-.funnel .st.split a{display:block;background:var(--surface);border:var(--border);padding:4px 2px;color:inherit;text-decoration:none}
+.funnel .st.split a{display:block;background:var(--surface);border:var(--border);border-radius:var(--radius-card);padding:4px 2px;color:inherit;text-decoration:none}
 .funnel .st.split a b{font-size:17px}
 .funnel .st.split a:hover{border-color:var(--main-500)}
 .funnel .st span{font-size:9px;letter-spacing:.04em;color:var(--text-meta);white-space:nowrap;display:block}
@@ -265,46 +282,46 @@ main.stage.view-tablet .phone{width:768px}
 main.stage.view-pc .phone{width:1024px}
 main.stage.view-tablet .phone:not(.pc) .body,main.stage.view-pc .phone:not(.pc) .body{max-width:640px;width:100%;margin:0 auto}
 main.stage.view-tablet .phone:not(.pc) .fixed>*,main.stage.view-pc .phone:not(.pc) .fixed>*{max-width:640px;margin:0 auto}
-main.stage.view-tablet .phone:not(.pc) .topbar,main.stage.view-pc .phone:not(.pc) .topbar{padding:0 calc((100% - 640px)/2 + 20px)}
+main.stage.view-tablet .phone:not(.pc) .topbar,main.stage.view-pc .phone:not(.pc) .topbar{padding:0 calc((100% - 640px)/2 + 14px)}
 main.stage.view-pc .phone.pc{width:1200px}
 .viewbar{margin-top:14px;display:flex;gap:6px;flex-wrap:wrap}
-.viewbar button{font:inherit;font-size:var(--size-xs);padding:4px 8px;border:1px solid #5C544B;background:transparent;color:#E9E3D8;cursor:pointer;letter-spacing:.06em}
-.viewbar button.on{background:#E9E3D8;color:#1F1B17}
+.viewbar button{font:inherit;font-size:var(--size-xs);padding:4px 10px;border:1px solid #62576A;border-radius:999px;background:transparent;color:#F3EDEA;cursor:pointer;letter-spacing:.06em}
+.viewbar button.on{background:#F3EDEA;color:#2A2030}
 
 /* ==== 明快さパス（2026-10-08・競合比較より）: アイコン・操作色・枠線ボタン・PC 3 カラム ==== */
-.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none;display:inline-block;vertical-align:middle}
-.btn{gap:8px;border-color:var(--main-700);background:var(--surface);color:var(--main-900);font-weight:var(--w-medium);letter-spacing:.08em}
+.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;display:inline-block;vertical-align:middle}
+.btn{gap:6px;border-color:var(--main-300);background:var(--surface);color:var(--main-700);font-weight:var(--w-bold);letter-spacing:0}
 .btn .i{width:18px;height:18px;color:var(--main-700)}
-.btn.sm{padding:0 10px;letter-spacing:.04em;gap:6px}
+.btn.sm{padding:0 12px;letter-spacing:0;gap:5px}
 .btn{line-height:1.3;text-align:center}
 .btn.sm .i{width:16px;height:16px}
 main.stage.view-pc #SCR-06 .topbar{padding:10px 28px}
 .btn.primary .i,.btn.danger.primary .i{color:inherit}
 .btn.danger .i{color:var(--error)}
-.btn:hover{border-color:var(--main-700)}
-.btn.primary:hover{background:var(--main-700);border-color:var(--main-700)}
-.hero .acts .btn{letter-spacing:.04em;padding:0 10px;gap:6px}
+.btn:hover{border-color:var(--main-700);background:var(--main-100)}
+.btn.primary:hover{background:var(--main-500);border-color:var(--main-500)}
+.hero .acts .btn{letter-spacing:0;padding:0 10px;gap:6px}
 .hero .acts .btn.ghost{background:transparent}
 .hero .acts .btn.ghost .i{color:inherit}
-.customer-screen .btn{background:transparent;color:var(--background);border-color:var(--main-300)}
+.customer-screen .btn{background:transparent;color:var(--surface);border-color:var(--main-300)}
 .customer-screen .btn .i{color:inherit}
 .tabbar a .i{width:22px;height:22px;stroke-width:1.5}
-.tabbar a.on .i{stroke-width:2.1}
+.tabbar a.on .i{stroke-width:2.2}
 .tabbar a.action .plus .i{width:26px;height:26px;stroke-width:1.8}
 .topbar .back .i,.chev .i{width:20px;height:20px}
 .chev{display:inline-flex;align-items:center}
 .search svg.ico{width:17px;height:17px;color:var(--main-700)}
-u[data-href],a.lnk{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--main-300);border-radius:var(--radius);padding:1px 8px;color:var(--main-700);background:var(--surface);font-size:var(--size-xs);letter-spacing:.06em;text-decoration:none;vertical-align:middle;line-height:1.7;white-space:nowrap;cursor:pointer}
+u[data-href],a.lnk{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--main-300);border-radius:var(--radius-pill);padding:1px 10px;color:var(--main-700);background:var(--surface);font-size:var(--size-xs);font-weight:var(--w-bold);letter-spacing:0;text-decoration:none;vertical-align:middle;line-height:1.7;white-space:nowrap;cursor:pointer}
 u[data-href]:hover,a.lnk:hover{border-color:var(--main-700)}
 u[data-href] .i,a.lnk .i{width:13px;height:13px}
 u[data-href],a.lnk{position:relative}
 u[data-href]::before,a.lnk::before{content:"";position:absolute;inset:-11px -6px}
-a.lnk.danger{color:var(--error);border-color:var(--error)}
-.topbar .right,.greet .right{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--main-300);border-radius:var(--radius);padding:4px 10px;text-decoration:none;border-bottom:1px solid var(--main-300);min-width:0;color:var(--main-700);font-size:var(--size-xs);letter-spacing:.1em;background:var(--surface)}
+a.lnk.danger{color:var(--error);border-color:var(--error-300)}
+.topbar .right,.greet .right{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--main-300);border-radius:var(--radius-pill);padding:4px 10px;text-decoration:none;min-width:0;color:var(--main-700);font-size:var(--size-xs);font-weight:var(--w-bold);letter-spacing:0;background:var(--surface)}
 .topbar .right .i,.greet .right .i{width:15px;height:15px}
 .dayhead{display:flex;align-items:center;justify-content:space-between}
 .daynav{display:inline-flex;align-items:center;gap:6px;font-size:var(--size-sm)}
-.daynav b{font-weight:var(--w-regular);font-family:var(--font-heading);letter-spacing:.06em;min-width:64px;text-align:center}
+.daynav b{font-weight:var(--w-bold);font-family:var(--font-body);letter-spacing:0;min-width:64px;text-align:center}
 .daynav u{padding:3px 6px}
 .tl .chev{align-self:center}
 /* PC 幅の顧客詳細: 左に本人・中央に履歴・右にメモ（競合比較 §4b） */
@@ -318,104 +335,104 @@ main.stage.view-pc #SCR-06 .seg{margin:0}
 main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 
 /* ==== フィードバック（モック専用・製品 UI ではない）: 画面を離れずに一言送る ==== */
-.fb-btn{position:fixed;right:18px;bottom:18px;z-index:50;height:44px;padding:0 16px 0 12px;border-radius:22px;background:#1F1B17;color:#E9E3D8;border:1px solid #9A7B4F;display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;letter-spacing:.08em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.fb-btn{position:fixed;right:18px;bottom:18px;z-index:50;height:44px;padding:0 16px 0 12px;border-radius:22px;background:#2A2030;color:#F3EDEA;border:1px solid #F0956A;display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;letter-spacing:.04em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 .fb-btn .i{width:18px;height:18px}
-.fb-wrap{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(31,27,23,.45)}
+.fb-wrap{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(42,32,48,.45)}
 .fb-wrap.on{display:flex}
-.fb{width:100%;max-width:520px;background:#FDFBF7;border-radius:16px 16px 0 0;padding:14px 20px 26px;display:flex;flex-direction:column;gap:12px;color:#1F1B17;font-family:var(--font-body)}
-.fb .grip{width:36px;height:3px;border-radius:2px;background:#D6C7AE;margin:0 auto 2px}
-.fb h2{font-family:var(--font-heading);font-size:19px;font-weight:400}
-.fb .ctx{font-size:11px;color:#8C8378;letter-spacing:.04em;line-height:1.6}
-.fb textarea{width:100%;min-height:96px;border:1px solid #D6C7AE;border-radius:4px;padding:10px 12px;font:inherit;font-size:15px;background:#FFFDF9;resize:vertical}
+.fb{width:100%;max-width:520px;background:#FFFDFB;border-radius:20px 20px 0 0;padding:14px 20px 26px;display:flex;flex-direction:column;gap:12px;color:#2A2030;font-family:var(--font-body)}
+.fb .grip{width:36px;height:4px;border-radius:2px;background:#DCCFD8;margin:0 auto 2px}
+.fb h2{font-family:var(--font-body);font-size:19px;font-weight:700}
+.fb .ctx{font-size:11px;color:#6F6473;letter-spacing:.04em;line-height:1.6}
+.fb textarea{width:100%;min-height:96px;border:1.5px solid #DCCFD8;border-radius:16px;padding:10px 12px;font:inherit;font-size:15px;background:#FFFDFB;resize:vertical}
 .fb .sev{display:flex;gap:8px}
-.fb .sev button{flex:1;height:40px;border:1px solid #D6C7AE;background:transparent;font:inherit;font-size:13px;color:#5C544B;border-radius:4px;cursor:pointer}
-.fb .sev button.on{background:#1F1B17;color:#fff;border-color:#1F1B17}
-.fb .who{height:40px;border:0;border-bottom:1px solid #D6C7AE;font:inherit;font-size:14px;background:transparent;padding:0 2px}
+.fb .sev button{flex:1;height:40px;border:1.5px solid #CBB7DA;background:transparent;font:inherit;font-size:13px;color:#62576A;border-radius:999px;cursor:pointer}
+.fb .sev button.on{background:#F1E9F5;color:#5A3A74;border-color:#5A3A74;font-weight:700}
+.fb .who{height:40px;border:0;border-bottom:1px solid #DCCFD8;font:inherit;font-size:14px;background:transparent;padding:0 2px}
 .fb .acts{display:flex;gap:10px;margin-top:4px}
-.fb .acts button{flex:1;height:48px;border-radius:4px;font:inherit;font-size:14px;letter-spacing:.08em;cursor:pointer;border:1px solid #9A7B4F;background:transparent;color:#3F311D}
-.fb .acts button.go{background:#1F1B17;color:#fff;border-color:#1F1B17;flex:1.6}
-.fb .done{font-size:13px;color:#6F5633;text-align:center;min-height:1.6em}
+.fb .acts button{flex:1;height:48px;border-radius:999px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;border:1.5px solid #CBB7DA;background:transparent;color:#5A3A74}
+.fb .acts button.go{background:#5A3A74;color:#FFFDFB;border-color:#5A3A74;flex:1.6}
+.fb .done{font-size:13px;color:#5A3A74;text-align:center;min-height:1.6em}
 @media (max-width:800px){.fb-btn{bottom:14px;right:14px}}
 
 /* ==== 第3版 追加部品 ==== */
-.q{font-family:var(--font-heading);font-size:22px;letter-spacing:.06em;line-height:1.6}
-.bigin{height:60px;font-size:20px;font-family:var(--font-heading);letter-spacing:.06em}
+.q{font-family:var(--font-body);font-size:var(--size-lg);font-weight:var(--w-bold);line-height:1.6}
+.bigin{height:60px;font-size:var(--size-lg);font-family:var(--font-body);font-weight:var(--w-bold)}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{border:1px solid var(--main-300);padding:8px 14px;font-size:var(--size-sm);letter-spacing:.06em;color:var(--text-secondary);min-height:40px;display:inline-flex;align-items:center;gap:6px}
-.chip.on{border-color:var(--main-900);color:var(--main-900);background:var(--main-100)}
+.chip{border:1.5px solid var(--main-300);border-radius:var(--radius-pill);background:var(--surface);padding:6px 14px;font-size:var(--size-sm);font-weight:var(--w-medium);color:var(--main-700);min-height:40px;display:inline-flex;align-items:center;gap:6px;transition:background-color .15s}
+.chip.on{border-color:var(--main-700);color:var(--main-700);background:var(--main-100);font-weight:var(--w-bold)}
 .dotsteps{display:flex;gap:6px;align-items:center}
-.dotsteps i{width:6px;height:6px;border-radius:50%;background:var(--main-300);display:block}
-.dotsteps i.on{background:var(--main-900);width:18px;border-radius:3px}
+.dotsteps i{width:8px;height:8px;border-radius:50%;background:var(--line);display:block}
+.dotsteps i.on{background:var(--main-700);width:20px;border-radius:var(--radius-pill)}
 .row{display:flex;align-items:center;gap:14px;padding:14px 2px;border-bottom:var(--border);text-decoration:none;color:inherit}
-.row .mono{width:44px;height:44px;font-size:18px}
+.row .mono{width:44px;height:44px;font-size:var(--size-lg)}
 .row .main{flex:1;min-width:0}
-.row .name{font-size:var(--size-md)}
+.row .name{font-size:var(--size-md);font-weight:var(--w-bold)}
 .row .r{text-align:right;font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.06em;line-height:1.5}
-.row .r b{display:block;font-family:var(--font-heading);font-size:var(--size-md);color:var(--text-primary);font-weight:300}
-.folder{border:var(--border);padding:14px;display:flex;flex-direction:column;gap:6px;min-height:110px;justify-content:space-between;text-decoration:none;color:inherit;background:var(--surface)}
-.folder .kind{font-size:var(--size-xs);letter-spacing:.16em;color:var(--main-700)}
-.folder .nm{font-family:var(--font-heading);font-size:var(--size-md);letter-spacing:.04em}
-.folder.add{border-style:dashed;align-items:center;justify-content:center;color:var(--main-700);background:transparent;letter-spacing:.14em;font-size:var(--size-sm)}
+.row .r b{display:block;font-family:var(--font-body);font-size:var(--size-md);color:var(--text-primary);font-weight:var(--w-bold)}
+.folder{border:0;border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:14px;display:flex;flex-direction:column;gap:6px;min-height:110px;justify-content:space-between;text-decoration:none;color:inherit;background:var(--surface)}
+.folder .kind{font-size:var(--size-xs);letter-spacing:.06em;color:var(--main-700)}
+.folder .nm{font-family:var(--font-body);font-size:var(--size-md);font-weight:var(--w-bold)}
+.folder.add{border:1.5px dashed var(--line);box-shadow:none;align-items:center;justify-content:center;color:var(--main-700);background:transparent;font-weight:var(--w-bold);font-size:var(--size-sm)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .menu{border-top:var(--border)}
 .menu a,.menu .mrow{display:flex;align-items:center;gap:14px;padding:16px 2px;border-bottom:var(--border);text-decoration:none;color:inherit}
-.menu a .t,.menu .mrow .t{flex:1}.menu a .t b,.menu .mrow .t b{display:block;font-weight:var(--w-regular);font-size:var(--size-md)}
+.menu a .t,.menu .mrow .t{flex:1}.menu a .t b,.menu .mrow .t b{display:block;font-weight:var(--w-bold);font-size:var(--size-md)}
 .menu a .t span,.menu .mrow .t span{font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.04em}
-.menu a .chev{color:var(--main-700);font-size:var(--size-lg);font-weight:300}
+.menu a .chev{color:var(--main-700);font-size:var(--size-lg);font-weight:700}
 .wave{display:flex;align-items:center;justify-content:center;gap:3px;height:60px}
-.wave i{width:3px;background:var(--main-500);border-radius:2px;display:block}
-.quote{font-family:var(--font-heading);font-size:var(--size-md);line-height:2;letter-spacing:.03em;border-left:2px solid var(--main-300);padding-left:14px;color:var(--text-secondary)}
+.wave i{width:3px;background:var(--accent-700);opacity:.75;border-radius:2px;display:block}
+.quote{font-family:var(--font-body);font-size:var(--size-md);line-height:1.6;background:var(--accent-100);border-radius:var(--radius-bubble) var(--radius-bubble) 6px var(--radius-bubble);padding:10px 14px;margin-left:auto;max-width:88%;color:var(--text-primary)}
 .kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .kpi .card{padding:14px 16px}
 .kpi .card .label{margin-bottom:2px}
-.kpi .card b{font-family:var(--font-heading);font-size:30px;font-weight:300;display:block;line-height:1.2;letter-spacing:.02em}
+.kpi .card b{font-family:var(--font-body);font-size:var(--size-xl);font-weight:700;display:block;line-height:1.2;letter-spacing:.02em}
 .kpi .card .delta{font-size:var(--size-xs);color:var(--main-700);letter-spacing:.06em}
 .spark{display:flex;align-items:flex-end;gap:3px;height:28px;margin-top:8px}
-.spark i{flex:1;background:var(--main-300);display:block}
+.spark i{flex:1;background:var(--main-300);border-radius:2px 2px 0 0;display:block}
 .spark i.hi{background:var(--main-500)}
-.insight{background:var(--main-900);color:var(--background);padding:18px 20px;border-radius:var(--radius)}
-.insight .eyebrow{font-size:var(--size-xs);letter-spacing:.2em;color:var(--main-300)}
-.insight p{font-family:var(--font-heading);font-size:var(--size-md);line-height:1.9;margin-top:8px;color:#F3EDE2}
+.insight{background:var(--main-700);color:var(--surface);padding:16px;border-radius:var(--radius-bubble)}
+.insight .eyebrow{font-size:var(--size-xs);letter-spacing:.06em;color:var(--main-300)}
+.insight p{font-family:var(--font-body);font-size:var(--size-md);line-height:1.7;margin-top:8px;color:var(--surface)}
 .insight .meta{color:var(--main-300);margin-top:8px}
-.bubble{background:var(--surface);border:var(--border);border-radius:16px 16px 16px 4px;padding:14px 16px;font-size:var(--size-sm);line-height:1.9;position:relative;max-width:92%}
+.bubble{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-bubble) var(--radius-bubble) var(--radius-bubble) 6px;padding:12px 14px;font-size:var(--size-sm);line-height:1.85;position:relative;max-width:92%}
 .diff{display:grid;grid-template-columns:90px 1fr 1fr;gap:0;font-size:var(--size-sm)}
 .diff>div{padding:10px 8px;border-bottom:var(--border)}
-.diff .h{font-size:var(--size-xs);letter-spacing:.14em;color:var(--text-secondary);border-bottom:1px solid var(--main-700)}
-.diff .pick{border:1px solid var(--main-300);padding:6px 8px;display:inline-block;min-width:60%}
-.diff .pick.on{border-color:var(--main-900);background:var(--main-100)}
-.hero.light{background:var(--surface);color:var(--text-primary);border:var(--border)}
+.diff .h{font-size:var(--size-xs);font-weight:var(--w-bold);color:var(--text-secondary);border-bottom:1.5px solid var(--line)}
+.diff .pick{border:1.5px solid var(--main-300);border-radius:var(--radius-card);padding:6px 10px;display:inline-block;min-width:60%}
+.diff .pick.on{border-color:var(--main-700);background:var(--main-100)}
+.hero.light{background:var(--surface);color:var(--text-primary);border:0;box-shadow:var(--shadow-card)}
 .hero.light .eyebrow{color:var(--text-meta)} .hero.light h2{color:var(--text-primary)} .hero.light .note{color:var(--text-primary)}
-.hero.danger{background:var(--surface);color:var(--text-primary);border:1px solid var(--error)}
+.hero.danger{background:var(--surface);color:var(--text-primary);border:1px solid var(--error-300);box-shadow:none}
 .pcgrid{display:grid;grid-template-columns:2fr 1fr;gap:20px}
 .pc .body{max-width:none}
 .schoolhero{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.schoolhero .card b{font-family:var(--font-heading);font-size:36px;font-weight:300;display:block;line-height:1.2}
-.alert-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border:var(--border);background:var(--surface);text-decoration:none;color:inherit}
-.alert-row .mono{width:40px;height:40px;font-size:16px}
+.schoolhero .card b{font-family:var(--font-body);font-size:var(--size-xl);font-weight:700;display:block;line-height:1.2}
+.alert-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border:0;border-radius:var(--radius-card);box-shadow:var(--shadow-card);background:var(--surface);text-decoration:none;color:inherit}
+.alert-row .mono{width:40px;height:40px;font-size:var(--size-md)}
 .alert-row .badge{margin-left:auto}
-.cust-screen{background:var(--main-900);color:var(--background)}
+.cust-screen{background:var(--main-700);color:var(--surface)}
 .cust-screen .card{background:var(--surface);color:var(--text-primary);border-color:transparent}
-.cust-screen h1,.cust-screen h2{color:var(--background);font-weight:300}
+.cust-screen h1,.cust-screen h2{color:var(--surface);font-weight:var(--w-bold)}
 .cust-screen .label{color:var(--main-300)}
-.cust-screen .btn.primary{background:var(--background);color:var(--main-900);border-color:var(--background)}
+.cust-screen .btn.primary{background:var(--surface);color:var(--main-700);border-color:var(--surface)}
 /* ==== 2026-10-09 反映（03 §5 #23〜#26）: 紙の切り抜き・候補と切り抜きの並び ==== */
 .withcrop{display:flex;gap:10px;align-items:flex-start;margin-top:12px}
 .withcrop .crop{margin-top:26px}
 .withcrop .field{flex:1;min-width:0}
-.crop{width:88px;height:48px;flex:none;border:var(--border);border-radius:var(--radius);background:repeating-linear-gradient(0deg,var(--main-100) 0 11px,var(--surface) 11px 12px);display:flex;align-items:flex-end;padding:2px 6px;font-size:var(--size-xs);color:var(--text-secondary);letter-spacing:.02em;overflow:hidden;white-space:nowrap;font-family:var(--font-heading)}
+.crop{width:88px;height:48px;flex:none;border:var(--border);border-radius:var(--radius-card);background:repeating-linear-gradient(0deg,var(--sunk) 0 11px,var(--surface) 11px 12px);display:flex;align-items:flex-end;padding:2px 6px;font-size:var(--size-xs);color:var(--text-secondary);letter-spacing:.02em;overflow:hidden;white-space:nowrap;font-family:var(--font-body)}
 .tg2{display:inline-flex;flex-direction:column;align-items:center;gap:2px;margin-left:8px;font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.06em}
 /* ==== 2026-10-09 反映（03 §5 #29）: LINE のつなぎ方の案内（SCR-12・S2）。LINE の画面は写さず、枠だけの図で示す ==== */
 .lw-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.lw-step{font-size:var(--size-xs);letter-spacing:.14em;color:var(--text-meta)}
-.lw-step b{color:var(--main-900);font-weight:var(--w-medium);margin-right:8px}
+.lw-step{font-size:var(--size-xs);letter-spacing:.06em;color:var(--text-meta)}
+.lw-step b{color:var(--main-700);font-weight:var(--w-bold);margin-right:8px}
 .lw-bar{display:flex;gap:4px}
-.lw-bar i{flex:1;height:2px;background:var(--main-100)}
-.lw-bar i.done{background:var(--main-500)}
+.lw-bar i{flex:1;height:4px;border-radius:var(--radius-pill);background:var(--sunk)}
+.lw-bar i.done{background:var(--done)}
 .card .lw-bar{margin-bottom:8px}
 .lw-list{margin:0;padding-left:1.4em;font-size:var(--size-sm);color:var(--text-secondary);display:flex;flex-direction:column;gap:4px}
-.lw-list b{color:var(--text-primary);font-weight:var(--w-medium)}
-.lw-fig{border:var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden}
-.lw-fig .cap{font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.08em;padding:4px 10px;border-bottom:var(--border);background:var(--main-100)}
+.lw-list b{color:var(--text-primary);font-weight:var(--w-bold)}
+.lw-fig{border:var(--border);border-radius:var(--radius-card);background:var(--surface);overflow:hidden}
+.lw-fig .cap{font-size:var(--size-xs);color:var(--text-secondary);padding:4px 10px;border-bottom:var(--border);background:var(--sunk)}
 .lw-fig .top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;border-bottom:var(--border);font-size:var(--size-xs);color:var(--text-meta)}
 .lw-fig .tabs2{display:flex;gap:6px;padding:6px 10px 0;border-bottom:var(--border);font-size:var(--size-xs);color:var(--text-meta)}
 .lw-fig .tabs2 span{padding:2px 6px;border:1px solid transparent;border-bottom:0}
@@ -423,43 +440,44 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 .lw-fig .side{border-right:var(--border);padding:6px 0;display:flex;flex-direction:column;gap:2px}
 .lw-fig .side span{font-size:var(--size-xs);color:var(--text-meta);padding:2px 8px;letter-spacing:.02em}
 .lw-fig .pane{padding:8px 10px;display:flex;flex-direction:column;gap:6px;min-width:0}
-.lw-fig .ph{display:block;height:6px;background:var(--main-100);width:80%}
+.lw-fig .ph{display:block;height:6px;border-radius:3px;background:var(--sunk);width:80%}
 .lw-fig .ph.s{width:50%}
-.lw-fig .fld{display:flex;align-items:center;justify-content:space-between;gap:6px;border:1px dashed var(--main-300);padding:3px 6px;font-size:var(--size-xs);color:var(--text-secondary);min-width:0}
+.lw-fig .fld{display:flex;align-items:center;justify-content:space-between;gap:6px;border:1px dashed var(--line);padding:3px 6px;font-size:var(--size-xs);color:var(--text-secondary);min-width:0}
 .lw-fig .fld em{font-style:normal;color:var(--text-meta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lw-fig .hit{border:1px solid var(--main-500);background:var(--main-100);color:var(--main-900)}
+.lw-fig .hit,.lw-fig span.hit,.lw-fig .hit em{border:1.5px solid var(--main-700);background:var(--main-100);color:var(--main-700)}
+.lw-fig .hit em{border:0}
 .lw-fig .toggle{transform:scale(.7);transform-origin:right center}
-.lw-n{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--main-900);color:var(--background);font-size:var(--size-xs);font-style:normal;line-height:1;margin-right:4px;flex:none;vertical-align:middle}
+.lw-n{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--main-700);color:var(--surface);font-size:var(--size-xs);font-style:normal;line-height:1;margin-right:4px;flex:none;vertical-align:middle}
 .lw-url{display:flex;align-items:center;gap:10px;border-bottom:var(--border);padding:8px 2px}
 .lw-url code{flex:1;min-width:0;font-family:var(--font-body);font-size:var(--size-sm);color:var(--text-primary);word-break:break-all;letter-spacing:.02em}
 .lw-url .btn{flex:none}
 .input.bad{border-bottom-color:var(--error)}
 .pw.bad{border-bottom-color:var(--error)}
 .btn.wait{opacity:.55;cursor:default}
-.okbox{border-left:2px solid var(--main-500);padding:8px 0 8px 16px;color:var(--text-primary)}
+.okbox{border:1.5px solid var(--line);border-radius:var(--radius-card);background:var(--surface);padding:10px 14px;color:var(--text-primary)}
 /* ==== 2026-10-09 反映（03 §5 #31）: まだ結びついていない LINE（SCR-15・S2）と一斉送信の案内（SCR-12） ==== */
 #SCR-15 .body>.state-view.on{display:flex;flex-direction:column;gap:18px}
 #SCR-15 .seg span[data-go]{cursor:pointer}
 .row .r .i{width:16px;height:16px;color:var(--main-700)}
-.okbox b{color:var(--main-900);display:block;margin-bottom:2px;font-weight:var(--w-medium)}
-.lw-site{font-size:var(--size-xs);letter-spacing:.08em;color:var(--text-secondary);font-weight:var(--w-medium);border-left:2px solid var(--main-500);padding-left:8px}
+.okbox b{color:var(--text-primary);display:block;margin-bottom:2px;font-weight:var(--w-bold)}
+.lw-site{font-size:var(--size-xs);color:var(--text-secondary);font-weight:var(--w-bold);border-left:3px solid var(--main-300);padding-left:8px}
 .lw-sites{display:flex;flex-direction:column;border-top:var(--border)}
 .lw-siterow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:var(--border)}
 .lw-siterow .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.lw-siterow .t b{font-size:var(--size-sm);font-weight:var(--w-medium);color:var(--text-primary)}
+.lw-siterow .t b{font-size:var(--size-sm);font-weight:var(--w-bold);color:var(--text-primary)}
 .lw-siterow .t span{font-size:var(--size-xs);color:var(--text-meta)}
 .lw-siterow .btn{flex:none}
 .lw-tab>*+*{margin-top:12px}
 .lw-tab>.meta:first-child+.q{margin-top:0}
-.kv .mask{font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.kv .mask{font-variant-numeric:tabular-nums;letter-spacing:.04em}
 /* ==== ヘルプの ？（共通部品 HelpTip。03-spec 共通要素「ヘルプの ？」）。button.help と div.helptip を置くだけで動く ==== */
 .help{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin:-14px -14px -14px -10px;padding:0;border:0;background:transparent;color:var(--main-700);cursor:pointer;vertical-align:middle;font:inherit;letter-spacing:0;flex:none}
-.help .i{width:16px;height:16px;border-radius:var(--radius)}
+.help .i{width:16px;height:16px;border-radius:var(--radius-pill)}
 .help[aria-expanded="true"] .i{background:var(--main-100)}
-.help:focus-visible{outline:1px solid var(--main-700);outline-offset:-10px}
+.help:focus-visible{outline:1.5px solid var(--main-700);outline-offset:-10px;border-radius:var(--radius-pill)}
 .hero:not(.light) .help,.insight .help{color:var(--main-300)}
-.hero:not(.light) .help[aria-expanded="true"] .i,.insight .help[aria-expanded="true"] .i{background:var(--main-700)}
-.helptip{display:none;align-self:stretch;margin-top:6px;padding:10px 12px;background:var(--surface);border:var(--border);border-radius:var(--radius);font-family:var(--font-body);font-size:var(--size-sm);font-weight:var(--w-regular);color:var(--text-secondary);line-height:1.7;letter-spacing:.02em;text-align:left;white-space:normal}
+.hero:not(.light) .help[aria-expanded="true"] .i,.insight .help[aria-expanded="true"] .i{background:var(--main-500)}
+.helptip{display:none;align-self:stretch;margin-top:6px;padding:10px 14px;background:var(--surface);border:var(--border);border-radius:var(--radius-card);font-family:var(--font-body);font-size:var(--size-sm);font-weight:var(--w-regular);color:var(--text-secondary);line-height:1.7;letter-spacing:0;text-align:left;white-space:normal}
 .helptip.on{display:block;animation:helpin .15s ease-out}
 @keyframes helpin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .helprow{display:flex;align-items:center;gap:4px}
@@ -470,43 +488,43 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 .amt-row{display:flex;flex-direction:column;gap:2px;padding:10px 2px;border-bottom:var(--border);min-width:0}
 .amt-top{display:flex;align-items:center;gap:8px;min-width:0}
 .amt-name{flex:1;min-width:0}
-.amt-yen{font-family:var(--font-heading);font-weight:var(--w-regular);font-variant-numeric:tabular-nums;white-space:nowrap}
-.amt-edit{display:flex;flex-direction:column;gap:10px;padding:14px 16px;margin-top:12px}
+.amt-yen{font-family:var(--font-body);font-weight:var(--w-bold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.amt-edit{display:flex;flex-direction:column;gap:10px;padding:14px;margin-top:12px}
 .amt-edit .eyebrow{color:var(--text-meta)}
 .amt-qty{flex:0 0 72px}
 .amt-sum{margin-left:auto;font-size:var(--size-sm);color:var(--text-secondary);white-space:nowrap}
 .amt-err{font-size:var(--size-sm);color:var(--error);margin-top:4px}
 .bal{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:var(--size-sm);color:var(--text-secondary);border-top:var(--border);padding-top:8px}
-.hero.light .acts .btn.ghost{border-color:var(--main-700);color:var(--main-900)}
-.bal b{font-weight:var(--w-regular);color:var(--text-primary);font-variant-numeric:tabular-nums}
-.sheet.acct{top:0;bottom:auto;border-radius:0 0 16px 16px;padding-top:16px}
-.fixed .row2 .btn{letter-spacing:.04em;padding:0 8px;gap:6px}
+.hero.light .acts .btn.ghost{border-color:var(--main-700);color:var(--main-700)}
+.bal b{font-weight:var(--w-bold);color:var(--text-primary);font-variant-numeric:tabular-nums}
+.sheet.acct{top:0;bottom:auto;border-radius:0 0 var(--radius-bubble) var(--radius-bubble);padding-top:16px}
+.fixed .row2 .btn{letter-spacing:0;padding:0 8px;gap:6px}
 .acctbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:var(--main-700);padding:0;cursor:pointer;margin-right:-10px}
 .acctbtn .i{width:22px;height:22px}
 .greet .greet-r{display:inline-flex;align-items:center;gap:4px}
 .acct-who{padding:2px 2px 6px}
-.acct-who b{font-weight:var(--w-medium);display:block}
-.fw{font-weight:var(--w-medium)}
-.h3xs{font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.14em}
-.errorbox.soft{border-color:var(--main-500)}
-.errorbox.soft b{color:var(--main-900)}
+.acct-who b{font-weight:var(--w-bold);display:block}
+.fw{font-weight:var(--w-bold)}
+.h3xs{font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.06em}
+.errorbox.soft{border-color:var(--main-300)}
+.errorbox.soft b{color:var(--main-700)}
 .chip.s{min-height:28px;padding:2px 10px}
-.hero.light .acts .btn.primary{background:var(--main-900);color:var(--background);border-color:var(--main-900)}
+.hero.light .acts .btn.primary{background:var(--main-700);color:var(--surface);border-color:var(--main-700)}
 .t-view{display:none}
 #SCR-07:has(.state-view[data-state="view"].on) .t-view{display:inline}
 #SCR-07:has(.state-view[data-state="view"].on) .t-norm{display:none}
 #SCR-04:has(.state-view[data-state="empty"].on) .fixed{display:none}
-#SCR-05:has(.state-view[data-state="dup"].on) .fixed .btn.primary{background:transparent;color:var(--main-900);border-color:var(--main-700)}
+#SCR-05:has(.state-view[data-state="dup"].on) .fixed .btn.primary{background:transparent;color:var(--main-700);border-color:var(--main-700)}
 #SCR-13:has(.state-view[data-state="add"].on) .greet>.btn{display:none !important}
 .s2only{display:none}
 #SCR-21:has(.state-view[data-state="line"].on) .s2only{display:inline}
 #SCR-21:has(.state-view[data-state="line"].on) .s1only{display:none}
-.cust-screen .btn:not(.primary){border-color:var(--main-300);color:var(--background);background:transparent}
+.cust-screen .btn:not(.primary){border-color:var(--main-300);color:var(--surface);background:transparent}
 .cust-screen .btn .i{color:inherit}
-.cust-screen .check{border-bottom-color:var(--main-100)}
+.cust-screen .check{border-bottom-color:var(--main-500)}
 .cust-screen .check .meta{display:block}
 .holdwrap{display:flex;justify-content:flex-end}
-.numxl{font-family:var(--font-heading);font-size:var(--size-xl);font-weight:var(--w-light)}
+.numxl{font-family:var(--font-body);font-size:var(--size-xl);font-weight:var(--w-bold)}
 /* 2026-10-09 11 §1 V-06: プリペイド払いの状態では回数券の消化の行を隠す。残高不足の状態では通常の残高の行を隠す */
 #SCR-07 .state-view[data-state="s3"]:has(.state-view[data-state="prepaid"].on) .amt{display:none}
 .amt-edit:has(.state-view[data-state="nobal"].on) .bal.ok{display:none}
@@ -515,7 +533,7 @@ main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 .staffbuy-row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px}
 #SCR-07 .state-view[data-state="s3"]:has(.state-view[data-state="goods"].on) .staffbuy{display:none}
 .textarea.long{min-height:132px;line-height:1.8}
-.bubble .after{display:block;border-top:1px solid var(--main-300);margin-top:10px;padding-top:10px}
+.bubble .after{display:block;border-top:1px dashed var(--line);margin-top:10px;padding-top:10px}
 .pickchips .chip{white-space:nowrap}
 a.chip{text-decoration:none;cursor:pointer}
 .card h3+.badge{white-space:nowrap;flex:none;align-self:flex-start}
@@ -531,27 +549,27 @@ a.chip:hover{border-color:var(--main-700)}
 .m-switch{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .daynav u.off{opacity:.35}
 .hero h2.m-big{font-size:var(--size-xl);font-variant-numeric:tabular-nums}
-.m-bar{position:relative;height:2px;background:var(--main-700);margin-top:12px}
-.m-fill{position:absolute;left:0;top:0;bottom:0;background:var(--main-300)}
-.m-tick{position:absolute;top:-4px;width:1px;height:10px;background:var(--background)}
+.m-bar{position:relative;height:8px;border-radius:var(--radius-pill);background:var(--main-500);margin-top:12px}
+.m-fill{position:absolute;left:0;top:0;bottom:0;border-radius:var(--radius-pill);background:var(--main-300)}
+.m-tick{position:absolute;top:-4px;width:2px;height:16px;border-radius:2px;background:var(--accent-500)}
 .m-w296{width:29.6%}.m-l258{left:25.8%}
-.m-goal{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;font-size:var(--size-xs);letter-spacing:.12em;color:var(--main-300)}
-.m-goal b{font-family:var(--font-heading);font-size:var(--size-lg);font-weight:var(--w-light);color:var(--background);letter-spacing:.04em}
+.m-goal{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;font-size:var(--size-xs);letter-spacing:.06em;color:var(--main-300)}
+.m-goal b{font-family:var(--font-body);font-size:var(--size-lg);font-weight:var(--w-bold);color:var(--surface);letter-spacing:.04em}
 .hero .meta.m-onhero{color:var(--main-300);margin-top:4px}
 #SCR-28 table.grid th,#SCR-28 table.grid td{padding:10px 6px}
 #SCR-28 table.grid th:first-child,#SCR-28 table.grid td:first-child{padding-left:2px}
 #SCR-28 table.grid th:last-child,#SCR-28 table.grid td:last-child{padding-right:2px}
 table.grid td.y,table.grid th.y{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-table.grid td.y{font-family:var(--font-heading)}
+table.grid td.y{font-family:var(--font-body)}
 table.grid td.m-na{color:var(--text-meta)}
 .m-staff{border-top:var(--border);padding:12px 2px 14px}
 .m-staff:last-child{border-bottom:var(--border)}
 .m-staff-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
-.m-staff-h b{font-weight:var(--w-regular);font-size:var(--size-md)}
+.m-staff-h b{font-weight:var(--w-bold);font-size:var(--size-md)}
 .m-staff>.meta{margin-bottom:6px}
-.m-yen{font-family:var(--font-heading);font-size:var(--size-lg);font-weight:var(--w-light);font-variant-numeric:tabular-nums}
+.m-yen{font-family:var(--font-body);font-size:var(--size-lg);font-weight:var(--w-bold);font-variant-numeric:tabular-nums}
 #SCR-28 .item .r{text-align:right;font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.04em;line-height:1.5;white-space:nowrap}
-#SCR-28 .item .r b{display:block;font-family:var(--font-heading);font-size:var(--size-md);color:var(--text-primary);font-weight:var(--w-light);font-variant-numeric:tabular-nums}
+#SCR-28 .item .r b{display:block;font-family:var(--font-body);font-size:var(--size-md);color:var(--text-primary);font-weight:var(--w-bold);font-variant-numeric:tabular-nums}
 .m-pick{margin-bottom:8px}
 .label.m-home{margin-top:18px}
 .m-goals>.label{margin:0}
@@ -629,9 +647,6 @@ table.grid td.m-na{color:var(--text-meta)}
   <a href="#SCR-25">SCR-25 スタッフ退職処理</a>
   <a href="#SCR-26">SCR-26 スクール個別サロン閲覧</a>
   <a href="#SCR-28">SCR-28 今月の数字</a>
-  <h2 style="margin-top:14px">配色（候補）</h2>
-  <div class="palbar viewbar" style="flex-direction:column;align-items:stretch;gap:4px"><button data-palette="bronze" style="text-align:left">A アイボリー×ブロンズ（現行）</button><button data-palette="sage" style="text-align:left">B リネン×セージ</button><button data-palette="rose" style="text-align:left">C ミルク×ローズベージュ</button><button data-palette="mauve" style="text-align:left">D ペール×モーヴ</button><button data-palette="slateblue" style="text-align:left">E ホワイト×スレートブルー</button></div>
-  <p class="note" id="paldesc"></p>
   <h2 style="margin-top:14px">表示幅</h2>
   <div class="viewbar"><button data-view="phone" class="on">スマホ 375</button><button data-view="tablet">タブレット 768</button><button data-view="pc">PC 1024</button></div>
   <p class="note">スマホが主。タブレット・PC では本文が最大幅 640px で中央に寄り、操作サイズは変えない。</p>
@@ -646,7 +661,7 @@ table.grid td.m-na{color:var(--text-meta)}
     <div class="body nofix" style="justify-content:center;gap:28px">
       <div style="text-align:center;padding:12px 0 0"><p class="meta" style="letter-spacing:.4em">SALONOTE</p></div>
       <div class="state-view on" data-state="login" data-group="auth">
-        <h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:6px">ログイン</h1>
+        <h1 style="font-weight:700;letter-spacing:.06em;text-align:center;margin-bottom:6px">ログイン</h1>
         <div class="field"><label class="label">メールアドレス</label><input class="input" value="megumi@salon-lumiere.jp"></div>
         <div class="field"><label class="label">パスワード</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div><div class="state-view" data-state="error"><span class="err">メールアドレスかパスワードが違います。忘れた場合は下のリンクから再設定できます</span></div></div>
         <div style="display:flex;justify-content:space-between;align-items:center"><span class="sub">この端末を記憶する<button type="button" class="help" aria-expanded="false" aria-controls="help-01-remember" aria-label="この端末を記憶するの説明"><svg class="i"><use href="#i-help"/></svg></button></span><span class="toggle on"><i></i></span></div><div class="helptip" id="help-01-remember" role="note">店の共有タブレットはオンで構いません。家族と共有する端末ではオフにしてください。</div>
@@ -655,11 +670,11 @@ table.grid td.m-na{color:var(--text-meta)}
       </div>
       <div class="state-view" data-state="reset"><div class="card"><h3>再設定のリンクを送りました</h3><p class="sub">megumi@salon-lumiere.jp に届いたリンクを開いてください</p></div></div>
       <div class="state-view" data-state="newpw"><div class="card" style="display:flex;flex-direction:column;gap:12px"><h3>新しいパスワード</h3><div class="field"><label class="label">新しいパスワード（8文字以上）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><div class="field"><label class="label">もう一度</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-03"><svg class="i"><use href="#i-log-in"/></svg>設定してログイン</a></div></div>
-      <div class="state-view" data-state="invite" data-group="auth"><h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card" style="display:flex;flex-direction:column;gap:12px"><h3 style="font-size:var(--size-lg)">Salon Lumière</h3><p class="sub">オーナーとして ・ 招待した人: 山本（スクール）・ 10/14 まで有効</p><div class="field"><label class="label">お名前</label><input class="input" value="山田 由紀"></div><div class="field"><label class="label">パスワード（8文字以上）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-02"><svg class="i"><use href="#i-log-in"/></svg>入る（初期設定へ）</a></div></div>
-      <div class="state-view" data-state="invitehas" data-group="auth"><h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card" style="display:flex;flex-direction:column;gap:12px"><h3 style="font-size:var(--size-lg)">Salon Lumière</h3><p class="sub">オーナーとして ・ 招待した人: 山本（スクール）・ 10/14 まで有効</p><p class="sub">いつものパスワードで入ると Salon Lumière が加わります<button type="button" class="help" aria-expanded="false" aria-controls="help-01-join" aria-label="Salon Lumière に加わるの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-01-join" role="note">このメールアドレスはスクールの講師として登録済みです。同じアカウントにサロンが加わり、お名前も登録済みのものを使います。サロンとスクールはログイン直後とアカウントメニューで切り替えます。</div><div class="field"><label class="label">パスワード（いつものもの）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-02"><svg class="i"><use href="#i-log-in"/></svg>入る（所属に加える）</a></div></div>
-      <div class="state-view" data-state="inviteother" data-group="auth"><h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card" style="display:flex;flex-direction:column;gap:8px"><h3 style="color:var(--error)">このメールアドレスは別のサロンで使われています</h3><p class="sub">ひとつのメールアドレスで入れるサロンは 1 つです。別のメールアドレスで招待してもらってください。</p><p class="meta">招待した人: 佐藤 恵（Salon Lumière）・ スタッフとして</p></div><a class="btn sm block" href="#SCR-01:login"><svg class="i"><use href="#i-log-in"/></svg>ログインの画面へ</a></div>
-      <div class="state-view" data-state="pickrole" data-group="auth"><h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:18px">どちらで使いますか<button type="button" class="help" aria-expanded="false" aria-controls="help-01-pick" aria-label="どちらで使いますかの説明"><svg class="i"><use href="#i-help"/></svg></button></h1><div class="helptip" id="help-01-pick" role="note">選んだ方をこの端末で覚えます。あとからアカウントメニューで切り替えられます。</div><div class="list"><a class="item" href="#SCR-03" style="text-decoration:none;color:inherit"><div class="mono" style="width:44px;height:44px;font-size:18px">S</div><div class="main"><div class="name">Salon Lumière</div><div class="meta">オーナー ・ 今日の記録へ</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a><a class="item" href="#SCR-13" style="text-decoration:none;color:inherit"><div class="mono" style="width:44px;height:44px;font-size:18px">ス</div><div class="main"><div class="name">スクール</div><div class="meta">講師 ・ 生徒サロンの状況へ</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a></div></div>
-      <div class="state-view" data-state="expired" data-group="auth"><h1 style="font-weight:300;letter-spacing:.14em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card"><h3 style="color:var(--error)">招待の期限が切れています</h3><p class="sub">山本さん（スクール）に再送を頼んでください</p></div></div>
+      <div class="state-view" data-state="invite" data-group="auth"><h1 style="font-weight:700;letter-spacing:.06em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card" style="display:flex;flex-direction:column;gap:12px"><h3 style="font-size:var(--size-lg)">Salon Lumière</h3><p class="sub">オーナーとして ・ 招待した人: 山本（スクール）・ 10/14 まで有効</p><div class="field"><label class="label">お名前</label><input class="input" value="山田 由紀"></div><div class="field"><label class="label">パスワード（8文字以上）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-02"><svg class="i"><use href="#i-log-in"/></svg>入る（初期設定へ）</a></div></div>
+      <div class="state-view" data-state="invitehas" data-group="auth"><h1 style="font-weight:700;letter-spacing:.06em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card" style="display:flex;flex-direction:column;gap:12px"><h3 style="font-size:var(--size-lg)">Salon Lumière</h3><p class="sub">オーナーとして ・ 招待した人: 山本（スクール）・ 10/14 まで有効</p><p class="sub">いつものパスワードで入ると Salon Lumière が加わります<button type="button" class="help" aria-expanded="false" aria-controls="help-01-join" aria-label="Salon Lumière に加わるの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-01-join" role="note">このメールアドレスはスクールの講師として登録済みです。同じアカウントにサロンが加わり、お名前も登録済みのものを使います。サロンとスクールはログイン直後とアカウントメニューで切り替えます。</div><div class="field"><label class="label">パスワード（いつものもの）</label><div class="pw"><input class="input" value="••••••••••"><span>表示</span></div></div><a class="btn primary block" href="#SCR-02"><svg class="i"><use href="#i-log-in"/></svg>入る（所属に加える）</a></div></div>
+      <div class="state-view" data-state="inviteother" data-group="auth"><h1 style="font-weight:700;letter-spacing:.06em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card" style="display:flex;flex-direction:column;gap:8px"><h3 style="color:var(--error)">このメールアドレスは別のサロンで使われています</h3><p class="sub">ひとつのメールアドレスで入れるサロンは 1 つです。別のメールアドレスで招待してもらってください。</p><p class="meta">招待した人: 佐藤 恵（Salon Lumière）・ スタッフとして</p></div><a class="btn sm block" href="#SCR-01:login"><svg class="i"><use href="#i-log-in"/></svg>ログインの画面へ</a></div>
+      <div class="state-view" data-state="pickrole" data-group="auth"><h1 style="font-weight:700;letter-spacing:.06em;text-align:center;margin-bottom:18px">どちらで使いますか<button type="button" class="help" aria-expanded="false" aria-controls="help-01-pick" aria-label="どちらで使いますかの説明"><svg class="i"><use href="#i-help"/></svg></button></h1><div class="helptip" id="help-01-pick" role="note">選んだ方をこの端末で覚えます。あとからアカウントメニューで切り替えられます。</div><div class="list"><a class="item" href="#SCR-03" style="text-decoration:none;color:inherit"><div class="mono" style="width:44px;height:44px;font-size:18px">S</div><div class="main"><div class="name">Salon Lumière</div><div class="meta">オーナー ・ 今日の記録へ</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a><a class="item" href="#SCR-13" style="text-decoration:none;color:inherit"><div class="mono" style="width:44px;height:44px;font-size:18px">ス</div><div class="main"><div class="name">スクール</div><div class="meta">講師 ・ 生徒サロンの状況へ</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a></div></div>
+      <div class="state-view" data-state="expired" data-group="auth"><h1 style="font-weight:700;letter-spacing:.06em;text-align:center;margin-bottom:18px">招待されています</h1><div class="card"><h3 style="color:var(--error)">招待の期限が切れています</h3><p class="sub">山本さん（スクール）に再送を頼んでください</p></div></div>
       <div class="state-view" data-state="locked"><div class="card"><h3 style="color:var(--error)">しばらく時間をおいてください</h3><p class="sub">パスワードの入力を続けて間違えたため、10分間ログインできません。</p></div></div>
     </div></div>
   <div class="statebar">画面: <button data-toggle="login" class="on">ログイン</button><button data-toggle="invite">招待の受諾</button><button data-toggle="invitehas">受諾（アカウントあり）</button><button data-toggle="inviteother">受諾（別サロンのメール）</button><button data-toggle="expired">招待の期限切れ</button><button data-toggle="pickrole">ログイン直後（兼務の人）</button>　重ねる: <button data-toggle="error">パスワード不一致</button><button data-toggle="reset">再設定リンク送信後</button><button data-toggle="newpw">新しいパスワードを設定</button><button data-toggle="locked">連続失敗でロック</button></div>
@@ -669,7 +684,7 @@ table.grid td.m-na{color:var(--text-meta)}
 <section class="screen" id="SCR-02">
   <p class="screen-title"><b>SCR-02 初期設定</b> ／ FUNC-01, 05 ・ 1画面1問。スクールと一緒に3分で</p>
   <div class="phone ">
-    <div class="topbar"><p class="crumb"><b>初回設定</b></p><h1 style="font-size:var(--size-sm);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.14em">はじめの設定</h1></div>
+    <div class="topbar"><p class="crumb"><b>初回設定</b></p><h1 style="font-size:var(--size-sm);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.06em">はじめの設定</h1></div>
     <div class="body" style="gap:22px">
       <div class="dotsteps"><i class="on"></i><i></i><i></i><i></i></div>
       <div class="state-view on" data-state="q1"><p class="q">このサロンのお名前を<br>教えてください</p><input class="input bigin" value="Salon Lumière"><p class="meta">違っていれば直してください</p></div>
@@ -701,17 +716,17 @@ table.grid td.m-na{color:var(--text-meta)}
           <div class="acts" style="flex-wrap:wrap"><a class="btn primary" href="#SCR-07:s1"><svg class="i"><use href="#i-check"/></svg>来店を確認する</a><a class="btn ghost" href="#SCR-06"><svg class="i"><use href="#i-users"/></svg>この方を見る</a><a class="btn ghost" href="#SCR-27" style="flex:1 1 100%"><svg class="i"><use href="#i-plus"/></svg>記録を始める</a></div>
         </div></div>
         <div class="state-view" data-state="during" data-group="hero"><div class="hero"><div class="eyebrow"><span>施術中</span><span>11:00 に開始 ・ 確認済み</span></div><h2>みさき <span class="hon" style="color:var(--main-300)">様</span></h2><p class="meta" style="color:var(--main-300)">フェイシャル（保湿）・ 本日の確認 ✓</p><div class="line"></div><p class="note">終わったら「話す」か「撮る」で 30 秒</p><div class="acts"><a class="btn primary" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>記録を残す</a><a class="btn ghost" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>話して記録</a></div></div></div>
-        <div class="state-view" data-state="alldone" data-group="hero"><div class="hero light" style="text-align:center;padding:28px 20px"><p class="meta" style="letter-spacing:.2em">今日の予約</p><h2 style="font-size:var(--size-xl)">5 人すべて残りました</h2><p class="sub">お疲れさまでした。<u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日の予約 4 人</u>を確認して閉店を</p><div class="acts" style="justify-content:center;flex-wrap:wrap"><a class="btn ghost" href="#SCR-27" style="flex:1 1 100%"><svg class="i"><use href="#i-plus"/></svg>記録を始める</a><a class="btn ghost" href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日は 4 人の予約</a><a class="btn ghost" href="#SCR-03"><svg class="i"><use href="#i-clock"/></svg>あとで 8 件</a></div></div></div>
+        <div class="state-view" data-state="alldone" data-group="hero"><div class="hero light" style="text-align:center;padding:28px 20px"><p class="meta" style="letter-spacing:.06em">今日の予約</p><h2 style="font-size:var(--size-xl)">5 人すべて残りました</h2><p class="sub">お疲れさまでした。<u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日の予約 4 人</u>を確認して閉店を</p><div class="acts" style="justify-content:center;flex-wrap:wrap"><a class="btn ghost" href="#SCR-27" style="flex:1 1 100%"><svg class="i"><use href="#i-plus"/></svg>記録を始める</a><a class="btn ghost" href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日は 4 人の予約</a><a class="btn ghost" href="#SCR-03"><svg class="i"><use href="#i-clock"/></svg>あとで 8 件</a></div></div></div>
 
         <div class="progress"><div class="t"><b>今日 2 人記録しました</b></div></div>
 
         <div class="state-view on" data-state="today" data-group="day">
         <div class="dayhead"><span class="label" style="margin:0">今日の流れ</span><span class="daynav"><u data-href="#SCR-03:today" style="opacity:.35"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/8 水</b><u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
         <div class="timeline">
-          <a class="tl done" href="#SCR-06"><span class="time">9:30</span><span class="who"><span class="name">ともこ<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">8回目</b> ・ 痩身 ・ 記録済み</span></span><span class="st ok">済</span></a>
-          <a class="tl done" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">あやの<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">3回目</b> ・ フェイシャル ・ 記録済み</span></span><span class="st ok">済</span></a>
-          <a class="tl now" href="#SCR-06"><span class="time">11:00</span><span class="who"><span class="name">みさき<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">12回目</b> ・ フェイシャル（保湿）・ 前回 9/10</span></span><span class="st">次</span></a>
-          <a class="tl" href="#SCR-06"><span class="time">13:30</span><span class="who"><span class="name">ゆか<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">5回目</b> ・ 脱毛（全身）・ 前回 7/20 ・ 2か月半ぶり</span></span><span class="st"></span></a>
+          <a class="tl done" href="#SCR-06"><span class="time">9:30</span><span class="who"><span class="name">ともこ<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">8回目</b> ・ 痩身 ・ 記録済み</span></span><span class="st ok">済</span></a>
+          <a class="tl done" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">あやの<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">3回目</b> ・ フェイシャル ・ 記録済み</span></span><span class="st ok">済</span></a>
+          <a class="tl now" href="#SCR-06"><span class="time">11:00</span><span class="who"><span class="name">みさき<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">12回目</b> ・ フェイシャル（保湿）・ 前回 9/10</span></span><span class="st">次</span></a>
+          <a class="tl" href="#SCR-06"><span class="time">13:30</span><span class="who"><span class="name">ゆか<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">5回目</b> ・ 脱毛（全身）・ 前回 7/20 ・ 2か月半ぶり</span></span><span class="st"></span></a>
           <a class="tl" href="#SCR-06"><span class="time">16:00</span><span class="who"><span class="name">さくら<span class="hon">様</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ 問診回答あり ・ 金属アレルギー申告</span></span><span class="st"></span></a>
           <a class="tl" href="#SCR-27:booking" style="color:var(--main-700)"><span class="time">＋</span><span class="who"><span class="name" style="color:var(--main-700)">今日来る人を足す</span><br><span class="meta">予約サイト・DM・電話で受けた予約</span></span></a>
           <div class="state-view" data-state="ext"><a class="tl" href="#SCR-04"><span class="time">14:30</span><span class="who"><span class="name">ハギワラ 様 <span class="badge ghost">候補</span> <span class="badge scope">S3</span></span><br><span class="meta">予約通知メールから ・ まだ顧客に結びついていません</span></span><span class="st">紐づけ</span></a></div>
@@ -721,9 +736,9 @@ table.grid td.m-na{color:var(--text-meta)}
         <div class="dayhead"><span class="label" style="margin:0">明日の流れ <span class="meta" style="letter-spacing:0">・ 4 人</span></span><span class="daynav"><u data-href="#SCR-03:today"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/9 木</b><u data-href="#SCR-03:tomorrow" style="opacity:.35"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
         <p class="meta" style="margin-top:-6px">明日の方の「今回気をつけること」を今のうちに</p>
         <div class="timeline">
-          <a class="tl" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">れいな<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">7回目</b> ・ 脱毛（全身）・ 前回 9/11</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 日焼けあり。出力を一段下げる</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="tl" href="#SCR-06"><span class="time">11:30</span><span class="who"><span class="name">かな<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">2回目</b> ・ フェイシャル ・ 体験 10/5</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 本契約の提案を。乾燥が主訴</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="tl" href="#SCR-06"><span class="time">14:00</span><span class="who"><span class="name">はるか<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-900);font-weight:600">15回目</b> ・ 痩身 ・ 前回 9/25</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 金属アレルギー。右肩の張り</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="tl" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">れいな<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">7回目</b> ・ 脱毛（全身）・ 前回 9/11</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 日焼けあり。出力を一段下げる</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="tl" href="#SCR-06"><span class="time">11:30</span><span class="who"><span class="name">かな<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">2回目</b> ・ フェイシャル ・ 体験 10/5</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 本契約の提案を。乾燥が主訴</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="tl" href="#SCR-06"><span class="time">14:00</span><span class="who"><span class="name">はるか<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">15回目</b> ・ 痩身 ・ 前回 9/25</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 金属アレルギー。右肩の張り</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
           <a class="tl" href="#SCR-06"><span class="time">16:30</span><span class="who"><span class="name">こころ<span class="hon">様</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ カウンセリング ・ 問診回答あり</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 問診に「敏感肌」。パッチテストの説明を</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
           <a class="tl" href="#SCR-27:booking" style="color:var(--main-700)"><span class="time">＋</span><span class="who"><span class="name" style="color:var(--main-700)">明日来る人を足す</span><br><span class="meta">予約サイト・DM・電話で受けた予約</span></span></a>
         </div>
@@ -758,7 +773,7 @@ table.grid td.m-na{color:var(--text-meta)}
             <a class="tl" href="#SCR-07"><span class="time">3</span><span class="who"><span class="name">今日の来店を1件、話して残す</span><br><span class="meta">30秒で終わります</span></span></a>
           </div>
           <p class="meta" style="margin-top:10px">予約の受付はこれまでどおり予約サイトや LINE で</p>
-          <div class="acts"><a class="btn primary" href="#SCR-05" style="background:var(--main-900);color:var(--background)"><svg class="i"><use href="#i-user-plus"/></svg>最初のお客様を登録</a></div>
+          <div class="acts"><a class="btn primary" href="#SCR-05" style="background:var(--main-700);color:var(--background)"><svg class="i"><use href="#i-user-plus"/></svg>最初のお客様を登録</a></div>
         </div>
       </div>
       <div class="state-view" data-state="loading"><div class="skeleton" style="height:180px"></div><div class="skeleton" style="margin-top:8px"></div></div>
@@ -791,7 +806,7 @@ table.grid td.m-na{color:var(--text-meta)}
   <div class="phone ">
     <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><b>お客様</b></p><h1 style="">お客様</h1><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
     <div class="body tabbed" style="gap:16px">
-      <div class="search" id="scr04search" style="border-bottom-color:var(--main-900);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span></div>
+      <div class="search" id="scr04search" style="border-bottom-color:var(--main-700);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span></div>
       <div class="state-view on" data-state="normal"><p class="meta">2人が一致 ・ 全 48 人</p>
       <div style="border-top:var(--border)">
         <a class="row" href="#SCR-06"><div class="mono" >み</div><div class="main"><div class="name">みさき<span class="hon">様</span> <span class="badge phase">契約あり</span> <span class="badge err">警告</span></div><div class="meta">さとう みさき ・ フェイシャル</div></div><div class="r"><b>10/8</b>次回</div></a>
@@ -848,7 +863,7 @@ table.grid td.m-na{color:var(--text-meta)}
 <section class="screen" id="SCR-05">
   <p class="screen-title"><b>SCR-05 顧客登録</b> ／ FUNC-03 ・ 呼び名だけ必須。本名の姓・名は任意で別データ</p>
   <div class="phone">
-    <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-04">お客様</a><i>›</i><b>新規登録</b></p><a class="back" href="#SCR-04"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="font-size:var(--size-sm);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.14em">新しいお客様</h1></div>
+    <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-04">お客様</a><i>›</i><b>新規登録</b></p><a class="back" href="#SCR-04"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="font-size:var(--size-sm);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.06em">新しいお客様</h1></div>
     <div class="body" style="gap:22px">
       <p class="q">お客様を<br>なんと呼んでいますか</p>
       <div class="field"><input class="input bigin" placeholder="みさき"><span class="hint">「様」は自動で付きます</span></div>
@@ -872,14 +887,14 @@ table.grid td.m-na{color:var(--text-meta)}
 <section class="screen" id="SCR-06">
   <p class="screen-title"><b>SCR-06 顧客詳細（この人カード）</b> ／ FUNC-03, 06, 07, 09, 15, 18, 22 ・ 人を主語に、縦に並べずタブで分ける</p>
   <div class="phone">
-    <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-04">お客様</a><i>›</i><b>みさき<span class="hon">様</span></b></p><a class="back" href="#SCR-04"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="font-size:var(--size-md);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.14em">お客様</h1><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
+    <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-04">お客様</a><i>›</i><b>みさき<span class="hon">様</span></b></p><a class="back" href="#SCR-04"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="font-size:var(--size-md);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.06em">お客様</h1><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
     <div class="body" style="gap:18px">
-      <div class="person"><div class="mono">み</div><div><h2 style="font-size:var(--size-xl);font-weight:300;letter-spacing:.1em">みさき<span class="hon">様</span> <span class="badge phase">契約あり</span><button type="button" class="help" aria-expanded="false" aria-controls="help-06-phase" aria-label="顧客区分の説明"><svg class="i"><use href="#i-help"/></svg></button></h2><div class="helptip" id="help-06-phase" role="note">有効な回数券・プリペイドがあれば「契約あり」、無くて最後の来店から 180 日より前だと「休眠」、それ以外は「都度払い」です。</div><p class="meta">佐藤 美咲（さとう みさき）・ 2025年3月から ・ <u data-href="#SCR-05"><svg class="i"><use href="#i-pen"/></svg>情報を直す</u></p><div class="rhythm"><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i class="next"></i></div></div></div>
+      <div class="person"><div class="mono">み</div><div><h2 style="font-size:var(--size-xl);font-weight:700;letter-spacing:.06em">みさき<span class="hon">様</span> <span class="badge phase">契約あり</span><button type="button" class="help" aria-expanded="false" aria-controls="help-06-phase" aria-label="顧客区分の説明"><svg class="i"><use href="#i-help"/></svg></button></h2><div class="helptip" id="help-06-phase" role="note">有効な回数券・プリペイドがあれば「契約あり」、無くて最後の来店から 180 日より前だと「休眠」、それ以外は「都度払い」です。</div><p class="meta">佐藤 美咲（さとう みさき）・ 2025年3月から ・ <u data-href="#SCR-05"><svg class="i"><use href="#i-pen"/></svg>情報を直す</u></p><div class="rhythm"><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i class="next"></i></div></div></div>
       <div class="stat"><div><b>12</b><span>来店</span></div><div><b>28<small style="font-size:11px">日</small></b><span>周期</span></div><div><b>10/8</b><span>次回予約</span></div></div>
       <p class="meta" style="margin-top:-8px">どこで知ったか: Instagram DM ・ 最近の予約: ホットペッパー ・ <u data-href="#SCR-05"><svg class="i"><use href="#i-pen"/></svg>情報を直す</u></p>
       <div class="warnband">妊娠中（9/10 申告）・光過敏<div class="meta">安全上の警告 ・ <a class="lnk" href="#SCR-06"><svg class="i"><use href="#i-pen"/></svg>禁忌を編集</a></div></div>
       <div class="state-view" data-state="unread"><div class="warnband">禁忌欄が読めませんでした。紙を見て確認してください<div class="meta">10/8 の問診票から ・ <a class="lnk" href="#SCR-08:intake"><svg class="i"><use href="#i-eye"/></svg>元の問診票を見る</a> <a class="lnk" href="#SCR-06:taboo"><svg class="i"><use href="#i-check"/></svg>禁忌を確認する</a></div></div></div>
-      <div class="state-view" data-state="taboo"><div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.14em;color:var(--text-secondary);padding:10px 0 4px">禁忌・安全上の注意（フェイシャル・脱毛）</h3><div class="check"><span class="box on">✓</span>妊娠中・授乳中 <span class="meta">9/10 申告</span></div><div class="check"><span class="box on">✓</span>光過敏</div><div class="check"><span class="box"></span>服用中の薬</div><div class="check"><span class="box"></span>金属アレルギー</div><div class="check"><span class="box"></span>ケロイド体質</div><div class="field" style="padding:8px 0"><input class="input" placeholder="その他（自由記述）"></div><div class="row2" style="padding-bottom:10px"><a class="btn sm" href="#SCR-06"><svg class="i"><use href="#i-x"/></svg>キャンセル</a><a class="btn sm" href="#SCR-06" style="background:var(--main-900);color:var(--background)"><svg class="i"><use href="#i-check"/></svg>保存</a></div></div></div>
+      <div class="state-view" data-state="taboo"><div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.06em;color:var(--text-secondary);padding:10px 0 4px">禁忌・安全上の注意（フェイシャル・脱毛）</h3><div class="check"><span class="box on">✓</span>妊娠中・授乳中 <span class="meta">9/10 申告</span></div><div class="check"><span class="box on">✓</span>光過敏</div><div class="check"><span class="box"></span>服用中の薬</div><div class="check"><span class="box"></span>金属アレルギー</div><div class="check"><span class="box"></span>ケロイド体質</div><div class="field" style="padding:8px 0"><input class="input" placeholder="その他（自由記述）"></div><div class="row2" style="padding-bottom:10px"><a class="btn sm" href="#SCR-06"><svg class="i"><use href="#i-x"/></svg>キャンセル</a><a class="btn sm" href="#SCR-06" style="background:var(--main-700);color:var(--background)"><svg class="i"><use href="#i-check"/></svg>保存</a></div></div></div>
       <div class="noteband"><h3>今回気をつけること</h3><p>頬の赤みが出やすい。前回より圧を弱めに。乾燥を気にされているのでホームケアの話を。</p><p class="meta" style="margin-top:4px">9/10 の来店記録から ・ <u data-href="#SCR-06"><svg class="i"><use href="#i-pen"/></svg>編集</u></p></div>
       <div class="ext state-view" data-state="ai"><span class="label">次回提案の候補 <span class="badge scope">S2</span></span><div class="field cand" style="margin-top:4px"><input class="input" value="赤みが続いているため次回も低刺激のパックを"></div><p class="meta" style="margin-top:6px">根拠: 9/10・8/12 の来店記録 ・ <a class="lnk" href="#SCR-06"><svg class="i"><use href="#i-check"/></svg>確定する</a> ／ 編集</p></div>
 
@@ -943,7 +958,7 @@ table.grid td.m-na{color:var(--text-meta)}
       <div class="steps" id="scr07steps"><b>1 確認</b><i class="done"></i><b>2 記録</b><i></i><span>3 会計・次回</span></div>
 
       <div class="state-view" data-state="s1">
-        <div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.14em;color:var(--text-secondary);padding:10px 0 4px">本日の確認（フェイシャル）</h3>
+        <div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.06em;color:var(--text-secondary);padding:10px 0 4px">本日の確認（フェイシャル）</h3>
           <div class="check"><span class="box on">✓</span>体調・服薬に変化なし</div>
           <div class="check"><span class="box on">✓</span>日焼け・肌荒れなし</div>
           <div class="check"><span class="box"></span>妊娠の可能性 <span class="badge err">警告あり</span></div></div>
@@ -1012,7 +1027,7 @@ table.grid td.m-na{color:var(--text-meta)}
 
       <div class="state-view" data-state="view">
         <div class="card kv"><span>来店日</span><b>2026/9/10（水）</b><span>施術者</span><b>佐藤</b><span>メニュー</span><b>フェイシャル（保湿）・ ¥12,000</b><span>予約経路</span><b>ホットペッパー</b></div>
-        <div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.14em;color:var(--text-secondary);padding:10px 0 4px">本日の確認</h3><div class="check"><span class="box on">✓</span>体調・服薬に変化なし</div><div class="check"><span class="box on">✓</span>日焼け・肌荒れなし</div><div class="check" style="border:0"><span class="box on">✓</span>妊娠の可能性 → 申告あり</div></div>
+        <div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.06em;color:var(--text-secondary);padding:10px 0 4px">本日の確認</h3><div class="check"><span class="box on">✓</span>体調・服薬に変化なし</div><div class="check"><span class="box on">✓</span>日焼け・肌荒れなし</div><div class="check" style="border:0"><span class="box on">✓</span>妊娠の可能性 → 申告あり</div></div>
         <div class="noteband"><h3>施術内容</h3><p>保湿パック＋デコルテマッサージ</p></div>
         <div class="noteband"><h3>肌の状態</h3><p>頬に軽い赤み。乾燥強め</p></div>
         <div class="field"><label class="label">写真</label><div class="thumbs"><div class="thumb">前</div><div class="thumb">後</div></div></div>
@@ -1125,7 +1140,7 @@ table.grid td.m-na{color:var(--text-meta)}
       <div class="field cand"><label class="label">施術内容 <span class="badge">候補</span></label><input class="input" value="保湿パック＋デコルテマッサージ"></div><div class="field cand"><label class="label">肌の状態 <span class="badge">候補</span></label><input class="input" value="頬に軽い赤み。乾燥強め"></div><div class="field cand"><label class="label">ホームケア（宿題） <span class="badge">候補</span></label><input class="input" value="夜の美容液を毎日。日中は日焼け止め"></div><div class="field cand"><label class="label">次回のおすすめ（お客様に送ります） <span class="badge">候補</span></label><input class="input" value="乾燥の時期なので、3〜4週間後に保湿ケアを"></div><div class="field cand"><label class="label">スタッフへの申し送り（お客様には送りません） <span class="badge">候補</span></label><input class="input" value="圧を弱めに"></div>
       <div class="field"><label class="label">お客様の要望</label><input class="input" placeholder=""><span class="hint">話されていなかったので空欄です</span></div></div>
       <div class="state-view" data-state="rec"><div style="text-align:center;padding-top:40px"><p class="q">お一人分ずつ<br>話してください<button type="button" class="help" aria-expanded="false" aria-controls="help-09-talk" aria-label="何を話すかの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-09-talk" role="note">施術の内容・気づいたこと・ホームケア・次回のおすすめを話すと、欄に振り分けます。30 秒〜数分で十分です。</div></div><div class="recbtn" style="margin-top:36px">録音</div></div>
-      <div class="state-view" data-state="recording"><div style="text-align:center;padding-top:40px"><p class="meta" style="letter-spacing:.3em">録音中</p><p style="font-family:var(--font-heading);font-size:44px;font-weight:300;margin-top:6px">0:48</p></div><div class="wave"><i style="height:8px"></i><i style="height:16px"></i><i style="height:28px"></i><i style="height:40px"></i><i style="height:22px"></i><i style="height:34px"></i><i style="height:48px"></i><i style="height:30px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:38px"></i><i style="height:20px"></i><i style="height:12px"></i><i style="height:30px"></i><i style="height:44px"></i><i style="height:26px"></i><i style="height:14px"></i><i style="height:22px"></i><i style="height:36px"></i><i style="height:18px"></i><i style="height:10px"></i></div><div class="recbtn stop" style="margin-top:24px">停止</div><p class="meta" style="text-align:center">10分で自動停止します</p></div>
+      <div class="state-view" data-state="recording"><div style="text-align:center;padding-top:40px"><p class="meta" style="letter-spacing:.06em">録音中</p><p style="font-family:var(--font-body);font-size:44px;font-weight:700;margin-top:6px">0:48</p></div><div class="wave"><i style="height:8px"></i><i style="height:16px"></i><i style="height:28px"></i><i style="height:40px"></i><i style="height:22px"></i><i style="height:34px"></i><i style="height:48px"></i><i style="height:30px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:38px"></i><i style="height:20px"></i><i style="height:12px"></i><i style="height:30px"></i><i style="height:44px"></i><i style="height:26px"></i><i style="height:14px"></i><i style="height:22px"></i><i style="height:36px"></i><i style="height:18px"></i><i style="height:10px"></i></div><div class="recbtn stop" style="margin-top:24px">停止</div><p class="meta" style="text-align:center">10分で自動停止します</p></div>
       <div class="state-view" data-state="processing"><div class="donehero"><div class="ring" style="width:96px;height:96px"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-100)" stroke-width="3"/><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-500)" stroke-width="3" stroke-dasharray="131.9 263.9" stroke-linecap="round"/></svg><div class="num">…<small>文字起こし</small></div></div><h2>文字にしています</h2><p class="sub" style="margin-top:6px">閉じても大丈夫です。終わると「今日」の確認待ちに届きます。</p></div></div>
       <div class="state-view" data-state="error"><div class="errorbox"><b>マイクの使用を許可してください</b>端末の設定 → このアプリ → マイク から変更できます。</div></div>
       <div class="state-view" data-state="unheard"><p class="meta">みさき<span class="hon">様</span> ・ 10/8 ・ 0:12</p><div class="errorbox" style="margin-top:12px"><b>聞き取れませんでした</b>音が小さいか、雑音だけでした。静かな場所でもう一度お試しください。</div><a class="btn sm block" href="#SCR-09:rec" style="margin-top:16px"><svg class="i"><use href="#i-mic"/></svg>もう一度話す</a><a class="btn sm block" href="#SCR-07:s2" style="margin-top:8px"><svg class="i"><use href="#i-pen"/></svg>手で入力する</a></div>
@@ -1183,12 +1198,12 @@ table.grid td.m-na{color:var(--text-meta)}
     <div class="fixed"><a class="btn primary block" href="#SCR-11" data-switch="customer"><svg class="i"><use href="#i-pen"/></svg>画面で同意をもらう</a></div></div>
   <div class="phone cust-screen state-view" data-state="customer">
     <div class="body nofix" style="gap:16px;padding-top:40px">
-      <p class="label" style="letter-spacing:.3em">SALON LUMIÈRE</p>
+      <p class="label" style="letter-spacing:.06em">SALON LUMIÈRE</p>
       <h1 style="font-size:var(--size-xl)">記録についての<br>ご確認</h1>
       <div class="card"><p class="sub">より良い施術のために、お肌の状態や体調など健康に関わる情報（要配慮情報）を記録し、写真を撮らせていただきます。記録の一部（音声・紙）は、文字にするために外部の AI サービスを使います。削除のご希望はお店にお申し出ください（法律で保管が必要なものを除きます）。</p></div>
       <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div><b class="fw">AI での処理を希望しない</b><p class="meta">オンにすると、音声・紙を AI に送りません</p></div><span class="toggle"><i></i></span></div></div>
       <div class="card" style="padding:4px 14px"><div class="check"><span class="box"></span><span>写真の撮影（記録用）<span class="meta">施術の前後の写真を記録に残します</span></span></div><div class="check"><span class="box"></span><span>施術内容を LINE 等で受け取る<span class="meta">今日の内容とアドバイスをお送りします</span></span></div></div>
-      <div class="card" style="height:110px;display:flex;align-items:center;justify-content:center;color:var(--text-meta);letter-spacing:.1em;font-size:var(--size-sm)">ここにサイン（指で書けます）</div>
+      <div class="card" style="height:110px;display:flex;align-items:center;justify-content:center;color:var(--text-meta);letter-spacing:.06em;font-size:var(--size-sm)">ここにサイン（指で書けます）</div>
       <a class="btn primary block" href="#SCR-11"><svg class="i"><use href="#i-check"/></svg>同意する</a>
       <a class="btn block" href="#SCR-11"><svg class="i"><use href="#i-x"/></svg>今回はどれにも同意しない</a>
       <p class="label" style="text-align:center">同意後はスタッフに端末をお返しください ・ 2026/10/08 11:02</p>
@@ -1276,7 +1291,7 @@ table.grid td.m-na{color:var(--text-meta)}
       <div class="kpi"><div class="card"><span class="label">今月の送信</span><b>126</b><span class="delta">/ 5,000 通</span></div><a class="card" href="#SCR-15:line" style="text-decoration:none;color:inherit"><span class="label">まだ結びついていない LINE</span><b>3</b><span class="delta">人 ・ 未処理の回答で結びつける</span></a></div>
       <div class="card kv"><span>アカウント</span><b>@salon-lumiere</b><span>シークレット</span><b class="mask">••••a1b2</b><span>トークン</span><b class="mask">••••7c9d</b><span>施術内容の送付</span><b>LINE で送る ・ 有効</b></div>
         <div class="card"><h3>今通っているお客様と LINE を結びつける</h3><p class="sub">前からの友だちは、次の文を一斉送信すると結びつけられます<button type="button" class="help" aria-expanded="false" aria-controls="help-12-friends" aria-label="前からの友だちの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-12-friends" role="note">LINE の仕組み上、前からの友だちが誰かはこちらで分かりません。返ってきた電話番号でお客様と結びつけます。</div><div class="lw-url"><code>ご本人確認のため、ご予約時の電話番号を送ってください</code><a class="btn sm" href="#SCR-12"><svg class="i"><use href="#i-copy"/></svg>文をコピー</a></div><p class="lw-site" style="margin-top:10px">LINE 公式アカウントの管理画面で<button type="button" class="help" aria-expanded="false" aria-controls="help-12-how" aria-label="送り方の説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-12-how" role="note">LINE 公式アカウントの管理画面の「メッセージ配信」で、配信先を「すべての友だち」にして送ります。このアプリからは送りません。</div><p class="meta">友だちの人数分、LINE の月の送信数を使います</p><a class="btn sm block" href="#SCR-12" style="margin-top:8px"><svg class="i"><use href="#i-external"/></svg>管理画面を開く</a><p class="meta" style="margin-top:8px">返ってきた人は <a class="lnk" href="#SCR-15:line"><svg class="i"><use href="#i-users"/></svg>未処理の回答</a> に並びます</p></div>
-        <div class="card"><h3>問診フォームのリンクと QR<button type="button" class="help" aria-expanded="false" aria-controls="help-12-form" aria-label="問診フォームのリンクの説明"><svg class="i"><use href="#i-help"/></svg></button></h3><div class="helptip" id="help-12-form" role="note">LINE のリッチメニューや店頭に置きます。LINE につながなくても使えます。</div><div style="display:flex;gap:14px;align-items:center;margin-top:8px"><div style="width:84px;height:84px;background:repeating-linear-gradient(90deg,var(--main-900) 0 6px,transparent 6px 12px),repeating-linear-gradient(0deg,var(--main-900) 0 6px,transparent 6px 12px);background-blend-mode:multiply;border:1px solid var(--main-300)"></div><div style="flex:1"><p class="sub" style="word-break:break-all">karte.example.jp/f/salon-lumiere</p><div class="row2" style="margin-top:8px"><a class="btn sm" href="#SCR-12" style="height:36px"><svg class="i"><use href="#i-file"/></svg>リンクをコピー</a><a class="btn sm" href="#SCR-12" style="height:36px"><svg class="i"><use href="#i-download"/></svg>QR を保存</a></div></div></div></div>
+        <div class="card"><h3>問診フォームのリンクと QR<button type="button" class="help" aria-expanded="false" aria-controls="help-12-form" aria-label="問診フォームのリンクの説明"><svg class="i"><use href="#i-help"/></svg></button></h3><div class="helptip" id="help-12-form" role="note">LINE のリッチメニューや店頭に置きます。LINE につながなくても使えます。</div><div style="display:flex;gap:14px;align-items:center;margin-top:8px"><div style="width:84px;height:84px;background:repeating-linear-gradient(90deg,var(--main-700) 0 6px,transparent 6px 12px),repeating-linear-gradient(0deg,var(--main-700) 0 6px,transparent 6px 12px);background-blend-mode:multiply;border:1px solid var(--main-300)"></div><div style="flex:1"><p class="sub" style="word-break:break-all">karte.example.jp/f/salon-lumiere</p><div class="row2" style="margin-top:8px"><a class="btn sm" href="#SCR-12" style="height:36px"><svg class="i"><use href="#i-file"/></svg>リンクをコピー</a><a class="btn sm" href="#SCR-12" style="height:36px"><svg class="i"><use href="#i-download"/></svg>QR を保存</a></div></div></div></div>
       <a class="btn sm block" href="#SCR-12"><svg class="i"><use href="#i-x"/></svg>接続を解除</a></div>
       <div class="state-view lw-tab" data-state="line0"><p class="meta"><a class="lnk" href="#SCR-12" data-go="menu"><svg class="i"><use href="#i-chevron-left"/></svg>設定</a></p><p class="q">LINE 公式アカウント</p>
       <div class="card"><h3>まだつながっていません</h3><p class="sub">つながなくても、問診はリンク、文面はコピーで使えます</p></div>
@@ -1477,7 +1492,7 @@ table.grid td.m-na{color:var(--text-meta)}
   <div class="phone pc ">
     <div class="topbar"><p class="crumb"><b>スクール</b><i>›</i><b>生徒サロンの状況</b></p><h1 style="">生徒サロンの状況</h1><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
     <div class="pcbody">
-      <div class="greet"><div><p class="meta" style="letter-spacing:.2em">10月8日 水曜日</p><h2 style="font-size:var(--size-xl);font-weight:var(--w-light)">生徒サロンの状況</h2></div><a class="btn primary" href="#SCR-13" style="display:inline-flex;height:48px"><svg class="i"><use href="#i-plus"/></svg>サロンを追加</a></div>
+      <div class="greet"><div><p class="meta" style="letter-spacing:.06em">10月8日 水曜日</p><h2 style="font-size:var(--size-xl);font-weight:var(--w-bold)">生徒サロンの状況</h2></div><a class="btn primary" href="#SCR-13" style="display:inline-flex;height:48px"><svg class="i"><use href="#i-plus"/></svg>サロンを追加</a></div>
       <div class="state-view" data-state="add"><div class="hero light" style="max-width:560px"><div class="eyebrow"><span>サロンを追加</span></div><div class="row2" style="margin-top:10px"><div class="field"><label class="label">サロン名</label><input class="input" placeholder="Maison Épil"></div><div class="field"><label class="label">オーナーのメールアドレス</label><input class="input" placeholder="owner@example.com"></div></div><div class="field"><label class="label">プラン <span class="badge kari">仮</span></label><div class="chips"><span class="chip on">スクール生 2,980 円（税別）</span><span class="chip">基本 4,980 円（税別）</span></div></div><p class="meta">月額 2,980 円（税別・オーナー 1 名ぶん）・ AI の上限 745 円<button type="button" class="help" aria-expanded="false" aria-controls="help-13-ai" aria-label="AI の上限の説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-13-ai" role="note">上限は月額の 25% で、プランとスタッフの人数から自動で決まります。</div><p class="meta">スタッフは招待を受け入れると、自動で月額と上限に加わります</p><p class="meta">オーナーに招待メールが届きます<button type="button" class="help" aria-expanded="false" aria-controls="help-13-next" aria-label="このあとの流れの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-13-next" role="note">業種や使っているものは、オーナーが初回設定で入れます。一緒にやると 3 分ほどです。</div><div class="acts"><a class="btn primary" href="#SCR-13" style="flex:0 1 240px"><svg class="i"><use href="#i-send"/></svg>作成して招待する</a></div></div></div>
       <div class="schoolhero">
         <div class="card"><span class="label">生徒サロン</span><b>23</b><span class="meta">配下のテナント</span></div>
@@ -1524,9 +1539,9 @@ table.grid td.m-na{color:var(--text-meta)}
 <section class="screen" id="SCR-14">
   <p class="screen-title"><b>SCR-14 お客様向け問診フォーム</b> ／ FUNC-10, 15, 27 ・ S2 ・ <b>お客様のスマホで開く公開 Web ページ（アプリ外・ログイン不要）</b>。LINE のリンクや店頭の QR から。来店時はサロンのタブレットを渡してもよい</p>
   <div class="phone ">
-    <div style="background:#E9E3D8;padding:8px 14px;font-size:var(--size-xs);color:var(--text-meta);display:flex;align-items:center;gap:8px;border-bottom:1px solid #CFC5B5"><span style="width:10px;height:10px;border:1px solid var(--text-meta);border-radius:50%"></span><span style="flex:1;letter-spacing:.04em">karte.example.jp/f/salon-lumiere</span><span>お客様のブラウザ</span></div>
+    <div style="background:var(--sunk);padding:8px 14px;font-size:var(--size-xs);color:var(--text-meta);display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)"><span style="width:10px;height:10px;border:1px solid var(--text-meta);border-radius:50%"></span><span style="flex:1;letter-spacing:.04em">karte.example.jp/f/salon-lumiere</span><span>お客様のブラウザ</span></div>
     <div class="body nofix" style="gap:18px;padding-top:20px">
-      <div style="text-align:center"><p class="meta" style="letter-spacing:.3em">SALON LUMIÈRE</p><h1 style="font-size:var(--size-lg);margin-top:8px">ご来店前にお伺いします</h1><p class="sub">3分ほどで終わります</p></div>
+      <div style="text-align:center"><p class="meta" style="letter-spacing:.06em">SALON LUMIÈRE</p><h1 style="font-size:var(--size-lg);margin-top:8px">ご来店前にお伺いします</h1><p class="sub">3分ほどで終わります</p></div>
       <div class="dotsteps" style="justify-content:center"><i class="on"></i><i></i><i></i><i></i></div>
       <div class="card" style="display:flex;flex-direction:column;gap:14px"><span class="label">1 / 4 ・ お名前</span><div class="field"><label class="label">お名前</label><input class="input" placeholder="例: 佐藤 美咲"></div><div class="field"><label class="label">ふりがな</label><input class="input"></div><div class="field"><label class="label">お電話番号</label><input class="input"></div><div class="field"><label class="label">どこで当サロンを知りましたか</label><div class="chips"><span class="chip">Instagram</span><span class="chip on">ホットペッパー</span><span class="chip">LINE</span><span class="chip">Google</span><span class="chip">ご紹介</span><span class="chip">その他</span></div></div></div>
       <div class="card" style="display:flex;flex-direction:column;gap:10px"><span class="label">2 / 4 ・ 気になっていること</span><div class="chips"><span class="chip on">乾燥</span><span class="chip">毛穴</span><span class="chip">くすみ</span><span class="chip">たるみ</span></div></div>
@@ -1611,7 +1626,7 @@ table.grid td.m-na{color:var(--text-meta)}
       </div>
       <div class="state-view" data-state="confirm"><div class="hero light"><div class="eyebrow"><span>確認</span></div><div class="kv" style="margin-top:8px"><span>取り込む件数</span><b>312 件</b><span>電話番号が既存と一致</span><b>18 件 → 重複の候補へ</b><span>初回来店日なし</span><b>0 件</b></div><p class="meta" style="margin-top:8px">途中で失敗したとき<button type="button" class="help" aria-expanded="false" aria-controls="help-16-fail" aria-label="取り込むの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-16-fail" role="note">途中で失敗したら 1 件も登録されません。取り込んだあとでまとめて取り消せます。</div></div></div>
       <div class="state-view" data-state="error"><div class="errorbox"><b>呼び名にあたる列を選んでください</b>お名前の列がどれか分からないと取り込めません。</div></div>
-      <div class="state-view" data-state="done"><div class="donehero"><h2>312 人を取り込みました</h2><p class="sub" style="margin-top:6px">既存のお客様と電話番号が一致する候補が 18 組あります。</p><div class="row2" style="margin-top:16px"><a class="btn sm" href="#SCR-16"><svg class="i"><use href="#i-x"/></svg>取り消す</a><a class="btn sm" href="#SCR-17" style="background:var(--main-900);color:var(--background)"><svg class="i"><use href="#i-merge"/></svg>重複を確認する</a></div></div></div>
+      <div class="state-view" data-state="done"><div class="donehero"><h2>312 人を取り込みました</h2><p class="sub" style="margin-top:6px">既存のお客様と電話番号が一致する候補が 18 組あります。</p><div class="row2" style="margin-top:16px"><a class="btn sm" href="#SCR-16"><svg class="i"><use href="#i-x"/></svg>取り消す</a><a class="btn sm" href="#SCR-17" style="background:var(--main-700);color:var(--background)"><svg class="i"><use href="#i-merge"/></svg>重複を確認する</a></div></div></div>
     </div>
     <div class="fixed"><a class="btn primary block" href="#SCR-16"><svg class="i"><use href="#i-download"/></svg>312 件を取り込む</a></div></div>
   <div class="statebar">状態: <button data-toggle="confirm">確認</button><button data-toggle="error">列未指定エラー</button><button data-toggle="done">完了</button></div>
@@ -1698,7 +1713,7 @@ table.grid td.m-na{color:var(--text-meta)}
   <div class="phone ">
     <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>契約</b></p><a class="back" href="#SCR-06"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="">契約</h1></div>
     <div class="body" style="gap:18px">
-      <div class="state-view on" data-state="normal"><div class="hero light"><div class="eyebrow"><span>有効な契約</span><span>有効期限 2027/1/15 ・ <u data-href="#SCR-20"><svg class="i"><use href="#i-pen"/></svg>編集</u></span></div><div style="display:flex;gap:18px;align-items:center;margin-top:10px"><div class="ring" style="width:96px;height:96px"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-100)" stroke-width="3"/><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-500)" stroke-width="3" stroke-dasharray="158.3 263.9" stroke-linecap="round"/></svg><div class="num">4/10<small>消化</small></div></div><div><h2 style="font-size:var(--size-lg);margin:0">保湿10回コース</h2><p style="font-family:var(--font-heading);font-size:30px;font-weight:300;line-height:1.2;margin-top:4px">残り 6 <span style="font-size:var(--size-sm);font-family:var(--font-body);color:var(--text-meta)">回</span></p></div></div>
+      <div class="state-view on" data-state="normal"><div class="hero light"><div class="eyebrow"><span>有効な契約</span><span>有効期限 2027/1/15 ・ <u data-href="#SCR-20"><svg class="i"><use href="#i-pen"/></svg>編集</u></span></div><div style="display:flex;gap:18px;align-items:center;margin-top:10px"><div class="ring" style="width:96px;height:96px"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-100)" stroke-width="3"/><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-500)" stroke-width="3" stroke-dasharray="158.3 263.9" stroke-linecap="round"/></svg><div class="num">4/10<small>消化</small></div></div><div><h2 style="font-size:var(--size-lg);margin:0">保湿10回コース</h2><p style="font-family:var(--font-body);font-size:30px;font-weight:700;line-height:1.2;margin-top:4px">残り 6 <span style="font-size:var(--size-sm);font-family:var(--font-body);color:var(--text-meta)">回</span></p></div></div>
       <div class="kv" style="margin-top:14px"><span>契約日</span><b>2026/7/15</b><span>金額（前受）</span><b>¥98,000</b><span>原本</span><b><a class="lnk" href="#SCR-10">契約書面 ・ 概要書面</a></b><span>クーリングオフ期限 <span class="badge kari">仮</span></span><b class="meta">7/23（表示のみ）</b></div></div>
       <span class="label">消化の履歴</span>
       <div class="timeline"><a class="tl done" href="#SCR-07"><span class="time">9/10</span><span class="who"><span class="name">フェイシャル（保湿）</span><br><span class="meta">4 回目</span></span></a><a class="tl done" href="#SCR-07"><span class="time">8/12</span><span class="who"><span class="name">フェイシャル（保湿）</span><br><span class="meta">3 回目</span></span></a><a class="tl done" href="#SCR-07"><span class="time">7/29</span><span class="who"><span class="name">フェイシャル（保湿）</span><br><span class="meta">2 回目</span></span></a><a class="tl done" href="#SCR-07"><span class="time">7/15</span><span class="who"><span class="name">フェイシャル（保湿）</span><br><span class="meta">1 回目 ・ 契約日</span></span></a></div>
@@ -1717,7 +1732,7 @@ table.grid td.m-na{color:var(--text-meta)}
   <div class="phone ">
     <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>お客様に送る</b></p><a class="back" href="#SCR-06"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="">お客様に送る</h1></div>
     <div class="body" style="gap:16px">
-      <p class="sub s2only">送付の同意 <span class="badge">取得済</span> ・ LINE <span class="badge">紐づけ済</span></p>
+      <p class="sub s2only">送付の同意 <span class="badge done">取得済</span> ・ LINE <span class="badge done">紐づけ済</span></p>
       <div class="state-view on" data-state="normal">
       <div class="state-view" data-state="changed"><div class="errorbox soft" style="margin-bottom:14px"><b>記録が変わりました</b>11:32 に「次回のおすすめ」が直されました。この文面は直す前の内容です。<div class="row2" style="margin-top:10px"><a class="btn sm" href="#SCR-21" data-close="changed"><svg class="i"><use href="#i-pen"/></svg>作り直す</a><a class="btn sm" href="#SCR-21" data-close="changed"><svg class="i"><use href="#i-check"/></svg>このまま使う</a></div><p class="meta" style="margin-top:6px">作り直すと<button type="button" class="help" aria-expanded="false" aria-controls="help-21-redo" aria-label="作り直すとの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-21-redo" role="note">手で直していない文面は自動で作り直します。コピー済み・送付済みの文面は上書きしません。</div></div></div>
       <div class="state-view" data-state="skipped"><div class="noteband" style="margin-bottom:14px"><h3>この文は文面に使いませんでした</h3><p class="sub">「妊娠中のため、光の施術は控えています」は体の状態に関わるため入れていません</p></div></div>
@@ -1753,7 +1768,7 @@ table.grid td.m-na{color:var(--text-meta)}
       <div class="chips"><span class="chip on">今週 4</span><span class="chip">来週 6</span><span class="chip">過ぎている 9</span><span class="chip">再販 3</span></div>
       <div style="border-top:var(--border)">
         <a class="row" href="#SCR-06"><div class="mono" >な</div><div class="main"><div class="name">なおこ<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">前回 9/8 フェイシャル ・ 周期 28 日 ・ 次回予約なし<br>根拠: ご本人の平均間隔 29 日</div></div><div class="r"><b>10/6</b>推奨</div></a>
-        <div style="display:flex;gap:8px;padding:0 0 12px 58px;border-bottom:var(--border)"><a class="btn sm" href="#SCR-21" style="height:40px;flex:1"><svg class="i"><use href="#i-send"/></svg>LINE で送る</a><a class="btn sm" href="#SCR-22" style="height:40px;flex:1"><svg class="i"><use href="#i-check"/></svg>声かけ済み</a><a class="btn sm" href="#SCR-27" style="height:40px;flex:1;background:var(--main-900);color:var(--background)"><svg class="i"><use href="#i-calendar-plus"/></svg>予約が入った</a></div>
+        <div style="display:flex;gap:8px;padding:0 0 12px 58px;border-bottom:var(--border)"><a class="btn sm" href="#SCR-21" style="height:40px;flex:1"><svg class="i"><use href="#i-send"/></svg>LINE で送る</a><a class="btn sm" href="#SCR-22" style="height:40px;flex:1"><svg class="i"><use href="#i-check"/></svg>声かけ済み</a><a class="btn sm" href="#SCR-27" style="height:40px;flex:1;background:var(--main-700);color:var(--background)"><svg class="i"><use href="#i-calendar-plus"/></svg>予約が入った</a></div>
         <a class="row" href="#SCR-06"><div class="mono" >り</div><div class="main"><div class="name">りか<span class="hon">様</span> <span class="badge phase warn">92 離反リスク</span></div><div class="meta">前回 8/10 脱毛（全身）・ 周期 60 日 ・ 次回予約なし<br>根拠: メニューの周期</div></div><div class="r"><b>10/9</b>推奨</div></a>
         <a class="row" href="#SCR-06"><div class="mono" >ひ</div><div class="main"><div class="name">ひとみ<span class="hon">様</span> <span class="badge phase">02 体験中 46 日</span></div><div class="meta">8/27 体験（フェイシャル）・ 本契約の提案期限まで 14 日<br>根拠: 体験から 45 日超で声かけ対象</div></div><div class="r"><b>10/12</b>推奨</div></a>
       </div></div>
@@ -1811,7 +1826,7 @@ table.grid td.m-na{color:var(--text-meta)}
   <div class="phone ">
     <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>削除</b></p><a class="back" href="#SCR-06"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="">情報を削除</h1></div>
     <div class="body" style="gap:18px">
-      <div class="person"><div class="mono" >み</div><div><h2 style="font-size:var(--size-lg);font-weight:300">みさき<span class="hon">様</span></h2><p class="meta">来店 12 回 ・ 2025/3/2 〜</p></div></div>
+      <div class="person"><div class="mono" >み</div><div><h2 style="font-size:var(--size-lg);font-weight:700">みさき<span class="hon">様</span></h2><p class="meta">来店 12 回 ・ 2025/3/2 〜</p></div></div>
       <div class="hero danger"><div class="eyebrow" style="color:var(--error)"><span>消えるもの</span></div><div class="kv" style="margin-top:8px"><span>来店記録</span><b>12 件</b><span>写真</span><b>24 枚</b><span>音声</span><b>0 件</b><span>書類（保管義務なし）</span><b>1 件</b><span>同意</span><b>2 件</b><span>フォーム回答</span><b>1 件</b></div></div>
       <div class="card"><span class="label">残るもの <span class="badge kari">仮</span></span><div class="kv" style="margin-top:6px"><span>契約書面（保管義務）</span><b>1 件 ・ 閲覧を閉じて保管</b><span>削除の事実</span><b>日時・実行者・件数のみ</b></div></div>
       <div class="field"><label class="label">確認のため「削除」と入力</label><input class="input" placeholder="削除"></div>
@@ -1827,11 +1842,11 @@ table.grid td.m-na{color:var(--text-meta)}
   <div class="phone ">
     <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-12">設定</a><i>›</i><b>退職処理</b></p><a class="back" href="#SCR-12"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="">退職処理</h1></div>
     <div class="body" style="gap:18px">
-      <div class="person"><div class="mono" >鈴</div><div><h2 style="font-size:var(--size-lg);font-weight:300">鈴木 さくら</h2><p class="meta">スタッフ ・ 担当 14 人 ・ 記録 86 件</p></div></div>
+      <div class="person"><div class="mono" >鈴</div><div><h2 style="font-size:var(--size-lg);font-weight:700">鈴木 さくら</h2><p class="meta">スタッフ ・ 担当 14 人 ・ 記録 86 件</p></div></div>
       <div class="dotsteps"><i class="on"></i><i></i></div>
       <p class="q">担当のお客様 14 人を<br>誰に引き継ぎますか</p>
       <div style="border-top:var(--border)">
-        <a class="row" href="#SCR-25"><div class="mono" >田</div><div class="main"><div class="name">佐藤 恵（オーナー）</div><div class="meta">14 人すべてをこの方へ</div></div><div class="r"><span class="box on" style="width:20px;height:20px;border:1px solid var(--main-900);background:var(--main-900);color:var(--background);display:flex;align-items:center;justify-content:center;font-size:10px">✓</span></div></a>
+        <a class="row" href="#SCR-25"><div class="mono" >田</div><div class="main"><div class="name">佐藤 恵（オーナー）</div><div class="meta">14 人すべてをこの方へ</div></div><div class="r"><span class="box on" style="width:20px;height:20px;border:1px solid var(--main-700);background:var(--main-700);color:var(--background);display:flex;align-items:center;justify-content:center;font-size:10px">✓</span></div></a>
         <a class="row" href="#SCR-25"><div class="mono" style="background:transparent;border-style:dashed">…</div><div class="main"><div class="name">顧客ごとに選ぶ</div><div class="meta">一覧から個別に振り分け</div></div></a>
       </div>
       <div class="noteband"><h3>残るもの</h3><p style="font-family:var(--font-body);font-size:var(--size-sm)">鈴木さんが書いた 86 件の記録は店に残り、施術者名も表示され続けます。停止は即時で、開いている画面も使えなくなります。</p></div>
@@ -1873,12 +1888,12 @@ table.grid td.m-na{color:var(--text-meta)}
         <div class="grip"></div>
         <h2>誰の記録ですか？</h2>
         <div class="segm" style="align-self:flex-start"><span class="on">来店記録</span><span>予約</span></div>
-        <div class="search" style="border-bottom-color:var(--main-900)"><svg class="i ico"><use href="#i-search"/></svg><span class="q">名前か電話番号で探す</span></div>
+        <div class="search" style="border-bottom-color:var(--main-700)"><svg class="i ico"><use href="#i-search"/></svg><span class="q">名前か電話番号で探す</span></div>
         <span class="label">今日来る人</span>
         <div>
           <a class="pick-row" href="#SCR-07"><div class="mono">み</div><div class="main"><div class="name">みさき<span class="hon">様</span></div><div class="meta">11:00 ・ 12回目 ・ フェイシャル（保湿）</div></div><span class="meta">まだ</span></a>
           <a class="pick-row" href="#SCR-07"><div class="mono">ゆ</div><div class="main"><div class="name">ゆか<span class="hon">様</span></div><div class="meta">13:30 ・ 5回目 ・ 脱毛（全身）</div></div><span class="meta">まだ</span></a>
-          <a class="pick-row" href="#SCR-07"><div class="mono">さ</div><div class="main"><div class="name">さくら<span class="hon">様</span> <span class="badge">はじめて</span></div><div class="meta">16:00 ・ 体験</div></div><span class="meta">まだ</span></a>
+          <a class="pick-row" href="#SCR-07"><div class="mono">さ</div><div class="main"><div class="name">さくら<span class="hon">様</span> <span class="badge new">はじめて</span></div><div class="meta">16:00 ・ 体験</div></div><span class="meta">まだ</span></a>
           <a class="pick-row dim2" href="#SCR-07"><div class="mono">と</div><div class="main"><div class="name">ともこ<span class="hon">様</span></div><div class="meta">9:30 ・ 記録済み ・ 開いて直す</div></div><span class="meta">済</span></a>
           <a class="pick-row dim2" href="#SCR-07"><div class="mono">あ</div><div class="main"><div class="name">あやの<span class="hon">様</span></div><div class="meta">10:00 ・ 記録済み ・ 開いて直す</div></div><span class="meta">済</span></a>
         </div>
@@ -1894,7 +1909,7 @@ table.grid td.m-na{color:var(--text-meta)}
         <div class="grip"></div>
         <h2>誰の予約ですか？</h2>
         <div class="segm" style="align-self:flex-start"><span>来店記録</span><span class="on">予約</span></div>
-        <div class="search" style="border-bottom-color:var(--main-900);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">とも</span><span class="meta">×</span></div>
+        <div class="search" style="border-bottom-color:var(--main-700);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">とも</span><span class="meta">×</span></div>
         <a class="pick-row" href="#SCR-27"><div class="mono">と</div><div class="main"><div class="name">ともこ<span class="hon">様</span></div><div class="meta">前回 今日 9:30 ・ 8回目</div></div><span class="meta">選択中</span></a>
         <div class="hero light" style="padding:14px 16px"><div class="eyebrow"><span>次の予約<button type="button" class="help" aria-expanded="false" aria-controls="help-27-next" aria-label="次回予約の説明"><svg class="i"><use href="#i-help"/></svg></button></span></div><div class="helptip" id="help-27-next" role="note">入れておくとその日の「今日の流れ」に出て、声かけの対象から外れます。予約の受付はこれまでどおり LINE などで行います。</div>
           <div class="row2" style="margin-top:10px"><div class="field"><label class="label">日付</label><input class="input" value="10/15（水）"></div><div class="field"><label class="label">時刻（任意）</label><input class="input" value="14:00"></div></div>
@@ -1909,7 +1924,7 @@ table.grid td.m-na{color:var(--text-meta)}
       <div class="sheet">
         <div class="grip"></div>
         <h2>誰の記録ですか？</h2>
-        <div class="search" style="border-bottom-color:var(--main-900);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">はる</span><span class="meta">×</span></div>
+        <div class="search" style="border-bottom-color:var(--main-700);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">はる</span><span class="meta">×</span></div>
         <p class="meta">2人が一致</p>
         <div>
           <a class="pick-row" href="#SCR-07"><div class="mono">は</div><div class="main"><div class="name"><b class="fw">はる</b>か</div><div class="meta">9/25 最終 ・ 14回目</div></div></a>
@@ -1921,7 +1936,7 @@ table.grid td.m-na{color:var(--text-meta)}
       <div class="sheet">
         <div class="grip"></div>
         <h2>誰の記録ですか？</h2>
-        <div class="search" style="border-bottom-color:var(--main-900);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">れいな</span><span class="meta">×</span></div>
+        <div class="search" style="border-bottom-color:var(--main-700);color:var(--text-primary)"><svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">れいな</span><span class="meta">×</span></div>
         <p class="meta">「れいな」に一致するお客様はいません</p>
         <a class="suggest" href="#SCR-07"><div class="mono">れ</div><div class="t"><b>「れいな」<span class="hon">様</span>を登録して記録を始める</b><span>新しいお客様 ・ 呼び名はあとで直せます</span></div><span class="go">進む</span></a>
       </div></div>
@@ -2111,13 +2126,6 @@ table.grid td.m-na{color:var(--text-meta)}
   // 行内の下線テキスト（u[data-href]）をリンクとして動かす。a の入れ子を避けるため a ではなく u にしている（セルフチェック #18）
   document.addEventListener('click',function(e){var u=e.target.closest&&e.target.closest('u[data-href]'); if(!u) return; e.preventDefault(); e.stopPropagation(); var h=u.getAttribute('data-href'); if(location.hash===h){show();} else {location.hash=h;}});
 
-  // ===== 配色候補の切替（構造は変えず色だけ） =====
-  var PALETTES={"bronze": {"label": "A アイボリー×ブロンズ（現行）", "desc": "格式・落ち着き。古い高級ホテル", "vars": {"--main-100": "#F1EBE1", "--main-300": "#D6C7AE", "--main-500": "#9A7B4F", "--main-700": "#6F5633", "--main-900": "#3F311D", "--background": "#F8F5EF", "--surface": "#FDFBF7", "--text-primary": "#1F1B17", "--text-secondary": "#5C544B", "--text-meta": "#8C8378", "--error": "#8E2F2F"}}, "sage": {"label": "B リネン×セージ", "desc": "明るく清潔。スパ・自然派。重さが抜ける", "vars": {"--main-100": "#EEF2EC", "--main-300": "#C9D4C5", "--main-500": "#7E9A7A", "--main-700": "#56705A", "--main-900": "#2F4536", "--background": "#FAFAF6", "--surface": "#FFFFFC", "--text-primary": "#1E2420", "--text-secondary": "#5B635D", "--text-meta": "#8D948F", "--error": "#A0433F"}}, "rose": {"label": "C ミルク×ローズベージュ", "desc": "温かく親しみやすい。フェイシャル・眉毛向き", "vars": {"--main-100": "#F7ECE8", "--main-300": "#E6CBC2", "--main-500": "#C48B7A", "--main-700": "#9A6454", "--main-900": "#5A3A32", "--background": "#FCF8F5", "--surface": "#FFFDFB", "--text-primary": "#2A2220", "--text-secondary": "#6A5B57", "--text-meta": "#9A8B86", "--error": "#A33B3B"}}, "mauve": {"label": "D ペール×モーヴ", "desc": "上品で現代的。まつエク・ネイル向き。シックさは残る", "vars": {"--main-100": "#F1ECF2", "--main-300": "#D8CBDA", "--main-500": "#8C6B86", "--main-700": "#684C66", "--main-900": "#3E2C3F", "--background": "#FAF8FA", "--surface": "#FFFEFF", "--text-primary": "#221C23", "--text-secondary": "#605661", "--text-meta": "#938A94", "--error": "#9E3B4A"}}, "slateblue": {"label": "E ホワイト×スレートブルー", "desc": "信頼感・清潔。医療寄りに見える危険あり", "vars": {"--main-100": "#ECF0F3", "--main-300": "#C8D2DA", "--main-500": "#6F8597", "--main-700": "#4C6274", "--main-900": "#27394A", "--background": "#F9FAFB", "--surface": "#FFFFFF", "--text-primary": "#1C2229", "--text-secondary": "#59636C", "--text-meta": "#8C959D", "--error": "#A23E3E"}}};
-
-  function applyPalette(k){var p=PALETTES[k]; if(!p) return; var r=document.documentElement; Object.keys(p.vars).forEach(function(v){r.style.setProperty(v,p.vars[v]);}); document.querySelectorAll('.palbar button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-palette')===k);}); var d=document.getElementById('paldesc'); if(d) d.textContent=p.desc; try{localStorage.setItem('palette',k);}catch(e){}}
-  document.querySelectorAll('.palbar button').forEach(function(b){b.addEventListener('click',function(){applyPalette(b.getAttribute('data-palette'));});});
-  var qp=new URLSearchParams(location.search).get('palette'); var saved=null; try{saved=localStorage.getItem('palette');}catch(e){}
-  applyPalette(qp||saved||'bronze');
   var qs=new URLSearchParams(location.search).get('state'); if(qs){setTimeout(function(){var sec=document.querySelector('section.screen.active'); if(!sec)return; var b=sec.querySelector('.statebar button[data-toggle="'+qs+'"]'); if(b) b.click();},0);}
   var qv=new URLSearchParams(location.search).get('v'); if(qv==='tablet'||qv==='pc'){document.querySelector('main.stage').classList.add('view-'+qv);document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-view')===qv);});}
   // 状態切り替え: 「排他」グループと「重ねる」グループ
@@ -2141,7 +2149,7 @@ table.grid td.m-na{color:var(--text-meta)}
   document.querySelectorAll('[data-close]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault(); var sec=a.closest('section'); var b=sec.querySelector('.statebar button[data-toggle="'+a.getAttribute('data-close')+'"]'); if(b&&b.classList.contains('on')) b.click(); var h=a.getAttribute('href')||''; if(h.indexOf(':')>0){ if(location.hash===h) show(); else location.hash=h; }});});
   document.querySelectorAll('[data-open]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault(); var sec=a.closest('section'); var b=sec.querySelector('.statebar button[data-toggle="'+a.getAttribute('data-open')+'"]'); if(b&&!b.classList.contains('on')) b.click();});});
   // SCR-04: 「分析からの一覧」では検索窓を空にする（条件は分析側の人数が決め、検索すると通常に戻る）
-  document.querySelectorAll('#SCR-04 .statebar button').forEach(function(b){b.addEventListener('click',function(){var el=document.getElementById('scr04search'); if(!el) return; var list=['list','upcoming'].indexOf(b.getAttribute('data-toggle'))>=0; el.style.color=list?'':'var(--text-primary)'; el.style.borderBottomColor=list?'':'var(--main-900)'; el.innerHTML=list?'<svg class="i ico"><use href="#i-search"/></svg><span class="q">お名前・ふりがな・電話番号</span>':'<svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span>';});});
+  document.querySelectorAll('#SCR-04 .statebar button').forEach(function(b){b.addEventListener('click',function(){var el=document.getElementById('scr04search'); if(!el) return; var list=['list','upcoming'].indexOf(b.getAttribute('data-toggle'))>=0; el.style.color=list?'':'var(--text-primary)'; el.style.borderBottomColor=list?'':'var(--main-700)'; el.innerHTML=list?'<svg class="i ico"><use href="#i-search"/></svg><span class="q">お名前・ふりがな・電話番号</span>':'<svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span>';});});
   // SCR-06: PC 幅では「左に本人・中央に履歴・右にメモ」の 3 カラム（.pccol はスマホ幅では display:contents）
   (function(){var body=document.querySelector('#SCR-06 .body'); if(!body) return; var c1=document.createElement('div'),c2=document.createElement('div'),c3=document.createElement('div'); c1.className='pccol c1';c2.className='pccol c2';c3.className='pccol c3';
     Array.prototype.slice.call(body.children).forEach(function(el){var st=el.getAttribute('data-state'); if(el.classList.contains('seg')||(el.classList.contains('state-view')&&['rec','photo','doc','contract','consent','empty'].indexOf(st)>=0)) c2.appendChild(el); else if(el.classList.contains('noteband')||el.classList.contains('ext')) c3.appendChild(el); else c1.appendChild(el);});
