@@ -295,7 +295,6 @@ main.stage.view-pc .phone.pc{width:1200px}
 .btn.sm{padding:0 12px;letter-spacing:0;gap:5px}
 .btn{line-height:1.3;text-align:center}
 .btn.sm .i{width:16px;height:16px}
-main.stage.view-pc #SCR-06 .topbar{padding:10px 28px}
 .btn.primary .i,.btn.danger.primary .i{color:inherit}
 .btn.danger .i{color:var(--error)}
 .btn:hover{border-color:var(--main-700);background:var(--main-100)}
@@ -324,15 +323,6 @@ a.lnk.danger{color:var(--error);border-color:var(--error-300)}
 .daynav b{font-weight:var(--w-bold);font-family:var(--font-body);letter-spacing:0;min-width:64px;text-align:center}
 .daynav u{padding:3px 6px}
 .tl .chev{align-self:center}
-/* PC 幅の顧客詳細: 左に本人・中央に履歴・右にメモ（競合比較 §4b） */
-.pccol{display:contents}
-main.stage.view-pc #SCR-06 .body{display:grid;grid-template-columns:300px 1fr 300px;gap:0 28px;max-width:none;align-content:start;padding:24px 28px 96px}
-main.stage.view-pc #SCR-06 .pccol{display:flex;flex-direction:column;gap:18px;min-width:0}
-main.stage.view-pc #SCR-06 .pccol.c1{grid-column:1;grid-row:1}
-main.stage.view-pc #SCR-06 .pccol.c2{grid-column:2;grid-row:1;border-left:var(--border);border-right:var(--border);padding:0 24px}
-main.stage.view-pc #SCR-06 .pccol.c3{grid-column:3;grid-row:1}
-main.stage.view-pc #SCR-06 .seg{margin:0}
-main.stage.view-pc #SCR-06 .fixed>*{max-width:none}
 
 /* ==== フィードバック（モック専用・製品 UI ではない）: 画面を離れずに一言送る ==== */
 .fb-btn{position:fixed;right:18px;bottom:18px;z-index:50;height:44px;padding:0 16px 0 12px;border-radius:22px;background:#2A2030;color:#F3EDEA;border:1px solid #F0956A;display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;letter-spacing:.04em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
@@ -575,6 +565,232 @@ table.grid td.m-na{color:var(--text-meta)}
 .m-goals>.label{margin:0}
 .m-goals .field{min-width:0}
 .m-goals .input{font-variant-numeric:tabular-nums}
+/* ==== 2026-10-11 第 2 段階（03 §5 #44）: 主要 6 画面（SCR-03・06・07・09・21・28）を A 社「話しかけるカルテ」の組み立てに。
+   枠は「上部バー → ピン（流れない。警告の帯・次のお客様・この人カード）→ 流れ（ここだけスクロール）→ 下（押すところ）」。
+   右＝自分が話した・入れたもの（あんず）／左の点線＝AI の候補／左の実線＝確かな記録／上の赤い帯＝消えない警告 ==== */
+.phone.talk{height:812px;min-height:0}
+.phone.talk>.body{min-height:0;padding-top:12px;padding-bottom:22px;position:relative}
+.phone.talk .fixed,.phone.talk>.tabbar{position:static;flex:none}
+a.item{text-decoration:none;color:inherit}
+button.chip{font-family:inherit;cursor:pointer}
+.badge .i{width:12px;height:12px;margin:-2px 2px 0 0}
+.k-head{flex:none;padding:12px 14px 10px;display:flex;flex-direction:column;gap:10px}
+.k-head .greet h1{font-size:var(--size-lg)}
+.k-head .greet h1 .meta{font-size:var(--size-sm);font-weight:var(--w-regular)}
+.k-head a.search{text-decoration:none}
+/* ピン（上に留める。流れない） */
+.k-pin{flex:none;position:relative;padding:8px 10px 12px;display:flex;flex-direction:column;gap:8px;background:var(--background)}
+.k-pin::after{content:"";position:absolute;left:24px;right:24px;bottom:0;height:1px;background:var(--line)}
+.k-pin:not(:has(>:not(.state-view),>.state-view.on)){display:none}
+.k-thread .state-view.on{display:flex;flex-direction:column;gap:14px}
+.k-pin .state-view.on{display:flex;flex-direction:column;gap:8px}
+/* 警告の帯（上の赤い帯）: 小さい形と、帯の右の「本日の確認 済」 */
+.warnband.mini{font-size:var(--size-md);padding:7px 10px 7px 42px}
+.warnband.mini:before{width:22px;height:22px;left:10px;top:8px;font-size:var(--size-xs)}
+.warnband .k-wok{margin-left:6px;display:none}
+#SCR-07:has(.state-view[data-state="s2"].on,.state-view[data-state="s3"].on,.state-view[data-state="done"].on) .k-wok{display:inline-block}
+/* システムの一言・手順の区切り */
+.k-sys{align-self:center;display:inline-flex;align-items:center;gap:5px;max-width:100%;font-size:var(--size-xs);color:var(--text-secondary);background:var(--sunk);border-radius:var(--radius-pill);padding:3px 14px;text-align:center;line-height:1.6}
+.k-sys b{color:var(--text-primary)}
+.k-sys .i{width:14px;height:14px}
+.k-sys .i.ok{color:var(--done)}
+.k-sys.s2only{display:none}
+.k-sys.k-quiet{background:transparent;color:var(--text-meta)}
+.k-step{display:flex;align-items:center;gap:8px;font-size:var(--size-xs);color:var(--text-meta);font-weight:var(--w-bold);white-space:nowrap}
+.k-step::before,.k-step::after{content:"";flex:1;height:1px;background:var(--line)}
+.k-step .n{width:20px;height:20px;border-radius:50%;background:var(--main-700);color:var(--surface);display:inline-flex;align-items:center;justify-content:center;font-size:var(--size-xs);flex:none}
+.k-step .n.done{background:var(--done)}
+.k-step .n .i{width:12px;height:12px;stroke-width:2.6}
+/* 右＝自分（あんずの吹き出し） */
+.k-me{align-self:flex-end;max-width:88%;display:flex;flex-direction:column;align-items:flex-end;gap:4px;min-width:0}
+.k-me.wide{max-width:96%;width:96%}
+.k-me>.quote{margin:0;max-width:100%;width:100%}
+.quote.sm{font-size:var(--size-sm)}
+.k-tm{font-size:var(--size-xs);color:var(--text-meta)}
+.k-voice{display:flex;align-items:center;gap:10px}
+.k-voice .pl{width:30px;height:30px;border-radius:50%;background:var(--accent-700);color:var(--surface);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.k-voice .pl .i{width:15px;height:15px}
+.k-voice .len{font-size:var(--size-xs);color:var(--accent-700);font-weight:var(--w-bold);font-variant-numeric:tabular-nums}
+.k-wave{display:flex;align-items:center;gap:2px;height:24px;flex:1;min-width:0;overflow:hidden}
+.k-wave i{width:3px;height:45%;border-radius:2px;background:var(--accent-700);display:block;flex:none}
+.k-wave i:nth-child(3n+1){height:30%}.k-wave i:nth-child(4n+2){height:80%}.k-wave i:nth-child(5n+3){height:95%}.k-wave i:nth-child(7n){height:60%}.k-wave i:nth-child(6n+5){height:70%}
+.k-wave.big{height:44px;min-width:200px}
+.k-voice .k-wave{min-width:120px}
+.k-trans{font-size:var(--size-xs);color:var(--text-secondary);line-height:1.7;border-top:1px dashed var(--line);margin-top:8px;padding-top:8px}
+.k-keep{display:flex;align-items:center;gap:8px;min-height:44px;font-size:var(--size-xs);color:var(--text-secondary)}
+.k-keep .box{width:16px;height:16px;border-radius:var(--radius-pill);border:1.5px solid var(--accent-700);background:var(--accent-700);color:var(--surface);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.k-keep .box .i{width:11px;height:11px;stroke-width:3}
+.k-photos .thumbs{gap:8px}
+.k-photos .thumb{width:60px;height:60px;background:var(--surface)}
+/* 会計の吹き出し（右）: 区分はあんずの字 */
+.k-pay{display:flex;flex-direction:column;gap:6px}
+.k-pay .k-pay-h{display:flex;justify-content:space-between;gap:8px;font-size:var(--size-xs);color:var(--accent-700);font-weight:var(--w-bold)}
+.k-pay .amt-list{border-top-color:var(--line)}
+.k-pay .badge{background:var(--surface);border-color:var(--surface);color:var(--accent-700)}
+.k-pay .meta{color:var(--text-secondary)}
+.k-pay .staffbuy{border-top:var(--border);padding-top:2px}
+.k-pay .lnk{align-self:flex-start}
+/* 左＝カルテの返事・候補・確かな記録 */
+.k-left{display:flex;flex-direction:column;gap:8px;align-self:stretch;min-width:0}
+.k-who{display:flex;align-items:center;gap:7px;font-size:var(--size-xs);color:var(--text-meta)}
+.k-who b{color:var(--text-secondary);font-weight:var(--w-bold)}
+.k-kav{width:24px;height:24px;border-radius:var(--radius-pill);background:var(--main-100);color:var(--main-700);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.k-kav .i{width:14px;height:14px}
+.k-say{font-size:var(--size-md);line-height:1.7}
+.k-allbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.k-allbar span{font-size:var(--size-xs);color:var(--text-meta)}
+.k-cands{display:flex;flex-direction:column;gap:8px}
+.k-grp{font-size:var(--size-xs);color:var(--text-meta);letter-spacing:.06em;padding:2px 2px 0}
+.k-cand{background:var(--surface);border:1.5px dashed var(--main-300);border-radius:var(--radius-card);padding:9px 12px 10px;display:flex;flex-direction:column;gap:5px;transition:border-color .2s}
+.k-cand.ok{border-style:solid;border-color:var(--line)}
+.k-cand-h{display:flex;align-items:center;gap:6px;font-size:var(--size-xs);color:var(--text-secondary);font-weight:var(--w-bold);flex-wrap:wrap}
+.k-cand-h .k-badges{margin-left:auto;display:inline-flex;gap:4px}
+.k-cand .k-v{font-size:var(--size-md);font-weight:var(--w-bold);line-height:1.55;border-radius:var(--radius-card);outline:none}
+.k-cand .k-v[contenteditable="true"]{background:var(--sunk);padding:2px 6px;font-weight:var(--w-medium)}
+.k-cand .k-v.blank{color:var(--text-meta);font-weight:var(--w-regular);font-size:var(--size-sm)}
+.k-cand .b-ok,.k-cand.ok .b-cand,.k-cand.ok .k-yes{display:none}
+.k-cand.ok .b-ok{display:inline-block}
+.k-said{display:flex;gap:6px;font-size:var(--size-xs);color:var(--text-secondary);line-height:1.6}
+.k-said .i{width:14px;height:14px;color:var(--main-500);margin-top:2px}
+.k-acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.k-acts.start{justify-content:flex-start}
+.k-pill{display:inline-flex;align-items:center;gap:4px;min-height:32px;border:1.5px solid var(--main-300);border-radius:var(--radius-pill);padding:0 12px;color:var(--main-700);background:var(--surface);font:inherit;font-size:var(--size-sm);font-weight:var(--w-bold);cursor:pointer;position:relative;white-space:nowrap;text-decoration:none}
+.k-pill::before{content:"";position:absolute;inset:-6px -4px}
+.k-pill .i{width:14px;height:14px}
+.k-pill:hover{border-color:var(--main-700)}
+.k-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.k-row .label{margin:0}
+/* 確かな記録（左の実線） */
+.k-rec{padding:11px 14px 12px;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit}
+.k-rec .t{display:flex;align-items:center;gap:8px;font-size:var(--size-xs);color:var(--text-meta);flex-wrap:wrap}
+.k-rec .t b{color:var(--text-primary);font-size:var(--size-md)}
+.k-rec p{font-size:var(--size-sm);line-height:1.7}
+.k-dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:var(--size-sm);line-height:1.6;margin:0}
+.k-dl dt{color:var(--text-meta)}
+.k-dl dd{margin:0}
+.thumb.s48{width:48px;height:48px}
+.k-care{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-card);padding:6px 12px 8px}
+.k-care h3{display:flex;align-items:center;gap:4px;font-size:var(--size-xs);color:var(--text-secondary);font-weight:var(--w-bold);margin:0}
+.k-care h3 .i{width:14px;height:14px}
+.k-care h3 .r{margin-left:auto;font-weight:var(--w-regular);color:var(--text-meta);display:inline-flex;align-items:center;gap:6px}
+.k-care ul{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:0 12px;font-size:var(--size-sm);line-height:1.6}
+.k-care li{display:flex;align-items:center;gap:6px}
+.k-care li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent-500);flex:none}
+.k-donecard{display:flex;gap:12px;align-items:center}
+.k-donecard .ck{width:36px;height:36px;border-radius:50%;background:var(--done);color:var(--surface);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.k-donecard h2{font-size:var(--size-md)}
+.k-h3{font-size:var(--size-xs);letter-spacing:.06em;color:var(--text-secondary);padding:10px 0 4px;margin:0}
+.card.k-tight{padding:4px 14px}
+.card.k-form{padding:4px 16px}
+.card.k-pad{display:flex;flex-direction:column;gap:10px}
+.k-sk{height:14px;border:0;margin:6px 0}
+.k-sk.w70{width:70%}.k-sk.w85{width:85%}
+.skeleton.h44{height:44px}.skeleton.h180{height:180px}
+/* 下（押すところ） */
+.k-tools{display:flex;gap:8px;margin-bottom:6px}
+.k-tools .btn{flex:1}
+.fixed .k-tools .btn+.btn{margin-top:0}
+#SCR-07 .topbar h1 .meta .t-norm{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;margin-top:2px}
+#SCR-07 .topbar h1 .meta .t-norm>*{white-space:nowrap}
+.k-tools .btn.k-talk{flex:1.4;font-size:var(--size-md)}
+.k-hint{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 14px;font-size:var(--size-xs);color:var(--text-meta);margin-bottom:6px}
+.fixed .helptip{margin:0 0 8px}
+.fixed .btn+.btn{margin-top:8px}
+.fixed .row2 .btn+.btn{margin-top:0}
+.k-recdock{display:flex;flex-direction:column;align-items:center;gap:4px}
+.k-recbtn{width:88px;height:88px;border-radius:50%;background:var(--main-700);color:var(--surface);box-shadow:0 0 0 6px var(--main-100);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:var(--w-bold);font-size:var(--size-sm);text-decoration:none;margin:8px 0 4px}
+.k-recbtn .i{width:26px;height:26px}
+.k-recbtn.stop{background:var(--surface);color:var(--main-700);border:1.5px solid var(--main-700)}
+.k-rectime{font-size:var(--size-xs);color:var(--text-meta)}
+.k-rectime b{font-size:var(--size-lg);color:var(--text-primary);font-variant-numeric:tabular-nums;margin-left:6px}
+/* SCR-03 ホーム: 次のお客様（ピン）・今日の流れ・あとで */
+.hero.k-next{padding:13px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.hero.k-next .eyebrow{justify-content:flex-start;gap:8px;align-items:baseline}
+.hero.k-next .eyebrow .lab{margin-right:auto}
+.hero.k-next .eyebrow b{color:var(--surface);font-size:var(--size-md);font-variant-numeric:tabular-nums}
+.hero.k-next h2{margin:0}
+.hero.k-next .meta{color:var(--main-300);margin:0}
+.hero.k-next .meta b{color:var(--surface)}
+.hero.k-next .acts{margin-top:2px}
+.hero .warn{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:0;padding:5px 10px}
+.hero .warn .i{width:15px;height:15px}
+.hero .warn span{font-weight:var(--w-regular);color:var(--text-primary);font-size:var(--size-xs)}
+.k-hcare{display:flex;flex-direction:column;gap:1px;font-size:var(--size-sm);line-height:1.6;color:var(--surface)}
+.k-hcare .h{font-size:var(--size-xs);color:var(--main-300);letter-spacing:.06em}
+.hero .acts.k-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.k-grid>.btn.primary,.k-grid>.k-full{grid-column:1/-1}
+.hero.k-alldone{text-align:center;padding:18px 16px 16px}
+.hero.k-alldone h2{font-size:var(--size-lg);margin:2px 0}
+.hero.k-alldone .acts{margin-top:10px}
+.dayhead .label{margin:0}
+.dayhead .label .meta{letter-spacing:0}
+#SCR-03 .tl .st{padding-top:0;align-self:center}
+.tl.done .name,.tl.done .time{color:var(--text-meta);font-weight:var(--w-medium)}
+.meta.k-tcare{color:var(--text-secondary)}
+.k-add{align-self:flex-start;margin-left:28px}
+.card.k-box{padding:0;overflow:hidden}
+.k-box-h{display:flex;align-items:center;gap:8px;padding:12px 14px 2px;font-size:var(--size-sm);font-weight:var(--w-bold);color:var(--text-secondary)}
+.k-box-h .i{width:16px;height:16px;color:var(--text-secondary)}
+.k-box .list{border-top:0;padding:0 14px}
+.k-box .item:last-child{border-bottom:0}
+.k-box .item>.i{color:var(--main-700)}
+.item.k-stack{flex-direction:column;align-items:stretch;gap:8px}
+/* SCR-06 顧客詳細: この人カード（ピン）・タブ・記録の流れ */
+.k-person{gap:12px;align-items:flex-start}
+.k-person .mono{width:48px;height:48px;font-size:var(--size-lg)}
+.k-person .k-pmain{flex:1;min-width:0}
+.k-person h2{font-size:var(--size-lg)}
+.k-person .rhythm{margin-top:4px}
+.k-pin .stat{padding:6px 0}
+.stat b small{font-size:var(--size-xs);font-weight:var(--w-regular);color:var(--text-meta);margin-left:1px}
+.stat b .lnk{font-size:var(--size-xs)}
+.topbar h1.k-quiet{font-size:var(--size-md);color:var(--text-meta)}
+.seg.k-tabs{flex:none;margin:0;padding:8px 12px 6px}
+.photogrid .ph.add{align-items:center;justify-content:center;color:var(--main-700);background:transparent;border:1.5px dashed var(--line);font-size:var(--size-md)}
+.k-ct-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.k-ct-h h3{margin:0}
+.k-ct-v{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin:4px 0}
+.k-center{text-align:center}
+.k-photoset{display:flex;gap:12px;align-items:center}
+/* SCR-06 の PC 幅: 左に本人・中央に履歴・右にメモ（JS がピンと流れを 3 列に並べ替える） */
+main.stage.view-pc #SCR-06 .phone.talk{height:auto;min-height:640px}
+main.stage.view-pc #SCR-06 .topbar{padding:10px 28px}
+.k-pc3{display:grid;grid-template-columns:300px minmax(0,1fr) 300px;gap:0 28px;padding:24px 28px 24px;align-items:start;flex:1}
+.k-pc3 .pccol{display:flex;flex-direction:column;gap:14px;min-width:0}
+.k-pc3 .pccol.c2{border-left:var(--border);border-right:var(--border);padding:0 24px}
+.k-pc3 .seg.k-tabs{padding:0 0 6px}
+.k-pc3 .k-thread{overflow:visible;padding:8px 0;max-width:none}
+.k-pc3 .state-view.on{display:flex;flex-direction:column;gap:14px}
+/* SCR-21 お客様に送る: 文面は左。AI の文面は点線、コピー・送付の後とよく使う文面は実線 */
+.k-msg{align-self:stretch;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius-card);padding:12px 14px;font-size:var(--size-sm);line-height:1.85}
+.k-msg.ai{border-style:dashed;border-color:var(--main-300)}
+#SCR-21:has(.state-view[data-state="copied"].on,.state-view[data-state="sent"].on) .k-msg.ai{border-style:solid;border-color:var(--line)}
+.k-msg .after{display:block;border-top:1px dashed var(--line);margin-top:10px;padding-top:10px}
+.k-msg.wait{color:var(--text-meta)}
+.noteband .btn{margin-top:10px}
+/* SCR-28 今月の数字: 目標をピンに、切り口を下のチップに */
+.k-blk{display:flex;flex-direction:column;gap:8px}
+.k-sec{display:flex;align-items:center;gap:6px;font-size:var(--size-sm);font-weight:var(--w-bold);color:var(--text-secondary)}
+.k-sec .i{width:16px;height:16px;color:var(--text-secondary)}
+.card.k-tcard{padding:2px 12px}
+.k-tcard .m-staff:first-child{border-top:0}
+.k-tcard .m-staff:last-child{border-bottom:0}
+.k-tcard .list{border-top:0}
+.k-tcard .item:last-child{border-bottom:0}
+.k-tcard .segm{margin-top:10px}
+.k-chipbar{display:flex;gap:7px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+.k-chipbar::-webkit-scrollbar{display:none}
+.k-chipbar .chip{flex:none}
+.k-chipbar .chip .i{width:15px;height:15px}
+#SCR-28 .k-pin .hero{padding:12px 14px 12px}
+#SCR-28 .k-pin .hero .line{margin:8px 0}
+/* 表示幅: タブレット・PC でもピンと上の段は本文と同じ最大幅 640px に寄せる */
+main.stage.view-tablet .phone.talk .k-pin,main.stage.view-pc .phone.talk .k-pin,main.stage.view-tablet .phone.talk .k-head,main.stage.view-pc .phone.talk .k-head,main.stage.view-tablet .phone.talk>.seg.k-tabs,main.stage.view-pc .phone.talk>.seg.k-tabs{max-width:640px;width:100%;margin:0 auto}
+.k-thread .amt-edit{margin-top:0}
+.search .q{font-family:var(--font-body);font-size:var(--size-md);font-weight:var(--w-regular);line-height:1.5}
+.hero.k-next{gap:6px}
+.hero .warn b{flex:none;white-space:nowrap}
+.errorbox .row2{margin-top:10px}
 </style>
 </head>
 <body>
@@ -613,6 +829,11 @@ table.grid td.m-na{color:var(--text-meta)}
 <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
 <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
 <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3.5l1.8 5 5 1.8-5 1.8-1.8 5-1.8-5-5-1.8 5-1.8z"/></symbol>
+<symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+<symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></symbol>
 </svg>
 <div class="frame">
 <nav class="mocknav">
@@ -699,86 +920,111 @@ table.grid td.m-na{color:var(--text-meta)}
 
 <!-- ================= SCR-03 ================= -->
 <section class="screen" id="SCR-03">
-  <p class="screen-title"><b>SCR-03 ホーム（今日）</b> ／ FUNC-29, 03, 06, 31 ・ 「次のお客様」を主役に、今日の進みを見せる</p>
-  <div class="phone">
-    <div class="body tabbed" style="gap:18px">
-      <div class="greet"><h1 style="font-size:var(--size-lg)">10月8日 <span class="meta" style="font-family:var(--font-body);font-size:var(--size-sm)">水曜日</span></h1><span class="greet-r"><a class="right" href="#SCR-12"><svg class="i"><use href="#i-settings"/></svg>設定</a><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></span></div>
-      <a class="search" href="#SCR-04" style="text-decoration:none"><svg class="i ico"><use href="#i-search"/></svg><span class="q">名前か電話番号で探す</span></a>
+  <p class="screen-title"><b>SCR-03 ホーム（今日）</b> ／ FUNC-29, 03, 06, 31 ・ 「次のお客様」を上に留め、その下に今日の流れが 1 本の線で続く（2026-10-11 A 社の組み立て）</p>
+  <div class="phone talk">
+    <div class="k-head">
+      <div class="greet"><h1>10月8日 <span class="meta">水曜日</span></h1><span class="greet-r"><a class="right" href="#SCR-12"><svg class="i"><use href="#i-settings"/></svg>設定</a><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></span></div>
+      <a class="search" href="#SCR-04"><svg class="i ico"><use href="#i-search"/></svg><span class="q">名前か電話番号で探す</span></a>
+    </div>
 
+    <!-- ピン: 次のお客様（流れない） -->
+    <div class="k-pin">
       <div class="state-view on" data-state="normal">
-        <div class="state-view on" data-state="before" data-group="hero"><div class="hero">
-          <div class="eyebrow"><span>次のお客様</span><span>11:00 ・ あと 25 分</span></div>
+        <div class="state-view on" data-state="before" data-group="hero"><div class="hero k-next">
+          <div class="eyebrow"><span class="lab">次のお客様</span><b>11:00</b><span>あと 25 分</span></div>
           <h2>みさき<span class="hon">様</span></h2>
-          <p class="meta" style="color:var(--main-300)">12回目のご来店 ・ 回数券 残 6 ・ フェイシャル（保湿）・ 前回 9/10</p>
-          <div class="line"></div>
-          <p class="note">頬の赤みが出やすい。前回より圧を弱めに。乾燥を気にされているのでホームケアの話を。</p>
-          <span class="warn">安全上の警告 ・ 妊娠中 ・ 光過敏</span>
-          <div class="acts" style="flex-wrap:wrap"><a class="btn primary" href="#SCR-07:s1"><svg class="i"><use href="#i-check"/></svg>来店を確認する</a><a class="btn ghost" href="#SCR-06"><svg class="i"><use href="#i-users"/></svg>この方を見る</a><a class="btn ghost" href="#SCR-27" style="flex:1 1 100%"><svg class="i"><use href="#i-plus"/></svg>記録を始める</a></div>
+          <p class="meta"><b>12回目</b> ・ フェイシャル（保湿）・ 前回 9/10 ・ 回数券 <b>残 6</b></p>
+          <span class="warn"><svg class="i"><use href="#i-alert"/></svg><b>妊娠中・光過敏</b><span>光を使う施術はできません</span></span>
+          <div class="k-hcare"><span class="h">今回気をつけること</span>頬の赤みが出やすい。前回より圧を弱めに。乾燥を気にされているのでホームケアの話を。</div>
+          <div class="acts k-grid"><a class="btn primary" href="#SCR-07:s1"><svg class="i"><use href="#i-check"/></svg>来店を確認する</a><a class="btn ghost" href="#SCR-06"><svg class="i"><use href="#i-users"/></svg>この方を見る</a><a class="btn ghost" href="#SCR-27"><svg class="i"><use href="#i-plus"/></svg>記録を始める</a></div>
         </div></div>
-        <div class="state-view" data-state="during" data-group="hero"><div class="hero"><div class="eyebrow"><span>施術中</span><span>11:00 に開始 ・ 確認済み</span></div><h2>みさき <span class="hon" style="color:var(--main-300)">様</span></h2><p class="meta" style="color:var(--main-300)">フェイシャル（保湿）・ 本日の確認 ✓</p><div class="line"></div><p class="note">終わったら「話す」か「撮る」で 30 秒</p><div class="acts"><a class="btn primary" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>記録を残す</a><a class="btn ghost" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>話して記録</a></div></div></div>
-        <div class="state-view" data-state="alldone" data-group="hero"><div class="hero light" style="text-align:center;padding:28px 20px"><p class="meta" style="letter-spacing:.06em">今日の予約</p><h2 style="font-size:var(--size-xl)">5 人すべて残りました</h2><p class="sub">お疲れさまでした。<u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日の予約 4 人</u>を確認して閉店を</p><div class="acts" style="justify-content:center;flex-wrap:wrap"><a class="btn ghost" href="#SCR-27" style="flex:1 1 100%"><svg class="i"><use href="#i-plus"/></svg>記録を始める</a><a class="btn ghost" href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日は 4 人の予約</a><a class="btn ghost" href="#SCR-03"><svg class="i"><use href="#i-clock"/></svg>あとで 8 件</a></div></div></div>
+        <div class="state-view" data-state="during" data-group="hero"><div class="hero k-next">
+          <div class="eyebrow"><span class="lab">施術中</span><span>11:00 に開始 ・ 確認済み</span></div>
+          <h2>みさき<span class="hon">様</span></h2>
+          <p class="meta">フェイシャル（保湿）・ 本日の確認 済</p>
+          <span class="warn"><svg class="i"><use href="#i-alert"/></svg><b>妊娠中・光過敏</b><span>光を使う施術はできません</span></span>
+          <div class="k-hcare"><span class="h">終わったら</span>「話す」か「撮る」で 30 秒</div>
+          <div class="acts"><a class="btn primary" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>記録を残す</a><a class="btn ghost" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>話して記録</a></div>
+        </div></div>
+        <div class="state-view" data-state="alldone" data-group="hero"><div class="hero light k-alldone">
+          <p class="meta">今日の予約</p>
+          <h2>5 人すべて残りました</h2>
+          <p class="sub">お疲れさまでした。<u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日の予約 4 人</u>を確認して閉店を</p>
+          <div class="acts k-grid"><a class="btn k-full" href="#SCR-27"><svg class="i"><use href="#i-plus"/></svg>記録を始める</a><a class="btn" href="#SCR-03:tomorrow"><svg class="i"><use href="#i-calendar"/></svg>明日は 4 人の予約</a><a class="btn" href="#SCR-03" data-jump="k03later"><svg class="i"><use href="#i-clock"/></svg>あとで 8 件</a></div>
+        </div></div>
+      </div>
+    </div>
 
-        <div class="progress"><div class="t"><b>今日 2 人記録しました</b></div></div>
+    <!-- 流れ（ここだけスクロール） -->
+    <div class="body k-thread" data-start="top">
+      <div class="state-view on" data-state="normal">
+        <span class="k-sys" id="k03count"><svg class="i ok"><use href="#i-check"/></svg>今日 <b>2 人</b>記録しました</span>
 
         <div class="state-view on" data-state="today" data-group="day">
-        <div class="dayhead"><span class="label" style="margin:0">今日の流れ</span><span class="daynav"><u data-href="#SCR-03:today" style="opacity:.35"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/8 水</b><u data-href="#SCR-03:tomorrow"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
-        <div class="timeline">
-          <a class="tl done" href="#SCR-06"><span class="time">9:30</span><span class="who"><span class="name">ともこ<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">8回目</b> ・ 痩身 ・ 記録済み</span></span><span class="st ok">済</span></a>
-          <a class="tl done" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">あやの<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">3回目</b> ・ フェイシャル ・ 記録済み</span></span><span class="st ok">済</span></a>
-          <a class="tl now" href="#SCR-06"><span class="time">11:00</span><span class="who"><span class="name">みさき<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">12回目</b> ・ フェイシャル（保湿）・ 前回 9/10</span></span><span class="st">次</span></a>
-          <a class="tl" href="#SCR-06"><span class="time">13:30</span><span class="who"><span class="name">ゆか<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">5回目</b> ・ 脱毛（全身）・ 前回 7/20 ・ 2か月半ぶり</span></span><span class="st"></span></a>
-          <a class="tl" href="#SCR-06"><span class="time">16:00</span><span class="who"><span class="name">さくら<span class="hon">様</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ 問診回答あり ・ 金属アレルギー申告</span></span><span class="st"></span></a>
-          <a class="tl" href="#SCR-27:booking" style="color:var(--main-700)"><span class="time">＋</span><span class="who"><span class="name" style="color:var(--main-700)">今日来る人を足す</span><br><span class="meta">予約サイト・DM・電話で受けた予約</span></span></a>
-          <div class="state-view" data-state="ext"><a class="tl" href="#SCR-04"><span class="time">14:30</span><span class="who"><span class="name">ハギワラ 様 <span class="badge ghost">候補</span> <span class="badge scope">S3</span></span><br><span class="meta">予約通知メールから ・ まだ顧客に結びついていません</span></span><span class="st">紐づけ</span></a></div>
-        </div>
+          <div class="dayhead"><span class="label">今日の流れ</span><span class="daynav"><u data-href="#SCR-03:today" class="off" aria-label="前の日"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/8 水</b><u data-href="#SCR-03:tomorrow" aria-label="次の日"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
+          <div class="timeline">
+            <a class="tl done" href="#SCR-06"><span class="time">9:30</span><span class="who"><span class="name">ともこ<span class="hon">様</span></span><br><span class="meta"><b class="fw">8回目</b> ・ 痩身</span></span><span class="st"><span class="badge done"><svg class="i"><use href="#i-check"/></svg>記録済み</span></span></a>
+            <a class="tl done" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">あやの<span class="hon">様</span></span><br><span class="meta"><b class="fw">3回目</b> ・ フェイシャル</span></span><span class="st"><span class="badge done"><svg class="i"><use href="#i-check"/></svg>記録済み</span></span></a>
+            <a class="tl now" href="#SCR-06"><span class="time">11:00</span><span class="who"><span class="name">みさき<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b class="fw">12回目</b> ・ フェイシャル（保湿）・ 前回 9/10</span></span><span class="st"><span class="badge phase">次</span></span></a>
+            <a class="tl" href="#SCR-06"><span class="time">13:30</span><span class="who"><span class="name">ゆか<span class="hon">様</span></span><br><span class="meta"><b class="fw">5回目</b> ・ 脱毛（全身）・ 前回 7/20 ・ 2か月半ぶり</span></span><span class="st"><span class="badge ghost">まだ</span></span></a>
+            <a class="tl" href="#SCR-06"><span class="time">16:00</span><span class="who"><span class="name">さくら<span class="hon">様</span> <span class="badge new">はじめて</span> <span class="badge kari">仮</span></span><br><span class="meta">問診回答あり ・ 金属アレルギー申告</span></span><span class="st"><span class="badge ghost">まだ</span></span></a>
+            <div class="state-view" data-state="ext"><a class="tl" href="#SCR-04"><span class="time">14:30</span><span class="who"><span class="name">ハギワラ 様 <span class="badge ghost">候補</span> <span class="badge scope">S3</span></span><br><span class="meta">予約通知メールから ・ まだ顧客に結びついていません</span></span><span class="st"><span class="badge phase">紐づけ</span></span></a></div>
+          </div>
+          <a class="lnk k-add" href="#SCR-27:booking"><svg class="i"><use href="#i-plus"/></svg>今日来る人を足す</a>
         </div>
         <div class="state-view" data-state="tomorrow" data-group="day">
-        <div class="dayhead"><span class="label" style="margin:0">明日の流れ <span class="meta" style="letter-spacing:0">・ 4 人</span></span><span class="daynav"><u data-href="#SCR-03:today"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/9 木</b><u data-href="#SCR-03:tomorrow" style="opacity:.35"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
-        <p class="meta" style="margin-top:-6px">明日の方の「今回気をつけること」を今のうちに</p>
-        <div class="timeline">
-          <a class="tl" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">れいな<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">7回目</b> ・ 脱毛（全身）・ 前回 9/11</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 日焼けあり。出力を一段下げる</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="tl" href="#SCR-06"><span class="time">11:30</span><span class="who"><span class="name">かな<span class="hon">様</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">2回目</b> ・ フェイシャル ・ 体験 10/5</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 本契約の提案を。乾燥が主訴</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="tl" href="#SCR-06"><span class="time">14:00</span><span class="who"><span class="name">はるか<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b style="color:var(--main-700);font-weight:600">15回目</b> ・ 痩身 ・ 前回 9/25</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 金属アレルギー。右肩の張り</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="tl" href="#SCR-06"><span class="time">16:30</span><span class="who"><span class="name">こころ<span class="hon">様</span> <span class="badge kari">仮</span></span><br><span class="meta">はじめて ・ カウンセリング ・ 問診回答あり</span><br><span class="meta" style="color:var(--main-700)">気をつけること: 問診に「敏感肌」。パッチテストの説明を</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="tl" href="#SCR-27:booking" style="color:var(--main-700)"><span class="time">＋</span><span class="who"><span class="name" style="color:var(--main-700)">明日来る人を足す</span><br><span class="meta">予約サイト・DM・電話で受けた予約</span></span></a>
-        </div>
-        <p class="meta" style="text-align:right"><a class="lnk" href="#SCR-04:upcoming"><svg class="i"><use href="#i-calendar"/></svg>このあと 7 日の予約を見る</a> <span class="badge scope">S2</span></p>
+          <div class="dayhead"><span class="label">明日の流れ <span class="meta">・ 4 人</span></span><span class="daynav"><u data-href="#SCR-03:today" aria-label="前の日"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>10/9 木</b><u data-href="#SCR-03:tomorrow" class="off" aria-label="次の日"><svg class="i"><use href="#i-chevron-right"/></svg></u></span></div>
+          <p class="meta">明日の方の「今回気をつけること」を今のうちに</p>
+          <div class="timeline">
+            <a class="tl" href="#SCR-06"><span class="time">10:00</span><span class="who"><span class="name">れいな<span class="hon">様</span></span><br><span class="meta"><b class="fw">7回目</b> ・ 脱毛（全身）・ 前回 9/11</span><br><span class="meta k-tcare">気をつけること: 日焼けあり。出力を一段下げる</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <a class="tl" href="#SCR-06"><span class="time">11:30</span><span class="who"><span class="name">かな<span class="hon">様</span></span><br><span class="meta"><b class="fw">2回目</b> ・ フェイシャル ・ 体験 10/5</span><br><span class="meta k-tcare">気をつけること: 本契約の提案を。乾燥が主訴</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <a class="tl" href="#SCR-06"><span class="time">14:00</span><span class="who"><span class="name">はるか<span class="hon">様</span> <span class="badge err">警告</span></span><br><span class="meta"><b class="fw">15回目</b> ・ 痩身 ・ 前回 9/25</span><br><span class="meta k-tcare">気をつけること: 金属アレルギー。右肩の張り</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <a class="tl" href="#SCR-06"><span class="time">16:30</span><span class="who"><span class="name">こころ<span class="hon">様</span> <span class="badge new">はじめて</span> <span class="badge kari">仮</span></span><br><span class="meta">カウンセリング ・ 問診回答あり</span><br><span class="meta k-tcare">気をつけること: 問診に「敏感肌」。パッチテストの説明を</span></span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          </div>
+          <a class="lnk k-add" href="#SCR-27:booking"><svg class="i"><use href="#i-plus"/></svg>明日来る人を足す</a>
+          <p class="meta"><a class="lnk" href="#SCR-04:upcoming"><svg class="i"><use href="#i-calendar"/></svg>このあと 7 日の予約を見る</a> <span class="badge scope">S2</span></p>
         </div>
 
-
-        <span class="label">あとで</span>
-        <div class="list">
-          <div class="item" style="flex-direction:column;align-items:stretch;gap:8px"><div class="name">過ぎた予約の確認 ・ かなこ<span class="hon">様</span> 昨日 15:00 <span class="badge scope">S2</span></div><div class="meta">来店記録がありません。どうなりましたか？</div><div class="grid2"><a class="btn sm" href="#SCR-07:s1"><svg class="i"><use href="#i-check"/></svg>来店した</a><a class="btn sm" href="#SCR-27:booking"><svg class="i"><use href="#i-calendar-plus"/></svg>日程変更</a><a class="btn sm" href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>キャンセル（連絡あり）</a><a class="btn sm danger" href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>連絡なし</a></div></div>
-          <div class="item"><div class="main"><div class="name">記録がまだ ・ あやの</div><div class="meta">昨日 ・ フェイシャル</div></div><u data-href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>やめる</u></div>
-          <div class="item"><div class="main"><div class="name">記録がまだ ・ ともこ</div><div class="meta">10/5 ・ 痩身</div></div><u data-href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>やめる</u></div>
-          <a class="item" href="#SCR-09" style="text-decoration:none;color:inherit"><div class="main"><div class="name">確認待ち <span class="count">1</span></div><div class="meta">音声メモの読み取りができました</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="item" href="#SCR-08:shoot" style="text-decoration:none;color:inherit"><div class="main"><div class="name">読み取れなかった <span class="count">1</span></div><div class="meta">ゆか ・ 紙カルテ 2 枚 ・ 暗くて文字が読めませんでした。もう一度撮ってください</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <div class="item"><div class="main"><div class="name">送信待ち <span class="count">2</span></div><div class="meta">あやの ・ 写真 2 枚と音声メモ 1 件（電波が戻ると送ります）</div></div><svg class="i" style="color:var(--main-700)"><use href="#i-clock"/></svg></div>
-          <div class="item"><div class="main"><div class="name">お客様に送っていない文面 ・ ともこ</div><div class="meta">文面はできています。コピーして送れます</div></div><svg class="i" style="color:var(--main-700)"><use href="#i-send"/></svg></div>
-          <div class="item"><div class="main"><div class="name">お客様に送っていない文面 ・ あやの</div><div class="meta">文面はできています。コピーして送れます</div></div><svg class="i" style="color:var(--main-700)"><use href="#i-send"/></svg></div>
-          <a class="item" href="#SCR-15" style="text-decoration:none;color:inherit"><div class="main"><div class="name">未処理の回答 <span class="count">2</span> <span class="badge scope">S2</span></div><div class="meta">かなこ ・ M.T ・ フォームから</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="item" href="#SCR-15:line" style="text-decoration:none;color:inherit"><div class="main"><div class="name">まだ結びついていない LINE <span class="count">3</span> <span class="badge scope">S2</span></div><div class="meta">Yuka ・ m.tanaka ・ ほか 1 人</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-        </div>
-        <span class="label m-home">お店の数字 <span class="badge scope">S2</span> <span class="badge scope">オーナー・スタッフ</span></span>
-        <div class="list"><a class="item" href="#SCR-28" style="text-decoration:none;color:inherit"><svg class="i" style="color:var(--main-700)"><use href="#i-chart"/></svg><div class="main"><div class="name">今月の数字</div><div class="meta">売上・目標・担当ごと</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a></div>
         <div class="errorbox state-view" data-state="limit"><b>今月の AI 利用が上限に達しました</b>録音と紙は保存してあり、11/1 に読み取ります。急ぐときは、設定の「AI 利用」で「続けて使う」にできます。</div>
         <div class="errorbox state-view" data-state="limitstaff"><b>今月の AI 利用が上限に達しました</b>録音と紙は保存してあり、11/1 に読み取ります。急ぐときはオーナーに伝えてください。</div>
+
+        <div class="card k-box" id="k03later">
+          <div class="k-box-h"><svg class="i"><use href="#i-clock"/></svg>あとで</div>
+          <div class="list">
+            <div class="item k-stack"><div class="name">過ぎた予約の確認 ・ かなこ<span class="hon">様</span> 昨日 15:00 <span class="badge scope">S2</span></div><div class="meta">来店記録がありません。どうなりましたか？</div><div class="grid2"><a class="btn sm" href="#SCR-07:s1"><svg class="i"><use href="#i-check"/></svg>来店した</a><a class="btn sm" href="#SCR-27:booking"><svg class="i"><use href="#i-calendar-plus"/></svg>日程変更</a><a class="btn sm" href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>キャンセル（連絡あり）</a><a class="btn sm danger" href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>連絡なし</a></div></div>
+            <div class="item"><div class="main"><div class="name">記録がまだ ・ あやの</div><div class="meta">昨日 ・ フェイシャル</div></div><u data-href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>やめる</u></div>
+            <div class="item"><div class="main"><div class="name">記録がまだ ・ ともこ</div><div class="meta">10/5 ・ 痩身</div></div><u data-href="#SCR-03"><svg class="i"><use href="#i-x"/></svg>やめる</u></div>
+            <a class="item" href="#SCR-09"><div class="main"><div class="name">確認待ち <span class="count">1</span></div><div class="meta">音声メモの読み取りができました</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <a class="item" href="#SCR-08:shoot"><div class="main"><div class="name">読み取れなかった <span class="count">1</span></div><div class="meta">ゆか ・ 紙カルテ 2 枚 ・ 暗くて文字が読めませんでした。もう一度撮ってください</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <div class="item"><div class="main"><div class="name">送信待ち <span class="count">2</span></div><div class="meta">あやの ・ 写真 2 枚と音声メモ 1 件（電波が戻ると送ります）</div></div><svg class="i"><use href="#i-clock"/></svg></div>
+            <div class="item"><div class="main"><div class="name">お客様に送っていない文面 ・ ともこ</div><div class="meta">文面はできています。コピーして送れます</div></div><svg class="i"><use href="#i-send"/></svg></div>
+            <div class="item"><div class="main"><div class="name">お客様に送っていない文面 ・ あやの</div><div class="meta">文面はできています。コピーして送れます</div></div><svg class="i"><use href="#i-send"/></svg></div>
+            <a class="item" href="#SCR-15"><div class="main"><div class="name">未処理の回答 <span class="count">2</span> <span class="badge scope">S2</span></div><div class="meta">かなこ ・ M.T ・ フォームから</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            <a class="item" href="#SCR-15:line"><div class="main"><div class="name">まだ結びついていない LINE <span class="count">3</span> <span class="badge scope">S2</span></div><div class="meta">Yuka ・ m.tanaka ・ ほか 1 人</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          </div>
+        </div>
+        <div class="card k-box">
+          <div class="k-box-h"><svg class="i"><use href="#i-chart"/></svg>お店の数字 <span class="badge scope">S2</span> <span class="badge scope">オーナー・スタッフ</span></div>
+          <div class="list"><a class="item" href="#SCR-28"><svg class="i"><use href="#i-chart"/></svg><div class="main"><div class="name">今月の数字</div><div class="meta">売上・目標・担当ごと</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a></div>
+        </div>
       </div>
 
       <div class="state-view" data-state="empty">
-        <div class="hero" style="background:var(--surface);color:var(--text-primary);border:var(--border)"><div class="eyebrow" style="color:var(--text-meta)"><span>はじめの3歩<button type="button" class="help" aria-expanded="false" aria-controls="help-03-first" aria-label="はじめの3歩の説明"><svg class="i"><use href="#i-help"/></svg></button></span></div><div class="helptip" id="help-03-first" role="note">2 で撮る問診票はお客様の情報に、紙カルテは来店の記録になります。</div>
-          <div class="timeline" style="margin-top:12px">
+        <div class="hero light">
+          <div class="eyebrow"><span>はじめの3歩<button type="button" class="help" aria-expanded="false" aria-controls="help-03-first" aria-label="はじめの3歩の説明"><svg class="i"><use href="#i-help"/></svg></button></span></div><div class="helptip" id="help-03-first" role="note">2 で撮る問診票はお客様の情報に、紙カルテは来店の記録になります。</div>
+          <div class="timeline">
             <a class="tl now" href="#SCR-05"><span class="time">1</span><span class="who"><span class="name">最初のお客様を1人登録する</span><br><span class="meta">呼び名だけで大丈夫です</span></span></a>
             <a class="tl" href="#SCR-08"><span class="time">2</span><span class="who"><span class="name">問診票かカルテを1枚撮ってみる</span></span></a>
             <a class="tl" href="#SCR-07"><span class="time">3</span><span class="who"><span class="name">今日の来店を1件、話して残す</span><br><span class="meta">30秒で終わります</span></span></a>
           </div>
-          <p class="meta" style="margin-top:10px">予約の受付はこれまでどおり予約サイトや LINE で</p>
-          <div class="acts"><a class="btn primary" href="#SCR-05" style="background:var(--main-700);color:var(--background)"><svg class="i"><use href="#i-user-plus"/></svg>最初のお客様を登録</a></div>
+          <p class="meta">予約の受付はこれまでどおり予約サイトや LINE で</p>
+          <div class="acts"><a class="btn primary" href="#SCR-05"><svg class="i"><use href="#i-user-plus"/></svg>最初のお客様を登録</a></div>
         </div>
       </div>
-      <div class="state-view" data-state="loading"><div class="skeleton" style="height:180px"></div><div class="skeleton" style="margin-top:8px"></div></div>
-      <div class="state-view" data-state="error"><div class="errorbox"><b>読み込めませんでした</b>電波を確かめて、画面を引き下げてもう一度読み込んでください。</div><a class="btn sm block" href="#SCR-03" style="margin-top:12px"><svg class="i"><use href="#i-rotate"/></svg>もう一度読み込む</a></div>
+      <div class="state-view" data-state="loading"><div class="skeleton h180"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+      <div class="state-view" data-state="error"><div class="errorbox"><b>読み込めませんでした</b>電波を確かめて、画面を引き下げてもう一度読み込んでください。</div><a class="btn sm block" href="#SCR-03"><svg class="i"><use href="#i-rotate"/></svg>もう一度読み込む</a></div>
     </div>
+
     <nav class="tabbar">
       <a href="#SCR-03" class="on"><svg class="i"><use href="#i-calendar"/></svg>今日</a>
       <a href="#SCR-04" class=""><svg class="i"><use href="#i-users"/></svg>お客様</a>
@@ -885,56 +1131,83 @@ table.grid td.m-na{color:var(--text-meta)}
 
 <!-- ================= SCR-06 ================= -->
 <section class="screen" id="SCR-06">
-  <p class="screen-title"><b>SCR-06 顧客詳細（この人カード）</b> ／ FUNC-03, 06, 07, 09, 15, 18, 22 ・ 人を主語に、縦に並べずタブで分ける</p>
-  <div class="phone">
-    <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-04">お客様</a><i>›</i><b>みさき<span class="hon">様</span></b></p><a class="back" href="#SCR-04"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="font-size:var(--size-md);color:var(--text-meta);font-family:var(--font-body);letter-spacing:.06em">お客様</h1><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
-    <div class="body" style="gap:18px">
-      <div class="person"><div class="mono">み</div><div><h2 style="font-size:var(--size-xl);font-weight:700;letter-spacing:.06em">みさき<span class="hon">様</span> <span class="badge phase">契約あり</span><button type="button" class="help" aria-expanded="false" aria-controls="help-06-phase" aria-label="顧客区分の説明"><svg class="i"><use href="#i-help"/></svg></button></h2><div class="helptip" id="help-06-phase" role="note">有効な回数券・プリペイドがあれば「契約あり」、無くて最後の来店から 180 日より前だと「休眠」、それ以外は「都度払い」です。</div><p class="meta">佐藤 美咲（さとう みさき）・ 2025年3月から ・ <u data-href="#SCR-05"><svg class="i"><use href="#i-pen"/></svg>情報を直す</u></p><div class="rhythm"><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i class="next"></i></div></div></div>
-      <div class="stat"><div><b>12</b><span>来店</span></div><div><b>28<small style="font-size:11px">日</small></b><span>周期</span></div><div><b>10/8</b><span>次回予約</span></div></div>
-      <p class="meta" style="margin-top:-8px">どこで知ったか: Instagram DM ・ 最近の予約: ホットペッパー ・ <u data-href="#SCR-05"><svg class="i"><use href="#i-pen"/></svg>情報を直す</u></p>
-      <div class="warnband">妊娠中（9/10 申告）・光過敏<div class="meta">安全上の警告 ・ <a class="lnk" href="#SCR-06"><svg class="i"><use href="#i-pen"/></svg>禁忌を編集</a></div></div>
-      <div class="state-view" data-state="unread"><div class="warnband">禁忌欄が読めませんでした。紙を見て確認してください<div class="meta">10/8 の問診票から ・ <a class="lnk" href="#SCR-08:intake"><svg class="i"><use href="#i-eye"/></svg>元の問診票を見る</a> <a class="lnk" href="#SCR-06:taboo"><svg class="i"><use href="#i-check"/></svg>禁忌を確認する</a></div></div></div>
-      <div class="state-view" data-state="taboo"><div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.06em;color:var(--text-secondary);padding:10px 0 4px">禁忌・安全上の注意（フェイシャル・脱毛）</h3><div class="check"><span class="box on">✓</span>妊娠中・授乳中 <span class="meta">9/10 申告</span></div><div class="check"><span class="box on">✓</span>光過敏</div><div class="check"><span class="box"></span>服用中の薬</div><div class="check"><span class="box"></span>金属アレルギー</div><div class="check"><span class="box"></span>ケロイド体質</div><div class="field" style="padding:8px 0"><input class="input" placeholder="その他（自由記述）"></div><div class="row2" style="padding-bottom:10px"><a class="btn sm" href="#SCR-06"><svg class="i"><use href="#i-x"/></svg>キャンセル</a><a class="btn sm" href="#SCR-06" style="background:var(--main-700);color:var(--background)"><svg class="i"><use href="#i-check"/></svg>保存</a></div></div></div>
-      <div class="noteband"><h3>今回気をつけること</h3><p>頬の赤みが出やすい。前回より圧を弱めに。乾燥を気にされているのでホームケアの話を。</p><p class="meta" style="margin-top:4px">9/10 の来店記録から ・ <u data-href="#SCR-06"><svg class="i"><use href="#i-pen"/></svg>編集</u></p></div>
-      <div class="ext state-view" data-state="ai"><span class="label">次回提案の候補 <span class="badge scope">S2</span></span><div class="field cand" style="margin-top:4px"><input class="input" value="赤みが続いているため次回も低刺激のパックを"></div><p class="meta" style="margin-top:6px">根拠: 9/10・8/12 の来店記録 ・ <a class="lnk" href="#SCR-06"><svg class="i"><use href="#i-check"/></svg>確定する</a> ／ 編集</p></div>
+  <p class="screen-title"><b>SCR-06 顧客詳細（この人カード）</b> ／ FUNC-03, 06, 07, 09, 15, 18, 22 ・ 人ごとに 1 本の流れ。上の人・警告・今回気をつけることは留めたまま、タブで中身だけ替える。記録は古い順で、いちばん下が前回（2026-10-11 A 社の組み立て）</p>
+  <div class="phone talk">
+    <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><a href="#SCR-04">お客様</a><i>›</i><b>みさき<span class="hon">様</span></b></p><a class="back" href="#SCR-04" aria-label="戻る"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 class="k-quiet">お客様</h1><a class="right" href="#SCR-05"><svg class="i"><use href="#i-pen"/></svg>情報を直す</a><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
 
-      <div class="seg"><span class="on" data-seg="rec">記録</span><span data-seg="photo">写真</span><span data-seg="doc">書類</span><span data-seg="contract">契約</span><span data-seg="consent">同意</span></div>
+    <!-- ピン: この人カード・3 つの数字・警告・今回気をつけること（タブを替えても動かない） -->
+    <div class="k-pin">
+      <div class="person k-person"><div class="mono">み</div><div class="k-pmain"><h2>みさき<span class="hon">様</span> <span class="badge phase">契約あり</span><button type="button" class="help" aria-expanded="false" aria-controls="help-06-phase" aria-label="顧客区分の説明"><svg class="i"><use href="#i-help"/></svg></button></h2><div class="helptip" id="help-06-phase" role="note">有効な回数券・プリペイドがあれば「契約あり」、無くて最後の来店から 180 日より前だと「休眠」、それ以外は「都度払い」です。</div><p class="meta">佐藤 美咲（さとう みさき）・ 2025年3月から</p><div class="rhythm" aria-label="来店のリズム"><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i></i><i class="gap"></i><i class="next"></i></div></div></div>
+      <div class="stat"><div><b>11<small>回</small></b><span>来店</span></div><div><b>28<small>日</small></b><span>周期</span></div><div><b><a class="lnk" href="#SCR-27:booking"><svg class="i"><use href="#i-calendar"/></svg>今日 11:00</a></b><span>次の予約</span></div></div>
+      <p class="meta">どこで知ったか: Instagram DM ・ 最近の予約: ホットペッパー</p>
+      <div class="warnband mini">妊娠中（9/10 申告）・光過敏<div class="meta">光を使う施術はできません ・ <a class="lnk" href="#SCR-06" data-open="taboo"><svg class="i"><use href="#i-pen"/></svg>禁忌を編集</a></div></div>
+      <div class="state-view" data-state="unread"><div class="warnband mini">禁忌欄が読めませんでした。紙を見て確認してください<div class="meta">10/8 の問診票から ・ <a class="lnk" href="#SCR-08:intake"><svg class="i"><use href="#i-eye"/></svg>元の問診票を見る</a> <a class="lnk" href="#SCR-06:taboo"><svg class="i"><use href="#i-check"/></svg>禁忌を確認する</a></div></div></div>
+      <div class="k-care"><h3><svg class="i"><use href="#i-bulb"/></svg>今回気をつけること<span class="r">9/10 から <u data-href="#SCR-06"><svg class="i"><use href="#i-pen"/></svg>編集</u></span></h3><ul><li>頬の赤みが出やすい</li><li>前回より圧を弱めに</li><li>乾燥を気にされているのでホームケアの話を</li></ul></div>
+      <div class="state-view" data-state="ai"><div class="k-cand">
+        <div class="k-cand-h">次回提案の候補 <span class="badge scope">S2</span><span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div>
+        <p class="k-v">赤みが続いているため次回も低刺激のパックを</p>
+        <p class="k-said"><svg class="i"><use href="#i-file"/></svg>根拠: 9/10・8/12 の来店記録</p>
+        <div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定する</button></div>
+      </div></div>
+    </div>
 
+    <div class="seg k-tabs"><span class="on" data-seg="rec">記録</span><span data-seg="photo">写真</span><span data-seg="doc">書類</span><span data-seg="contract">契約</span><span data-seg="consent">同意</span></div>
+
+    <!-- 流れ: タブの中身だけ入れ替わる。記録は古い順に流れ、開くといちばん下（前回）を出す -->
+    <div class="body k-thread" data-start="bottom">
       <div class="state-view on" data-state="rec">
-        <div class="list">
-          <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="thumb" style="width:48px;height:48px;font-size:9px">後</div><div class="main"><div class="name">9/10 フェイシャル（保湿）</div><div class="meta">施術者 佐藤 ・ ¥12,000 ・ 写真2枚</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="thumb" style="width:48px;height:48px;font-size:9px">紙</div><div class="main"><div class="name">8/12 フェイシャル <span class="badge ghost">紙から</span></div><div class="meta">施術者 佐藤 ・ 元の紙カルテあり</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="item" href="#SCR-07" style="text-decoration:none;color:inherit"><div class="thumb" style="width:48px;height:48px;font-size:9px">紙</div><div class="main"><div class="name">7/15 フェイシャル <span class="badge ghost">紙から</span></div><div class="meta">施術者 佐藤</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-        </div>
-        <div class="row2" style="margin-top:12px"><a class="btn sm" href="#SCR-08"><svg class="i"><use href="#i-camera"/></svg>紙カルテを取り込む</a><a class="btn sm" href="#SCR-27:booking"><svg class="i"><use href="#i-calendar-plus"/></svg>次の予約を変える</a></div>
-        <div class="row2" style="margin-top:8px"><a class="btn sm" href="#SCR-21"><svg class="i"><use href="#i-send"/></svg>お客様に送る</a><a class="btn sm" href="#SCR-10"><svg class="i"><use href="#i-file"/></svg>書類を預ける</a></div>
+        <span class="k-sys"><svg class="i"><use href="#i-file"/></svg>2025年3月 ・ 1回目</span>
+        <span class="k-sys k-quiet">… 2〜8 回目 …</span>
+        <a class="card k-rec" href="#SCR-07:view"><div class="t"><b>7/15</b>9回目 ・ 施術者 佐藤 <span class="badge ghost">紙から</span></div><p>フェイシャル</p></a>
+        <a class="card k-rec" href="#SCR-07:view"><div class="t"><b>8/12</b>10回目 ・ 施術者 佐藤 <span class="badge ghost">紙から</span></div><p>フェイシャル ・ 元の紙カルテあり</p></a>
+        <a class="card k-rec" href="#SCR-07:view"><div class="t"><b>9/10</b>11回目 ・ 前回 ・ 施術者 佐藤</div><div class="thumbs"><div class="thumb s48">前</div><div class="thumb s48">後</div></div><p>フェイシャル（保湿）・ ¥12,000</p><dl class="k-dl"><dt>宿題</dt><dd>夜の美容液を毎日。日中は日焼け止め</dd><dt>申し送り</dt><dd>頬の赤みが出やすい。前回より圧を弱めに</dd></dl><span class="k-acts start"><u data-href="#SCR-21"><svg class="i"><use href="#i-send"/></svg>お客様に送る</u></span></a>
+        <span class="k-sys">次は 今日 11:00 ・ 12回目</span>
+        <div class="k-acts start"><a class="k-pill" href="#SCR-08"><svg class="i"><use href="#i-camera"/></svg>紙カルテを取り込む</a><a class="k-pill" href="#SCR-27:booking"><svg class="i"><use href="#i-calendar-plus"/></svg>次の予約を変える</a><a class="k-pill" href="#SCR-10"><svg class="i"><use href="#i-file"/></svg>書類を預ける</a></div>
       </div>
       <div class="state-view" data-state="photo">
-        <p class="meta">タップで前後を比べられます</p>
-        <div class="photogrid"><div class="ph">9/10 後</div><div class="ph">8/12 後</div><div class="ph">7/15 後</div><div class="ph">6/18 後</div><div class="ph">5/20 後</div><div class="ph" style="display:flex;align-items:center;justify-content:center;color:var(--main-700);border-style:dashed;background:transparent">＋</div></div>
+        <p class="meta">施術後の写真（新しい順）・ 押すと前後を比べられます</p>
+        <div class="photogrid"><div class="ph">9/10 後</div><div class="ph">8/12 後</div><div class="ph">7/15 後</div><div class="ph">6/18 後</div><div class="ph">5/20 後</div><div class="ph add">＋</div></div>
       </div>
       <div class="state-view" data-state="doc">
         <div class="list">
-          <a class="item" href="#SCR-10" style="text-decoration:none;color:inherit"><div class="thumb" style="width:48px;height:48px;font-size:9px">PDF</div><div class="main"><div class="name">同意書</div><div class="meta">9/10 ・ 同意書_佐藤様.pdf</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="item" href="#SCR-10" style="text-decoration:none;color:inherit"><div class="thumb" style="width:48px;height:48px;font-size:9px">PDF</div><div class="main"><div class="name">契約書面</div><div class="meta">7/15 ・ 契約書面_保湿10回.pdf</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="item" href="#SCR-10"><div class="thumb s48">PDF</div><div class="main"><div class="name">同意書</div><div class="meta">9/10 ・ 同意書_佐藤様.pdf</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="item" href="#SCR-10"><div class="thumb s48">PDF</div><div class="main"><div class="name">契約書面</div><div class="meta">7/15 ・ 契約書面_保湿10回.pdf</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
         </div>
-        <a class="btn sm block" href="#SCR-10" style="margin-top:12px"><svg class="i"><use href="#i-file"/></svg>書類を預ける</a>
+        <a class="btn sm block" href="#SCR-10"><svg class="i"><use href="#i-file"/></svg>書類を預ける</a>
       </div>
       <div class="state-view" data-state="contract">
-        <div class="card" style="margin-top:8px"><div style="display:flex;justify-content:space-between"><h3>保湿10回コース</h3><span class="badge">有効</span></div><div style="display:flex;gap:16px;align-items:baseline;margin:4px 0"><b class="numxl">6</b><span class="meta">回 残り<button type="button" class="help" aria-expanded="false" aria-controls="help-06-remain" aria-label="残り回数の説明"><svg class="i"><use href="#i-help"/></svg></button> ・ 全 10 回 ・ 2026/7/15 契約 ・ ¥98,000</span></div><div class="helptip" id="help-06-remain" role="note">来店記録で「コース消化」を選ぶと 1 回減ります。</div></div>
-        <div class="card" style="margin-top:8px"><div style="display:flex;justify-content:space-between"><h3>プリペイド</h3><span class="badge">有効</span></div><div style="display:flex;gap:16px;align-items:baseline;margin:4px 0"><b class="numxl">¥50,000</b><span class="meta">残高 ・ 入金 ¥50,000 ・ 2026/9/1 ・ まだ使っていません</span></div></div>
-        <a class="btn sm block" href="#SCR-06:ticket" data-open="ticket" style="margin-top:12px"><svg class="i"><use href="#i-plus"/></svg>お持ちの回数券・プリペイドを登録</a>
-        <div class="state-view" data-state="ticket"><div class="hero light" style="padding:14px 16px;margin-top:12px"><div class="eyebrow"><span>お持ちの回数券・プリペイドを登録</span></div><div class="edit"><span class="label">型</span><div class="val"><span class="segm"><span class="on">回数券</span><span>プリペイド</span></span></div></div><div class="field" style="margin-top:10px"><label class="label">コース名</label><input class="input" value="フェイシャル 5 回券（紙の回数券から）"></div><div class="row2"><div class="field"><label class="label">総回数</label><input class="input" value="5 回"></div><div class="field"><label class="label">残回数</label><input class="input" value="2 回"></div></div><div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥45,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/04/12"></div></div><div class="field"><label class="label">役務提供期限（任意）</label><input class="input" value="2027/04/11"></div><p class="meta" style="margin-top:6px">今日の売上には入りません</p><div class="row2" style="margin-top:10px"><a class="btn sm" href="#SCR-06" data-close="ticket"><svg class="i"><use href="#i-x"/></svg>やめる</a><a class="btn sm" href="#SCR-06" data-close="ticket"><svg class="i"><use href="#i-check"/></svg>登録する</a></div></div></div>
-        <p class="meta" style="margin-top:10px">有効期限・進み具合・契約書の紐づけは <a class="lnk" href="#SCR-20"><svg class="i"><use href="#i-file"/></svg>コース契約</a> <span class="badge scope">S2</span></p>
+        <div class="card"><div class="k-ct-h"><h3>保湿10回コース</h3><span class="badge">有効</span></div><div class="k-ct-v"><b class="numxl">6</b><span class="meta">回 残り<button type="button" class="help" aria-expanded="false" aria-controls="help-06-remain" aria-label="残り回数の説明"><svg class="i"><use href="#i-help"/></svg></button> ・ 全 10 回 ・ 2026/7/15 契約 ・ ¥98,000</span></div><div class="helptip" id="help-06-remain" role="note">来店記録で「コース消化」を選ぶと 1 回減ります。</div></div>
+        <div class="card"><div class="k-ct-h"><h3>プリペイド</h3><span class="badge">有効</span></div><div class="k-ct-v"><b class="numxl">¥50,000</b><span class="meta">残高 ・ 入金 ¥50,000 ・ 2026/9/1 ・ まだ使っていません</span></div></div>
+        <a class="btn sm block" href="#SCR-06:ticket" data-open="ticket"><svg class="i"><use href="#i-plus"/></svg>お持ちの回数券・プリペイドを登録</a>
+        <div class="state-view" data-state="ticket"><div class="card k-pad">
+          <h3 class="k-h3">お持ちの回数券・プリペイドを登録</h3>
+          <div class="edit"><span class="label">型</span><div class="val"><span class="segm"><span class="on">回数券</span><span>プリペイド</span></span></div></div>
+          <div class="field"><label class="label">コース名</label><input class="input" value="フェイシャル 5 回券（紙の回数券から）"></div>
+          <div class="row2"><div class="field"><label class="label">総回数</label><input class="input" value="5 回"></div><div class="field"><label class="label">残回数</label><input class="input" value="2 回"></div></div>
+          <div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥45,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/04/12"></div></div>
+          <div class="field"><label class="label">役務提供期限（任意）</label><input class="input" value="2027/04/11"></div>
+          <p class="meta">今日の売上には入りません</p>
+          <div class="row2"><a class="btn sm" href="#SCR-06" data-close="ticket"><svg class="i"><use href="#i-x"/></svg>やめる</a><a class="btn sm" href="#SCR-06" data-close="ticket"><svg class="i"><use href="#i-check"/></svg>登録する</a></div>
+        </div></div>
+        <p class="meta">有効期限・進み具合・契約書の紐づけは <a class="lnk" href="#SCR-20"><svg class="i"><use href="#i-file"/></svg>コース契約</a> <span class="badge scope">S2</span></p>
       </div>
       <div class="state-view" data-state="consent">
-        <div class="stat" style="grid-template-columns:repeat(3,1fr)"><div><b>済</b><span>要配慮</span></div><div><b>済</b><span>写真</span></div><div><b>済</b><span>送付</span></div></div>
-        <a class="btn sm block" href="#SCR-11" style="margin-top:12px"><svg class="i"><use href="#i-pen"/></svg>画面で同意をもらう</a>
-        <p class="meta" style="text-align:center;margin-top:10px"><a class="lnk danger" href="#SCR-24"><svg class="i"><use href="#i-trash"/></svg>このお客様の情報を削除</a> <span class="badge scope">S2</span></p>
+        <div class="stat"><div><b>済</b><span>要配慮</span></div><div><b>済</b><span>写真</span></div><div><b>済</b><span>送付</span></div></div>
+        <a class="btn sm block" href="#SCR-11"><svg class="i"><use href="#i-pen"/></svg>画面で同意をもらう</a>
+        <p class="meta k-center"><a class="lnk danger" href="#SCR-24"><svg class="i"><use href="#i-trash"/></svg>このお客様の情報を削除</a> <span class="badge scope">S2</span></p>
       </div>
-      <div class="state-view" data-state="empty"><div class="empty"><h3>まだ来店の記録がありません</h3><p class="sub">紙カルテがあれば撮るだけで取り込めます</p></div></div>
+      <div class="state-view" data-state="empty"><div class="empty"><h3>まだ来店の記録がありません</h3><p class="sub">紙カルテがあれば撮るだけで取り込めます</p><a class="btn sm" href="#SCR-08"><svg class="i"><use href="#i-camera"/></svg>紙カルテを取り込む</a></div></div>
     </div>
+
     <div class="fixed"><div class="state-view on" data-state="notoday" data-group="cta"><a class="btn primary block" href="#SCR-07:s1"><svg class="i"><use href="#i-pen"/></svg>この方の来店を記録</a></div><div class="state-view" data-state="today" data-group="cta"><a class="btn primary block" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>今日の記録を続ける（確認済み・11:00 開始）</a></div></div>
+    <!-- 禁忌を編集（シート。呼び出し元を背景に残す） -->
+    <div class="state-view" data-state="taboo"><div class="dim"></div><div class="sheet" role="dialog" aria-label="禁忌を編集">
+      <div class="grip"></div><h2>禁忌・安全上の注意</h2>
+      <p class="meta">フェイシャル・脱毛</p>
+      <div><div class="check"><span class="box on">✓</span>妊娠中・授乳中 <span class="meta">9/10 申告</span></div><div class="check"><span class="box on">✓</span>光過敏</div><div class="check"><span class="box"></span>服用中の薬</div><div class="check"><span class="box"></span>金属アレルギー</div><div class="check"><span class="box"></span>ケロイド体質</div></div>
+      <div class="field"><label class="label">その他（自由記述）</label><input class="input" placeholder="ほかに気をつけること"></div>
+      <div class="row2"><a class="btn" href="#SCR-06" data-close="taboo"><svg class="i"><use href="#i-x"/></svg>キャンセル</a><a class="btn primary" href="#SCR-06" data-close="taboo"><svg class="i"><use href="#i-check"/></svg>保存</a></div>
+    </div></div>
     <div class="state-view" data-state="acct"><div class="dim"></div><div class="sheet acct" role="dialog" aria-label="アカウント">
       <div class="grip"></div><div class="acct-who"><b>佐藤 恵</b><span class="meta">Salon Lumière ・ オーナー</span></div>
       <div class="menu">
@@ -951,18 +1224,22 @@ table.grid td.m-na{color:var(--text-meta)}
 
 <!-- ================= SCR-07 ================= -->
 <section class="screen" id="SCR-07">
-  <p class="screen-title"><b>SCR-07 来店記録（確認 → 記録 → 会計・次回）</b> ／ FUNC-04, 05, 07, 13 ・ 長いフォームではなく3ステップの会話</p>
-  <div class="phone">
-    <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>来店記録</b></p><a class="back" href="#SCR-06"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="font-size:var(--size-lg)">みさき<span class="hon">様</span> <span class="meta" style="font-family:var(--font-body)"><span class="t-norm"><a class="lnk" href="#SCR-07" data-open="date"><svg class="i"><use href="#i-calendar"/></svg>10/8</a> ・ 施術者 <u data-href="#SCR-07"><svg class="i"><use href="#i-user"/></svg>佐藤</u></span><span class="t-view">9/10 ・ 施術者 佐藤</span></span></h1><a class="right t-norm" href="#SCR-03"><svg class="i"><use href="#i-clock"/></svg>あとで</a><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
-    <div class="body" style="gap:18px">
-      <div class="steps" id="scr07steps"><b>1 確認</b><i class="done"></i><b>2 記録</b><i></i><span>3 会計・次回</span></div>
+  <p class="screen-title"><b>SCR-07 来店記録（確認 → 記録 → 会計・次回）</b> ／ FUNC-04, 05, 07, 13 ・ 3 つの手順をトークの区切り線として 1 本の流れに。右が自分の入力、左の点線がカルテの候補。「話す」「撮る」と進むボタンは下（2026-10-11 A 社の組み立て）</p>
+  <div class="phone talk">
+    <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>来店記録</b></p><a class="back" href="#SCR-06" aria-label="戻る"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1>みさき<span class="hon">様</span> <span class="meta"><span class="t-norm"><a class="lnk" href="#SCR-07" data-open="date"><svg class="i"><use href="#i-calendar"/></svg>10/8</a><span>施術者</span><u data-href="#SCR-07"><svg class="i"><use href="#i-user"/></svg>佐藤</u><span>保存済み 11:52</span></span><span class="t-view">9/10 ・ 施術者 佐藤</span></span></h1><a class="right t-norm" href="#SCR-03"><svg class="i"><use href="#i-clock"/></svg>あとで</a><button type="button" class="acctbtn" data-open="acct" aria-label="アカウントメニュー"><svg class="i"><use href="#i-user"/></svg></button></div>
 
+    <!-- ピン: 警告の帯（流れない・閉じられない）。確認のあとは帯の右に「本日の確認 済」 -->
+    <div class="k-pin"><div class="warnband mini">妊娠中・光過敏<div class="meta">光を使う施術はできません <span class="badge done k-wok"><svg class="i"><use href="#i-check"/></svg>本日の確認 済</span></div></div></div>
+
+    <div class="body k-thread" data-start="top">
+      <!-- 1 確認（来店時） -->
       <div class="state-view" data-state="s1">
-        <div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.06em;color:var(--text-secondary);padding:10px 0 4px">本日の確認（フェイシャル）</h3>
+        <div class="k-step"><span class="n">1</span>確認 ・ 来店時</div>
+        <div class="card k-tight"><h3 class="k-h3">本日の確認（フェイシャル）</h3>
           <div class="check"><span class="box on">✓</span>体調・服薬に変化なし</div>
           <div class="check"><span class="box on">✓</span>日焼け・肌荒れなし</div>
           <div class="check"><span class="box"></span>妊娠の可能性 <span class="badge err">警告あり</span></div></div>
-        <div class="card" style="padding:4px 16px">
+        <div class="card k-form">
           <div class="edit"><span class="label">来店種別 <span class="badge kari">仮</span></span><div class="val"><span class="segm"><span class="on">通常</span><span>体験</span></span></div></div>
           <div class="edit"><span class="label">メニュー</span><div class="val"><span>フェイシャル（保湿）</span><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></div></div>
           <div class="edit"><span class="label">予約経路<button type="button" class="help" aria-expanded="false" aria-controls="help-07-route" aria-label="予約経路の説明"><svg class="i"><use href="#i-help"/></svg></button></span><div class="helptip" id="help-07-route" role="note">今回の予約をどこで受けたかです。前回と同じものが最初から選ばれています。最初に知った経路（どこで知ったか）は別に持っています。</div><div class="val"><div class="chips"><span class="chip">Instagram DM</span><span class="chip on">ホットペッパー</span><span class="chip">LINE</span><span class="chip">紹介</span><span class="chip">飛び込み</span></div></div></div>
@@ -970,37 +1247,51 @@ table.grid td.m-na{color:var(--text-meta)}
         </div>
         <div class="noteband"><h3>スタッフへの申し送り（前回）</h3><p>頬の赤みが出やすい。前回より圧を弱めに。</p></div>
         <div class="noteband"><h3>前回のホームケア（宿題）</h3><p>夜の美容液を毎日。日中は日焼け止め。</p></div>
-        <div class="check" style="border-bottom:0"><span class="box on">✓</span>スタッフへの申し送り・ホームケアを確認した</div>
+        <div class="check"><span class="box on">✓</span>スタッフへの申し送り・ホームケアを確認した</div>
         <div class="state-view" data-state="consent"><div class="errorbox soft"><b>写真の同意がまだです</b><a class="lnk" href="#SCR-11">画面で同意をもらう</a> ・ 今日は撮らない</div></div>
       </div>
 
+      <!-- 2 記録（施術後） -->
       <div class="state-view on" data-state="s2">
-        <div class="bigvoice"><a class="circle" href="#SCR-09:rec" style="text-decoration:none">話す</a><p>お一人分ずつ、30 秒ほど<button type="button" class="help" aria-expanded="false" aria-controls="help-07-talk" aria-label="何を話すかの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-07-talk" role="note">施術の内容・気づいたこと・ホームケア・次回のおすすめを話すと、欄に振り分けます。30 秒〜数分で十分です。</div></div>
-        <div class="row2"><a class="btn sm" href="#SCR-07:shot"><svg class="i"><use href="#i-camera"/></svg>撮る</a><a class="btn sm" href="#SCR-18" style="border-style:dashed"><svg class="i"><use href="#i-mic"/></svg>録音を取り込む <span class="badge scope">S2</span></a></div>
-        <p class="meta">撮れるもの<button type="button" class="help" aria-expanded="false" aria-controls="help-07-shot" aria-label="撮れるものの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-07-shot" role="note">施術の写真でも、紙のカルテやメモでも撮れます。撮ったあとに自動で見分けます。</div>
-        <div class="state-view" data-state="shot"><div class="card" style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;gap:10px;align-items:center"><div class="thumb" style="width:56px;height:56px;font-size:9px">紙</div><div><b class="fw">紙のようです</b><p class="meta">用紙と判定しました。読み取って候補にします</p></div></div><div class="row2"><a class="btn sm" href="#SCR-08:visit"><svg class="i"><use href="#i-scan"/></svg>紙として読み取る</a><a class="btn sm" href="#SCR-07:s2"><svg class="i"><use href="#i-image"/></svg>施術の写真として保存</a></div><p class="meta">違っていたら右のボタンで直せます</p></div></div>
-
+        <div class="k-step"><span class="n done"><svg class="i"><use href="#i-check"/></svg></span>1 確認 ・ 10:58</div>
+        <div class="k-me"><div class="quote sm">本日の確認 済 ・ フェイシャル（保湿）・ 通常<br>予約経路 ホットペッパー ・ 消化: 保湿10回コース（残 6）</div><span class="k-tm">10:58 ・ 確認しました</span></div>
+        <div class="k-step"><span class="n">2</span>記録 ・ 施術のあと</div>
+        <div class="k-me"><div class="quote"><div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="len">0:48</span></div></div><span class="k-tm">11:52 ・ 話した内容</span></div>
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:52</div>
+          <p class="k-say">話した内容を、欄に振り分けました。合っていれば「確定」、違う欄だけ「直す」。</p>
+          <div class="k-cands">
+            <div class="k-cand"><div class="k-cand-h">施術内容<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">保湿パック＋デコルテマッサージ</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“今日は保湿パックとデコルテ”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+            <div class="k-cand"><div class="k-cand-h">肌の状態<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">頬に軽い赤み。乾燥強め</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“頬にちょっと赤みが出てた”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+          </div>
+        </div>
+        <div class="k-me"><div class="quote k-photos"><div class="thumbs"><div class="thumb">前</div><div class="thumb">後</div></div></div><span class="k-tm">写真 2 枚 ・ 長押しで削除できます</span></div>
         <div class="or">または直接入力する</div>
-        <p class="meta" style="margin-top:-6px">欄に直接書いても、空のままでも保存できます</p>
-        <div class="field cand"><label class="label">施術内容 <span class="badge">候補</span></label><input class="input" value="保湿パック＋デコルテマッサージ"></div>
-        <div class="field cand"><label class="label">肌の状態 <span class="badge">候補</span></label><input class="input" value="頬に軽い赤み。乾燥強め"></div>
+        <p class="meta">欄に直接書いても、空のままでも保存できます</p>
         <div class="field"><label class="label">お客様の要望</label><input class="input" placeholder="ここに直接書けます"></div>
-        <div class="field"><label class="label">写真</label><div class="thumbs"><div class="thumb">前</div><div class="thumb">後</div><div class="thumb add">＋</div></div><span class="hint">長押しで削除できます</span></div>
-        <div class="errorbox state-view" data-state="error"><b>候補のままの項目があります</b>確定して保存しますか。　<a class="lnk" href="#SCR-07">確定して保存</a>　<a class="lnk danger" href="#SCR-07">候補を捨てる</a></div>
+        <p class="meta"><a class="lnk" href="#SCR-18"><svg class="i"><use href="#i-mic"/></svg>録音を取り込む</a> <span class="badge scope">S2</span></p>
+        <div class="state-view" data-state="shot"><div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:54</div>
+          <div class="card k-pad"><div class="k-photoset"><div class="thumb s48">紙</div><div><b class="fw">紙のようです</b><p class="meta">用紙と判定しました。読み取って候補にします</p></div></div><div class="row2"><a class="btn sm" href="#SCR-08:visit"><svg class="i"><use href="#i-scan"/></svg>紙として読み取る</a><a class="btn sm" href="#SCR-07:s2"><svg class="i"><use href="#i-image"/></svg>施術の写真として保存</a></div><p class="meta">違っていたら右のボタンで直せます</p></div>
+        </div></div>
+        <div class="errorbox soft state-view" data-state="error"><b>候補のままの項目があります</b>確定して保存しますか。　<a class="lnk" href="#SCR-07">確定して保存</a>　<a class="lnk danger" href="#SCR-07">候補を捨てる</a></div>
       </div>
 
+      <!-- 3 会計・次回（退店時） -->
       <div class="state-view" data-state="s3">
+        <div class="k-step"><span class="n done"><svg class="i"><use href="#i-check"/></svg></span>1 確認 ・ 10:58</div>
+        <div class="k-step"><span class="n done"><svg class="i"><use href="#i-check"/></svg></span>2 記録 ・ 11:52</div>
+        <div class="k-step"><span class="n">3</span>会計・次回 ・ お見送りのとき</div>
         <p class="sub">空でも保存できます</p>
-        
-        <div class="amt">
-          <span class="label">金額（任意・税込）</span>
+        <div class="amt k-me wide"><div class="quote k-pay">
+          <div class="k-pay-h"><span>金額（任意・税込）</span><span>行で足す</span></div>
           <div class="amt-list">
             <div class="amt-row"><div class="amt-top"><span class="badge">コース消化</span><span class="amt-name">保湿10回コース ・ 1 回</span><b class="amt-yen">¥9,800</b></div><p class="meta">消化金額は自動（¥98,000 ÷ 10 回） ・ 担当 <u data-href="#SCR-07"><svg class="i"><use href="#i-user"/></svg>佐藤</u></p></div>
             <div class="amt-row"><div class="amt-top"><span class="badge">物販</span><span class="amt-name">ホームケア美容液 × 2</span><b class="amt-yen">¥13,200</b></div><p class="meta">化粧品 ・ 担当 <u data-href="#SCR-07"><svg class="i"><use href="#i-user"/></svg>鈴木</u> ・ カード ・ お渡し済み ・ <a class="lnk" href="#SCR-07" data-open="goods"><svg class="i"><use href="#i-pen"/></svg>開く</a></p></div>
           </div>
-          <a class="btn sm block" href="#SCR-07" data-open="goods"><svg class="i"><use href="#i-plus"/></svg>行を足す</a>
+          <a class="lnk" href="#SCR-07" data-open="goods"><svg class="i"><use href="#i-plus"/></svg>行を足す</a>
           <div class="staffbuy"><div class="staffbuy-row"><span class="sub helprow">社販<button type="button" class="help" aria-expanded="false" aria-controls="help-07-staffbuy" aria-label="社販の説明"><svg class="i"><use href="#i-help"/></svg></button></span><span class="toggle"><i></i></span></div><div class="helptip" id="help-07-staffbuy" role="note">スタッフ自身の購入。個人売上から外れます。</div></div>
-        </div>
+        </div><span class="k-tm">11:58 ・ 商品は一覧から選んで入れました</span></div>
         <div class="state-view" data-state="goods"><div class="hero light amt-edit"><div class="eyebrow"><span>金額の行 ・ 物販</span></div>
           <div class="chips"><span class="chip">施術</span><span class="chip on">物販</span><span class="chip">コース購入</span><span class="chip">コース消化</span></div>
           <div class="edit"><span class="label">商品</span><div class="val"><span>ホームケア美容液<br><span class="meta">化粧品</span></span><a class="lnk" href="#SCR-07" data-open="pick"><svg class="i"><use href="#i-search"/></svg>商品を選ぶ</a></div></div>
@@ -1017,17 +1308,29 @@ table.grid td.m-na{color:var(--text-meta)}
           </div>
           <p class="bal ok"><span>プリペイドの残高</span><b>¥50,000 → ¥33,600</b></p>
         </div></div>
-        <div class="field cand"><span class="label">ホームケア（宿題） <span class="badge">候補</span><button type="button" class="help" aria-expanded="false" aria-controls="help-07-homecare" aria-label="ホームケア（宿題）の説明"><svg class="i"><use href="#i-help"/></svg></button></span><div class="helptip" id="help-07-homecare" role="note">次の来店の前に「前回のホームケア」として出ます。お客様に送る文面にも入ります。</div><input class="input" value="夜の美容液を毎日。日中は日焼け止め"></div>
+        <div class="state-view" data-state="buy"><div class="hero light amt-edit"><div class="eyebrow"><span>コース購入 → 契約を登録</span></div>
+          <div class="edit"><span class="label">型</span><div class="val"><span class="segm"><span class="on">回数券</span><span>プリペイド</span></span></div></div>
+          <div class="row2"><div class="field"><label class="label">コース</label><input class="input" value="保湿10回コース"></div><div class="field"><label class="label">回数</label><input class="input" value="10 回"></div></div>
+          <div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥98,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/10/08"></div></div>
+          <div class="field"><label class="label">役務提供期限（任意）</label><input class="input" placeholder="2027/04/08"></div>
+          <p class="meta">保存すると契約ができ、「契約あり」になります。同じ来店でプリペイドを買ってその場で使うときは、この契約を消化の行から選べます</p>
+        </div></div>
         <div class="field"><span class="label">次回予約日<button type="button" class="help" aria-expanded="false" aria-controls="help-07-next" aria-label="次回予約の説明"><svg class="i"><use href="#i-help"/></svg></button></span><div class="helptip" id="help-07-next" role="note">入れておくとその日の「今日の流れ」に出て、声かけの対象から外れます。予約の受付はこれまでどおり LINE などで行います。</div><input class="input" value="11/5（水）11:00"></div>
-        <div class="field cand"><label class="label">次回のおすすめ（お客様に送ります） <span class="badge">候補</span></label><input class="input textarea" value="乾燥が気になる時期なので、3〜4週間後に保湿ケアを"></div>
-        <div class="field cand"><span class="label">スタッフへの申し送り（お客様には送りません） <span class="badge">候補</span><button type="button" class="help" aria-expanded="false" aria-controls="help-07-handover" aria-label="スタッフへの申し送りの説明"><svg class="i"><use href="#i-help"/></svg></button></span><div class="helptip" id="help-07-handover" role="note">次の来店で「今回気をつけること」として出ます。</div><input class="input textarea" value="圧を弱めに。ホームケアの保湿を提案"></div>
-      <div class="state-view" data-state="buy"><div class="hero light" style="padding:14px 16px"><div class="eyebrow"><span>コース購入 → 契約を登録</span></div><div class="edit"><span class="label">型</span><div class="val"><span class="segm"><span class="on">回数券</span><span>プリペイド</span></span></div></div><div class="row2" style="margin-top:10px"><div class="field"><label class="label">コース</label><input class="input" value="保湿10回コース"></div><div class="field"><label class="label">回数</label><input class="input" value="10 回"></div></div><div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥98,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/10/08"></div></div><div class="field"><label class="label">役務提供期限（任意）</label><input class="input" placeholder="2027/04/08"></div><p class="meta" style="margin-top:6px">保存すると契約ができ、「契約あり」になります。同じ来店でプリペイドを買ってその場で使うときは、この契約を消化の行から選べます</p></div></div>
-        
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:52 に話した内容から</div>
+          <div class="k-cands">
+            <div class="k-cand"><div class="k-cand-h">次回のおすすめ（お客様に送ります）<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">乾燥が気になる時期なので、3〜4週間後に保湿ケアを</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“乾燥の時期なので 3〜4 週間後に保湿ケアをおすすめ”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+            <div class="k-cand"><div class="k-cand-h">ホームケア（宿題）<button type="button" class="help" aria-expanded="false" aria-controls="help-07-homecare" aria-label="ホームケア（宿題）の説明"><svg class="i"><use href="#i-help"/></svg></button><span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><div class="helptip" id="help-07-homecare" role="note">次の来店の前に「前回のホームケア」として出ます。お客様に送る文面にも入ります。</div><p class="k-v">夜の美容液を毎日。日中は日焼け止め</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“宿題は夜の美容液を毎日、日中は日焼け止め”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+            <div class="k-cand"><div class="k-cand-h">スタッフへの申し送り（お客様には送りません）<button type="button" class="help" aria-expanded="false" aria-controls="help-07-handover" aria-label="スタッフへの申し送りの説明"><svg class="i"><use href="#i-help"/></svg></button><span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><div class="helptip" id="help-07-handover" role="note">次の来店で「今回気をつけること」として出ます。</div><p class="k-v">圧を弱めに。ホームケアの保湿を提案</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“赤みが出てたので圧は弱めに”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+          </div>
+        </div>
       </div>
 
+      <!-- 過去の記録を開く（3 ステップではなく 1 画面。primary は置かない） -->
       <div class="state-view" data-state="view">
+        <span class="k-sys"><svg class="i"><use href="#i-file"/></svg>9/10（水）の来店記録</span>
         <div class="card kv"><span>来店日</span><b>2026/9/10（水）</b><span>施術者</span><b>佐藤</b><span>メニュー</span><b>フェイシャル（保湿）・ ¥12,000</b><span>予約経路</span><b>ホットペッパー</b></div>
-        <div class="card" style="padding:4px 14px"><h3 style="font-size:var(--size-xs);font-family:var(--font-body);letter-spacing:.06em;color:var(--text-secondary);padding:10px 0 4px">本日の確認</h3><div class="check"><span class="box on">✓</span>体調・服薬に変化なし</div><div class="check"><span class="box on">✓</span>日焼け・肌荒れなし</div><div class="check" style="border:0"><span class="box on">✓</span>妊娠の可能性 → 申告あり</div></div>
+        <div class="card k-tight"><h3 class="k-h3">本日の確認</h3><div class="check"><span class="box on">✓</span>体調・服薬に変化なし</div><div class="check"><span class="box on">✓</span>日焼け・肌荒れなし</div><div class="check"><span class="box on">✓</span>妊娠の可能性 → 申告あり</div></div>
         <div class="noteband"><h3>施術内容</h3><p>保湿パック＋デコルテマッサージ</p></div>
         <div class="noteband"><h3>肌の状態</h3><p>頬に軽い赤み。乾燥強め</p></div>
         <div class="field"><label class="label">写真</label><div class="thumbs"><div class="thumb">前</div><div class="thumb">後</div></div></div>
@@ -1035,14 +1338,27 @@ table.grid td.m-na{color:var(--text-meta)}
         <p class="meta">9/10 18:02 佐藤が保存 ・ 9/11 09:15 佐藤が編集（肌の状態） ・ <a class="lnk" href="#SCR-07">履歴を見る</a></p>
         <div class="row2"><a class="btn sm" href="#SCR-07"><svg class="i"><use href="#i-pen"/></svg>直す</a><a class="btn sm" href="#SCR-21"><svg class="i"><use href="#i-send"/></svg>お客様に送る</a></div>
       </div>
+
+      <!-- 完了 -->
       <div class="state-view" data-state="done">
-        <div class="donehero"><div class="ring" style="width:96px;height:96px"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48.0" cy="48.0" r="44" fill="none" stroke="var(--main-500)" stroke-width="3"/></svg><div class="num"><svg class="i" style="width:32px;height:32px;color:var(--main-700)"><use href="#i-check"/></svg></div></div><h2>記録が残りました</h2><p class="sub" style="margin-top:6px">みさき<span class="hon">様</span>の 12 回目。今日 3 人目の記録です。</p></div>
-        <a class="btn primary block" href="#SCR-21"><svg class="i"><use href="#i-send"/></svg>お客様に送る文面を確認</a><a class="btn sm block" href="#SCR-03" style="margin-top:8px"><svg class="i"><use href="#i-calendar"/></svg>今日に戻る</a>
+        <div class="k-step"><span class="n done"><svg class="i"><use href="#i-check"/></svg></span>1 確認 ・ 10:58</div>
+        <div class="k-step"><span class="n done"><svg class="i"><use href="#i-check"/></svg></span>2 記録 ・ 11:52</div>
+        <div class="k-step"><span class="n done"><svg class="i"><use href="#i-check"/></svg></span>3 会計・次回 ・ 11:58</div>
+        <div class="card k-donecard"><span class="ck"><svg class="i"><use href="#i-check"/></svg></span><div><h2>記録が残りました</h2><p class="sub">施術者: 佐藤 ・ みさき<span class="hon">様</span>の 12 回目。今日 3 人目の記録です。</p></div></div>
       </div>
     </div>
-    <div class="fixed state-view on" data-state="s2"><a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-chevron-right"/></svg>次へ（3 会計・次回）</a></div>
+
+    <!-- 下（押すところ） -->
+    <div class="fixed state-view on" data-state="s2">
+      <div class="k-tools"><a class="btn k-talk" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>話す</a><a class="btn" href="#SCR-07:shot"><svg class="i"><use href="#i-camera"/></svg>撮る</a></div>
+      <p class="k-hint"><span class="helprow">お一人分ずつ、30 秒ほど<button type="button" class="help" aria-expanded="false" aria-controls="help-07-talk" aria-label="何を話すかの説明"><svg class="i"><use href="#i-help"/></svg></button></span><span class="helprow">撮れるもの<button type="button" class="help" aria-expanded="false" aria-controls="help-07-shot" aria-label="撮れるものの説明"><svg class="i"><use href="#i-help"/></svg></button></span></p>
+      <div class="helptip" id="help-07-talk" role="note">施術の内容・気づいたこと・ホームケア・次回のおすすめを話すと、欄に振り分けます。30 秒〜数分で十分です。</div>
+      <div class="helptip" id="help-07-shot" role="note">施術の写真でも、紙のカルテやメモでも撮れます。撮ったあとに自動で見分けます。</div>
+      <a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-chevron-right"/></svg>次へ（3 会計・次回）</a>
+    </div>
     <div class="fixed state-view" data-state="s1"><div class="row2"><a class="btn" href="#SCR-07:s2"><svg class="i"><use href="#i-chevron-right"/></svg>続けて記録する</a><a class="btn primary" href="#SCR-03"><svg class="i"><use href="#i-check"/></svg>確認しました</a></div></div>
     <div class="fixed state-view" data-state="s3"><a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-check"/></svg>保存する</a></div>
+    <div class="fixed state-view" data-state="done"><a class="btn primary block" href="#SCR-21"><svg class="i"><use href="#i-send"/></svg>お客様に送る文面を確認</a><a class="btn sm block" href="#SCR-03"><svg class="i"><use href="#i-calendar"/></svg>今日に戻る</a></div>
     <div class="state-view" data-state="pick"><div class="dim"></div><div class="sheet">
       <div class="grip"></div><h2>商品を選ぶ</h2>
       <div class="search"><svg class="i ico"><use href="#i-search"/></svg><span class="q">商品の名前</span></div>
@@ -1077,7 +1393,7 @@ table.grid td.m-na{color:var(--text-meta)}
     </div></div>
     <div class="state-view" data-state="delphoto"><div class="dim"></div><div class="sheet">
       <div class="grip"></div><h2>この写真を削除しますか</h2>
-      <div style="display:flex;gap:12px;align-items:center"><div class="thumb">後</div><p class="sub">10/8 11:52 佐藤が撮影 ・ 施術の写真（後）</p></div>
+      <div class="k-photoset"><div class="thumb">後</div><p class="sub">10/8 11:52 佐藤が撮影 ・ 施術の写真（後）</p></div>
       <p class="meta">削除すると元に戻せません</p>
       <div class="row2"><a class="btn sm" href="#SCR-07" data-close="delphoto"><svg class="i"><use href="#i-x"/></svg>やめる</a><a class="btn sm danger" href="#SCR-07" data-close="delphoto"><svg class="i"><use href="#i-trash"/></svg>削除する</a></div>
     </div></div>
@@ -1129,30 +1445,121 @@ table.grid td.m-na{color:var(--text-meta)}
 
 <!-- ================= SCR-09 ================= -->
 <section class="screen" id="SCR-09">
-  <p class="screen-title"><b>SCR-09 話して記録</b> ／ FUNC-13, 25 ・ 録音は全画面。確認は文字起こしを引用で</p>
-  <div class="phone ">
-    <div class="topbar"><p class="crumb"><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><a href="#SCR-07">来店記録</a><i>›</i><b>話して記録</b></p><a class="back" href="#SCR-07"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="">話して記録</h1></div>
-    <div class="body" style="gap:18px">
-      <div class="state-view on" data-state="confirm"><p class="meta">みさき<span class="hon">様</span> ・ 10/8 ・ 0:48</p>
-      <div class="quote">「えーと今日は保湿パックとデコルテ、頬にちょっと赤みが出てたので圧は弱めに。宿題は夜の美容液を毎日、日中は日焼け止め。次回は乾燥の時期なので 3〜4 週間後に保湿ケアをおすすめ…」</div>
-      <div class="check" style="border:0"><span class="box on">✓</span><span class="sub">全文を自由メモにも残す</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center"><span class="label" style="margin:0">項目に振り分けました</span><a class="lnk" href="#SCR-09"><svg class="i"><use href="#i-check"/></svg>すべて確定</a></div>
-      <div class="field cand"><label class="label">施術内容 <span class="badge">候補</span></label><input class="input" value="保湿パック＋デコルテマッサージ"></div><div class="field cand"><label class="label">肌の状態 <span class="badge">候補</span></label><input class="input" value="頬に軽い赤み。乾燥強め"></div><div class="field cand"><label class="label">ホームケア（宿題） <span class="badge">候補</span></label><input class="input" value="夜の美容液を毎日。日中は日焼け止め"></div><div class="field cand"><label class="label">次回のおすすめ（お客様に送ります） <span class="badge">候補</span></label><input class="input" value="乾燥の時期なので、3〜4週間後に保湿ケアを"></div><div class="field cand"><label class="label">スタッフへの申し送り（お客様には送りません） <span class="badge">候補</span></label><input class="input" value="圧を弱めに"></div>
-      <div class="field"><label class="label">お客様の要望</label><input class="input" placeholder=""><span class="hint">話されていなかったので空欄です</span></div></div>
-      <div class="state-view" data-state="rec"><div style="text-align:center;padding-top:40px"><p class="q">お一人分ずつ<br>話してください<button type="button" class="help" aria-expanded="false" aria-controls="help-09-talk" aria-label="何を話すかの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-09-talk" role="note">施術の内容・気づいたこと・ホームケア・次回のおすすめを話すと、欄に振り分けます。30 秒〜数分で十分です。</div></div><div class="recbtn" style="margin-top:36px">録音</div></div>
-      <div class="state-view" data-state="recording"><div style="text-align:center;padding-top:40px"><p class="meta" style="letter-spacing:.06em">録音中</p><p style="font-family:var(--font-body);font-size:44px;font-weight:700;margin-top:6px">0:48</p></div><div class="wave"><i style="height:8px"></i><i style="height:16px"></i><i style="height:28px"></i><i style="height:40px"></i><i style="height:22px"></i><i style="height:34px"></i><i style="height:48px"></i><i style="height:30px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:38px"></i><i style="height:20px"></i><i style="height:12px"></i><i style="height:30px"></i><i style="height:44px"></i><i style="height:26px"></i><i style="height:14px"></i><i style="height:22px"></i><i style="height:36px"></i><i style="height:18px"></i><i style="height:10px"></i></div><div class="recbtn stop" style="margin-top:24px">停止</div><p class="meta" style="text-align:center">10分で自動停止します</p></div>
-      <div class="state-view" data-state="processing"><div class="donehero"><div class="ring" style="width:96px;height:96px"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-100)" stroke-width="3"/><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--main-500)" stroke-width="3" stroke-dasharray="131.9 263.9" stroke-linecap="round"/></svg><div class="num">…<small>文字起こし</small></div></div><h2>文字にしています</h2><p class="sub" style="margin-top:6px">閉じても大丈夫です。終わると「今日」の確認待ちに届きます。</p></div></div>
-      <div class="state-view" data-state="error"><div class="errorbox"><b>マイクの使用を許可してください</b>端末の設定 → このアプリ → マイク から変更できます。</div></div>
-      <div class="state-view" data-state="unheard"><p class="meta">みさき<span class="hon">様</span> ・ 10/8 ・ 0:12</p><div class="errorbox" style="margin-top:12px"><b>聞き取れませんでした</b>音が小さいか、雑音だけでした。静かな場所でもう一度お試しください。</div><a class="btn sm block" href="#SCR-09:rec" style="margin-top:16px"><svg class="i"><use href="#i-mic"/></svg>もう一度話す</a><a class="btn sm block" href="#SCR-07:s2" style="margin-top:8px"><svg class="i"><use href="#i-pen"/></svg>手で入力する</a></div>
-      <div class="state-view" data-state="nofields"><p class="meta">みさき<span class="hon">様</span> ・ 10/8 ・ 0:21</p><div class="quote" style="margin-top:12px">「今日は混んでましたね、お疲れさまでした。また来週…」</div><div class="errorbox" style="margin-top:12px"><b>項目に当たる内容が見つかりませんでした</b>文字起こしを自由メモに残せます。</div><div class="check" style="border:0;margin-top:8px"><span class="box on">✓</span><span class="sub">全文を自由メモに残す</span></div><a class="btn sm block" href="#SCR-09:rec" style="margin-top:8px"><svg class="i"><use href="#i-mic"/></svg>もう一度話す</a></div>
-      <div class="state-view" data-state="noai"><p class="meta">みさき<span class="hon">様</span> ・ 10/8 ・ 0:48</p><div class="errorbox" style="margin-top:12px"><b>このお客様は AI での処理を希望されていません</b>音声は保存しました。手で入力してください。</div><p class="meta" style="margin-top:8px">同意の画面で記録された希望です（<a class="lnk" href="#SCR-11:noai"><svg class="i"><use href="#i-eye"/></svg>同意を見る</a>）</p><a class="btn sm block" href="#SCR-07:s2" style="margin-top:16px"><svg class="i"><use href="#i-pen"/></svg>手で入力する</a></div>
-      <div class="state-view" data-state="web"><div style="text-align:center;padding-top:40px"><p class="q">録音はアプリでできます</p></div><div class="noteband" style="margin-top:24px"><h3>アプリなら画面を消しても止まりません</h3><p class="sub">ブラウザの画面は、消えたり別のアプリに移ると録音が止まります。アプリを入れると、画面を閉じても録り続けます。</p></div><a class="btn sm block" href="#SCR-09:web" style="margin-top:16px"><svg class="i"><use href="#i-external"/></svg>アプリを入れる</a><a class="btn sm block" href="#SCR-07:s2" style="margin-top:8px"><svg class="i"><use href="#i-pen"/></svg>手で入力する</a></div>
-      <div class="state-view" data-state="mixed"><p class="meta">みさき<span class="hon">様</span> ・ 10/8 ・ 1:36</p><div class="errorbox" style="margin-top:12px"><b>お二人分の内容が混ざっているようです</b>みさき<span class="hon">様</span>の分だけ残して確認してください。すべての候補を「要確認」にしました。</div><div class="quote" style="margin-top:12px">「みさきさんは保湿パック、圧弱め。…で、あやのさんはクレンジング中心で、小鼻の毛穴が詰まり気味…」</div>
-      <div class="field cand" style="margin-top:12px"><label class="label">施術内容 <span class="badge err">要確認</span></label><input class="input" value="保湿パック。クレンジング"></div><div class="field cand"><label class="label">肌の状態 <span class="badge err">要確認</span></label><input class="input" value="頬に軽い赤み。小鼻の毛穴の詰まり"></div><div class="field cand"><label class="label">スタッフへの申し送り（お客様には送りません） <span class="badge err">要確認</span></label><input class="input" value="圧を弱めに。毛穴の吸引は次回"></div><p class="meta" style="margin-top:8px">「すべて確定」は使えません。1 項目ずつ直して確定してください</p></div>
+  <p class="screen-title"><b>SCR-09 話して記録</b> ／ FUNC-13, 25 ・ 話した音声は右の吹き出し、カルテが欄に振り分けた候補は左の点線。押すと実線に。録音のボタンは下（2026-10-11 A 社の組み立て）</p>
+  <div class="phone talk">
+    <div class="topbar"><p class="crumb"><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><a href="#SCR-07">来店記録</a><i>›</i><b>話して記録</b></p><a class="back" href="#SCR-07" aria-label="戻る"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1>話して記録</h1></div>
+
+    <!-- ピン: 警告の帯と、録音先（録音中に別の画面へ移っても変わらない） -->
+    <div class="k-pin">
+      <div class="warnband mini">妊娠中・光過敏<div class="meta">光を使う施術はできません</div></div>
+      <div class="state-view" data-state="rec"><span class="k-sys"><svg class="i"><use href="#i-mic"/></svg>みさき<span class="hon">様</span>の来店記録に録音</span></div>
+      <div class="state-view" data-state="recording"><span class="k-sys"><svg class="i"><use href="#i-mic"/></svg>みさき<span class="hon">様</span>の来店記録に録音</span></div>
     </div>
+
+    <div class="body k-thread" data-start="top">
+      <!-- 確認（話した内容を欄に振り分けた） -->
+      <div class="state-view on" data-state="confirm">
+        <span class="k-sys">みさき<span class="hon">様</span> ・ 10/8 ・ 0:48</span>
+        <div class="k-me"><div class="quote">
+          <div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="len">0:48</span></div>
+          <p class="k-trans">「えーと今日は保湿パックとデコルテ、頬にちょっと赤みが出てたので圧は弱めに。宿題は夜の美容液を毎日、日中は日焼け止め。次回は乾燥の時期なので 3〜4 週間後に保湿ケアをおすすめ…」</p>
+          <div class="k-keep"><span class="box"><svg class="i"><use href="#i-check"/></svg></span>全文を自由メモにも残す</div>
+        </div><span class="k-tm">11:52 ・ 話した内容</span></div>
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:52</div>
+          <p class="k-say">話した内容を、欄に振り分けました。合っていれば「確定」、違う欄だけ「直す」。</p>
+          <div class="k-allbar"><span>候補 5 つ ・ 確定するまで保存されません</span><button type="button" class="k-pill" data-allok><svg class="i"><use href="#i-check"/></svg>すべて確定</button></div>
+          <div class="k-cands">
+            <p class="k-grp">今日のこと</p>
+            <div class="k-cand"><div class="k-cand-h">施術内容<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">保湿パック＋デコルテマッサージ</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“今日は保湿パックとデコルテ”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+            <div class="k-cand"><div class="k-cand-h">肌の状態<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">頬に軽い赤み。乾燥強め</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“頬にちょっと赤みが出てた”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+            <div class="k-cand"><div class="k-cand-h">お客様の要望</div><p class="k-v blank">話されていなかったので空欄です</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>書く</span></button></div></div>
+            <p class="k-grp">お客様へ（文面に入ります）</p>
+            <div class="k-cand"><div class="k-cand-h">ホームケア（宿題）<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">夜の美容液を毎日。日中は日焼け止め</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“宿題は夜の美容液を毎日、日中は日焼け止め”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+            <div class="k-cand"><div class="k-cand-h">次回のおすすめ（お客様に送ります）<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">乾燥の時期なので、3〜4週間後に保湿ケアを</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“次回は乾燥の時期なので 3〜4 週間後に保湿ケアをおすすめ”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+            <p class="k-grp">お店の中だけ（お客様には送りません）</p>
+            <div class="k-cand"><div class="k-cand-h">スタッフへの申し送り（お客様には送りません）<span class="k-badges"><span class="badge b-cand"><svg class="i"><use href="#i-sparkles"/></svg>候補</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">圧を弱めに</p><p class="k-said"><svg class="i"><use href="#i-message"/></svg>“赤みが出てたので圧は弱めに”</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button><button type="button" class="k-pill k-yes"><svg class="i"><use href="#i-check"/></svg>確定</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 録音前 -->
+      <div class="state-view" data-state="rec">
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b></div>
+          <p class="k-say helprow">お一人分ずつ話してください<button type="button" class="help" aria-expanded="false" aria-controls="help-09-talk" aria-label="何を話すかの説明"><svg class="i"><use href="#i-help"/></svg></button></p>
+          <div class="helptip" id="help-09-talk" role="note">施術の内容・気づいたこと・ホームケア・次回のおすすめを話すと、欄に振り分けます。30 秒〜数分で十分です。</div>
+        </div>
+      </div>
+      <!-- 録音中 -->
+      <div class="state-view" data-state="recording">
+        <div class="k-me"><div class="quote"><div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave big" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div></div><span class="k-tm">録音中は画面が消えません</span></div>
+      </div>
+      <!-- 処理中 -->
+      <div class="state-view" data-state="processing">
+        <div class="k-me"><div class="quote"><div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="len">0:48</span></div></div><span class="k-tm">11:52 ・ 話した内容</span></div>
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:52</div>
+          <div class="k-cand"><p class="k-v">文字にしています</p><div class="skeleton k-sk"></div><div class="skeleton k-sk w70"></div><p class="sub">閉じても大丈夫です。終わると「今日」の確認待ちに届きます。</p></div>
+        </div>
+      </div>
+      <!-- Web 版（録音しない） -->
+      <div class="state-view" data-state="web">
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b></div>
+          <p class="k-say">録音はアプリでできます</p>
+          <div class="noteband"><h3>アプリなら画面を消しても止まりません</h3><p class="sub">ブラウザの画面は、消えたり別のアプリに移ると録音が止まります。アプリを入れると、画面を閉じても録り続けます。</p></div>
+        </div>
+      </div>
+      <!-- エラー: マイク不許可 -->
+      <div class="state-view" data-state="error">
+        <div class="k-left"><div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b></div><div class="errorbox"><b>マイクの使用を許可してください</b>端末の設定 → このアプリ → マイク から変更できます。</div></div>
+      </div>
+      <!-- 聞き取れない -->
+      <div class="state-view" data-state="unheard">
+        <span class="k-sys">みさき<span class="hon">様</span> ・ 10/8 ・ 0:12</span>
+        <div class="k-me"><div class="quote"><div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="len">0:12</span></div></div><span class="k-tm">11:52 ・ 話した内容</span></div>
+        <div class="k-left"><div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:52</div><div class="errorbox"><b>聞き取れませんでした</b>音が小さいか、雑音だけでした。静かな場所でもう一度お試しください。</div></div>
+      </div>
+      <!-- 項目に当たる内容なし -->
+      <div class="state-view" data-state="nofields">
+        <span class="k-sys">みさき<span class="hon">様</span> ・ 10/8 ・ 0:21</span>
+        <div class="k-me"><div class="quote"><div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="len">0:21</span></div><p class="k-trans">「今日は混んでましたね、お疲れさまでした。また来週…」</p><div class="k-keep"><span class="box"><svg class="i"><use href="#i-check"/></svg></span>全文を自由メモに残す</div></div><span class="k-tm">11:52 ・ 話した内容</span></div>
+        <div class="k-left"><div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:52</div><div class="errorbox"><b>項目に当たる内容が見つかりませんでした</b>文字起こしを自由メモに残せます。</div><div class="k-acts start"><a class="k-pill" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>もう一度話す</a></div></div>
+      </div>
+      <!-- AI を断っている -->
+      <div class="state-view" data-state="noai">
+        <span class="k-sys">みさき<span class="hon">様</span> ・ 10/8 ・ 0:48</span>
+        <div class="k-me"><div class="quote"><div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="len">0:48</span></div></div><span class="k-tm">11:52 ・ 音声は保存しました</span></div>
+        <div class="k-left"><div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:52</div><div class="errorbox"><b>このお客様は AI での処理を希望されていません</b>音声は保存しました。手で入力してください。</div><p class="meta">同意の画面で記録された希望です（<a class="lnk" href="#SCR-11:noai"><svg class="i"><use href="#i-eye"/></svg>同意を見る</a>）</p></div>
+      </div>
+      <!-- 2 人分が混ざった -->
+      <div class="state-view" data-state="mixed">
+        <span class="k-sys">みさき<span class="hon">様</span> ・ 10/8 ・ 1:36</span>
+        <div class="k-me"><div class="quote"><div class="k-voice"><span class="pl"><svg class="i"><use href="#i-mic"/></svg></span><span class="k-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="len">1:36</span></div><p class="k-trans">「みさきさんは保湿パック、圧弱め。…で、あやのさんはクレンジング中心で、小鼻の毛穴が詰まり気味…」</p></div><span class="k-tm">11:52 ・ 話した内容</span></div>
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:53</div>
+          <div class="errorbox"><b>お二人分の内容が混ざっているようです</b>みさき<span class="hon">様</span>の分だけ残して確認してください。すべての候補を「要確認」にしました。</div>
+          <div class="k-cands">
+            <div class="k-cand"><div class="k-cand-h">施術内容<span class="k-badges"><span class="badge err b-cand">要確認</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">保湿パック。クレンジング</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button></div></div>
+            <div class="k-cand"><div class="k-cand-h">肌の状態<span class="k-badges"><span class="badge err b-cand">要確認</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">頬に軽い赤み。小鼻の毛穴の詰まり</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button></div></div>
+            <div class="k-cand"><div class="k-cand-h">スタッフへの申し送り（お客様には送りません）<span class="k-badges"><span class="badge err b-cand">要確認</span><span class="badge done b-ok"><svg class="i"><use href="#i-check"/></svg>確定</span></span></div><p class="k-v">圧を弱めに。毛穴の吸引は次回</p><div class="k-acts"><button type="button" class="k-pill k-fix"><svg class="i"><use href="#i-pen"/></svg><span>直す</span></button></div></div>
+          </div>
+          <p class="meta">「すべて確定」は使えません。1 項目ずつ直して確定してください</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 下（押すところ） -->
     <div class="state-view on" data-state="confirm"><div class="fixed"><a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-pen"/></svg>この内容で来店記録へ</a></div></div>
+    <div class="state-view" data-state="rec"><div class="fixed k-recdock"><a class="k-recbtn" href="#SCR-09:recording"><svg class="i"><use href="#i-mic"/></svg>録音</a></div></div>
+    <div class="state-view" data-state="recording"><div class="fixed k-recdock"><p class="k-rectime">録音中<b>0:48</b></p><a class="k-recbtn stop" href="#SCR-09:processing"><svg class="i"><use href="#i-x"/></svg>停止</a></div></div>
+    <div class="state-view" data-state="web"><div class="fixed"><div class="row2"><a class="btn" href="#SCR-09:web"><svg class="i"><use href="#i-external"/></svg>アプリを入れる</a><a class="btn" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>手で入力する</a></div></div></div>
+    <div class="state-view" data-state="unheard"><div class="fixed"><div class="row2"><a class="btn" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>もう一度話す</a><a class="btn" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>手で入力する</a></div></div></div>
     <div class="state-view" data-state="nofields"><div class="fixed"><a class="btn primary block" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>自由メモに残して来店記録へ</a></div></div>
-    <div class="state-view" data-state="mixed"><div class="fixed"><a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-pen"/></svg>確認して来店記録へ</a></div></div></div>
+    <div class="state-view" data-state="noai"><div class="fixed"><a class="btn block" href="#SCR-07:s2"><svg class="i"><use href="#i-pen"/></svg>手で入力する</a></div></div>
+    <div class="state-view" data-state="mixed"><div class="fixed"><a class="btn primary block" href="#SCR-07"><svg class="i"><use href="#i-pen"/></svg>確認して来店記録へ</a></div></div>
+  </div>
   <div class="statebar">状態: <button data-toggle="confirm" class="on">確認</button><button data-toggle="rec">録音前</button><button data-toggle="recording">録音中</button><button data-toggle="processing">処理中</button><button data-toggle="web">Web 版（録音しない）</button>　エラー: <button data-toggle="error">マイク不許可</button><button data-toggle="unheard">聞き取れない</button><button data-toggle="nofields">項目に当たる内容なし</button><button data-toggle="noai">AI を断っている</button><button data-toggle="mixed">2 人分が混ざった</button></div>
 </section>
 
@@ -1728,33 +2135,60 @@ table.grid td.m-na{color:var(--text-meta)}
 
 <!-- ================= SCR-21 ================= -->
 <section class="screen" id="SCR-21">
-  <p class="screen-title"><b>SCR-21 お客様に送る</b> ／ FUNC-20, 27, 15 ・ S1（コピー。直接送信は S2） ・ 届く姿そのまま（吹き出し）で確認</p>
-  <div class="phone ">
-    <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>お客様に送る</b></p><a class="back" href="#SCR-06"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1 style="">お客様に送る</h1></div>
-    <div class="body" style="gap:16px">
-      <p class="sub s2only">送付の同意 <span class="badge done">取得済</span> ・ LINE <span class="badge done">紐づけ済</span></p>
+  <p class="screen-title"><b>SCR-21 お客様に送る</b> ／ FUNC-20, 27, 15 ・ S1（コピー。直接送信は S2） ・ カルテが返した文面を左に、届く姿そのままで確認。AI の文面は点線、コピーすると実線に（2026-10-11 A 社の組み立て）</p>
+  <div class="phone talk">
+    <div class="topbar"><p class="crumb"><a href="#SCR-04">お客様</a><i>›</i><a href="#SCR-06">みさき<span class="hon">様</span></a><i>›</i><b>お客様に送る</b></p><a class="back" href="#SCR-06" aria-label="戻る"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1>お客様に送る</h1></div>
+    <div class="body k-thread" data-start="top">
+      <p class="k-sys s2only">送付の同意 <span class="badge done">取得済</span> ・ LINE <span class="badge done">紐づけ済</span></p>
+      <!-- できあがり（AI の文面） -->
       <div class="state-view on" data-state="normal">
-      <div class="state-view" data-state="changed"><div class="errorbox soft" style="margin-bottom:14px"><b>記録が変わりました</b>11:32 に「次回のおすすめ」が直されました。この文面は直す前の内容です。<div class="row2" style="margin-top:10px"><a class="btn sm" href="#SCR-21" data-close="changed"><svg class="i"><use href="#i-pen"/></svg>作り直す</a><a class="btn sm" href="#SCR-21" data-close="changed"><svg class="i"><use href="#i-check"/></svg>このまま使う</a></div><p class="meta" style="margin-top:6px">作り直すと<button type="button" class="help" aria-expanded="false" aria-controls="help-21-redo" aria-label="作り直すとの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-21-redo" role="note">手で直していない文面は自動で作り直します。コピー済み・送付済みの文面は上書きしません。</div></div></div>
-      <div class="state-view" data-state="skipped"><div class="noteband" style="margin-bottom:14px"><h3>この文は文面に使いませんでした</h3><p class="sub">「妊娠中のため、光の施術は控えています」は体の状態に関わるため入れていません</p></div></div>
-      <div class="chips pickchips" style="margin-bottom:12px"><span class="chip on">AI の文面</span><a class="chip" href="#SCR-21" data-go="saved">来店のお礼（定番）</a><a class="chip" href="#SCR-21" data-go="saved">ホームケアのご案内</a></div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="label" style="margin:0">お客様にはこう届きます</span><u data-href="#SCR-21"><svg class="i"><use href="#i-pen"/></svg>文面を編集</u></div>
-      <div class="bubble">佐藤 美咲 様<br>本日はご来店ありがとうございました。<br><br><b class="fw">今回のアドバイス</b><br>頬の赤みが出やすい時期です。保湿パックとデコルテのケアをしました。<br><br><b class="fw">ホームケア</b><br>夜の美容液を毎日。日中は日焼け止めを忘れずに。<br><br><b class="fw">次回のおすすめ</b><br>乾燥が気になる時期なので、3〜4週間後に保湿ケアを。<span class="after"><b class="fw">お買い上げの商品について</b><br>ホームケア美容液<br>朝と夜の洗顔のあと、化粧水の前に 2〜3 滴を手のひらで温めてなじませてください。<br><br>乾燥が気になるところは重ねづけしてください。開けてから 2 か月を目安に使い切ってください。</span><br>次回のご予約: 11/5（水）11:00<br>Salon Lumière</div>
-      <p class="meta helprow" style="margin-top:6px">商品のアフターフォロー文<button type="button" class="help" aria-expanded="false" aria-controls="help-21-after" aria-label="商品のアフターフォロー文の説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-21-after" role="note">設定の商品に登録した文をそのまま入れています（AI は使っていません）。</div>
-      <p class="meta" style="margin-top:8px">文面に含める項目: 今回のアドバイス・ホームケア・次回のおすすめ ・ <a class="lnk" href="#SCR-12:items"><svg class="i"><use href="#i-settings"/></svg>含める項目を変える</a></p>
+        <div class="state-view" data-state="changed"><div class="errorbox soft"><b>記録が変わりました</b>11:32 に「次回のおすすめ」が直されました。この文面は直す前の内容です。<div class="row2"><a class="btn sm" href="#SCR-21" data-close="changed"><svg class="i"><use href="#i-pen"/></svg>作り直す</a><a class="btn sm" href="#SCR-21" data-close="changed"><svg class="i"><use href="#i-check"/></svg>このまま使う</a></div><p class="meta helprow">作り直すと<button type="button" class="help" aria-expanded="false" aria-controls="help-21-redo" aria-label="作り直すとの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-21-redo" role="note">手で直していない文面は自動で作り直します。コピー済み・送付済みの文面は上書きしません。</div></div></div>
+        <div class="state-view" data-state="skipped"><div class="noteband"><h3>この文は文面に使いませんでした</h3><p class="sub">「妊娠中のため、光の施術は控えています」は体の状態に関わるため入れていません</p></div></div>
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:38</div>
+          <p class="k-say">お客様に送る文面です。直してからコピーもできます。</p>
+          <div class="chips pickchips"><span class="chip on">AI の文面</span><a class="chip" href="#SCR-21" data-go="saved">来店のお礼（定番）</a><a class="chip" href="#SCR-21" data-go="saved">ホームケアのご案内</a></div>
+          <div class="k-row"><span class="label">お客様にはこう届きます</span><u data-href="#SCR-21"><svg class="i"><use href="#i-pen"/></svg>文面を編集</u></div>
+          <div class="k-msg ai">佐藤 美咲 様<br>本日はご来店ありがとうございました。<br><br><b class="fw">今回のアドバイス</b><br>頬の赤みが出やすい時期です。保湿パックとデコルテのケアをしました。<br><br><b class="fw">ホームケア</b><br>夜の美容液を毎日。日中は日焼け止めを忘れずに。<br><br><b class="fw">次回のおすすめ</b><br>乾燥が気になる時期なので、3〜4週間後に保湿ケアを。<span class="after"><b class="fw">お買い上げの商品について</b><br>ホームケア美容液<br>朝と夜の洗顔のあと、化粧水の前に 2〜3 滴を手のひらで温めてなじませてください。<br><br>乾燥が気になるところは重ねづけしてください。開けてから 2 か月を目安に使い切ってください。</span><br>次回のご予約: 11/5（水）11:00<br>Salon Lumière</div>
+          <span class="k-tm">保存しました 11:38</span>
+          <p class="meta helprow">商品のアフターフォロー文<button type="button" class="help" aria-expanded="false" aria-controls="help-21-after" aria-label="商品のアフターフォロー文の説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-21-after" role="note">設定の商品に登録した文をそのまま入れています（AI は使っていません）。</div>
+          <p class="meta">文面に含める項目: 今回のアドバイス・ホームケア・次回のおすすめ ・ <a class="lnk" href="#SCR-12:items"><svg class="i"><use href="#i-settings"/></svg>含める項目を変える</a></p>
+        </div>
       </div>
+      <!-- よく使う文面を選んだ（AI ではないので実線） -->
       <div class="state-view" data-state="saved">
-      <div class="chips pickchips" style="margin-bottom:12px"><a class="chip" href="#SCR-21" data-go="normal">AI の文面</a><span class="chip on">来店のお礼（定番）</span><span class="chip">ホームケアのご案内</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="label" style="margin:0">お客様にはこう届きます</span><u data-href="#SCR-21"><svg class="i"><use href="#i-pen"/></svg>文面を編集</u></div>
-      <div class="bubble">佐藤 美咲 様<br>本日もご来店ありがとうございました。<br>お肌の調子はいかがですか。気になることがあれば、いつでもこちらにご連絡ください。<br><br>次回は 11/5（水）11:00 にお待ちしております。<br>Salon Lumière<span class="after"><b class="fw">お買い上げの商品について</b><br>ホームケア美容液<br>朝と夜の洗顔のあと、化粧水の前に 2〜3 滴を手のひらで温めてなじませてください。<br><br>乾燥が気になるところは重ねづけしてください。開けてから 2 か月を目安に使い切ってください。</span></div>
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:39</div>
+          <div class="chips pickchips"><a class="chip" href="#SCR-21" data-go="normal">AI の文面</a><span class="chip on">来店のお礼（定番）</span><span class="chip">ホームケアのご案内</span></div>
+          <div class="k-row"><span class="label">お客様にはこう届きます</span><u data-href="#SCR-21"><svg class="i"><use href="#i-pen"/></svg>文面を編集</u></div>
+          <div class="k-msg">佐藤 美咲 様<br>本日もご来店ありがとうございました。<br>お肌の調子はいかがですか。気になることがあれば、いつでもこちらにご連絡ください。<br><br>次回は 11/5（水）11:00 にお待ちしております。<br>Salon Lumière<span class="after"><b class="fw">お買い上げの商品について</b><br>ホームケア美容液<br>朝と夜の洗顔のあと、化粧水の前に 2〜3 滴を手のひらで温めてなじませてください。<br><br>乾燥が気になるところは重ねづけしてください。開けてから 2 か月を目安に使い切ってください。</span></div>
+        </div>
       </div>
-      <div class="state-view" data-state="making"><span class="label">お客様にはこう届きます</span><div class="bubble" style="color:var(--text-meta)"><div class="skeleton" style="height:14px;border:0;margin:6px 0"></div><div class="skeleton" style="height:14px;border:0;margin:6px 0;width:70%"></div><div class="skeleton" style="height:14px;border:0;margin:6px 0;width:85%"></div>文面を作っています（15 秒ほど）</div><p class="meta" style="margin-top:8px">閉じても大丈夫です。できたら「今日」に届きます</p></div>
-      <div class="state-view" data-state="noai"><div class="errorbox soft" style="margin-bottom:14px"><b>AI を使わない文面を用意しました</b>今月の AI の上限に達したため、記録をそのまま差し込んでいます。</div><span class="label">お客様にはこう届きます</span><div class="bubble">佐藤 美咲 様<br>本日はご来店ありがとうございました。<br><br><b class="fw">ホームケア</b><br>夜の美容液を毎日。日中は日焼け止め<br><br><b class="fw">次回のおすすめ</b><br>乾燥が気になる時期なので、3〜4週間後に保湿ケアを<span class="after"><b class="fw">お買い上げの商品について</b><br>ホームケア美容液<br>朝と夜の洗顔のあと、化粧水の前に 2〜3 滴を手のひらで温めてなじませてください。<br><br>乾燥が気になるところは重ねづけしてください。開けてから 2 か月を目安に使い切ってください。</span><br>次回のご予約: 11/5（水）11:00<br>Salon Lumière</div></div>
+      <!-- 作っています -->
+      <div class="state-view" data-state="making">
+        <div class="k-left">
+          <div class="k-who"><span class="k-kav"><svg class="i"><use href="#i-book"/></svg></span><b>カルテ</b>11:38</div>
+          <span class="label">お客様にはこう届きます</span>
+          <div class="k-msg ai wait"><div class="skeleton k-sk"></div><div class="skeleton k-sk w70"></div><div class="skeleton k-sk w85"></div>文面を作っています（15 秒ほど）</div>
+          <p class="meta">閉じても大丈夫です。できたら「今日」に届きます</p>
+        </div>
+      </div>
+      <!-- AI が使えない（記録をそのまま差し込んだ文面。実線） -->
+      <div class="state-view" data-state="noai">
+        <div class="errorbox soft"><b>AI を使わない文面を用意しました</b>今月の AI の上限に達したため、記録をそのまま差し込んでいます。</div>
+        <div class="k-left">
+          <span class="label">お客様にはこう届きます</span>
+          <div class="k-msg">佐藤 美咲 様<br>本日はご来店ありがとうございました。<br><br><b class="fw">ホームケア</b><br>夜の美容液を毎日。日中は日焼け止め<br><br><b class="fw">次回のおすすめ</b><br>乾燥が気になる時期なので、3〜4週間後に保湿ケアを<span class="after"><b class="fw">お買い上げの商品について</b><br>ホームケア美容液<br>朝と夜の洗顔のあと、化粧水の前に 2〜3 滴を手のひらで温めてなじませてください。<br><br>乾燥が気になるところは重ねづけしてください。開けてから 2 か月を目安に使い切ってください。</span><br>次回のご予約: 11/5（水）11:00<br>Salon Lumière</div>
+        </div>
+      </div>
 
-      <div class="state-view" data-state="copied"><div class="noteband" style="margin-bottom:14px"><h3>コピーしました</h3><p class="sub">みさき様（LINE の名前: misaki）のトークに貼り付け、名前を確かめてから送ってください</p><p class="meta" style="margin-top:6px">間違えて送ったら、24 時間以内にトークでその吹き出しを長押しして「送信取消」。取り消せないとき<button type="button" class="help" aria-expanded="false" aria-controls="help-21-wrong" aria-label="取り消せないときの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-21-wrong" role="note">取り消せないときはオーナーに伝えてください。</div></div><a class="btn sm block" href="#SCR-21"><svg class="i"><use href="#i-external"/></svg>LINE を開く</a></div>
+      <!-- コピーの後・通数上限・送付後（流れの最後に届く） -->
+      <div class="state-view" data-state="copied"><div class="noteband"><h3>コピーしました</h3><p class="sub">みさき様（LINE の名前: misaki）のトークに貼り付け、名前を確かめてから送ってください</p><p class="meta helprow">間違えて送ったら、24 時間以内にトークでその吹き出しを長押しして「送信取消」。取り消せないとき<button type="button" class="help" aria-expanded="false" aria-controls="help-21-wrong" aria-label="取り消せないときの説明"><svg class="i"><use href="#i-help"/></svg></button></p><div class="helptip" id="help-21-wrong" role="note">取り消せないときはオーナーに伝えてください。</div><a class="btn sm block" href="#SCR-21"><svg class="i"><use href="#i-external"/></svg>LINE を開く</a></div></div>
       <div class="state-view" data-state="limit"><div class="errorbox"><b>今月の LINE 送信が上限に近づいています（4,800 / 5,000）</b>コピーして貼る方法に切り替えられます。</div></div>
-      <div class="state-view" data-state="sent"><div class="noteband"><h3>送りました</h3><p class="sub">10/8 11:40 ・ LINE で送付 ・ 来店記録に記録しました</p></div><a class="btn sm block" href="#SCR-03" style="margin-top:10px"><svg class="i"><use href="#i-calendar"/></svg>今日に戻る</a></div>
+      <div class="state-view" data-state="sent"><div class="noteband"><h3>送りました</h3><p class="sub">10/8 11:40 ・ LINE で送付 ・ 来店記録に記録しました</p><a class="btn sm block" href="#SCR-03"><svg class="i"><use href="#i-calendar"/></svg>今日に戻る</a></div></div>
     </div>
-    <div class="fixed"><div class="s1only"><a class="btn primary block" href="#SCR-21" data-go="copied"><svg class="i"><use href="#i-copy"/></svg>コピーする</a></div><div class="state-view" data-state="line"><div class="row2"><a class="btn" href="#SCR-21" data-go="copied"><svg class="i"><use href="#i-copy"/></svg>コピーする</a><a class="btn primary" href="#SCR-06"><svg class="i"><use href="#i-send"/></svg>LINE で送る</a></div></div></div></div>
+    <div class="fixed"><div class="s1only"><a class="btn primary block" href="#SCR-21" data-go="copied"><svg class="i"><use href="#i-copy"/></svg>コピーする</a></div><div class="state-view" data-state="line"><div class="row2"><a class="btn" href="#SCR-21" data-go="copied"><svg class="i"><use href="#i-copy"/></svg>コピーする</a><a class="btn primary" href="#SCR-06"><svg class="i"><use href="#i-send"/></svg>LINE で送る</a></div></div></div>
+  </div>
   <div class="statebar">文面: <button data-toggle="normal" class="on">できあがり</button><button data-toggle="saved">よく使う文面を選んだ</button><button data-toggle="making">作っています</button><button data-toggle="noai">AI が使えない</button>　重ねる: <button data-toggle="changed" data-parent="normal">記録が変わった</button><button data-toggle="skipped" data-parent="normal">使わなかった文</button><button data-toggle="copied">コピーの後</button><button data-toggle="limit">通数上限</button><button data-toggle="sent">送付後</button>　<button data-toggle="line">LINE 接続時（S2）</button></div>
 </section>
 
@@ -1946,12 +2380,12 @@ table.grid td.m-na{color:var(--text-meta)}
 
 <!-- ================= SCR-28（S2。2026-10-10。docs/shared/compe-0.html の「04 今月の数字」から移した） ================= -->
 <section class="screen" id="SCR-28">
-  <p class="screen-title"><b>SCR-28 今月の数字</b> ／ FUNC-35, 19 ・ S2 ・ オーナーとスタッフ（目標を入れるのはオーナーだけ。「スタッフで見る」で入口が消える） ・ 総売上と目標を主役に、下に内訳・率・担当・商品・集客媒体。「日ごと」で日報の 1 日分（モックは 10/7 に送った表示）</p>
-  <div class="phone">
+  <p class="screen-title"><b>SCR-28 今月の数字</b> ／ FUNC-35, 19 ・ S2 ・ オーナーとスタッフ（目標を入れるのはオーナーだけ。「スタッフで見る」で入口が消える） ・ 総売上と目標を上に留め、内訳・率・担当・商品・集客媒体は下の切り口を押すとその集計へ移る。「日ごと」で日報の 1 日分（モックは 10/7 に送った表示）（2026-10-11 A 社の組み立て）</p>
+  <div class="phone talk">
     <div class="topbar"><p class="crumb"><a href="#SCR-03">今日</a><i>›</i><b>今月の数字</b></p><a class="back" href="#SCR-03" aria-label="戻る"><svg class="i"><use href="#i-chevron-left"/></svg></a><h1>今月の数字</h1></div>
-    <div class="body">
 
-      <!-- 月 -->
+    <!-- ピン: 月／日ごと・送り・総売上と目標（流れない） -->
+    <div class="k-pin">
       <div class="state-view on" data-state="month">
         <div class="m-switch">
           <div class="segm" role="group" aria-label="月か日か"><span class="on" data-go="month" role="button" tabindex="0" aria-pressed="true">月</span><span data-go="day" role="button" tabindex="0" aria-pressed="false">日ごと</span></div>
@@ -1966,69 +2400,7 @@ table.grid td.m-na{color:var(--text-meta)}
           <p class="note">あと ¥2,112,063 ・ 1 日あたり ¥91,829</p>
           <p class="meta m-onhero">日割りの目安（¥774,194）より ¥113,743 多い</p>
         </div>
-
-        <div>
-          <span class="label">売上の内訳<button type="button" class="help" aria-expanded="false" aria-controls="help-28-kind" aria-label="売上の内訳の説明"><svg class="i"><use href="#i-help"/></svg></button></span>
-          <div class="helptip" id="help-28-kind" role="note">総売上は、その月に受けた売上（コースの購入・施術・物販）。会計売上は、その月に提供した分（施術・コースの消化・物販）です。</div>
-          <table class="grid">
-            <thead><tr><th scope="col">項目</th><th scope="col" class="y">実績</th><th scope="col" class="y">目標</th><th scope="col" class="y">達成</th></tr></thead>
-            <tbody>
-              <tr><td>会計売上</td><td class="y">¥577,873</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
-              <tr><td>新規売上</td><td class="y">¥143,000</td><td class="y">¥2,054,000</td><td class="y">7.0%</td></tr>
-              <tr><td>再販売上</td><td class="y">¥42,000</td><td class="y">¥600,000</td><td class="y">7.0%</td></tr>
-              <tr><td>施術売上</td><td class="y">¥69,073</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
-              <tr><td>消化売上</td><td class="y">¥412,000</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
-              <tr><td>商品売上</td><td class="y">¥96,800</td><td class="y">¥425,000</td><td class="y">22.8%</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <a class="btn sm block" href="#SCR-28" data-open="goal"><svg class="i"><use href="#i-pen"/></svg>目標を入れる</a>
-
-        <div class="kpi">
-          <div class="card"><span class="label">次回予約率</span><b>58%</b><span class="delta">帰りに次の予約を入れた方の割合</span></div>
-          <div class="card"><span class="label">周期内再来率</span><b>71%</b><span class="delta">いつもの間隔のうちに また来た方の割合</span></div>
-        </div>
-
-        <div>
-          <span class="label">担当ごと</span>
-          <div class="m-staff">
-            <div class="m-staff-h"><b>佐藤 恵</b><span class="m-yen">¥835,972</span></div>
-            <p class="meta">目標 ¥2,400,000 ・ 34.8%</p>
-            <div class="kv"><span>消化</span><b>¥380,000</b><span>商品</span><b>¥87,120</b><span>新規の契約</span><b>3 件 ・ 50%</b><span>再販の契約</span><b>1 件</b></div>
-          </div>
-          <div class="m-staff">
-            <div class="m-staff-h"><b>鈴木 さくら</b><span class="m-yen">¥51,965</span></div>
-            <p class="meta">目標 ¥600,000 ・ 8.7%</p>
-            <div class="kv"><span>消化</span><b>¥32,000</b><span>商品</span><b>¥9,680</b><span>新規の契約</span><b>0 件 ・ 0%</b><span>再販の契約</span><b>0 件</b></div>
-          </div>
-        </div>
-
-        <div>
-          <span class="label">商品別の売上<button type="button" class="help" aria-expanded="false" aria-controls="help-28-goods" aria-label="商品別の売上の説明"><svg class="i"><use href="#i-help"/></svg></button></span>
-          <div class="helptip" id="help-28-goods" role="note">プリペイドから払った分も商品の売上に数えます。行を押すと、その商品を買った方の一覧が出ます。</div>
-          <div class="segm m-pick" data-pick role="group" aria-label="商品別のまとめ方"><span class="on">商品</span><span>分類</span><span>担当</span></div>
-          <div class="list">
-            <a class="item" href="#SCR-22"><div class="main"><div class="name">保湿クリーム</div><div class="meta">化粧品 ・ 12 個</div></div><div class="r"><b>¥52,800</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-            <a class="item" href="#SCR-22"><div class="main"><div class="name">美容液</div><div class="meta">化粧品 ・ 6 本</div></div><div class="r"><b>¥33,000</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-            <a class="item" href="#SCR-22"><div class="main"><div class="name">ホームケアマシン</div><div class="meta">ホームケアマシン ・ 1 台</div></div><div class="r"><b>¥11,000</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          </div>
-        </div>
-
-        <div>
-          <span class="label">どこで知ったか（集客媒体）ごと ・ はじめての方</span>
-          <table class="grid">
-            <thead><tr><th scope="col">媒体</th><th scope="col" class="y">来店</th><th scope="col" class="y">契約</th><th scope="col" class="y">契約率</th><th scope="col" class="y">契約単価</th></tr></thead>
-            <tbody>
-              <tr><td>ホットペッパー</td><td class="y">2</td><td class="y">0</td><td class="y">0%</td><td class="y m-na">—</td></tr>
-              <tr><td>サロン予約</td><td class="y">3</td><td class="y">2</td><td class="y">67%</td><td class="y">¥71,500</td></tr>
-              <tr><td>Instagram</td><td class="y">1</td><td class="y">0</td><td class="y">0%</td><td class="y m-na">—</td></tr>
-              <tr><td>紹介</td><td class="y">1</td><td class="y">1</td><td class="y">100%</td><td class="y m-na">—</td></tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-
-      <!-- 日ごと（日報の 1 日分） -->
       <div class="state-view" data-state="day">
         <div class="m-switch">
           <div class="segm" role="group" aria-label="月か日か"><span data-go="month" role="button" tabindex="0" aria-pressed="false">月</span><span class="on" data-go="day" role="button" tabindex="0" aria-pressed="true">日ごと</span></div>
@@ -2039,42 +2411,129 @@ table.grid td.m-na{color:var(--text-meta)}
           <h2 class="m-big">¥37,200</h2>
           <p class="meta">次の予約を入れた方 3 人 ・ はじめての方 1 人</p>
         </div>
-        <table class="grid">
-          <thead><tr><th scope="col">項目</th><th scope="col" class="y">10/7</th></tr></thead>
-          <tbody>
-            <tr><td>会計売上</td><td class="y">¥73,200</td></tr>
-            <tr><td>新規売上</td><td class="y">¥0</td></tr>
-            <tr><td>再販売上</td><td class="y">¥0</td></tr>
-            <tr><td>施術売上</td><td class="y">¥24,000</td></tr>
-            <tr><td>消化売上</td><td class="y">¥36,000</td></tr>
-            <tr><td>商品売上</td><td class="y">¥13,200</td></tr>
-          </tbody>
-        </table>
-        <div>
-          <span class="label">担当ごと</span>
-          <table class="grid">
+      </div>
+      <div class="state-view" data-state="empty">
+        <div class="m-switch">
+          <div class="segm" role="group" aria-label="月か日か"><span class="on" data-go="empty" role="button" tabindex="0" aria-pressed="true">月</span><span data-go="day" role="button" tabindex="0" aria-pressed="false">日ごと</span></div>
+          <span class="daynav"><u data-href="#SCR-28:month" aria-label="前の月"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>11月</b><u data-href="#SCR-28:empty" class="off" aria-label="次の月"><svg class="i"><use href="#i-chevron-right"/></svg></u></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 流れ: 切り口ごとの集計（下のチップで移る） -->
+    <div class="body k-thread" data-start="top">
+      <div class="state-view on" data-state="month">
+        <span class="k-sys">下の切り口を押すと、その集計へ移ります</span>
+        <div class="k-blk" id="q28-sales">
+          <h2 class="k-sec helprow"><svg class="i"><use href="#i-chart"/></svg>売上の内訳<button type="button" class="help" aria-expanded="false" aria-controls="help-28-kind" aria-label="売上の内訳の説明"><svg class="i"><use href="#i-help"/></svg></button></h2>
+          <div class="helptip" id="help-28-kind" role="note">総売上は、その月に受けた売上（コースの購入・施術・物販）。会計売上は、その月に提供した分（施術・コースの消化・物販）です。</div>
+          <div class="card k-tcard"><table class="grid">
+            <thead><tr><th scope="col">項目</th><th scope="col" class="y">実績</th><th scope="col" class="y">目標</th><th scope="col" class="y">達成</th></tr></thead>
+            <tbody>
+              <tr><td>会計売上</td><td class="y">¥577,873</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
+              <tr><td>新規売上</td><td class="y">¥143,000</td><td class="y">¥2,054,000</td><td class="y">7.0%</td></tr>
+              <tr><td>再販売上</td><td class="y">¥42,000</td><td class="y">¥600,000</td><td class="y">7.0%</td></tr>
+              <tr><td>施術売上</td><td class="y">¥69,073</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
+              <tr><td>消化売上</td><td class="y">¥412,000</td><td class="y m-na">—</td><td class="y m-na">—</td></tr>
+              <tr><td>商品売上</td><td class="y">¥96,800</td><td class="y">¥425,000</td><td class="y">22.8%</td></tr>
+            </tbody>
+          </table></div>
+          <a class="btn sm block" href="#SCR-28" data-open="goal"><svg class="i"><use href="#i-pen"/></svg>目標を入れる</a>
+        </div>
+        <div class="k-blk" id="q28-rate">
+          <h2 class="k-sec"><svg class="i"><use href="#i-calendar"/></svg>予約と再来</h2>
+          <div class="kpi">
+            <div class="card"><span class="label">次回予約率</span><b>58%</b><span class="delta">帰りに次の予約を入れた方の割合</span></div>
+            <div class="card"><span class="label">周期内再来率</span><b>71%</b><span class="delta">いつもの間隔のうちに また来た方の割合</span></div>
+          </div>
+        </div>
+        <div class="k-blk" id="q28-staff">
+          <h2 class="k-sec"><svg class="i"><use href="#i-users"/></svg>担当ごと</h2>
+          <div class="card k-tcard">
+            <div class="m-staff">
+              <div class="m-staff-h"><b>佐藤 恵</b><span class="m-yen">¥835,972</span></div>
+              <p class="meta">目標 ¥2,400,000 ・ 34.8%</p>
+              <div class="kv"><span>消化</span><b>¥380,000</b><span>商品</span><b>¥87,120</b><span>新規の契約</span><b>3 件 ・ 50%</b><span>再販の契約</span><b>1 件</b></div>
+            </div>
+            <div class="m-staff">
+              <div class="m-staff-h"><b>鈴木 さくら</b><span class="m-yen">¥51,965</span></div>
+              <p class="meta">目標 ¥600,000 ・ 8.7%</p>
+              <div class="kv"><span>消化</span><b>¥32,000</b><span>商品</span><b>¥9,680</b><span>新規の契約</span><b>0 件 ・ 0%</b><span>再販の契約</span><b>0 件</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="k-blk" id="q28-goods">
+          <h2 class="k-sec helprow"><svg class="i"><use href="#i-bag"/></svg>商品別の売上<button type="button" class="help" aria-expanded="false" aria-controls="help-28-goods" aria-label="商品別の売上の説明"><svg class="i"><use href="#i-help"/></svg></button></h2>
+          <div class="helptip" id="help-28-goods" role="note">プリペイドから払った分も商品の売上に数えます。行を押すと、その商品を買った方の一覧が出ます。</div>
+          <div class="card k-tcard">
+            <div class="segm m-pick" data-pick role="group" aria-label="商品別のまとめ方"><span class="on">商品</span><span>分類</span><span>担当</span></div>
+            <div class="list">
+              <a class="item" href="#SCR-22"><div class="main"><div class="name">保湿クリーム</div><div class="meta">化粧品 ・ 12 個</div></div><div class="r"><b>¥52,800</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+              <a class="item" href="#SCR-22"><div class="main"><div class="name">美容液</div><div class="meta">化粧品 ・ 6 本</div></div><div class="r"><b>¥33,000</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+              <a class="item" href="#SCR-22"><div class="main"><div class="name">ホームケアマシン</div><div class="meta">ホームケアマシン ・ 1 台</div></div><div class="r"><b>¥11,000</b></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+            </div>
+          </div>
+        </div>
+        <div class="k-blk" id="q28-media">
+          <h2 class="k-sec"><svg class="i"><use href="#i-search"/></svg>どこで知ったか（集客媒体）ごと ・ はじめての方</h2>
+          <div class="card k-tcard"><table class="grid">
+            <thead><tr><th scope="col">媒体</th><th scope="col" class="y">来店</th><th scope="col" class="y">契約</th><th scope="col" class="y">契約率</th><th scope="col" class="y">契約単価</th></tr></thead>
+            <tbody>
+              <tr><td>ホットペッパー</td><td class="y">2</td><td class="y">0</td><td class="y">0%</td><td class="y m-na">—</td></tr>
+              <tr><td>サロン予約</td><td class="y">3</td><td class="y">2</td><td class="y">67%</td><td class="y">¥71,500</td></tr>
+              <tr><td>Instagram</td><td class="y">1</td><td class="y">0</td><td class="y">0%</td><td class="y m-na">—</td></tr>
+              <tr><td>紹介</td><td class="y">1</td><td class="y">1</td><td class="y">100%</td><td class="y m-na">—</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- 日ごと（日報の 1 日分） -->
+      <div class="state-view" data-state="day">
+        <div class="k-blk">
+          <h2 class="k-sec"><svg class="i"><use href="#i-chart"/></svg>売上の内訳</h2>
+          <div class="card k-tcard"><table class="grid">
+            <thead><tr><th scope="col">項目</th><th scope="col" class="y">10/7</th></tr></thead>
+            <tbody>
+              <tr><td>会計売上</td><td class="y">¥73,200</td></tr>
+              <tr><td>新規売上</td><td class="y">¥0</td></tr>
+              <tr><td>再販売上</td><td class="y">¥0</td></tr>
+              <tr><td>施術売上</td><td class="y">¥24,000</td></tr>
+              <tr><td>消化売上</td><td class="y">¥36,000</td></tr>
+              <tr><td>商品売上</td><td class="y">¥13,200</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="k-blk">
+          <h2 class="k-sec"><svg class="i"><use href="#i-users"/></svg>担当ごと</h2>
+          <div class="card k-tcard"><table class="grid">
             <thead><tr><th scope="col">担当</th><th scope="col" class="y">個人売上</th><th scope="col" class="y">消化</th><th scope="col" class="y">商品</th></tr></thead>
             <tbody>
               <tr><td>佐藤 恵</td><td class="y">¥24,000</td><td class="y">¥36,000</td><td class="y">¥0</td></tr>
               <tr><td>鈴木 さくら</td><td class="y">¥13,200</td><td class="y">¥0</td><td class="y">¥13,200</td></tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
         <p class="meta">日報の 1 日分と同じ並びです。来店記録の会計から出しています</p>
       </div>
 
       <!-- 空（記録が無い月。来月を開いたときも） -->
       <div class="state-view" data-state="empty">
-        <div class="m-switch">
-          <div class="segm" role="group" aria-label="月か日か"><span class="on" data-go="empty" role="button" tabindex="0" aria-pressed="true">月</span><span data-go="day" role="button" tabindex="0" aria-pressed="false">日ごと</span></div>
-          <span class="daynav"><u data-href="#SCR-28:month" aria-label="前の月"><svg class="i"><use href="#i-chevron-left"/></svg></u><b>11月</b><u data-href="#SCR-28:empty" class="off" aria-label="次の月"><svg class="i"><use href="#i-chevron-right"/></svg></u></span>
-        </div>
         <div class="empty"><h3>11月の記録はまだありません</h3><p class="sub">来店記録の会計を保存すると、ここに数字が出ます。<span class="m-owner">目標は先に入れておけます。</span></p><a class="btn sm" href="#SCR-28" data-open="goal"><svg class="i"><use href="#i-pen"/></svg>目標を入れる</a></div>
       </div>
 
-      <div class="state-view" data-state="loading"><div class="skeleton" style="height:44px"></div><div class="skeleton" style="height:180px"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+      <div class="state-view" data-state="loading"><div class="skeleton h44"></div><div class="skeleton h180"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
       <div class="state-view" data-state="error"><div class="errorbox"><b>読み込めませんでした</b>電波を確かめて、画面を引き下げてもう一度読み込んでください。</div><a class="btn sm block" href="#SCR-28:month"><svg class="i"><use href="#i-rotate"/></svg>もう一度読み込む</a></div>
     </div>
+
+    <!-- 下（押すところ）: 切り口のチップ。押すとその集計へ移る（月のときだけ） -->
+    <div class="fixed state-view on" data-state="month"><div class="k-chipbar" role="group" aria-label="切り口">
+      <button class="chip on" type="button" data-jump="q28-sales"><svg class="i"><use href="#i-chart"/></svg>売上</button>
+      <button class="chip" type="button" data-jump="q28-rate"><svg class="i"><use href="#i-calendar"/></svg>予約と再来</button>
+      <button class="chip" type="button" data-jump="q28-staff"><svg class="i"><use href="#i-users"/></svg>担当ごと</button>
+      <button class="chip" type="button" data-jump="q28-goods"><svg class="i"><use href="#i-bag"/></svg>商品別</button>
+      <button class="chip" type="button" data-jump="q28-media"><svg class="i"><use href="#i-search"/></svg>集客媒体</button>
+    </div></div>
 
     <!-- 目標を入れる（シート。開いている月の目標。店全体は項目ごと、担当は個人売上） -->
     <div class="state-view" data-state="goal"><div class="dim"></div><div class="sheet m-goals" role="dialog" aria-label="10月の目標">
@@ -2150,27 +2609,25 @@ table.grid td.m-na{color:var(--text-meta)}
   document.querySelectorAll('[data-open]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault(); var sec=a.closest('section'); var b=sec.querySelector('.statebar button[data-toggle="'+a.getAttribute('data-open')+'"]'); if(b&&!b.classList.contains('on')) b.click();});});
   // SCR-04: 「分析からの一覧」では検索窓を空にする（条件は分析側の人数が決め、検索すると通常に戻る）
   document.querySelectorAll('#SCR-04 .statebar button').forEach(function(b){b.addEventListener('click',function(){var el=document.getElementById('scr04search'); if(!el) return; var list=['list','upcoming'].indexOf(b.getAttribute('data-toggle'))>=0; el.style.color=list?'':'var(--text-primary)'; el.style.borderBottomColor=list?'':'var(--main-700)'; el.innerHTML=list?'<svg class="i ico"><use href="#i-search"/></svg><span class="q">お名前・ふりがな・電話番号</span>':'<svg class="i ico"><use href="#i-search"/></svg><span class="q" style="font-family:var(--font-body);font-size:var(--size-md)">みさ</span><span class="meta">×</span>';});});
-  // SCR-06: PC 幅では「左に本人・中央に履歴・右にメモ」の 3 カラム（.pccol はスマホ幅では display:contents）
-  (function(){var body=document.querySelector('#SCR-06 .body'); if(!body) return; var c1=document.createElement('div'),c2=document.createElement('div'),c3=document.createElement('div'); c1.className='pccol c1';c2.className='pccol c2';c3.className='pccol c3';
-    Array.prototype.slice.call(body.children).forEach(function(el){var st=el.getAttribute('data-state'); if(el.classList.contains('seg')||(el.classList.contains('state-view')&&['rec','photo','doc','contract','consent','empty'].indexOf(st)>=0)) c2.appendChild(el); else if(el.classList.contains('noteband')||el.classList.contains('ext')) c3.appendChild(el); else c1.appendChild(el);});
-    body.appendChild(c1); body.appendChild(c3); body.appendChild(c2);})();
+  // SCR-06: PC 幅では「左に本人・中央に履歴・右にメモ」の 3 カラム。スマホ幅ではピン（この人カード・警告・今回気をつけること）→ タブ → 流れ。
+  // 2026-10-11 第 2 段階: ピンと流れが分かれたので、PC 幅に切り替えたときだけ 3 列に並べ替え、スマホ・タブレットに戻したら元の場所に戻す
+  var layout06=(function(){var sec=document.getElementById('SCR-06'); if(!sec) return function(){}; var pin=sec.querySelector('.k-pin'), seg=sec.querySelector('.k-tabs'), th=sec.querySelector('.k-thread'); if(!pin||!seg||!th) return function(){};
+    var kids=Array.prototype.slice.call(pin.children), grid=null;
+    function toPC(){ if(grid) return; grid=document.createElement('div'); grid.className='k-pc3'; var c1=document.createElement('div'),c2=document.createElement('div'),c3=document.createElement('div'); c1.className='pccol c1';c2.className='pccol c2';c3.className='pccol c3';
+      kids.forEach(function(k){(k.classList.contains('k-care')||k.getAttribute('data-state')==='ai'?c3:c1).appendChild(k);}); c2.appendChild(seg); c2.appendChild(th); grid.appendChild(c1); grid.appendChild(c2); grid.appendChild(c3); pin.parentNode.insertBefore(grid,pin.nextSibling);}
+    function toPhone(){ if(!grid) return; kids.forEach(function(k){pin.appendChild(k);}); pin.parentNode.insertBefore(seg,grid); pin.parentNode.insertBefore(th,grid); grid.parentNode.removeChild(grid); grid=null;}
+    return function(){ if(document.querySelector('main.stage').classList.contains('view-pc')) toPC(); else toPhone(); };})();
+  layout06();
   // SCR-03: 「全員記録済み」では今日の記録の数も今日の流れも全員「済」に（ダミーデータの矛盾をなくす）
-  (function(){var sec=document.getElementById('SCR-03'); if(!sec) return; var t=sec.querySelector('.progress .t b'); var sts=Array.prototype.slice.call(sec.querySelectorAll('.state-view[data-state="today"] .tl .st')); var saved=null;
-    sec.querySelectorAll('.statebar button').forEach(function(b){b.addEventListener('click',function(){var st=b.getAttribute('data-toggle'); if(['before','during','alldone'].indexOf(st)<0) return;
-      if(st==='alldone'){ if(!saved){saved={t:t.textContent,sts:sts.map(function(x){return [x.textContent,x.className]})};} t.textContent='今日 5 人記録しました'; sts.forEach(function(x){x.textContent='済'; x.className='st ok';}); }
-      else if(saved){ t.textContent=saved.t; sts.forEach(function(x,i){x.textContent=saved.sts[i][0]; x.className=saved.sts[i][1];}); }
+  (function(){var sec=document.getElementById('SCR-03'); if(!sec) return; var t=document.getElementById('k03count'); var sts=Array.prototype.slice.call(sec.querySelectorAll('.state-view[data-state="today"] .tl .st')); var saved=null;
+    var DONE='<span class="badge done"><svg class="i"><use href="#i-check"/></svg>記録済み</span>';
+    sec.querySelectorAll('.statebar button').forEach(function(b){b.addEventListener('click',function(){var st=b.getAttribute('data-toggle'); if(['before','during','alldone'].indexOf(st)<0||!t) return;
+      if(st==='alldone'){ if(!saved){saved={t:t.innerHTML,sts:sts.map(function(x){return x.innerHTML})};} t.innerHTML=saved.t.replace(/<b>[^<]*<\/b>/,'<b>5 人</b>'); sts.forEach(function(x){if(!x.closest('.state-view[data-state="ext"]')) x.innerHTML=DONE;}); }
+      else if(saved){ t.innerHTML=saved.t; sts.forEach(function(x,i){x.innerHTML=saved.sts[i];}); }
     });});})();
-  // SCR-07: ステップ表示を状態と連動させる
-  function renderSteps(st){var el=document.getElementById('scr07steps'); if(!el) return;
-    var n={s1:1,s2:2,s3:3,done:4,view:0}[st]; if(n===undefined) return;
-    if(n===0){el.innerHTML='<span>過去の記録</span>'; return;}
-    var names=['1 確認','2 記録','3 会計・次回']; var h='';
-    names.forEach(function(nm,i){var idx=i+1; h+=(idx<=n?'<b>'+nm+'</b>':'<span>'+nm+'</span>'); if(i<2) h+='<i class="'+(idx<n?'done':'')+'"></i>';});
-    if(n===4) h+='<i class="done"></i><b>完了</b>';
-    el.innerHTML=h;}
+  // SCR-07: 重ねる状態は親のステップを先に開く（ステップ表示は 2026-10-11 から流れの中の区切り線。状態ごとに HTML に書いてある）
   var PARENT7={consent:'s1',buy:'s3',error:'s2',shot:'s2',second:'s1',delphoto:'s2',goods:'s3',pick:'s3',pickadd:'s3',prepaid:'s3',nobal:'s3'};
-  document.querySelectorAll('#SCR-07 .statebar button').forEach(function(b){b.addEventListener('click',function(){var st=b.getAttribute('data-toggle'); var par=PARENT7[st]; if(par){var pb=document.querySelector('#SCR-07 .statebar button[data-toggle="'+par+'"]'); if(pb&&!pb.classList.contains('on')) pb.click();} renderSteps(st);});});
-  renderSteps('s2');
+  document.querySelectorAll('#SCR-07 .statebar button').forEach(function(b){b.addEventListener('click',function(){var st=b.getAttribute('data-toggle'); var par=PARENT7[st]; if(par){var pb=document.querySelector('#SCR-07 .statebar button[data-toggle="'+par+'"]'); if(pb&&!pb.classList.contains('on')) pb.click();}});});
   // SCR-12: LINE のつなぎ方のシート（data-group="linewiz"）。開くときは背景を LINE タブ（未接続・途中・切れた）にし、他の状態に移ったら閉じる
   (function(){var sec=document.getElementById('SCR-12'); if(!sec) return; var BG=['line0','linemid','linecut']; var hold=false;
     function btn(k){return sec.querySelector('.statebar button[data-toggle="'+k+'"]');}
@@ -2183,7 +2640,23 @@ table.grid td.m-na{color:var(--text-meta)}
   document.querySelectorAll('[data-switch]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var sec=a.closest('section');var sb=sec.querySelector('.statebar button[data-toggle="customer"]'); if(sb){sb.click(); return;}sec.querySelectorAll('.state-view').forEach(function(v){v.classList.toggle('on',v.getAttribute('data-state')==='customer')});sec.querySelectorAll('.statebar button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-toggle')==='customer')});});});
   // 切り替えの見本（segm[data-pick]）: 押した方を選択中にする（モック用）
   document.querySelectorAll('.segm[data-pick] span').forEach(function(s){s.addEventListener('click',function(){s.parentNode.querySelectorAll('span').forEach(function(x){x.classList.toggle('on',x===s);});});});
-  document.querySelectorAll('.viewbar button').forEach(function(b){b.addEventListener('click',function(){var st=document.querySelector('main.stage');st.classList.remove('view-tablet','view-pc');var v=b.getAttribute('data-view');if(v!=='phone'){st.classList.add('view-'+v);}document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x===b)});});});
+  document.querySelectorAll('.viewbar button').forEach(function(b){b.addEventListener('click',function(){var st=document.querySelector('main.stage');st.classList.remove('view-tablet','view-pc');var v=b.getAttribute('data-view');if(v!=='phone'){st.classList.add('view-'+v);}document.querySelectorAll('.viewbar button').forEach(function(x){x.classList.toggle('on',x===b)});layout06();});});
+
+  // ==== 2026-10-11 第 2 段階: トークの流れ（.k-thread）の動き（モック用） ====
+  // 流れの初めの位置: 下から始める流れ（顧客詳細の記録）はいちばん下、ほかは上。重ねる状態を開いたら、流れの中のその塊へ
+  function kReset(sec,st){ if(!sec) return; sec.querySelectorAll('.k-thread').forEach(function(t){ var ov=st&&(OVERLAY[sec.id]||[]).indexOf(st)>=0; var v=ov&&t.querySelector('.state-view[data-state="'+st+'"].on'); if(v){ t.scrollTop=Math.max(0,v.offsetTop-60); return; } t.scrollTop=(t.getAttribute('data-start')==='bottom')?t.scrollHeight:0; }); }
+  document.querySelectorAll('.statebar button').forEach(function(b){b.addEventListener('click',function(){var sec=b.closest('section'), st=b.getAttribute('data-toggle'); setTimeout(function(){kReset(sec,st);},0);});});
+  document.querySelectorAll('[data-seg]').forEach(function(t){t.addEventListener('click',function(){var sec=t.closest('section'); setTimeout(function(){kReset(sec);},0);});});
+  window.addEventListener('hashchange',function(){setTimeout(function(){kReset(document.querySelector('section.screen.active'));},0);});
+  setTimeout(function(){kReset(document.querySelector('section.screen.active'));},0);
+  // 切り口・「あとで n 件」（data-jump）: 押すと流れの中のその塊へ移る
+  document.querySelectorAll('[data-jump]').forEach(function(c){c.addEventListener('click',function(e){e.preventDefault(); var tg=document.getElementById(c.getAttribute('data-jump')); if(!tg) return; var th=tg.closest('.k-thread'); if(th) th.scrollTo({top:Math.max(0,tg.offsetTop-8),behavior:'smooth'}); var bar=c.closest('.k-chipbar'); if(bar) bar.querySelectorAll('[data-jump]').forEach(function(x){x.classList.toggle('on',x===c);});});});
+  // 候補（左の点線）: 「確定」で実線に。「直す」でその欄だけ手で直し、「これで確定」で実線に。「すべて確定」で残りをまとめて
+  document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('.k-yes,.k-fix,[data-allok]'); if(!el) return; e.preventDefault(); var c=el.closest('.k-cand');
+    if(el.classList.contains('k-yes')){ if(c){c.classList.add('ok'); var v0=c.querySelector('.k-v'); if(v0) v0.removeAttribute('contenteditable');} return; }
+    if(el.classList.contains('k-fix')){ if(!c) return; var v=c.querySelector('.k-v'), lb=el.querySelector('span'); if(!v) return; if(v.getAttribute('contenteditable')==='true'){ v.removeAttribute('contenteditable'); c.classList.add('ok'); if(lb) lb.textContent=lb.getAttribute('data-l')||'直す'; } else { if(lb&&!lb.getAttribute('data-l')) lb.setAttribute('data-l',lb.textContent); v.setAttribute('contenteditable','true'); v.focus(); if(lb) lb.textContent='これで確定'; } return; }
+    var box=el.closest('.k-left'); if(box) box.querySelectorAll('.k-cand').forEach(function(x){ if(x.querySelector('.b-cand')){ x.classList.add('ok'); var v1=x.querySelector('.k-v'); if(v1) v1.removeAttribute('contenteditable'); } });
+  });
 })();
 </script>
 
