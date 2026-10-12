@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ホームの構成案 第2弾</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* 見直し案（redesign.html）の引き算の決まりで、ホームの構成だけを 5 通りに変えて並べる */
+:root{
+  --paper:#F2F1ED; --surface:#FFFFFF; --fill:#F4F4F2; --line:#E4E3DF; --line-2:#C9C8C3;
+  --ink:#1B1C1E; --ink-2:#5C5F66; --accent:#2B5A8C; --accent-soft:#EBF1F7;
+  --red:#B42318; --red-soft:#FCEFED; --r:12px; --pill:999px;
+  --font:"Noto Sans JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.6}
+main{max-width:2000px;margin:0 auto;padding:36px 16px 72px;display:grid;gap:28px}
+h1{font-size:26px;margin:0}
+.lead{color:var(--ink-2);max-width:900px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px;align-items:start}
+.opt{display:grid;gap:12px}
+.opt h2{font-size:17px;margin:0}
+.opt h2 small{display:block;font-size:13px;color:var(--ink-2);font-weight:400}
+.phone{width:100%;max-width:360px;height:720px;border-radius:36px;border:8px solid #1B1C1E;background:var(--surface);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.top{padding:18px 20px 6px;display:flex;justify-content:space-between;align-items:baseline}
+.date{font-weight:700;font-size:20px}.date span{font-size:13px;color:var(--ink-2);font-weight:400;margin-left:6px}
+.me{width:30px;height:30px;border-radius:50%;background:var(--fill);display:grid;place-items:center;color:var(--ink-2);font-size:13px}
+.body{flex:1;overflow:hidden;padding:0 20px}
+.tabs{height:60px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);font-size:12px;color:var(--ink-2);text-align:center;align-items:center}
+.tabs b{color:var(--accent)}
+.row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row .t{width:46px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.row .n{flex:1;font-weight:500}
+.row.done .n,.row.done .t{color:var(--ink-2);font-weight:400}
+.check{color:var(--ink-2)}
+.next{font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:var(--pill);padding:2px 10px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;margin-left:6px;vertical-align:middle}
+.warn{color:var(--red);font-size:13px;font-weight:700}
+.warnbox{background:var(--red-soft);color:var(--red);border-radius:var(--r);padding:10px 12px;font-weight:700;font-size:14px}
+.btn{height:52px;border-radius:var(--pill);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px}
+.btn.p{background:var(--accent);color:#fff}
+.btn.o{border:1.5px solid var(--line-2);color:var(--accent)}
+.muted{color:var(--ink-2);font-size:13px}
+.h{font-size:13px;color:var(--ink-2);margin:18px 0 4px}
+.later{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+.later b{color:var(--accent)}
+.search{height:56px;border-radius:var(--pill);border:1.5px solid var(--line-2);display:flex;align-items:center;gap:10px;padding:0 20px;color:var(--ink-2);font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{border:1px solid var(--line-2);border-radius:var(--pill);padding:7px 14px;font-size:14px}
+.chip.done{color:var(--ink-2);border-color:var(--line)}
+.mic{width:120px;height:120px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;margin:0 auto}
+.focus{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:0 4px}
+.big{font-size:40px;font-weight:700;line-height:1.2}
+.sheet{border-top:1px solid var(--line);background:var(--surface);padding:10px 20px 6px;border-radius:20px 20px 0 0;box-shadow:0 -6px 20px rgba(0,0,0,.06)}
+.grab{width:36px;height:4px;border-radius:2px;background:var(--line-2);margin:0 auto 8px}
+.pc{display:grid;gap:4px;font-size:13.5px}
+.good::before{content:"○ ";color:var(--accent);font-weight:700}
+.bad::before{content:"△ ";color:var(--ink-2);font-weight:700}
+.rec{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;display:grid;gap:6px;max-width:1000px}
+.rec ul{margin:0;padding-left:1.2em}
+</style>
+</head>
+<body>
+<main>
+  <header style="display:grid;gap:8px">
+    <p style="margin:0;font-size:12px;color:var(--ink-2);letter-spacing:.1em">SALONOTE ／ ホームの構成案 第 2 弾 ／ 2026-10-12</p>
+    <h1>ホームの構成案 第 2 弾</h1>
+    <p class="lead">見直し案（<a href="redesign.html">redesign.html</a>）の引き算の決まり（墨と藍の 2 色・赤は禁忌だけ・最初に見える範囲は 3 つまで・説明の文を置かない）のまま、ホームの<b>組み立てそのもの</b>を 5 通りに変えた。機能は初版のまま（今日来る人・あとで・記録の入口・検索・禁忌の警告）。見直し案のホーム（今日の 5 人の 1 行リスト）は比べるための基準として最後に置いた。</p>
+  </header>
+
+  <section class="grid">
+
+    <div class="opt">
+      <h2>案 A　次の 1 人だけ<small>今いちばん大事な 1 人を大きく。一覧は下から引き出す</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<span>木</span></span><span class="me">恵</span></div>
+        <div class="body" style="display:flex;flex-direction:column">
+          <div class="focus">
+            <span class="muted">次 ・ 11:00</span>
+            <span class="big">みさき 様</span>
+            <span class="muted">12回目 ・ フェイシャル</span>
+            <div class="warnbox">妊娠中・光過敏<br><span style="font-weight:400;font-size:13px">光を使う施術はできません</span></div>
+            <div class="btn p" style="margin-top:6px">この方を開く</div>
+          </div>
+        </div>
+        <div class="sheet"><div class="grab"></div><div style="display:flex;justify-content:space-between"><b>今日 5 人</b><span class="muted">2 人 記録済み ・ あとで 2</span></div></div>
+        <div class="tabs"><b>今日</b><span>記録</span><span>お客様</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">開いた瞬間に「次は誰で、何に気をつけるか」だけが目に入る。禁忌の見落としに一番強い</span>
+        <span class="good">情報は 1 人分だけ。アナログな人でも迷わない</span>
+        <span class="bad">今日の全体を見るには下の帯を引き上げる 1 手が要る</span>
+        <span class="bad">予約の無い日・飛び込みのときは「次」が無いので、別の表示が要る</span>
+      </div>
+    </div>
+
+    <div class="opt">
+      <h2>案 B　やることだけ<small>終わったものは消え、残っていることだけが並ぶ</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<span>木</span></span><span class="me">恵</span></div>
+        <div class="body">
+          <div class="h">これから</div>
+          <div class="row"><span class="t">11:00</span><span class="n">みさき<span class="dot"></span></span><span class="next">次</span></div>
+          <div class="row"><span class="t">13:30</span><span class="n">ゆか</span></div>
+          <div class="row"><span class="t">16:00</span><span class="n">さくら<span class="dot"></span></span></div>
+          <div class="h">あとで</div>
+          <div class="later"><span>あやの様に文面を送る</span><b>送る</b></div>
+          <div class="later"><span>ともこ様の記録を確かめる</span><b>開く</b></div>
+          <p class="muted" style="margin-top:16px">済んだ 2 人 ›</p>
+        </div>
+        <div class="tabs"><b>今日</b><span>記録</span><span>お客様</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">終わった人が消えるので、時間がたつほど画面が軽くなる。閉店時に 0 なら今日はおしまい</span>
+        <span class="good">「あとで」を畳まずに出せる（送り忘れに気づける）</span>
+        <span class="bad">済んだ人をもう一度見たいときは「済んだ 2 人」を押す 1 手</span>
+        <span class="bad">禁忌は名前の横の赤い点だけ。中身は押して開く</span>
+      </div>
+    </div>
+
+    <div class="opt">
+      <h2>案 C　探すが主役<small>Google の検索のように、真ん中に大きな検索窓</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<span>木</span></span><span class="me">恵</span></div>
+        <div class="body" style="padding-top:60px">
+          <div class="search">⌕ 名前か電話番号</div>
+          <div class="h" style="margin-top:28px">今日</div>
+          <div class="chips">
+            <span class="chip done">✓ ともこ</span><span class="chip done">✓ あやの</span>
+            <span class="chip" style="border-color:var(--accent);color:var(--accent);font-weight:700">11:00 みさき<span class="dot"></span></span>
+            <span class="chip">13:30 ゆか</span><span class="chip">16:00 さくら<span class="dot"></span></span>
+          </div>
+          <div class="h" style="margin-top:28px">あとで 2</div>
+        </div>
+        <div class="tabs"><b>今日</b><span>記録</span><span>お客様</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">予約に無い人（飛び込み・電話の問い合わせ）にもすぐ行ける。2〜3 文字でお客様が出る</span>
+        <span class="good">画面がほとんど空白で、いちばん静か</span>
+        <span class="bad">今日の流れ（時間の並び）が読み取りにくい</span>
+        <span class="bad">予約どおりに回る日は、検索窓が使われずに場所を取る</span>
+      </div>
+    </div>
+
+    <div class="opt">
+      <h2>案 D　話すが主役<small>下半分を大きなマイクに。施術後すぐ押す</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<span>木</span></span><span class="me">恵</span></div>
+        <div class="body">
+          <div class="row"><span class="t">11:00</span><span class="n">みさき 様</span><span class="next">次</span></div>
+          <p class="warn" style="margin:8px 0 0">妊娠中・光過敏</p>
+          <p class="muted" style="margin:18px 0 0">今日 5 人 ・ 2 人 記録済み ・ あとで 2 ›</p>
+          <div style="margin-top:96px;text-align:center;display:grid;gap:14px">
+            <div class="mic"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+            <span class="muted">みさき様の記録を話す</span>
+          </div>
+        </div>
+        <div class="tabs"><b>今日</b><span>記録</span><span>お客様</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">施術後に開いて 1 手で話し始められる。「話すだけでカルテ」の約束が画面で伝わる</span>
+        <span class="good">マイクの下に「誰の記録か」を出すので取り違えにくい</span>
+        <span class="bad">今日の一覧は 1 行の要約だけ。全体を見るには押して開く</span>
+        <span class="bad">撮る・紙の取り込みは「記録」のタブ側に回る</span>
+      </div>
+    </div>
+
+    <div class="opt">
+      <h2>案 E　今日・明日を横にめくる<small>1 日 1 枚。日付は左右にスワイプ</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">今日<span>10/8 木</span></span><span class="muted">明日 3 人 ›</span></div>
+        <div class="body">
+          <div class="row done"><span class="t">9:30</span><span class="n">ともこ</span><span class="check">✓</span></div>
+          <div class="row done"><span class="t">10:00</span><span class="n">あやの</span><span class="check">✓</span></div>
+          <div class="row"><span class="t">11:00</span><span class="n">みさき<span class="dot"></span></span><span class="next">次</span></div>
+          <div class="row"><span class="t">13:30</span><span class="n">ゆか</span></div>
+          <div class="row"><span class="t">16:00</span><span class="n">さくら<span class="dot"></span></span></div>
+          <div class="later" style="margin-top:8px"><span>あとで</span><b>2</b></div>
+          <div style="display:flex;justify-content:center;gap:6px;margin-top:20px"><span style="width:18px;height:6px;border-radius:3px;background:var(--accent)"></span><span style="width:6px;height:6px;border-radius:3px;background:var(--line-2)"></span><span style="width:6px;height:6px;border-radius:3px;background:var(--line-2)"></span></div>
+        </div>
+        <div class="tabs"><b>今日</b><span>記録</span><span>お客様</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">「明日は誰が来る？」を前の晩に 1 回のスワイプで見られる（閉店後の準備に効く）</span>
+        <span class="good">1 日分だけなので、どの日も同じ形で読める</span>
+        <span class="bad">スワイプは最初に気づかれにくい（右上の「明日 3 人 ›」で補う）</span>
+        <span class="bad">日をまたいだ一覧（今週）は見られない</span>
+      </div>
+    </div>
+
+    <div class="opt">
+      <h2>基準　見直し案のホーム<small>今日の 5 人の 1 行リスト（redesign.html の ①）</small></h2>
+      <div class="phone">
+        <div class="top"><span class="date">10月8日<span>木</span></span><span class="me">恵</span></div>
+        <div class="body">
+          <div class="row done"><span class="t">9:30</span><span class="n">ともこ</span><span class="check">✓</span></div>
+          <div class="row done"><span class="t">10:00</span><span class="n">あやの</span><span class="check">✓</span></div>
+          <div class="row" style="flex-wrap:wrap"><span class="t">11:00</span><span class="n">みさき</span><span class="next">次</span><span class="warn" style="width:100%;padding-left:58px">妊娠中・光過敏</span></div>
+          <div class="row"><span class="t">13:30</span><span class="n">ゆか</span></div>
+          <div class="row" style="flex-wrap:wrap"><span class="t">16:00</span><span class="n">さくら</span><span class="warn" style="width:100%;padding-left:58px">金属アレルギー（確認前）</span></div>
+          <div class="later"><span>あとで</span><b>2</b></div>
+        </div>
+        <div class="tabs"><b>今日</b><span>記録</span><span>お客様</span></div>
+      </div>
+      <div class="pc">
+        <span class="good">5 人全員と禁忌の文が最初から見える</span>
+        <span class="bad">何を押せば次に進むかは、案 A・D ほど強く示さない</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="rec">
+    <b>宮崎側の見立て</b>
+    <ul>
+      <li><b>禁忌の見落としを一番防ぎ、迷わせないなら 案 A（次の 1 人だけ）</b>。予約の無い時間は「今日 5 人」の一覧を大きく出す形に切り替える</li>
+      <li><b>閉店までの片付けを楽にするなら 案 B（やることだけ）</b>。送り忘れ・確かめ忘れが残らない</li>
+      <li><b>「話すだけでカルテ」を一番伝えるなら 案 D（話すが主役）</b></li>
+      <li>案 A ＋ 案 B（上に次の 1 人、下にやることだけ）の組み合わせも、最初に見える 3 つの範囲に収まる</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
