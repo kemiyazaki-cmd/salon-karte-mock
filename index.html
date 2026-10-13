@@ -473,6 +473,11 @@ a.lnk.danger{color:var(--red);border-color:var(--line-2)}
 .amt-qty{flex:0 0 72px}
 .amt-sum{margin-left:auto;font-size:var(--size-sm);color:var(--ink-2);white-space:nowrap}
 .amt-err{font-size:var(--size-sm);color:var(--red);margin-top:4px}
+/* 契約書・重要事項の紙（会計のコース購入。2026-10-13）: 枠線ボタンと、撮った後の ✓ と枚数（ink-2・押せない） */
+.paper-row{display:flex;align-items:center;gap:12px;min-width:0}
+.paper-row .btn{flex:none}
+.paper-ok{display:inline-flex;align-items:center;gap:4px;color:var(--ink-2);font-size:var(--size-sm);white-space:nowrap}
+.paper-ok .i{width:16px;height:16px}
 .bal{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:var(--size-sm);color:var(--ink-2);border-top:var(--border);padding-top:8px}
 .hero.light .acts .btn.ghost{border-color:var(--accent);color:var(--accent)}
 .bal b{font-weight:var(--w-bold);color:var(--ink);font-variant-numeric:tabular-nums}
@@ -956,6 +961,14 @@ main.stage.view-tablet .phone.talk .k-pin,main.stage.view-pc .phone.talk .k-pin,
 .cnd.hand{border-style:solid;border-color:var(--line)}
 .cmore{grid-column:1 / -1;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:6px}
 .cmore[hidden]{display:none}
+/* お客様の情報の候補（録音から。2026-10-13）: 確かめるの最下部。押すと開く。まとめて確定に含めない */
+.cinfo{margin-top:16px;border-top:1px solid var(--line);padding-top:4px}
+.cinfo>summary{list-style:none;display:flex;align-items:center;gap:4px;min-height:44px;color:var(--accent);font-size:var(--size-sm);font-weight:var(--w-medium);cursor:pointer}
+.cinfo>summary::-webkit-details-marker{display:none}
+.cinfo>summary .i{width:16px;height:16px;transition:transform .2s}
+.cinfo[open]>summary .i{transform:rotate(90deg)}
+.cinfo .cands{margin-top:4px}
+.cnd .now{font-size:var(--size-xs);color:var(--ink-2);margin-top:4px;line-height:1.5}
 .textbtn{display:inline-flex;align-items:center;gap:4px;min-height:44px;color:var(--accent);font-size:var(--size-sm);font-weight:var(--w-medium);text-decoration:none;background:transparent;border:0;padding:0;cursor:pointer}
 .textbtn .i{width:16px;height:16px}
 /* SCR-21 お客様に送る: 届く姿のまま 1 つ */
@@ -1419,7 +1432,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
     <div class="state-view k-panel" data-state="contract">
       <div class="topbar"><a class="back" href="#SCR-06" data-go="top"><svg class="i"><use href="#i-chevron-left"/></svg>みさき</a><h2>回数券</h2><span></span></div>
       <div class="body nofix">
-        <div class="card"><div class="k-ct-h"><h3>保湿10回コース</h3><span class="badge phase">有効</span></div><div class="k-ct-v"><b class="numxl">7</b><span class="meta">回 残り ・ 全 10 回 ・ 2026/7/15 契約 ・ ¥98,000</span></div></div>
+        <div class="card"><div class="k-ct-h"><h3>保湿10回コース</h3><span class="badge phase">有効</span></div><div class="k-ct-v"><b class="numxl">7</b><span class="meta">回 残り ・ 1/15 まで ・ 全 10 回 ・ 2026/7/15 契約 ・ ¥98,000</span></div><div class="k-acts start"><a class="k-pill" href="#SCR-10"><svg class="i"><use href="#i-file"/></svg>契約書</a><a class="k-pill" href="#SCR-10"><svg class="i"><use href="#i-file"/></svg>重要事項</a></div></div>
         <div class="card"><div class="k-ct-h"><h3>プリペイド</h3><span class="badge phase">有効</span></div><div class="k-ct-v"><b class="numxl">¥50,000</b><span class="meta">残高 ・ 入金 ¥50,000 ・ 2026/9/1 ・ まだ使っていません</span></div></div>
         <a class="btn sm block" href="#SCR-06:ticket" data-open="ticket"><svg class="i"><use href="#i-plus"/></svg>お持ちの回数券・プリペイドを登録</a>
         <div class="state-view" data-state="ticket"><div class="card k-pad">
@@ -1432,7 +1445,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
           <p class="meta">今日の売上には入りません</p>
           <div class="row2"><a class="btn sm" href="#SCR-06" data-close="ticket"><svg class="i"><use href="#i-x"/></svg>やめる</a><a class="btn sm" href="#SCR-06" data-close="ticket"><svg class="i"><use href="#i-check"/></svg>登録する</a></div>
         </div></div>
-        <p class="meta">有効期限・進み具合・契約書の紐づけは <a class="lnk" href="#SCR-20"><svg class="i"><use href="#i-file"/></svg>コース契約</a> <span class="badge scope">S2</span></p>
+        <p class="meta">期限切れの確認・進み具合・預けた書類の紐づけは <a class="lnk" href="#SCR-20"><svg class="i"><use href="#i-file"/></svg>コース契約</a> <span class="badge scope">S2</span></p>
       </div>
     </div>
     <div class="state-view k-panel" data-state="doc">
@@ -1441,7 +1454,8 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
         <p class="label">書類</p>
         <div class="list">
           <a class="item" href="#SCR-10"><div class="thumb s48">PDF</div><div class="main"><div class="name">同意書</div><div class="meta">9/10 ・ 同意書_佐藤様.pdf</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-          <a class="item" href="#SCR-10"><div class="thumb s48">PDF</div><div class="main"><div class="name">契約書面</div><div class="meta">7/15 ・ 契約書面_保湿10回.pdf</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="item" href="#SCR-10"><div class="thumb s48">JPG</div><div class="main"><div class="name">契約書</div><div class="meta">7/15 ・ 保湿10回コース ・ 2 枚</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
+          <a class="item" href="#SCR-10"><div class="thumb s48">JPG</div><div class="main"><div class="name">重要事項</div><div class="meta">7/15 ・ 保湿10回コース ・ 1 枚</div></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
         </div>
         <a class="btn sm block" href="#SCR-10"><svg class="i"><use href="#i-file"/></svg>書類を預ける</a>
         <p class="label">同意</p>
@@ -1452,7 +1466,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
     <div class="state-view k-panel" data-state="info">
       <div class="topbar"><a class="back" href="#SCR-06" data-go="top"><svg class="i"><use href="#i-chevron-left"/></svg>みさき</a><h2>お客様の情報</h2><span></span></div>
       <div class="body nofix">
-        <dl class="kvlist"><dt>本名</dt><dd>佐藤 美咲（さとう みさき）</dd><dt>区分</dt><dd>契約あり</dd><dt>はじめての来店</dt><dd>2025年3月</dd><dt>どこで知ったか</dt><dd>Instagram</dd><dt>最近の予約経路</dt><dd>ホットペッパー</dd><dt>次の予約</dt><dd><a class="lnk" href="#SCR-27:booking"><svg class="i"><use href="#i-calendar"/></svg>今日 11:00</a></dd><dt>電話</dt><dd>090-1234-5678</dd></dl>
+        <dl class="kvlist"><dt>本名</dt><dd>佐藤 美咲（さとう みさき）</dd><dt>区分</dt><dd>契約あり</dd><dt>はじめての来店</dt><dd>2025年3月</dd><dt>どこで知ったか</dt><dd>Instagram</dd><dt>最近の予約経路</dt><dd>ホットペッパー</dd><dt>次の予約</dt><dd><a class="lnk" href="#SCR-27:booking"><svg class="i"><use href="#i-calendar"/></svg>今日 11:00</a></dd><dt>電話</dt><dd>090-1234-5678</dd><dt>仕事</dt><dd>看護師（夜勤あり）</dd><dt>家族／友人</dt><dd>夫・娘（中3）<br>10/8 娘さんが高校受験で 2 月まで夜は忙しい</dd></dl>
         <a class="btn sm block" href="#SCR-06"><svg class="i"><use href="#i-pen"/></svg>情報を直す</a>
       </div>
     </div>
@@ -1504,6 +1518,13 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
         <p class="label">写真</p>
         <div class="thumbs"><div class="thumb">前</div><div class="thumb">後</div></div>
         <div class="k-acts start"><a class="k-pill" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>話す</a><a class="k-pill" href="#SCR-07:shot"><svg class="i"><use href="#i-camera"/></svg>撮る</a><a class="k-pill" href="#SCR-18"><svg class="i"><use href="#i-mic"/></svg>録音を取り込む</a> <span class="badge scope">S2</span></div>
+        <!-- お客様の情報（録音からの候補。2026-10-13 宮崎決定）。押すと開く。今の値と並べ、1 件ずつ確定。まとめて確定・確定 n / 5 に含めない -->
+        <details class="cinfo"><summary>お客様の情報 ・ 候補 2<svg class="i"><use href="#i-chevron-right"/></svg></summary>
+          <div class="cands">
+            <div class="cnd"><div><p class="lab"><span>仕事</span>・<span class="tg-c">候補</span><span class="tg-y">確定</span>・<span>置き換える</span></p><p class="val" tabindex="0" role="button" aria-expanded="false">看護師（夜勤あり）</p><p class="now">今: —</p></div><button type="button" class="ok" aria-pressed="false" aria-label="仕事を確定"><span><svg class="i"><use href="#i-check"/></svg></span></button><div class="cmore" hidden><p class="meta">話した言葉: “お仕事は看護師さんで、夜勤もあるそうです”</p><button type="button" class="k-pill" data-fix><svg class="i"><use href="#i-pen"/></svg>直す</button></div></div>
+            <div class="cnd"><div><p class="lab"><span>家族／友人</span>・<span class="tg-c">候補</span><span class="tg-y">確定</span>・<span>書き足す</span></p><p class="val" tabindex="0" role="button" aria-expanded="false">娘さんが高校受験で 2 月まで夜は忙しい</p><p class="now">今: 夫・娘（中3）</p></div><button type="button" class="ok" aria-pressed="false" aria-label="家族／友人を確定"><span><svg class="i"><use href="#i-check"/></svg></span></button><div class="cmore" hidden><p class="meta">話した言葉: “娘さんが高校受験で、2 月までは夜が忙しいって”</p><button type="button" class="k-pill" data-fix><svg class="i"><use href="#i-pen"/></svg>直す</button></div></div>
+          </div>
+        </details>
       </div>
 
       <!-- 3 会計と次の予約（確認のときに選んだ券が、もう入っている） -->
@@ -1539,6 +1560,8 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
           <div class="row2"><div class="field"><label class="label">コース</label><input class="input" value="保湿10回コース"></div><div class="field"><label class="label">回数</label><input class="input" value="10 回"></div></div>
           <div class="row2"><div class="field"><label class="label">金額</label><input class="input" value="¥98,000"></div><div class="field"><label class="label">契約日</label><input class="input" value="2026/10/08"></div></div>
           <div class="field"><label class="label">役務提供期限（任意）</label><input class="input" placeholder="2027/04/08"></div>
+          <div class="paper-row"><button type="button" class="btn sm"><svg class="i"><use href="#i-camera"/></svg>契約書を撮る</button><span class="paper-ok"><svg class="i"><use href="#i-check"/></svg>2 枚</span></div>
+          <div class="paper-row"><button type="button" class="btn sm"><svg class="i"><use href="#i-camera"/></svg>重要事項を撮る</button></div>
           <p class="meta">保存すると契約ができ、「契約あり」になります</p>
         </div></div>
         <div class="field"><label class="label">次の予約</label><input class="input" value="11/5（木）11:00"></div>
@@ -1774,11 +1797,11 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
       <p class="sub">預かった書類</p>
       <div class="grid2">
         <a class="folder" href="#SCR-10"><span class="kind">同意書</span><span class="nm">同意書_佐藤様.pdf</span><span class="meta">9/10</span><span class="meta"><u data-href="#SCR-10"><svg class="i"><use href="#i-trash"/></svg>削除</u></span></a>
-        <a class="folder" href="#SCR-10"><span class="kind">契約書面</span><span class="nm">保湿10回コース</span><span class="meta">7/15 ・ <u data-href="#SCR-19"><svg class="i"><use href="#i-scan"/></svg>読み取る</u> <span class="badge scope">S2</span></span><span class="meta"><u data-href="#SCR-10"><svg class="i"><use href="#i-trash"/></svg>削除</u></span></a>
-        <a class="folder" href="#SCR-10"><span class="kind">概要書面</span><span class="nm">保湿10回コース</span><span class="meta">7/15</span><span class="meta"><u data-href="#SCR-10"><svg class="i"><use href="#i-trash"/></svg>削除</u></span></a>
+        <a class="folder" href="#SCR-10"><span class="kind">契約書</span><span class="nm">保湿10回コース</span><span class="meta">7/15 ・ <u data-href="#SCR-19"><svg class="i"><use href="#i-scan"/></svg>読み取る</u> <span class="badge scope">S2</span></span><span class="meta"><u data-href="#SCR-10"><svg class="i"><use href="#i-trash"/></svg>削除</u></span></a>
+        <a class="folder" href="#SCR-10"><span class="kind">重要事項</span><span class="nm">保湿10回コース</span><span class="meta">7/15</span><span class="meta"><u data-href="#SCR-10"><svg class="i"><use href="#i-trash"/></svg>削除</u></span></a>
         <a class="folder add" href="#SCR-10">＋ 預ける</a>
       </div>
-      <div class="state-view" data-state="add"><div class="hero light"><div class="eyebrow"><span>新しく預ける</span></div><p class="sub" style="margin-top:8px">選択中: 問診票_2026.pdf（1.2MB）</p><div class="chips" style="margin-top:10px"><span class="chip">契約書</span><span class="chip">概要書面</span><span class="chip">同意書</span><span class="chip on">問診票</span><span class="chip">その他</span></div><div class="field" style="margin-top:12px"><label class="label">日付</label><input class="input" value="2026/10/08"></div><div class="check" style="border:0"><span class="box"></span><span class="sub">同意の記録も作る（同意書のとき）</span></div></div></div>
+      <div class="state-view" data-state="add"><div class="hero light"><div class="eyebrow"><span>新しく預ける</span></div><p class="sub" style="margin-top:8px">選択中: 問診票_2026.pdf（1.2MB）</p><div class="chips" style="margin-top:10px"><span class="chip">契約書</span><span class="chip">重要事項</span><span class="chip">同意書</span><span class="chip on">問診票</span><span class="chip">その他</span></div><div class="field" style="margin-top:12px"><label class="label">日付</label><input class="input" value="2026/10/08"></div><div class="check" style="border:0"><span class="box"></span><span class="sub">同意の記録も作る（同意書のとき）</span></div></div></div>
       <div class="state-view" data-state="error"><div class="errorbox"><b>20MB までのファイルを選んでください</b>スマホで撮り直すか、サイズを小さくしてください。</div></div>
     </div>
     <div class="state-view" data-state="add"><div class="fixed"><a class="btn primary block" href="#SCR-06"><svg class="i"><use href="#i-file"/></svg>預ける</a></div></div></div>
@@ -2310,7 +2333,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
     <div class="topbar"><a class="back" href="#SCR-06"><svg class="i"><use href="#i-chevron-left"/></svg>みさき</a><h1>みさき<span class="hon">様</span>の契約</h1><span></span></div>
     <div class="body" style="gap:18px">
       <div class="state-view on" data-state="normal"><div class="hero light"><div class="eyebrow"><span>有効な契約</span><span>有効期限 2027/1/15 ・ <u data-href="#SCR-20"><svg class="i"><use href="#i-pen"/></svg>編集</u></span></div><div style="display:flex;gap:18px;align-items:center;margin-top:10px"><div class="ring" style="width:96px;height:96px"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--accent-soft)" stroke-width="3"/><circle cx="48.0" cy="48.0" r="42.0" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="184.7 263.9" stroke-linecap="round"/></svg><div class="num">3/10<small>消化</small></div></div><div><h2 style="font-size:var(--size-lg);margin:0">保湿10回コース</h2><p style="font-family:var(--font);font-size:30px;font-weight:700;line-height:1.2;margin-top:4px">残り 7 <span style="font-size:var(--size-sm);font-family:var(--font);color:var(--ink-2)">回</span></p></div></div>
-      <div class="kv" style="margin-top:14px"><span>契約日</span><b>2026/7/15</b><span>金額（前受）</span><b>¥98,000</b><span>原本</span><b><a class="lnk" href="#SCR-10">契約書面 ・ 概要書面</a></b></div></div>
+      <div class="kv" style="margin-top:14px"><span>契約日</span><b>2026/7/15</b><span>金額（前受）</span><b>¥98,000</b><span>原本</span><b><a class="lnk" href="#SCR-10">契約書 ・ 重要事項</a></b></div></div>
       <span class="label">消化の履歴</span>
       <div class="timeline"><a class="tl done" href="#SCR-07"><span class="time">9/10</span><span class="who"><span class="name">フェイシャル（保湿）</span><br><span class="meta">3 回目</span></span></a><a class="tl done" href="#SCR-07"><span class="time">8/12</span><span class="who"><span class="name">フェイシャル（保湿）</span><br><span class="meta">2 回目</span></span></a><a class="tl done" href="#SCR-07"><span class="time">7/15</span><span class="who"><span class="name">フェイシャル（保湿）</span><br><span class="meta">1 回目 ・ 契約日</span></span></a></div>
       <div class="card"><div style="display:flex;justify-content:space-between"><h3>プリペイド</h3><span class="badge phase">有効</span></div><p class="bal" style="border-top:0;padding-top:0"><span>残高 ・ 入金 ¥50,000（2026/9/1）</span><b>¥50,000</b></p><p class="meta">まだ使っていません</p></div>
@@ -2450,7 +2473,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
     <div class="body" style="gap:18px">
       <div class="person"><div class="mono" >み</div><div><h2 style="font-size:var(--size-lg);font-weight:700">みさき<span class="hon">様</span></h2><p class="meta">来店 12 回 ・ 2025/3/2 〜</p></div></div>
       <div class="hero danger"><div class="eyebrow" style="color:var(--red)"><span>消えるもの</span></div><div class="kv" style="margin-top:8px"><span>来店記録</span><b>12 件</b><span>写真</span><b>24 枚</b><span>音声</span><b>0 件</b><span>書類（保管義務なし）</span><b>1 件</b><span>同意</span><b>2 件</b><span>フォーム回答</span><b>1 件</b></div></div>
-      <div class="card"><span class="label">残るもの <span class="badge kari">仮</span></span><div class="kv" style="margin-top:6px"><span>契約書面（保管義務）</span><b>1 件 ・ 閲覧を閉じて保管</b><span>削除の事実</span><b>日時・実行者・件数のみ</b></div></div>
+      <div class="card"><span class="label">残るもの <span class="badge kari">仮</span></span><div class="kv" style="margin-top:6px"><span>契約書（保管義務）</span><b>1 件 ・ 閲覧を閉じて保管</b><span>削除の事実</span><b>日時・実行者・件数のみ</b></div></div>
       <div class="field"><label class="label">確認のため「削除」と入力</label><input class="input" placeholder="削除"></div>
       <p class="meta">この操作は取り消せません。同じ電話番号で登録し直しても、過去の記録は戻りません。</p>
     </div>
