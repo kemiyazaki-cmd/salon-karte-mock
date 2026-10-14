@@ -1288,7 +1288,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
       <div class="grip"></div><div class="acct-who"><b>佐藤 恵</b><span class="meta">Salon Lumière ・ オーナー</span></div>
       <div class="menu">
         <a href="#SCR-12"><svg class="i"><use href="#i-settings"/></svg><div class="t"><b>設定</b><span>オーナーだけ</span></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-        <a href="#SCR-03" data-close="acct"><svg class="i"><use href="#i-key"/></svg><div class="t"><b>パスワードを変える</b><span>この端末以外のログインが切れます</span></div></a>
+        <a href="#SCR-03" data-close="acct"><svg class="i"><use href="#i-key"/></svg><div class="t"><b>パスワードを変える</b></div></a>
         <a href="#SCR-01"><svg class="i"><use href="#i-log-out"/></svg><div class="t"><b>ログアウト</b><span>megumi@salon-lumiere.jp</span></div></a>
         <a href="#SCR-12:delreq"><svg class="i"><use href="#i-external"/></svg><div class="t"><b>アカウントの削除を申し出る</b><span>案内のページを開きます</span></div></a>
       </div>
@@ -1353,7 +1353,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
       <div class="grip"></div><div class="acct-who"><b>佐藤 恵</b><span class="meta">Salon Lumière ・ オーナー</span></div>
       <div class="menu">
         <a href="#SCR-12"><svg class="i"><use href="#i-settings"/></svg><div class="t"><b>設定</b><span>オーナーだけ</span></div><span class="chev"><svg class="i"><use href="#i-chevron-right"/></svg></span></a>
-        <a href="#SCR-04" data-close="acct"><svg class="i"><use href="#i-key"/></svg><div class="t"><b>パスワードを変える</b><span>この端末以外のログインが切れます</span></div></a>
+        <a href="#SCR-04" data-close="acct"><svg class="i"><use href="#i-key"/></svg><div class="t"><b>パスワードを変える</b></div></a>
         <a href="#SCR-01"><svg class="i"><use href="#i-log-out"/></svg><div class="t"><b>ログアウト</b><span>megumi@salon-lumiere.jp</span></div></a>
         <a href="#SCR-12:delreq"><svg class="i"><use href="#i-external"/></svg><div class="t"><b>アカウントの削除を申し出る</b><span>案内のページを開きます</span></div></a>
       </div>
@@ -1527,11 +1527,12 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
         <p class="label">写真</p>
         <div class="thumbs"><div class="thumb">前</div><div class="thumb">後</div></div>
         <div class="k-acts start"><a class="k-pill" href="#SCR-09:rec"><svg class="i"><use href="#i-mic"/></svg>話す</a><a class="k-pill" href="#SCR-07:shot"><svg class="i"><use href="#i-camera"/></svg>撮る</a><a class="k-pill" href="#SCR-18"><svg class="i"><use href="#i-mic"/></svg>録音を取り込む</a> <span class="badge scope">S2</span></div>
-        <!-- お客様の情報（録音からの候補。2026-10-13 宮崎決定）。押すと開く。今の値と並べ、1 件ずつ確定。まとめて確定・確定 n / 5 に含めない -->
-        <details class="cinfo"><summary>お客様の情報 ・ 候補 2<svg class="i"><use href="#i-chevron-right"/></svg></summary>
+        <!-- お客様の情報（録音からの候補。2026-10-13 宮崎決定）。押すと開く。今の値と並べ、1 件ずつ確定。まとめて確定・確定 n / 5 に含めない。気になる部位（複数選択）は今の値に無い部位を「足す」だけで、外す候補は出さない（2026-10-13 宮崎決定） -->
+        <details class="cinfo"><summary>お客様の情報 ・ 候補 3<svg class="i"><use href="#i-chevron-right"/></svg></summary>
           <div class="cands">
             <div class="cnd"><div><p class="lab"><span>仕事</span>・<span class="tg-c">候補</span><span class="tg-y">確定</span>・<span>置き換える</span></p><p class="val" tabindex="0" role="button" aria-expanded="false">看護師（夜勤あり）</p><p class="now">今: —</p></div><button type="button" class="ok" aria-pressed="false" aria-label="仕事を確定"><span><svg class="i"><use href="#i-check"/></svg></span></button><div class="cmore" hidden><p class="meta">話した言葉: “お仕事は看護師さんで、夜勤もあるそうです”</p><button type="button" class="k-pill" data-fix><svg class="i"><use href="#i-pen"/></svg>直す</button></div></div>
             <div class="cnd"><div><p class="lab"><span>家族／友人</span>・<span class="tg-c">候補</span><span class="tg-y">確定</span>・<span>書き足す</span></p><p class="val" tabindex="0" role="button" aria-expanded="false">娘さんが高校受験で 2 月まで夜は忙しい</p><p class="now">今: 夫・娘（中3）</p></div><button type="button" class="ok" aria-pressed="false" aria-label="家族／友人を確定"><span><svg class="i"><use href="#i-check"/></svg></span></button><div class="cmore" hidden><p class="meta">話した言葉: “娘さんが高校受験で、2 月までは夜が忙しいって”</p><button type="button" class="k-pill" data-fix><svg class="i"><use href="#i-pen"/></svg>直す</button></div></div>
+            <div class="cnd"><div><p class="lab"><span>気になる部位</span>・<span class="tg-c">候補</span><span class="tg-y">確定</span>・<span>足す</span></p><p class="val" tabindex="0" role="button" aria-expanded="false">二の腕</p><p class="now">今: お腹・太もも</p></div><button type="button" class="ok" aria-pressed="false" aria-label="気になる部位を確定"><span><svg class="i"><use href="#i-check"/></svg></span></button><div class="cmore" hidden><p class="meta">話した言葉: “最近は二の腕も気になるって”</p><button type="button" class="k-pill" data-fix><svg class="i"><use href="#i-pen"/></svg>直す</button></div></div>
           </div>
         </details>
       </div>
@@ -2153,7 +2154,7 @@ main.stage.view-pc #SCR-06 .phone>.body{max-width:none;padding:0}
     </div>  <div class="state-view" data-state="acct"><div class="dim"></div><div class="sheet acct" role="dialog" aria-label="アカウント">
       <div class="grip"></div><div class="acct-who"><b>佐藤 恵</b><span class="meta">Salon Lumière ・ オーナー</span></div>
       <div class="menu">
-        <a href="#SCR-13" data-close="acct"><svg class="i"><use href="#i-key"/></svg><div class="t"><b>パスワードを変える</b><span>この端末以外のログインが切れます</span></div></a>
+        <a href="#SCR-13" data-close="acct"><svg class="i"><use href="#i-key"/></svg><div class="t"><b>パスワードを変える</b></div></a>
         <a href="#SCR-01"><svg class="i"><use href="#i-log-out"/></svg><div class="t"><b>ログアウト</b><span>megumi@salon-lumiere.jp</span></div></a>
         <a href="#SCR-12:delreq"><svg class="i"><use href="#i-external"/></svg><div class="t"><b>アカウントの削除を申し出る</b><span>案内のページを開きます</span></div></a>
       </div>
